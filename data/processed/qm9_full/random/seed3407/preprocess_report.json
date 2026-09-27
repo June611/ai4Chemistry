@@ -1,0 +1,113 @@
+{
+  "artifact_version": "1.0.0",
+  "checks": {
+    "adapted_contract_rollback_matches_source": true,
+    "chemprop_columns": [
+      "sample_id",
+      "smiles",
+      "homo",
+      "lumo",
+      "delta_e"
+    ],
+    "labels_finite": true,
+    "no_smiles_leakage": true,
+    "sample_ids_unique": true
+  },
+  "created_at": "2026-09-27T08:48:45+00:00",
+  "dataset": "qm9_full",
+  "duplicate_groups": 87,
+  "duplicate_rows": 174,
+  "final_unique_rows": 133798,
+  "inconsistent_gap_rows": 0,
+  "input_rows": 133885,
+  "invalid_smiles_rows": 0,
+  "label_unit": "hartree",
+  "pending_confirmations": [],
+  "pipeline_version": "1.0.0",
+  "rejected_rows": 0,
+  "source_audit": {
+    "column_dtypes": {
+      "A": "float64",
+      "B": "float64",
+      "C": "float64",
+      "alpha": "float64",
+      "cv": "float64",
+      "delta_E": "float64",
+      "g298": "float64",
+      "g298_atom": "float64",
+      "h298": "float64",
+      "h298_atom": "float64",
+      "homo": "float64",
+      "lumo": "float64",
+      "mol_id": "str",
+      "mu": "float64",
+      "r2": "float64",
+      "smiles": "str",
+      "u0": "float64",
+      "u0_atom": "float64",
+      "u298": "float64",
+      "u298_atom": "float64",
+      "zpve": "float64"
+    },
+    "columns": [
+      "mol_id",
+      "smiles",
+      "A",
+      "B",
+      "C",
+      "mu",
+      "alpha",
+      "homo",
+      "lumo",
+      "delta_E",
+      "r2",
+      "zpve",
+      "u0",
+      "u298",
+      "h298",
+      "g298",
+      "cv",
+      "u0_atom",
+      "u298_atom",
+      "h298_atom",
+      "g298_atom"
+    ],
+    "encoding": "utf-8",
+    "exact_duplicate_rows": 0,
+    "null_counts": {
+      "delta_E": 0,
+      "homo": 0,
+      "lumo": 0,
+      "mol_id": 0,
+      "smiles": 0
+    },
+    "path": "data/raw/qm9_chn.csv",
+    "pseudo_missing": {},
+    "raw_unique_smiles": 133802,
+    "required_source_columns": [
+      "mol_id",
+      "smiles",
+      "homo",
+      "lumo",
+      "delta_E"
+    ],
+    "rows": 133885
+  },
+  "split": {
+    "manifest_sha256": "6f88198045ebcdeacaf575eac344d1d7e538ef6373dfcd6052adc41ba56d0ded",
+    "method": "random",
+    "rows": {
+      "test": 13380,
+      "train": 107038,
+      "val": 13380
+    },
+    "seed": 3407,
+    "sizes": [
+      0.8,
+      0.1,
+      0.1
+    ]
+  },
+  "status": "complete",
+  "target_scaling": "none"
+}

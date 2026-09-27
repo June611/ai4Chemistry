@@ -1,0 +1,35 @@
+experiment: {name: exp004_consistency_01, phase: 3}
+data:
+  processed_dir: data/processed/qm9_full/random/seed3407
+  smiles_column: smiles
+  id_column: sample_id
+  targets: [homo, lumo, delta_e]
+  label_unit: hartree
+  split: {method: random, sizes: [0.8, 0.1, 0.1], seed: 3407}
+model:
+  backend: chemprop_python
+  message_hidden_dim: 300
+  depth: 3
+  dropout: 0.1
+  activation: relu
+  aggregation: mean
+  batch_norm: false
+  ffn_hidden_dim: 300
+  ffn_num_layers: 1
+training:
+  batch_size: 64
+  epochs: 100
+  warmup_epochs: 2
+  init_lr: 0.0001
+  max_lr: 0.001
+  final_lr: 0.0001
+  seed: 3407
+  num_workers: 0
+  accelerator: auto
+  devices: auto
+  patience: 20
+loss:
+  function: mse
+  weights: {homo: 1.0, lumo: 1.0, gap: 1.0, consistency: 0.1}
+evaluation: {metrics: [mae, rmse, r2]}
+output: {root: outputs}

@@ -1,0 +1,85 @@
+{
+  "artifact_version": "1.0.0",
+  "checks": {
+    "adapted_contract_rollback_matches_source": true,
+    "chemprop_columns": [
+      "sample_id",
+      "smiles",
+      "delta_e"
+    ],
+    "labels_finite": true,
+    "no_smiles_leakage": true,
+    "sample_ids_unique": true
+  },
+  "created_at": "2026-09-27T04:29:21+00:00",
+  "dataset": "qm9_cn_subset",
+  "duplicate_groups": 27,
+  "duplicate_rows": 54,
+  "final_unique_rows": 14175,
+  "inconsistent_gap_rows": 0,
+  "input_rows": 14202,
+  "invalid_smiles_rows": 0,
+  "label_unit": "hartree",
+  "pending_confirmations": [],
+  "pipeline_version": "1.0.0",
+  "rejected_rows": 0,
+  "source_audit": {
+    "column_dtypes": {
+      "EnergyGap": "float64",
+      "HomoEnergy": "float64",
+      "InChL": "str",
+      "LumoEnergy": "float64",
+      "SMILES": "str",
+      "偶极矩": "float64",
+      "极化率": "float64",
+      "编号": "int64"
+    },
+    "columns": [
+      "编号",
+      "SMILES",
+      "InChL",
+      "HomoEnergy",
+      "LumoEnergy",
+      "EnergyGap",
+      "偶极矩",
+      "极化率"
+    ],
+    "encoding": "gb18030",
+    "exact_duplicate_rows": 0,
+    "null_counts": {
+      "EnergyGap": 0,
+      "HomoEnergy": 0,
+      "LumoEnergy": 0,
+      "SMILES": 0,
+      "编号": 0
+    },
+    "path": "data/raw/QM9_CN.csv",
+    "pseudo_missing": {},
+    "raw_unique_smiles": 14202,
+    "required_source_columns": [
+      "编号",
+      "SMILES",
+      "HomoEnergy",
+      "LumoEnergy",
+      "EnergyGap"
+    ],
+    "rows": 14202
+  },
+  "split": {
+    "manifest_sha256": "f2e77751d6889224efd745eb6b8bc89e2829cd1fe2a1d262468e06b15c11b819",
+    "method": "random",
+    "rows": {
+      "test": 1418,
+      "train": 11340,
+      "val": 1417
+    },
+    "seed": 3407,
+    "sizes": [
+      0.8,
+      0.1,
+      0.1
+    ]
+  },
+  "status": "complete",
+  "target_scaling": "none"
+}

@@ -1,0 +1,63 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "molecular-gap-prediction"
+version = "0.1.0"
+description = "Reproducible Chemprop experiments for molecular HOMO-LUMO gap prediction"
+readme = "README.md"
+requires-python = ">=3.11,<3.15"
+dependencies = [
+    "chemprop==2.3.1",
+    "lightning>=2.0",
+    "numpy>=1.26",
+    "pandas>=2.2",
+    "pyyaml>=6.0",
+    "rdkit>=2024.3",
+    "scikit-learn>=1.4",
+    "tensorboard>=2.18",
+    "torch==2.6.0",
+]
+
+[project.scripts]
+molgap-prepare = "molgap.data.preprocess:main"
+molgap-train = "molgap.training.train:main"
+molgap-predict = "molgap.training.predict:main"
+molgap-evaluate = "molgap.training.evaluate:main"
+
+[tool.uv]
+default-groups = ["dev","analysis"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.11",
+]
+analysis = [
+    "ipykernel>=6.29",
+    "matplotlib>=3.9",
+    "seaborn>=0.13",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/molgap"]
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu124" }
+
+[[tool.uv.index]]
+name = "pytorch-cu124"
+url = "https://download.pytorch.org/whl/cu124"
+explicit = true
+
+[tool.pytest.ini_options]
+addopts = "-ra"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]

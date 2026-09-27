@@ -1,0 +1,38 @@
+schema_version: 1
+
+dataset:
+  name: qm9_full
+  artifact_version: "1.0.0"
+  expected_rows: 133885
+  source:
+    path: data/raw/qm9_chn.csv
+    encoding: utf-8
+    id_column: mol_id
+    columns:
+      smiles: smiles
+      homo: homo
+      lumo: lumo
+      delta_e: delta_E
+
+labels:
+  unit: hartree
+  consistency_tolerance: 1.0e-3
+  derive_ev: false
+
+processing:
+  canonicalize_smiles: true
+  preserve_stereo: true
+  duplicate_tolerance: 1.1e-4
+  duplicate_policy: mean_within_tolerance
+  max_rejected_fraction: 0.05
+
+split:
+  method: random
+  sizes: [0.8, 0.1, 0.1]
+  seed: 3407
+
+chemprop:
+  target_columns: [homo, lumo, delta_e]
+
+output:
+  root: data/processed

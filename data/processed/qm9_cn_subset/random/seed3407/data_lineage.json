@@ -1,0 +1,113 @@
+{
+  "artifact_version": "1.0.0",
+  "artifacts": [
+    {
+      "artifact_version": "1.0.0",
+      "created_at": "2026-09-27T04:29:21+00:00",
+      "path": "data/processed/qm9_cn_subset/random/seed3407/config.yaml",
+      "sha256": "88dee3af67de527313cffe73fe1fe269e3ba758411dab8b442f89187190cd213",
+      "size_bytes": 668
+    },
+    {
+      "artifact_version": "1.0.0",
+      "created_at": "2026-09-27T04:29:21+00:00",
+      "path": "data/processed/qm9_cn_subset/random/seed3407/dataset.csv",
+      "sha256": "15a09c1814d44f81d1014499181f994b54d495498338127ada7755c10374ad7a",
+      "size_bytes": 1347930
+    },
+    {
+      "artifact_version": "1.0.0",
+      "created_at": "2026-09-27T04:29:21+00:00",
+      "path": "data/processed/qm9_cn_subset/random/seed3407/train.csv",
+      "sha256": "1ae654a4e8c47907dc7b0d0b3adb225b9c9c42d3811e4fede017b71035e2d00a",
+      "size_bytes": 491555
+    },
+    {
+      "artifact_version": "1.0.0",
+      "created_at": "2026-09-27T04:29:21+00:00",
+      "path": "data/processed/qm9_cn_subset/random/seed3407/val.csv",
+      "sha256": "bdb80812cd252011d48fcf06750c0ab55623f6675ed3938ed4736497e9fd369f",
+      "size_bytes": 61553
+    },
+    {
+      "artifact_version": "1.0.0",
+      "created_at": "2026-09-27T04:29:21+00:00",
+      "path": "data/processed/qm9_cn_subset/random/seed3407/test.csv",
+      "sha256": "941e17061b367edbf362bd870f289b1d760b5e0e112dee000a4b30a8fe66aa30",
+      "size_bytes": 61442
+    },
+    {
+      "artifact_version": "1.0.0",
+      "created_at": "2026-09-27T04:29:21+00:00",
+      "path": "data/processed/qm9_cn_subset/random/seed3407/split_manifest.csv",
+      "sha256": "f2e77751d6889224efd745eb6b8bc89e2829cd1fe2a1d262468e06b15c11b819",
+      "size_bytes": 1004143
+    },
+    {
+      "artifact_version": "1.0.0",
+      "created_at": "2026-09-27T04:29:21+00:00",
+      "path": "data/processed/qm9_cn_subset/random/seed3407/preprocess_report.json",
+      "sha256": "b1280c44de28d2eac134aeb93f9440f6a24f707835fb319a2d9688d7d0015a9d",
+      "size_bytes": 1838
+    },
+    {
+      "artifact_version": "1.0.0",
+      "created_at": "2026-09-27T04:29:21+00:00",
+      "path": "data/processed/qm9_cn_subset/random/seed3407/target_statistics.json",
+      "sha256": "a5a548e2c9917dccfc0508d9991b02475a5569e98e6e6a658147a2dd4ff43b83",
+      "size_bytes": 3430
+    },
+    {
+      "artifact_version": "1.0.0",
+      "created_at": "2026-09-27T04:29:21+00:00",
+      "path": "data/processed/qm9_cn_subset/random/seed3407/duplicates.csv",
+      "sha256": "d96e0efb982df1cb28b118defd03f568aaff0781f82462aadef5040414cda773",
+      "size_bytes": 10917
+    },
+    {
+      "artifact_version": "1.0.0",
+      "created_at": "2026-09-27T04:29:21+00:00",
+      "path": "data/processed/qm9_cn_subset/random/seed3407/rejected_rows.csv",
+      "sha256": "c789d2d5105eb4e6a64521ea4dc76456048a46c49d5c73ca57bdb802318aa82e",
+      "size_bytes": 113
+    },
+    {
+      "artifact_version": "1.0.0",
+      "created_at": "2026-09-27T04:29:21+00:00",
+      "path": "data/processed/qm9_cn_subset/random/seed3407/change_map.csv",
+      "sha256": "ca31cf881e4fa79900608f4e66df04024e3c9ed9e4adb68063d9395d09a18302",
+      "size_bytes": 998621
+    },
+    {
+      "artifact_version": "1.0.0",
+      "created_at": "2026-09-27T04:29:21+00:00",
+      "path": "data/processed/qm9_cn_subset/random/seed3407/processing_log.jsonl",
+      "sha256": "6dacece857393f38880238b9929ad6482e3efe16332dc5dbb7917deafa0bc46d",
+      "size_bytes": 2407
+    },
+    {
+      "artifact_version": "1.0.0",
+      "created_at": "2026-09-27T04:29:21+00:00",
+      "path": "data/processed/qm9_cn_subset/random/seed3407/pending_confirmations.json",
+      "sha256": "0343639fac1511a32a4c9a92c7655a6e9f9ad3a600fc6f30b5bdad6806160a97",
+      "size_bytes": 18
+    }
+  ],
+  "created_at": "2026-09-27T04:29:21+00:00",
+  "pipeline_version": "1.0.0",
+  "source": {
+    "artifact_version": "1.0.0",
+    "created_at": "2026-09-27T04:29:21+00:00",
+    "path": "data/raw/QM9_CN.csv",
+    "sha256": "2c6a6f33a07b71cca95773633685872028825f0122fa9681f9cf99e4f3f83026",
+    "size_bytes": 1525226
+  },
+  "transformations": [
+    "source_adapter",
+    "rdkit_canonicalization",
+    "label_consistency_filter",
+    "tolerance_bounded_duplicate_aggregation",
+    "deterministic_split",
+    "chemprop_csv_projection"
+  ]
+}
