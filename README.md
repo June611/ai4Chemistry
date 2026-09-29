@@ -129,6 +129,14 @@ AdamW、warmup + cosine decay 和验证集 Hartree MAE early stopping，最终�
 
 每次运行写入 `outputs/<experiment>/seed<training_seed>/`。配置快照、命令、日志、模型、预测和指标保存在同一个实验目录内。重复训练同一实验默认拒绝覆盖；确认需要替换时显式传入 `--overwrite`。
 
+## 训练吞吐与进度
+
+调整前的五份配置完整保存在 `configs/archive/pre_throughput_20260929/`。当前四个主实验使用同一训练预算：batch size 256、最多 100 epochs、early-stopping patience 20、8 个 DataLoader workers。三组 Chemprop 实验因 batch 从 64 增加到 256，将学习率调度同步放大 4 倍至 `4e-4 / 4e-3 / 4e-4`；Transformer 保持已经与 batch 256 配套的 AdamW `lr: 3e-4`。
+
+直接运行四个训练入口时，Lightning tqdm 会显示 epoch、batch、训练误差、验证误差、已耗时和 ETA。Phase 3 显式使用 pinned memory；Transformer 同时使用 pinned memory 与 persistent workers。Chemprop 2.3.1 CLI 没有公开 `pin_memory` 或 `precision` 参数，因此 Phase 1/2 保持库自身 DataLoader 行为，四模型比较统一采用全精度；没有向 YAML 写入不起作用的 AMP 参数。每次训练还会写出 `training_timing.json`。
+
+单卡并行时，每个进程都会创建 8 个 worker。`--jobs 2` 因此最多使用约 16 个数据 worker；若服务器 CPU 核数不足或主机内存压力较大，先使用 `--jobs 1`，再依据 GPU 利用率逐步增加。
+
 ## 五个随机种子与单卡并行
 
 批量配置位于 `configs/multiseed.yaml`。所有实验固定复用 `split_seed: 3407` 对应的同一份
@@ -185,6 +193,12 @@ uv run molgap-run-multiseed \
 Chemprop 任务依次运行 train、predict、evaluate；Transformer 在训练末尾完成预测和评估。
 计划、配置、每个任务的 stdout/stderr 和最终状态位于
 `outputs/batches/qm9_five_seed/`。已有训练结果默认不会覆盖；确需重跑时添加 `--overwrite`。
+批量运行的终端 tqdm 显示已完成任务数、总耗时和 ETA；并行子进程的逐 epoch 输出写入独立日志，
+可在另一个终端实时查看，例如：
+
+```bash
+tail -F outputs/batches/qm9_five_seed/logs/chemprop_single_gap/training_seed3407.log
+```
 
 ## 五 seed 汇总与模型比较
 

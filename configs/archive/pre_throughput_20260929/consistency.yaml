@@ -1,6 +1,6 @@
 experiment:
-  name: exp002_homo_lumo_gap
-  phase: 2
+  name: exp003_physics_consistency
+  phase: 3
 
 data:
   processed_dir: data/processed/qm9_full/random/seed3407
@@ -15,7 +15,7 @@ data:
     stratify: {strategy: quantile, column: delta_e, bins: 200}
 
 model:
-  backend: chemprop_cli
+  backend: chemprop_python
   message_hidden_dim: 300
   depth: 3
   dropout: 0.1
@@ -26,21 +26,21 @@ model:
   ffn_num_layers: 1
 
 training:
-  batch_size: 256
+  batch_size: 64
   epochs: 100
   warmup_epochs: 2
-  init_lr: 0.0004
-  max_lr: 0.004
-  final_lr: 0.0004
+  init_lr: 0.0001
+  max_lr: 0.001
+  final_lr: 0.0001
   seed: 3407
-  num_workers: 8
+  num_workers: 0
   accelerator: auto
   devices: auto
   patience: 20
 
 loss:
   function: mse
-  weights: {homo: 1.0, lumo: 1.0, gap: 1.0, consistency: 0.0}
+  weights: {homo: 1.0, lumo: 1.0, gap: 1.0, consistency: 0.1}
 
 evaluation:
   metrics: [mae, rmse, r2]

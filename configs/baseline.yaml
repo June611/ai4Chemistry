@@ -26,14 +26,14 @@ model:
   ffn_num_layers: 1
 
 training:
-  batch_size: 64
+  batch_size: 256
   epochs: 100
   warmup_epochs: 2
-  init_lr: 0.0001
-  max_lr: 0.001
-  final_lr: 0.0001
+  init_lr: 0.0004
+  max_lr: 0.004
+  final_lr: 0.0004
   seed: 3407
-  num_workers: 0
+  num_workers: 8
   accelerator: auto
   devices: auto
   patience: 20

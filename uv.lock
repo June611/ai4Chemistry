@@ -1317,6 +1317,7 @@ dependencies = [
     { name = "scikit-learn" },
     { name = "tensorboard" },
     { name = "torch" },
+    { name = "tqdm" },
 ]
 
 [package.dev-dependencies]
@@ -1341,6 +1342,7 @@ requires-dist = [
     { name = "scikit-learn", specifier = ">=1.4" },
     { name = "tensorboard", specifier = ">=2.18" },
     { name = "torch", specifier = "==2.6.0", index = "https://download.pytorch.org/whl/cu124" },
+    { name = "tqdm", specifier = ">=4.66" },
 ]
 
 [package.metadata.requires-dev]

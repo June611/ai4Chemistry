@@ -18,6 +18,7 @@ dependencies = [
     "scikit-learn>=1.4",
     "tensorboard>=2.18",
     "torch==2.6.0",
+    "tqdm>=4.66",
 ]
 
 [project.scripts]

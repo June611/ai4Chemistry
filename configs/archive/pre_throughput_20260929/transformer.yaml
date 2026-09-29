@@ -45,13 +45,13 @@ training:
   min_lr_ratio: 0.1
   gradient_clip_val: 1.0
   target_scaling: standard
-  early_stopping_patience: 20
+  early_stopping_patience: 15
   early_stopping_min_delta: 0.00001
   seed: 3407
   accelerator: auto
   devices: auto
   precision: 32-true
-  num_workers: 8
+  num_workers: 0
   pin_memory: true
   log_every_n_steps: 50
 

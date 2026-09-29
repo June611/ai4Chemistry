@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import shutil
+import time
 from pathlib import Path
 from typing import Any
 
@@ -14,7 +15,7 @@ import torch
 from chemprop.data import MoleculeDatapoint, MoleculeDataset, build_dataloader
 from chemprop.featurizers import SimpleMoleculeMolGraphFeaturizer
 from chemprop.models.utils import save_model
-from lightning.pytorch.callbacks import EarlyStopping, ModelCheckpoint
+from lightning.pytorch.callbacks import EarlyStopping, ModelCheckpoint, TQDMProgressBar
 from lightning.pytorch.loggers import CSVLogger
 
 from molgap.config import load_config, resolve_path, run_directory
@@ -64,6 +65,7 @@ def _dry_run_plan(config: dict[str, Any], root: Path) -> dict[str, Any]:
         "targets": config["data"]["targets"],
         "heads": ["homo", "lumo", "delta_e"],
         "loss": config["loss"],
+        "training": config["training"],
         "run_dir": str(run_directory(config, root)),
     }
 
@@ -105,14 +107,20 @@ def train_phase3(
     pl.seed_everything(seed, workers=True)
     datasets = {name: _dataset(frame, config) for name, frame in frames.items()}
     scaler = datasets["train"].normalize_targets()
+    # Match Chemprop CLI behavior: fit the scaler on train only, then reuse it
+    # for validation. Keep test targets in Hartree for final evaluation.
+    datasets["val"].normalize_targets(scaler)
     training = config["training"]
+    workers = int(training["num_workers"])
     loaders = {
         name: build_dataloader(
             dataset,
             batch_size=int(training["batch_size"]),
-            num_workers=int(training["num_workers"]),
+            num_workers=workers,
             seed=seed,
             shuffle=name == "train",
+            pin_memory=bool(training.get("pin_memory", True)),
+            persistent_workers=workers > 0,
         )
         for name, dataset in datasets.items()
     }
@@ -127,6 +135,7 @@ def train_phase3(
     callbacks = [
         checkpoint,
         EarlyStopping(monitor="val_loss", mode="min", patience=int(training["patience"])),
+        TQDMProgressBar(refresh_rate=1),
     ]
     trainer = pl.Trainer(
         accelerator=training["accelerator"],
@@ -135,8 +144,11 @@ def train_phase3(
         callbacks=callbacks,
         logger=CSVLogger(run_dir / "logs", name="lightning"),
         deterministic=True,
+        enable_progress_bar=True,
     )
+    fit_started = time.perf_counter()
     trainer.fit(model, loaders["train"], loaders["val"])
+    fit_seconds = time.perf_counter() - fit_started
     # Lightning 2.5 defaults to weights_only=True under PyTorch 2.6, but its own
     # checkpoints contain Chemprop metric objects. This checkpoint was created by
     # this run, so restore the trusted full checkpoint explicitly.
@@ -169,4 +181,16 @@ def train_phase3(
     with (run_dir / "metrics.json").open("w", encoding="utf-8") as handle:
         json.dump(metrics, handle, indent=2, ensure_ascii=False)
         handle.write("\n")
-    return {**plan, "best_checkpoint": checkpoint.best_model_path, "metrics": metrics}
+    timing = {
+        "fit_seconds": fit_seconds,
+        "epochs_completed": int(trainer.fit_loop.epoch_progress.current.completed),
+    }
+    with (run_dir / "training_timing.json").open("w", encoding="utf-8") as handle:
+        json.dump(timing, handle, indent=2)
+        handle.write("\n")
+    return {
+        **plan,
+        "best_checkpoint": checkpoint.best_model_path,
+        "metrics": metrics,
+        "timing": timing,
+    }

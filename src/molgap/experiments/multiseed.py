@@ -9,6 +9,7 @@ import os
 import re
 import subprocess
 import sys
+import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
@@ -16,6 +17,7 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+from tqdm.auto import tqdm
 
 from molgap.config import ConfigError, find_project_root, resolve_path
 
@@ -276,6 +278,7 @@ def _assert_splits(paths: list[Path], root: Path) -> None:
 
 def _run_spec(spec: RunSpec, root: Path, gpu: str | None) -> dict[str, Any]:
     started_at = _timestamp()
+    run_started = time.perf_counter()
     spec.log_path.parent.mkdir(parents=True, exist_ok=True)
     environment = os.environ.copy()
     if gpu is not None and str(gpu).lower() not in {"", "none"}:
@@ -290,6 +293,7 @@ def _run_spec(spec: RunSpec, root: Path, gpu: str | None) -> dict[str, Any]:
         for command in spec.commands:
             log.write("command=" + json.dumps(command, ensure_ascii=False) + "\n")
             log.flush()
+            command_started = time.perf_counter()
             completed = subprocess.run(
                 command,
                 cwd=root,
@@ -298,7 +302,13 @@ def _run_spec(spec: RunSpec, root: Path, gpu: str | None) -> dict[str, Any]:
                 stderr=subprocess.STDOUT,
                 check=False,
             )
-            command_records.append({"argv": list(command), "return_code": completed.returncode})
+            command_records.append(
+                {
+                    "argv": list(command),
+                    "return_code": completed.returncode,
+                    "duration_seconds": time.perf_counter() - command_started,
+                }
+            )
             if completed.returncode:
                 return_code = completed.returncode
                 break
@@ -312,6 +322,7 @@ def _run_spec(spec: RunSpec, root: Path, gpu: str | None) -> dict[str, Any]:
         "gpu": gpu,
         "started_at": started_at,
         "finished_at": _timestamp(),
+        "duration_seconds": time.perf_counter() - run_started,
         "status": "completed" if return_code == 0 else "failed",
         "return_code": return_code,
         "commands": command_records,
@@ -367,14 +378,27 @@ def run_matrix(
     results: list[dict[str, Any]] = []
     with ThreadPoolExecutor(max_workers=concurrency) as executor:
         futures = {executor.submit(_run_spec, spec, root, selected_gpu): spec for spec in specs}
-        for future in as_completed(futures):
-            result = future.result()
-            results.append(result)
-            print(
-                f"[{result['status'].upper()}] model={result['model']} "
-                f"training_seed={result['training_seed']} "
-                f"split_seed={result['split_seed']} log={result['log']}"
-            )
+        with tqdm(
+            total=len(futures),
+            desc="training runs",
+            unit="run",
+            dynamic_ncols=True,
+        ) as progress:
+            for future in as_completed(futures):
+                result = future.result()
+                results.append(result)
+                progress.set_postfix(
+                    model=result["model"],
+                    seed=result["training_seed"],
+                    status=result["status"],
+                    refresh=False,
+                )
+                progress.update(1)
+                tqdm.write(
+                    f"[{result['status'].upper()}] model={result['model']} "
+                    f"training_seed={result['training_seed']} "
+                    f"duration={result['duration_seconds']:.1f}s log={result['log']}"
+                )
     results.sort(key=lambda item: (item["model"], item["training_seed"]))
     status = {
         "name": matrix["name"],

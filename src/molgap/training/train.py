@@ -6,6 +6,7 @@ import argparse
 import json
 import shutil
 import subprocess
+import time
 from pathlib import Path
 from typing import Any
 
@@ -53,7 +54,12 @@ def train(config_path: str | Path, dry_run: bool = False, overwrite: bool = Fals
     run_dir.mkdir(parents=True, exist_ok=True)
     write_run_metadata(run_dir, config, config_path, root)
     write_command_record(run_dir / "command.json", command, {"kind": "train"})
+    started = time.perf_counter()
     subprocess.run(command, cwd=root, check=True)
+    timing = {"fit_pipeline_seconds": time.perf_counter() - started}
+    with (run_dir / "training_timing.json").open("w", encoding="utf-8") as handle:
+        json.dump(timing, handle, indent=2)
+        handle.write("\n")
     return command
 
 

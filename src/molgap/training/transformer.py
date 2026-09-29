@@ -6,12 +6,13 @@ import argparse
 import json
 import math
 import shutil
+import time
 from pathlib import Path
 from typing import Any
 
 import lightning.pytorch as pl
 import torch
-from lightning.pytorch.callbacks import EarlyStopping, ModelCheckpoint
+from lightning.pytorch.callbacks import EarlyStopping, ModelCheckpoint, TQDMProgressBar
 from lightning.pytorch.loggers import TensorBoardLogger
 from torch import nn
 from torch.optim import AdamW
@@ -179,6 +180,7 @@ def _plan(
         "trainable_parameters": parameters,
         "target": {"column": "delta_e", "unit": "hartree"},
         "metrics": config["evaluation"]["metrics"],
+        "training": config["training"],
         "run_dir": str(run_directory(config, root)),
     }
 
@@ -232,6 +234,7 @@ def train_transformer(
             patience=int(training["early_stopping_patience"]),
             min_delta=float(training["early_stopping_min_delta"]),
         ),
+        TQDMProgressBar(refresh_rate=1),
     ]
     trainer = pl.Trainer(
         accelerator=training["accelerator"],
@@ -243,8 +246,11 @@ def train_transformer(
         deterministic=True,
         gradient_clip_val=float(training["gradient_clip_val"]),
         log_every_n_steps=int(training.get("log_every_n_steps", 50)),
+        enable_progress_bar=True,
     )
+    fit_started = time.perf_counter()
     trainer.fit(lightning_model, loaders["train"], loaders["val"])
+    fit_seconds = time.perf_counter() - fit_started
     trainer.test(lightning_model, loaders["test"], ckpt_path="best", weights_only=False)
     prediction_batches = trainer.predict(
         lightning_model, loaders["test"], ckpt_path="best", weights_only=False
@@ -298,7 +304,19 @@ def train_transformer(
     with (run_dir / "metrics.json").open("w", encoding="utf-8") as handle:
         json.dump(metrics, handle, indent=2, ensure_ascii=False)
         handle.write("\n")
-    return {**plan, "best_checkpoint": checkpoint.best_model_path, "metrics": metrics}
+    timing = {
+        "fit_seconds": fit_seconds,
+        "epochs_completed": int(trainer.fit_loop.epoch_progress.current.completed),
+    }
+    with (run_dir / "training_timing.json").open("w", encoding="utf-8") as handle:
+        json.dump(timing, handle, indent=2)
+        handle.write("\n")
+    return {
+        **plan,
+        "best_checkpoint": checkpoint.best_model_path,
+        "metrics": metrics,
+        "timing": timing,
+    }
 
 
 def build_parser() -> argparse.ArgumentParser:
