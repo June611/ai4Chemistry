@@ -127,30 +127,51 @@ Tokenizer 使用 `configs/transformer.yaml` 中的 SMILES 正则，词表只从�
 AdamW、warmup + cosine decay 和验证集 Hartree MAE early stopping，最终报告 MAE、RMSE、MAPE
 与 R²。标签 CSV 始终保留原值；损失内部的 Z-score 只用训练集拟合。
 
-每次运行写入 `outputs/<experiment>/seed<seed>/`。配置快照、命令、日志、模型、预测和指标保存在同一个实验目录内。重复训练同一实验默认拒绝覆盖；确认需要替换时显式传入 `--overwrite`。
+每次运行写入 `outputs/<experiment>/seed<training_seed>/`。配置快照、命令、日志、模型、预测和指标保存在同一个实验目录内。重复训练同一实验默认拒绝覆盖；确认需要替换时显式传入 `--overwrite`。
 
 ## 五个随机种子与单卡并行
 
-批量配置位于 `configs/multiseed.yaml`，默认 seeds 为 `3407, 42, 2026, 7, 123`，包含
-Chemprop 单任务、多任务、物理一致性模型和 SMILES Transformer。第一次运行需要先生成缺失的
-seed 划分；数据准备完成后才会开始训练：
+批量配置位于 `configs/multiseed.yaml`。所有实验固定复用 `split_seed: 3407` 对应的同一份
+train/val/test；`training_seeds: [3407, 42, 2026, 7, 123]` 只控制模型初始化、训练集
+shuffle、Dropout、worker 和框架随机状态。四个模型共执行 20 次训练，但数据划分始终只有一份。
+
+数据已经准备好时，分四次顺序运行四个模型：
 
 ```bash
 uv run molgap-run-multiseed \
   --config configs/multiseed.yaml \
-  --prepare-data \
+  --model chemprop_single_gap \
+  --jobs 2
+
+uv run molgap-run-multiseed \
+  --config configs/multiseed.yaml \
+  --model chemprop_multitask \
+  --jobs 2
+
+uv run molgap-run-multiseed \
+  --config configs/multiseed.yaml \
+  --model chemprop_consistency \
+  --jobs 2
+
+uv run molgap-run-multiseed \
+  --config configs/multiseed.yaml \
+  --model smiles_transformer \
   --jobs 2
 ```
 
 `--jobs x` 表示同一时刻最多有 x 个训练进程，所有进程共享 `gpu: "0"` 指定的单张 GPU。
 显存不足时使用 `--jobs 1`；显存和算力允许时可增加。也可以直接修改 YAML 中的
-`parallel_jobs`。先查看将要生成的 20 个 model/seed 任务：
+`parallel_jobs`。先查看将要生成的 20 个 model/training-seed 任务：
 
 ```bash
 uv run molgap-run-multiseed --config configs/multiseed.yaml --jobs 2 --dry-run
 ```
 
-只运行一个模型时重复使用 `--model` 过滤：
+如果固定划分尚未生成，可单独执行一次
+`uv run molgap-prepare --config configs/data/qm9_full.yaml`；批量命令中的 `--prepare-data`
+也只会检查或生成这一份固定划分，不会按训练 seed 重新划分。
+
+只运行一个模型时使用 `--model` 过滤：
 
 ```bash
 uv run molgap-run-multiseed \
@@ -159,7 +180,8 @@ uv run molgap-run-multiseed \
   --jobs 2
 ```
 
-调度器为每个 seed 生成独立 YAML，但同一 seed 的所有模型都指向同一个 processed 目录。
+调度器为每个 training seed 生成独立训练 YAML；所有 YAML 的 `data.processed_dir`、
+`data.split.seed` 和 split manifest 都相同，只有 `training.seed` 改变。
 Chemprop 任务依次运行 train、predict、evaluate；Transformer 在训练末尾完成预测和评估。
 计划、配置、每个任务的 stdout/stderr 和最终状态位于
 `outputs/batches/qm9_five_seed/`。已有训练结果默认不会覆盖；确需重跑时添加 `--overwrite`。
@@ -220,9 +242,9 @@ R² 的均值、样本标准差、最小值和最大值。MAPE 的单位是百�
 消融模板位于 `configs/experiments/exp003_consistency_0.yaml` 与
 `exp004_consistency_01.yaml`；二者只改变 `loss.weights.consistency` 和实验名。
 
-`baseline.yaml` 使用 seed 3407 的随机划分。论文结果应至少运行多个 seed，并额外比较
-scaffold split；新 seed 必须先用对应数据配置生成划分，再修改训练配置中的 processed_dir、
-`data.split.seed` 和 `training.seed`。
+`baseline.yaml` 使用 split seed 3407 的固定随机划分。重复训练只修改 `training.seed`，不得
+修改 `data.processed_dir` 或 `data.split.seed`。如果后续单独研究 random split 与 scaffold
+split，应建立另一组明确命名的数据划分实验，不与本组训练随机性实验混合。
 
 每次正式运行会记录解析后的配置、命令（Phase 1/2）、Python/Chemprop/Torch/CUDA 环境、
 随机种子以及输入划分和 lineage 的 SHA-256。指标按 `sample_id` 对齐后计算，包含每个目标的

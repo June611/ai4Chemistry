@@ -75,7 +75,10 @@ def build_train_command(config: dict[str, Any], root: Path) -> list[str]:
     _append(command, "--loss-function", config["loss"]["function"])
     if model["batch_norm"]:
         command.append("--batch-norm")
-    _append(command, "--data-seed", data["split"].get("seed"))
+    # The three split files are supplied explicitly, so Chemprop does not use
+    # --data-seed to choose split membership. Chemprop still uses it for the
+    # shuffled training DataLoader; bind it to the training replicate seed.
+    _append(command, "--data-seed", training.get("seed"))
     _append(command, "--pytorch-seed", training.get("seed"))
     return command
 

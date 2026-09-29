@@ -1,5 +1,11 @@
 name: qm9_five_seed
-seeds: [3407, 42, 2026, 7, 123]
+
+# Reuse this one immutable train/val/test split for every training run.
+split_seed: 3407
+
+# These seeds control model initialization, train-loader shuffling, dropout,
+# workers, and other framework RNGs. They never change split membership.
+training_seeds: [3407, 42, 2026, 7, 123]
 
 # Maximum simultaneous training processes. All processes share the GPU below.
 parallel_jobs: 2

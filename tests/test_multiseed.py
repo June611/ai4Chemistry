@@ -10,7 +10,7 @@ def _write_yaml(path: Path, payload: dict) -> None:
     path.write_text(yaml.safe_dump(payload, sort_keys=False), encoding="utf-8")
 
 
-def test_matrix_generates_shared_seed_paths_and_command_pipelines(tmp_path: Path) -> None:
+def test_matrix_reuses_one_split_across_training_seeds(tmp_path: Path) -> None:
     root = tmp_path / "project"
     (root / "pyproject.toml").parent.mkdir(parents=True)
     (root / "pyproject.toml").write_text(
@@ -46,7 +46,8 @@ def test_matrix_generates_shared_seed_paths_and_command_pipelines(tmp_path: Path
     _write_yaml(root / "configs" / "transformer.yaml", transformer)
     matrix = {
         "name": "five_seed_test",
-        "seeds": [1, 2, 3, 4, 5],
+        "split_seed": 3407,
+        "training_seeds": [1, 2, 3, 4, 5],
         "parallel_jobs": 2,
         "gpu": "0",
         "data_config": "configs/data.yaml",
@@ -65,14 +66,21 @@ def test_matrix_generates_shared_seed_paths_and_command_pipelines(tmp_path: Path
 
     _, _, _, preparation_paths, specs = expand_matrix(matrix_path, overwrite=True)
 
-    assert len(preparation_paths) == 5
+    assert len(preparation_paths) == 1
+    assert preparation_paths[0].name == "split_seed3407.yaml"
     assert len(specs) == 10
-    graph_seed2 = next(spec for spec in specs if spec.model == "graph" and spec.seed == 2)
-    sequence_seed2 = next(spec for spec in specs if spec.model == "sequence" and spec.seed == 2)
+    assert {spec.split_seed for spec in specs} == {3407}
+    assert {spec.training_seed for spec in specs} == {1, 2, 3, 4, 5}
+    graph_seed2 = next(spec for spec in specs if spec.model == "graph" and spec.training_seed == 2)
+    sequence_seed2 = next(
+        spec for spec in specs if spec.model == "sequence" and spec.training_seed == 2
+    )
     graph_config = yaml.safe_load(graph_seed2.config_path.read_text(encoding="utf-8"))
     sequence_config = yaml.safe_load(sequence_seed2.config_path.read_text(encoding="utf-8"))
     assert graph_config["data"]["processed_dir"] == sequence_config["data"]["processed_dir"]
-    assert graph_config["data"]["processed_dir"].endswith("tiny/random/seed2")
+    assert graph_config["data"]["processed_dir"].endswith("tiny/random/seed3407")
+    assert graph_config["data"]["split"]["seed"] == 3407
+    assert sequence_config["data"]["split"]["seed"] == 3407
     assert graph_config["training"]["seed"] == sequence_config["training"]["seed"] == 2
     assert len(graph_seed2.commands) == 3
     assert len(sequence_seed2.commands) == 1
@@ -83,3 +91,7 @@ def test_matrix_generates_shared_seed_paths_and_command_pipelines(tmp_path: Path
     reference = yaml.safe_load(reference_path.read_text(encoding="utf-8"))
     assert reference["data"]["processed_dir"] == graph_config["data"]["processed_dir"]
     assert reference["data"]["split"] == sequence_config["data"]["split"]
+    assert {
+        yaml.safe_load(spec.config_path.read_text(encoding="utf-8"))["data"]["processed_dir"]
+        for spec in specs
+    } == {"data/processed/tiny/random/seed3407"}

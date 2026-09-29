@@ -4,9 +4,10 @@ from molgap.config import load_config
 from molgap.training.commands import build_train_command
 
 
-def test_baseline_command_uses_explicit_splits_and_seeds() -> None:
+def test_baseline_command_uses_explicit_split_and_training_seed_for_rngs() -> None:
     config_path = Path(__file__).parents[1] / "configs" / "baseline.yaml"
     config, root = load_config(config_path)
+    config["training"]["seed"] = 42
 
     command = build_train_command(config, root)
 
@@ -14,8 +15,9 @@ def test_baseline_command_uses_explicit_splits_and_seeds() -> None:
     assert command[1] == "train"
     assert "--target-columns" in command
     assert "delta_e" in command
-    assert command[command.index("--data-seed") + 1] == "3407"
-    assert command[command.index("--pytorch-seed") + 1] == "3407"
+    assert config["data"]["split"]["seed"] == 3407
+    assert command[command.index("--data-seed") + 1] == "42"
+    assert command[command.index("--pytorch-seed") + 1] == "42"
     data_index = command.index("--data-path")
     assert command[data_index + 1].endswith("train.csv")
     assert command[data_index + 2].endswith("val.csv")

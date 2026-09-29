@@ -20,7 +20,7 @@ def _write_run(root: Path, model: str, seed: int, metrics: dict) -> Path:
         "experiment": {"name": model},
         "training": {"seed": seed},
         "data": {
-            "processed_dir": f"data/processed/tiny/random/seed{seed}",
+            "processed_dir": "data/processed/tiny/random/seed3407",
             "smiles_column": "smiles",
             "id_column": "sample_id",
         },

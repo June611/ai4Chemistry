@@ -189,7 +189,9 @@ def train_transformer(
     """Validate, train, checkpoint, predict, and evaluate the sequence baseline."""
     config_path = Path(config_path).resolve()
     config, root = load_transformer_config(config_path)
+    training = config["training"]
     prepared = prepare_transformer_data(config, root)
+    pl.seed_everything(int(training["seed"]), workers=True)
     base_model, parameters = _build_model(config, prepared)
     plan = _plan(config, root, prepared, parameters)
     if dry_run:
@@ -208,8 +210,6 @@ def train_transformer(
         json.dump({**plan, "model": config["model"]}, handle, indent=2, ensure_ascii=False)
         handle.write("\n")
 
-    training = config["training"]
-    pl.seed_everything(int(training["seed"]), workers=True)
     loaders = _make_loaders(prepared, config)
     lightning_model = TransformerLightningModule(
         model=base_model,

@@ -22,11 +22,12 @@ from molgap.config import ConfigError, find_project_root, resolve_path
 
 @dataclass(frozen=True)
 class RunSpec:
-    """One model/seed subprocess pipeline."""
+    """One model/training-seed subprocess pipeline on one fixed data split."""
 
     model: str
     trainer: str
-    seed: int
+    training_seed: int
+    split_seed: int
     config_path: Path
     log_path: Path
     commands: tuple[tuple[str, ...], ...]
@@ -60,15 +61,32 @@ def _relative_or_absolute(path: Path, root: Path) -> str:
 
 
 def _validate_matrix(matrix: dict[str, Any], matrix_path: Path) -> None:
-    required = {"name", "seeds", "parallel_jobs", "gpu", "data_config", "models", "output"}
+    required = {
+        "name",
+        "split_seed",
+        "training_seeds",
+        "parallel_jobs",
+        "gpu",
+        "data_config",
+        "models",
+        "output",
+    }
     missing = sorted(required - set(matrix))
     if missing:
         raise ConfigError(f"Missing multi-seed setting(s): {', '.join(missing)}")
     if not re.fullmatch(r"[A-Za-z0-9_.-]+", str(matrix["name"])):
         raise ConfigError("name may contain only letters, numbers, dot, underscore, and hyphen.")
-    seeds = matrix["seeds"]
-    if not isinstance(seeds, list) or len(seeds) != 5 or len(set(map(int, seeds))) != 5:
-        raise ConfigError("seeds must contain exactly five unique integers.")
+    training_seeds = matrix["training_seeds"]
+    if (
+        not isinstance(training_seeds, list)
+        or len(training_seeds) != 5
+        or len(set(map(int, training_seeds))) != 5
+    ):
+        raise ConfigError("training_seeds must contain exactly five unique integers.")
+    try:
+        int(matrix["split_seed"])
+    except (TypeError, ValueError) as error:
+        raise ConfigError("split_seed must be an integer.") from error
     if int(matrix["parallel_jobs"]) <= 0:
         raise ConfigError("parallel_jobs must be positive.")
     models = matrix["models"]
@@ -96,20 +114,20 @@ def _validate_matrix(matrix: dict[str, Any], matrix_path: Path) -> None:
             raise FileNotFoundError(f"Configured file does not exist: {resolve_path(root, value)}")
 
 
-def _processed_dir(data_config: dict[str, Any], root: Path, seed: int) -> Path:
+def _processed_dir(data_config: dict[str, Any], root: Path) -> Path:
     output_root = resolve_path(root, data_config["output"]["root"])
     return (
         output_root
         / str(data_config["dataset"]["name"])
         / str(data_config["split"]["method"])
-        / f"seed{seed}"
+        / f"seed{int(data_config['split']['seed'])}"
     )
 
 
-def _seed_training_config(
+def _training_seed_config(
     base: dict[str, Any],
     model_name: str,
-    seed: int,
+    training_seed: int,
     data_config: dict[str, Any],
     processed_dir: Path,
     root: Path,
@@ -118,8 +136,7 @@ def _seed_training_config(
     generated["experiment"]["name"] = model_name
     generated["data"]["processed_dir"] = _relative_or_absolute(processed_dir, root)
     generated["data"]["split"] = copy.deepcopy(data_config["split"])
-    generated["data"]["split"]["seed"] = seed
-    generated["training"]["seed"] = seed
+    generated["training"]["seed"] = training_seed
     return generated
 
 
@@ -148,7 +165,7 @@ def expand_matrix(
     overwrite: bool = False,
     selected_models: set[str] | None = None,
 ) -> tuple[dict[str, Any], Path, Path, list[Path], list[RunSpec]]:
-    """Expand base YAML files into immutable seed-specific run configurations."""
+    """Expand base YAML files into training-seed configs sharing one fixed split."""
     matrix_path = Path(matrix_path).resolve()
     matrix = _load_yaml(matrix_path)
     _validate_matrix(matrix, matrix_path)
@@ -158,15 +175,19 @@ def expand_matrix(
     log_root = batch_root / "logs"
     data_base_path = resolve_path(root, matrix["data_config"])
     data_base = _load_yaml(data_base_path)
-    seeds = [int(seed) for seed in matrix["seeds"]]
+    split_seed = int(matrix["split_seed"])
+    configured_split_seed = int(data_base["split"]["seed"])
+    if configured_split_seed != split_seed:
+        raise ConfigError(
+            f"split_seed={split_seed} does not match {data_base_path} "
+            f"split.seed={configured_split_seed}. Refusing to select a different data split."
+        )
+    training_seeds = [int(seed) for seed in matrix["training_seeds"]]
+    processed_dir = _processed_dir(data_base, root)
 
-    preparation_paths: list[Path] = []
-    for seed in seeds:
-        generated_data = copy.deepcopy(data_base)
-        generated_data["split"]["seed"] = seed
-        path = config_root / "data" / f"seed{seed}.yaml"
-        _write_yaml(path, generated_data)
-        preparation_paths.append(path)
+    fixed_data_path = config_root / "data" / f"split_seed{split_seed}.yaml"
+    _write_yaml(fixed_data_path, copy.deepcopy(data_base))
+    preparation_paths = [fixed_data_path]
 
     specs: list[RunSpec] = []
     for model_entry in matrix["models"]:
@@ -176,36 +197,38 @@ def expand_matrix(
         trainer = str(model_entry["trainer"])
         base_path = resolve_path(root, model_entry["config"])
         base = _load_yaml(base_path)
-        for seed in seeds:
-            processed_dir = _processed_dir(data_base, root, seed)
-            generated = _seed_training_config(
-                base, model_name, seed, data_base, processed_dir, root
+        for training_seed in training_seeds:
+            generated = _training_seed_config(
+                base, model_name, training_seed, data_base, processed_dir, root
             )
             if trainer == "transformer":
                 reference_base_path = resolve_path(root, base["data"]["chemprop_reference_config"])
                 reference_base = _load_yaml(reference_base_path)
-                reference = _seed_training_config(
+                reference = _training_seed_config(
                     reference_base,
                     str(reference_base["experiment"]["name"]),
-                    seed,
+                    training_seed,
                     data_base,
                     processed_dir,
                     root,
                 )
-                reference_path = config_root / "references" / f"chemprop_seed{seed}.yaml"
+                reference_path = (
+                    config_root / "references" / f"chemprop_training_seed{training_seed}.yaml"
+                )
                 _write_yaml(reference_path, reference)
                 generated["data"]["chemprop_reference_config"] = _relative_or_absolute(
                     reference_path, root
                 )
-            config_path = config_root / model_name / f"seed{seed}.yaml"
+            config_path = config_root / model_name / f"training_seed{training_seed}.yaml"
             _write_yaml(config_path, generated)
             specs.append(
                 RunSpec(
                     model=model_name,
                     trainer=trainer,
-                    seed=seed,
+                    training_seed=training_seed,
+                    split_seed=split_seed,
                     config_path=config_path,
-                    log_path=log_root / model_name / f"seed{seed}.log",
+                    log_path=log_root / model_name / f"training_seed{training_seed}.log",
                     commands=_pipeline_commands(trainer, config_path, overwrite),
                 )
             )
@@ -218,7 +241,7 @@ def expand_matrix(
 
 def _splits_ready(data_config_path: Path, root: Path) -> bool:
     config = _load_yaml(data_config_path)
-    processed = _processed_dir(config, root, int(config["split"]["seed"]))
+    processed = _processed_dir(config, root)
     return all(
         (processed / name).is_file()
         for name in ("train.csv", "val.csv", "test.csv", "split_manifest.csv")
@@ -228,15 +251,17 @@ def _splits_ready(data_config_path: Path, root: Path) -> bool:
 def _prepare_splits(paths: list[Path], root: Path, overwrite_data: bool) -> list[dict[str, Any]]:
     records: list[dict[str, Any]] = []
     for path in paths:
-        seed = int(_load_yaml(path)["split"]["seed"])
+        split_seed = int(_load_yaml(path)["split"]["seed"])
         if _splits_ready(path, root) and not overwrite_data:
-            records.append({"seed": seed, "status": "skipped_existing", "config": str(path)})
+            records.append(
+                {"split_seed": split_seed, "status": "skipped_existing", "config": str(path)}
+            )
             continue
         command = [sys.executable, "-m", "molgap.data.preprocess", "--config", str(path)]
         completed = subprocess.run(command, cwd=root, check=False)
         if completed.returncode:
-            raise RuntimeError(f"Data preparation failed for seed {seed}.")
-        records.append({"seed": seed, "status": "completed", "config": str(path)})
+            raise RuntimeError(f"Data preparation failed for split seed {split_seed}.")
+        records.append({"split_seed": split_seed, "status": "completed", "config": str(path)})
     return records
 
 
@@ -244,7 +269,7 @@ def _assert_splits(paths: list[Path], root: Path) -> None:
     missing = [str(path) for path in paths if not _splits_ready(path, root)]
     if missing:
         raise FileNotFoundError(
-            "Seed-specific splits are missing. Re-run with --prepare-data. Configs: "
+            "The fixed data split is missing. Re-run with --prepare-data. Config: "
             + ", ".join(missing)
         )
 
@@ -258,7 +283,10 @@ def _run_spec(spec: RunSpec, root: Path, gpu: str | None) -> dict[str, Any]:
     command_records: list[dict[str, Any]] = []
     return_code = 0
     with spec.log_path.open("w", encoding="utf-8") as log:
-        log.write(f"started_at={started_at}\nmodel={spec.model}\nseed={spec.seed}\n")
+        log.write(
+            f"started_at={started_at}\nmodel={spec.model}\n"
+            f"training_seed={spec.training_seed}\nsplit_seed={spec.split_seed}\n"
+        )
         for command in spec.commands:
             log.write("command=" + json.dumps(command, ensure_ascii=False) + "\n")
             log.flush()
@@ -277,7 +305,8 @@ def _run_spec(spec: RunSpec, root: Path, gpu: str | None) -> dict[str, Any]:
     return {
         "model": spec.model,
         "trainer": spec.trainer,
-        "seed": spec.seed,
+        "training_seed": spec.training_seed,
+        "split_seed": spec.split_seed,
         "config": str(spec.config_path),
         "log": str(spec.log_path),
         "gpu": gpu,
@@ -300,7 +329,7 @@ def run_matrix(
     dry_run: bool = False,
     selected_models: set[str] | None = None,
 ) -> dict[str, Any]:
-    """Prepare splits if requested and execute model/seed pipelines in parallel."""
+    """Reuse one fixed split and execute model/training-seed pipelines in parallel."""
     matrix, root, batch_root, preparation_paths, specs = expand_matrix(
         matrix_path, overwrite=overwrite, selected_models=selected_models
     )
@@ -310,7 +339,8 @@ def run_matrix(
     selected_gpu = str(gpu if gpu is not None else matrix["gpu"])
     plan = {
         "name": matrix["name"],
-        "seeds": [int(seed) for seed in matrix["seeds"]],
+        "split_seed": int(matrix["split_seed"]),
+        "training_seeds": [int(seed) for seed in matrix["training_seeds"]],
         "parallel_jobs": concurrency,
         "gpu": selected_gpu,
         "prepare_data": prepare_data,
@@ -342,12 +372,15 @@ def run_matrix(
             results.append(result)
             print(
                 f"[{result['status'].upper()}] model={result['model']} "
-                f"seed={result['seed']} log={result['log']}"
+                f"training_seed={result['training_seed']} "
+                f"split_seed={result['split_seed']} log={result['log']}"
             )
-    results.sort(key=lambda item: (item["model"], item["seed"]))
+    results.sort(key=lambda item: (item["model"], item["training_seed"]))
     status = {
         "name": matrix["name"],
         "created_at": _timestamp(),
+        "split_seed": int(matrix["split_seed"]),
+        "training_seeds": [int(seed) for seed in matrix["training_seeds"]],
         "parallel_jobs": concurrency,
         "gpu": selected_gpu,
         "preparations": preparations,
@@ -372,10 +405,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--gpu", help="CUDA_VISIBLE_DEVICES value; defaults to matrix YAML")
     parser.add_argument("--model", action="append", dest="models", help="Run only this model")
     parser.add_argument(
-        "--prepare-data", action="store_true", help="Build missing seed splits first"
+        "--prepare-data", action="store_true", help="Build the fixed split if it is missing"
     )
     parser.add_argument(
-        "--overwrite-data", action="store_true", help="Rebuild splits even when files already exist"
+        "--overwrite-data", action="store_true", help="Rebuild the fixed split even if it exists"
     )
     parser.add_argument("--overwrite", action="store_true", help="Replace existing model runs")
     parser.add_argument(
