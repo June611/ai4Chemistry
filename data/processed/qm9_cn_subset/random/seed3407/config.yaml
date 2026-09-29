@@ -2,7 +2,7 @@ schema_version: 1
 
 dataset:
   name: qm9_cn_subset
-  artifact_version: "1.0.0"
+  artifact_version: "1.1.0"
   expected_rows: 14202
   source:
     path: data/raw/QM9_CN.csv
@@ -30,10 +30,13 @@ split:
   method: random
   sizes: [0.8, 0.1, 0.1]
   seed: 3407
+  stratify:
+    strategy: quantile
+    column: delta_e
+    bins: 200
 
 chemprop:
   target_columns: [delta_e]
 
 output:
   root: data/processed
-

@@ -1,5 +1,5 @@
 {
-  "artifact_version": "1.0.0",
+  "artifact_version": "1.1.0",
   "checks": {
     "adapted_contract_rollback_matches_source": true,
     "chemprop_columns": [
@@ -11,7 +11,7 @@
     "no_smiles_leakage": true,
     "sample_ids_unique": true
   },
-  "created_at": "2026-09-27T04:29:21+00:00",
+  "created_at": "2026-09-28T10:23:24+00:00",
   "dataset": "qm9_cn_subset",
   "duplicate_groups": 27,
   "duplicate_rows": 54,
@@ -21,7 +21,7 @@
   "invalid_smiles_rows": 0,
   "label_unit": "hartree",
   "pending_confirmations": [],
-  "pipeline_version": "1.0.0",
+  "pipeline_version": "1.1.0",
   "rejected_rows": 0,
   "source_audit": {
     "column_dtypes": {
@@ -66,7 +66,7 @@
     "rows": 14202
   },
   "split": {
-    "manifest_sha256": "f2e77751d6889224efd745eb6b8bc89e2829cd1fe2a1d262468e06b15c11b819",
+    "manifest_sha256": "81a8fe1737da9d0c2a2286a15de0fcdc86a58c4d990cd91d6ff86ae01220ae02",
     "method": "random",
     "rows": {
       "test": 1418,
@@ -78,7 +78,13 @@
       0.8,
       0.1,
       0.1
-    ]
+    ],
+    "stratify": {
+      "bins": 200,
+      "column": "delta_e",
+      "strategy": "quantile"
+    },
+    "stratify_bins_effective": 200
   },
   "status": "complete",
   "target_scaling": "none"

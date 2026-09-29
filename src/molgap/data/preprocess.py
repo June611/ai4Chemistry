@@ -25,7 +25,7 @@ from molgap.data.audit import (
 from molgap.data.dataset import aggregate_duplicates, canonicalize_contract
 from molgap.data.split import SPLIT_NAMES, split_with_manifest
 
-PIPELINE_VERSION = "1.0.0"
+PIPELINE_VERSION = "1.1.0"
 TARGETS = ["homo", "lumo", "delta_e"]
 CONTRACT_COLUMNS = [
     "sample_id",
@@ -89,6 +89,22 @@ def _validate_config(config: dict[str, Any]) -> None:
     sizes = split.get("sizes")
     if not isinstance(sizes, list) or len(sizes) != 3 or not np.isclose(sum(sizes), 1.0):
         raise DataSpecificationError("split.sizes must contain three fractions summing to 1.")
+    stratify = split.get("stratify")
+    if stratify is not None:
+        if split["method"] != "random":
+            raise DataSpecificationError(
+                "split.stratify is supported only for random splitting; scaffold groups "
+                "must remain indivisible."
+            )
+        if not isinstance(stratify, dict):
+            raise DataSpecificationError("split.stratify must be a mapping.")
+        if stratify.get("strategy") != "quantile":
+            raise DataSpecificationError("split.stratify.strategy must be quantile.")
+        if stratify.get("column") not in TARGETS:
+            raise DataSpecificationError(f"split.stratify.column must be one of {TARGETS}.")
+        bins = stratify.get("bins")
+        if not isinstance(bins, int) or bins < 2:
+            raise DataSpecificationError("split.stratify.bins must be an integer >= 2.")
     target_columns = config["chemprop"].get("target_columns")
     if not isinstance(target_columns, list) or not target_columns:
         raise DataSpecificationError("chemprop.target_columns must be a non-empty list.")
@@ -411,12 +427,17 @@ def prepare_dataset(config_path: str | Path) -> dict[str, Any]:
     dataset = duplicate_result.frame[CONTRACT_COLUMNS].reset_index(drop=True)
     if bool(labels.get("derive_ev", False)):
         dataset["delta_e_ev"] = dataset["delta_e"] * 27.211386245988
+    stratify_config = split_config.get("stratify")
+    stratify_column = stratify_config.get("column") if stratify_config else None
+    stratify_bins = int(stratify_config["bins"]) if stratify_config else None
     splits, manifest = split_with_manifest(
         dataset,
         smiles_column="smiles",
         method=str(split_config["method"]),
         fractions=[float(value) for value in split_config["sizes"]],
         seed=int(split_config["seed"]),
+        stratify_column=stratify_column,
+        stratify_bins=stratify_bins,
     )
     chemprop_columns = ["sample_id", "smiles", *config["chemprop"]["target_columns"]]
     _write_csv(dataset, output_dir / "dataset.csv")
@@ -434,6 +455,12 @@ def prepare_dataset(config_path: str | Path) -> dict[str, Any]:
             "method": split_config["method"],
             "sizes": split_config["sizes"],
             "seed": int(split_config["seed"]),
+            "stratify": stratify_config,
+            "stratify_bins_effective": (
+                int(manifest["stratify_bins_effective"].dropna().iloc[0])
+                if stratify_config
+                else None
+            ),
             "split_rows": {name: len(splits[name]) for name in SPLIT_NAMES},
         },
     )
@@ -486,6 +513,12 @@ def prepare_dataset(config_path: str | Path) -> dict[str, Any]:
             "method": split_config["method"],
             "sizes": split_config["sizes"],
             "seed": int(split_config["seed"]),
+            "stratify": stratify_config,
+            "stratify_bins_effective": (
+                int(manifest["stratify_bins_effective"].dropna().iloc[0])
+                if stratify_config
+                else None
+            ),
             "rows": {name: len(splits[name]) for name in SPLIT_NAMES},
             "manifest_sha256": split_manifest_sha256,
         },

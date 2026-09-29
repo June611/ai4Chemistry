@@ -25,6 +25,10 @@ molgap-prepare = "molgap.data.preprocess:main"
 molgap-train = "molgap.training.train:main"
 molgap-predict = "molgap.training.predict:main"
 molgap-evaluate = "molgap.training.evaluate:main"
+molgap-audit-splits = "molgap.data.distribution:main"
+molgap-train-transformer = "molgap.training.transformer:main"
+molgap-run-multiseed = "molgap.experiments.multiseed:main"
+molgap-summarize = "molgap.experiments.summary:main"
 
 [tool.uv]
 default-groups = ["dev","analysis"]

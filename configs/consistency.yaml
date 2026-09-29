@@ -8,7 +8,11 @@ data:
   id_column: sample_id
   targets: [homo, lumo, delta_e]
   label_unit: hartree
-  split: {method: random, sizes: [0.8, 0.1, 0.1], seed: 3407}
+  split:
+    method: random
+    sizes: [0.8, 0.1, 0.1]
+    seed: 3407
+    stratify: {strategy: quantile, column: delta_e, bins: 200}
 
 model:
   backend: chemprop_python

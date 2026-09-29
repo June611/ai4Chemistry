@@ -4,12 +4,13 @@
 
 ## 当前范围
 
-项目已经接通可复现的数据管线和三阶段训练接口：
+项目已经接通可复现的数据管线、三阶段 Chemprop 接口和一组序列模型对照实验：
 
 1. Phase 1：Chemprop 官方 CLI，`SMILES -> delta_e`。
 2. Phase 2：Chemprop 官方 CLI，`SMILES -> homo, lumo, delta_e`，三任务等权。
 3. Phase 3：Chemprop Python API + 项目内三个独立 head，并加入
    `delta_e ≈ lumo - homo` 的一致性损失。
+4. SMILES Transformer：`canonical SMILES -> tokenizer -> Transformer encoder -> 回归头 -> delta_e`。
 
 三个阶段复用同一份划分。Chemprop 在训练时把 SMILES 转为分子图，并仅用训练集拟合目标
 Z-score scaler；CSV 始终保留 Hartree 原始标签。本项目不导出分子图、嵌入或特征文件，也不修改
@@ -70,7 +71,22 @@ uv run molgap-prepare --config configs/data/qm9_full.yaml
 `--target-columns delta_e` 只读取 gap；Phase 2/3 使用全部三个标签。目录同时保存重复记录、
 拒绝记录、逐字段变更、处理日志、目标统计、完整 lineage 和 SHA-256。
 
-需要 scaffold 划分时复制数据配置并设置 `split.method: scaffold_balanced`。所有参数通过 YAML 修改，不修改 Python 源码。
+默认 random 配置并非纯随机置乱：它先按 `delta_e` 建立 200 个分位数箱，再在箱内执行
+确定性分层抽样，从而保持 train/val/test 的标签分布近似一致。实际箱数及每行箱号记录在
+`split_manifest.csv`。需要 scaffold 划分时复制数据配置，设置
+`split.method: scaffold_balanced` 并删除 `split.stratify`；骨架隔离和标签分层不能同时严格保证。
+
+重新检查任意处理目录的分布并生成三条同图 KDE 曲线：
+
+```bash
+uv run molgap-audit-splits \
+  --processed-dir data/processed/qm9_full/random/seed3407 \
+  --output-dir reports/split_distribution/qm9_full/manual_audit \
+  --dataset-name qm9_full \
+  --stage manual_audit
+```
+
+完整集和 CN 子集的修改前后统计与图片位于 `reports/split_distribution/`。
 
 ## 快速开始
 
@@ -93,7 +109,88 @@ uv run molgap-evaluate --config configs/baseline.yaml
 
 Phase 3 训练结束后会直接生成最佳 checkpoint、便携 Chemprop `.pt`、测试集预测和指标。
 
+检查并运行 SMILES Transformer 对照实验：
+
+```bash
+uv run molgap-train-transformer --config configs/transformer.yaml --dry-run
+uv run molgap-train-transformer --config configs/transformer.yaml
+```
+
+该入口直接读取 Chemprop baseline 使用的 `train.csv/val.csv/test.csv`，不会重新划分。启动时会
+逐行核对三个 CSV 的 `sample_id`、SMILES 和顺序是否与 `split_manifest.csv` 一致，并检查
+`configs/baseline.yaml` 是否指向同一处理目录和同一 split 配置。验证结果和各文件 SHA-256
+写入 `split_identity.json`。
+
+Tokenizer 使用 `configs/transformer.yaml` 中的 SMILES 正则，词表只从训练集构建，并加入
+`[PAD]`、`[UNK]`、`[CLS]`。`max_length: 40` 包含 `[CLS]`；任何未被正则覆盖或超长的 SMILES
+都会终止运行。默认网络为 4 层、hidden 256、8 heads，共 2,160,641 个可训练参数。训练采用
+AdamW、warmup + cosine decay 和验证集 Hartree MAE early stopping，最终报告 MAE、RMSE、MAPE
+与 R²。标签 CSV 始终保留原值；损失内部的 Z-score 只用训练集拟合。
+
 每次运行写入 `outputs/<experiment>/seed<seed>/`。配置快照、命令、日志、模型、预测和指标保存在同一个实验目录内。重复训练同一实验默认拒绝覆盖；确认需要替换时显式传入 `--overwrite`。
+
+## 五个随机种子与单卡并行
+
+批量配置位于 `configs/multiseed.yaml`，默认 seeds 为 `3407, 42, 2026, 7, 123`，包含
+Chemprop 单任务、多任务、物理一致性模型和 SMILES Transformer。第一次运行需要先生成缺失的
+seed 划分；数据准备完成后才会开始训练：
+
+```bash
+uv run molgap-run-multiseed \
+  --config configs/multiseed.yaml \
+  --prepare-data \
+  --jobs 2
+```
+
+`--jobs x` 表示同一时刻最多有 x 个训练进程，所有进程共享 `gpu: "0"` 指定的单张 GPU。
+显存不足时使用 `--jobs 1`；显存和算力允许时可增加。也可以直接修改 YAML 中的
+`parallel_jobs`。先查看将要生成的 20 个 model/seed 任务：
+
+```bash
+uv run molgap-run-multiseed --config configs/multiseed.yaml --jobs 2 --dry-run
+```
+
+只运行一个模型时重复使用 `--model` 过滤：
+
+```bash
+uv run molgap-run-multiseed \
+  --config configs/multiseed.yaml \
+  --model chemprop_single_gap \
+  --jobs 2
+```
+
+调度器为每个 seed 生成独立 YAML，但同一 seed 的所有模型都指向同一个 processed 目录。
+Chemprop 任务依次运行 train、predict、evaluate；Transformer 在训练末尾完成预测和评估。
+计划、配置、每个任务的 stdout/stderr 和最终状态位于
+`outputs/batches/qm9_five_seed/`。已有训练结果默认不会覆盖；确需重跑时添加 `--overwrite`。
+
+## 五 seed 汇总与模型比较
+
+汇总单个模型：
+
+```bash
+uv run molgap-summarize \
+  outputs/chemprop_single_gap \
+  --seeds 3407 42 2026 7 123 \
+  --output-dir outputs/summaries/chemprop_single_gap
+```
+
+比较全部模型：
+
+```bash
+uv run molgap-summarize \
+  outputs/chemprop_single_gap \
+  outputs/chemprop_multitask \
+  outputs/chemprop_consistency \
+  outputs/smiles_transformer \
+  --seeds 3407 42 2026 7 123 \
+  --output-dir outputs/summaries/qm9_model_comparison
+```
+
+汇总器检查每个模型是否恰好包含指定的五个 seeds，并针对 `delta_e` 计算 MAE、RMSE、MAPE、
+R² 的均值、样本标准差、最小值和最大值。MAPE 的单位是百分比，绝对值不超过 `1e-12` 的
+真实标签只从 MAPE 中排除并单独计数。输出包括 `runs.csv`、`summary.csv`、`summary.json`、
+`summary.md`、带标准差误差条的 `model_comparison.png` 和 `model_comparison_table.png`。
 
 ## 目录
 
@@ -111,7 +208,8 @@ Phase 3 训练结束后会直接生成最佳 checkpoint、便携 Chemprop `.pt`�
 │   ├── data/                # 验证、预处理和划分
 │   ├── metrics/             # 独立回归指标
 │   ├── models/              # Phase 3 多头模型与物理一致性 loss
-│   ├── training/            # CLI/Python API 训练、预测与评估
+│   ├── training/            # Chemprop 与 Transformer 训练、预测和评估入口
+│   ├── transformer/         # SMILES tokenizer、共享划分校验、Dataset 与 Transformer
 │   └── utils/               # 文件和随机种子工具
 └── tests/                   # 不依赖真实数据的单元测试
 ```
@@ -128,7 +226,7 @@ scaffold split；新 seed 必须先用对应数据配置生成划分，再修改
 
 每次正式运行会记录解析后的配置、命令（Phase 1/2）、Python/Chemprop/Torch/CUDA 环境、
 随机种子以及输入划分和 lineage 的 SHA-256。指标按 `sample_id` 对齐后计算，包含每个目标的
-MAE、RMSE、R²；多任务额外报告预测一致性误差。
+MAE、RMSE、MAPE、R²；多任务额外报告预测一致性误差。
 
 预处理会规范化 SMILES，在 `1.1e-4` Hartree 容差内聚合重复标签，超过容差时停止并写入待确认清单。它保证同一规范 SMILES 不跨数据集，并通过 `split_manifest.csv` 记录每个样本的去向。
 
@@ -151,4 +249,5 @@ uv run pytest
 uv run molgap-train --config configs/baseline.yaml
 uv run molgap-train --config configs/multitask.yaml
 uv run molgap-train --config configs/consistency.yaml
+uv run molgap-train-transformer --config configs/transformer.yaml
 ```

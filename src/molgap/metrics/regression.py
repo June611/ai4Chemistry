@@ -8,8 +8,16 @@ import numpy as np
 from numpy.typing import ArrayLike
 
 
-def regression_metrics(y_true: ArrayLike, y_pred: ArrayLike) -> dict[str, float | int | None]:
-    """Compute MAE, RMSE, and R² after pairwise finite-value masking."""
+def regression_metrics(
+    y_true: ArrayLike,
+    y_pred: ArrayLike,
+    mape_zero_tolerance: float = 1e-12,
+) -> dict[str, float | int | None]:
+    """Compute common metrics after pairwise finite-value masking.
+
+    MAPE is reported as a percentage. Targets whose absolute value is at or below
+    ``mape_zero_tolerance`` are excluded from MAPE only and counted explicitly.
+    """
     truth = np.asarray(y_true, dtype=float).reshape(-1)
     prediction = np.asarray(y_pred, dtype=float).reshape(-1)
     if truth.shape != prediction.shape:
@@ -23,10 +31,23 @@ def regression_metrics(y_true: ArrayLike, y_pred: ArrayLike) -> dict[str, float 
     residual = prediction - truth
     mae = float(np.mean(np.abs(residual)))
     rmse = float(math.sqrt(float(np.mean(residual**2))))
+    mape_mask = np.abs(truth) > float(mape_zero_tolerance)
+    mape_n = int(mape_mask.sum())
+    mape = (
+        float(np.mean(np.abs(residual[mape_mask] / truth[mape_mask])) * 100.0) if mape_n else None
+    )
     denominator = float(np.sum((truth - np.mean(truth)) ** 2))
     r2 = (
         None
         if truth.size < 2 or denominator == 0.0
         else 1.0 - float(np.sum(residual**2)) / denominator
     )
-    return {"n": int(truth.size), "mae": mae, "rmse": rmse, "r2": r2}
+    return {
+        "n": int(truth.size),
+        "mae": mae,
+        "rmse": rmse,
+        "mape": mape,
+        "mape_n": mape_n,
+        "mape_excluded_zero_targets": int(truth.size) - mape_n,
+        "r2": r2,
+    }

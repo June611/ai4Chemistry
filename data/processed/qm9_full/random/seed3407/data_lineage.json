@@ -1,103 +1,103 @@
 {
-  "artifact_version": "1.0.0",
+  "artifact_version": "1.1.0",
   "artifacts": [
     {
-      "artifact_version": "1.0.0",
-      "created_at": "2026-09-27T08:48:45+00:00",
+      "artifact_version": "1.1.0",
+      "created_at": "2026-09-28T10:23:24+00:00",
       "path": "data/processed/qm9_full/random/seed3407/config.yaml",
-      "sha256": "28bd6cb7149edfa60f8fd7aa6788cb5cca3a796823503ae18d51f9c926b41f29",
-      "size_bytes": 660
+      "sha256": "5159e515a8f1cbc21a0307f25da396ed5684641a010d201c202a4ab09e34696c",
+      "size_bytes": 729
     },
     {
-      "artifact_version": "1.0.0",
-      "created_at": "2026-09-27T08:48:45+00:00",
+      "artifact_version": "1.1.0",
+      "created_at": "2026-09-28T10:23:24+00:00",
       "path": "data/processed/qm9_full/random/seed3407/dataset.csv",
       "sha256": "aac9ae2c03ba9eb9aae1c11a13348979f61810f8c748be6fb8777582cbc4b456",
       "size_bytes": 12404049
     },
     {
-      "artifact_version": "1.0.0",
-      "created_at": "2026-09-27T08:48:45+00:00",
+      "artifact_version": "1.1.0",
+      "created_at": "2026-09-28T10:23:24+00:00",
       "path": "data/processed/qm9_full/random/seed3407/train.csv",
-      "sha256": "391998869f8ff22781b9b2c4016c6eae74d94db51119543c679cbd174103bfdc",
-      "size_bytes": 6134776
+      "sha256": "1e14487f4607f8f0b71443447ce683da195df476b4f8a982a2aa18fd4c44023c",
+      "size_bytes": 6135036
     },
     {
-      "artifact_version": "1.0.0",
-      "created_at": "2026-09-27T08:48:45+00:00",
+      "artifact_version": "1.1.0",
+      "created_at": "2026-09-28T10:23:24+00:00",
       "path": "data/processed/qm9_full/random/seed3407/val.csv",
-      "sha256": "c33fff7d65b1520d85c75edea2386792a835306069fe783d4a24cd08916c4870",
-      "size_bytes": 766463
+      "sha256": "b4bafe0cd8ba08cc6d81202d1f9ce313c17db3628dc945a67223ad617becc579",
+      "size_bytes": 766660
     },
     {
-      "artifact_version": "1.0.0",
-      "created_at": "2026-09-27T08:48:45+00:00",
+      "artifact_version": "1.1.0",
+      "created_at": "2026-09-28T10:23:24+00:00",
       "path": "data/processed/qm9_full/random/seed3407/test.csv",
-      "sha256": "a0ca34f86c5ca313893bf544f3f7f9be0798d5bf0b1059eaca0f9e33f9fa56d6",
-      "size_bytes": 766903
+      "sha256": "a2bf1945045c83a8e4b31daff16834b018298cf458df3f7226f4d648226bce45",
+      "size_bytes": 766446
     },
     {
-      "artifact_version": "1.0.0",
-      "created_at": "2026-09-27T08:48:45+00:00",
+      "artifact_version": "1.1.0",
+      "created_at": "2026-09-28T10:23:24+00:00",
       "path": "data/processed/qm9_full/random/seed3407/split_manifest.csv",
-      "sha256": "6f88198045ebcdeacaf575eac344d1d7e538ef6373dfcd6052adc41ba56d0ded",
-      "size_bytes": 9288382
+      "sha256": "c23bfbb887e8fb7014353cea2154a623444defe3b356cee60350079b221ccd43",
+      "size_bytes": 14566690
     },
     {
-      "artifact_version": "1.0.0",
-      "created_at": "2026-09-27T08:48:45+00:00",
+      "artifact_version": "1.1.0",
+      "created_at": "2026-09-28T10:23:24+00:00",
       "path": "data/processed/qm9_full/random/seed3407/preprocess_report.json",
-      "sha256": "5a1c6a95d155eec4e8a329055573961d1491bd505658d0987c9664e90c1af508",
-      "size_bytes": 2303
+      "sha256": "f286d9b4c0768990983a9f411cb4f5f0fdbb2cf1ee28f059a130520a866fb008",
+      "size_bytes": 2439
     },
     {
-      "artifact_version": "1.0.0",
-      "created_at": "2026-09-27T08:48:45+00:00",
+      "artifact_version": "1.1.0",
+      "created_at": "2026-09-28T10:23:24+00:00",
       "path": "data/processed/qm9_full/random/seed3407/target_statistics.json",
-      "sha256": "2985add4e8557d86de2f111b6f3caff5af19ad16972fe3ede8c9085d270f065b",
-      "size_bytes": 3376
+      "sha256": "250420b91e1742deed3cb66d6480e2fb6fb8dac99902d95a1bafca26d15add33",
+      "size_bytes": 3394
     },
     {
-      "artifact_version": "1.0.0",
-      "created_at": "2026-09-27T08:48:45+00:00",
+      "artifact_version": "1.1.0",
+      "created_at": "2026-09-28T10:23:24+00:00",
       "path": "data/processed/qm9_full/random/seed3407/duplicates.csv",
       "sha256": "a12a1271063a464d4f31249826cfcf6e0fcc9f3264d1afedfa251836a7e8648b",
       "size_bytes": 34473
     },
     {
-      "artifact_version": "1.0.0",
-      "created_at": "2026-09-27T08:48:45+00:00",
+      "artifact_version": "1.1.0",
+      "created_at": "2026-09-28T10:23:24+00:00",
       "path": "data/processed/qm9_full/random/seed3407/rejected_rows.csv",
       "sha256": "c789d2d5105eb4e6a64521ea4dc76456048a46c49d5c73ca57bdb802318aa82e",
       "size_bytes": 113
     },
     {
-      "artifact_version": "1.0.0",
-      "created_at": "2026-09-27T08:48:45+00:00",
+      "artifact_version": "1.1.0",
+      "created_at": "2026-09-28T10:23:24+00:00",
       "path": "data/processed/qm9_full/random/seed3407/change_map.csv",
       "sha256": "663cf29b44d2ee2a487254d7176ad7c962e7b893a4085222c22c7fd58a303700",
       "size_bytes": 8158188
     },
     {
-      "artifact_version": "1.0.0",
-      "created_at": "2026-09-27T08:48:45+00:00",
+      "artifact_version": "1.1.0",
+      "created_at": "2026-09-28T10:23:24+00:00",
       "path": "data/processed/qm9_full/random/seed3407/processing_log.jsonl",
-      "sha256": "4511359e3a83f1a07862a439fe9000fa67c6d378cd94403da2205c4e3cad9c38",
-      "size_bytes": 2719
+      "sha256": "7e220b6306ae21620786054ec16c7d658923ac2cb51088e326d29d8b8c244fd7",
+      "size_bytes": 2823
     },
     {
-      "artifact_version": "1.0.0",
-      "created_at": "2026-09-27T08:48:45+00:00",
+      "artifact_version": "1.1.0",
+      "created_at": "2026-09-28T10:23:24+00:00",
       "path": "data/processed/qm9_full/random/seed3407/pending_confirmations.json",
       "sha256": "0343639fac1511a32a4c9a92c7655a6e9f9ad3a600fc6f30b5bdad6806160a97",
       "size_bytes": 18
     }
   ],
-  "created_at": "2026-09-27T08:48:45+00:00",
-  "pipeline_version": "1.0.0",
+  "created_at": "2026-09-28T10:23:24+00:00",
+  "pipeline_version": "1.1.0",
   "source": {
-    "artifact_version": "1.0.0",
-    "created_at": "2026-09-27T08:48:45+00:00",
+    "artifact_version": "1.1.0",
+    "created_at": "2026-09-28T10:23:24+00:00",
     "path": "data/raw/qm9_chn.csv",
     "sha256": "00ebabed6fcb0008c81ba627c221c9bb7a713aae4c85201c5405fe2ef499e46b",
     "size_bytes": 28178032

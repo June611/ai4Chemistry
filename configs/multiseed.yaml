@@ -1,0 +1,25 @@
+name: qm9_five_seed
+seeds: [3407, 42, 2026, 7, 123]
+
+# Maximum simultaneous training processes. All processes share the GPU below.
+parallel_jobs: 2
+gpu: "0"
+
+data_config: configs/data/qm9_full.yaml
+
+models:
+  - name: chemprop_single_gap
+    trainer: chemprop
+    config: configs/baseline.yaml
+  - name: chemprop_multitask
+    trainer: chemprop
+    config: configs/multitask.yaml
+  - name: chemprop_consistency
+    trainer: chemprop
+    config: configs/consistency.yaml
+  - name: smiles_transformer
+    trainer: transformer
+    config: configs/transformer.yaml
+
+output:
+  root: outputs/batches

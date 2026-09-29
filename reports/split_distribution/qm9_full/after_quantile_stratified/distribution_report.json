@@ -1,0 +1,92 @@
+{
+  "dataset": "qm9_full",
+  "stage": "after_quantile_stratified_200_bins",
+  "target": "delta_e",
+  "unit": "hartree",
+  "processed_dir": "data/processed/qm9_full/random/seed3407",
+  "files": {
+    "train": {
+      "path": "data/processed/qm9_full/random/seed3407/train.csv",
+      "sha256": "1e14487f4607f8f0b71443447ce683da195df476b4f8a982a2aa18fd4c44023c"
+    },
+    "val": {
+      "path": "data/processed/qm9_full/random/seed3407/val.csv",
+      "sha256": "b4bafe0cd8ba08cc6d81202d1f9ce313c17db3628dc945a67223ad617becc579"
+    },
+    "test": {
+      "path": "data/processed/qm9_full/random/seed3407/test.csv",
+      "sha256": "a2bf1945045c83a8e4b31daff16834b018298cf458df3f7226f4d648226bce45"
+    }
+  },
+  "descriptive_statistics": {
+    "train": {
+      "count": 107038,
+      "mean": 0.2511385199648723,
+      "std": 0.04749120785278622,
+      "min": 0.0246,
+      "q01": 0.14913700000000002,
+      "q05": 0.1741,
+      "q25": 0.2163,
+      "median": 0.2495,
+      "q75": 0.2882,
+      "q95": 0.3266,
+      "q99": 0.3438,
+      "max": 0.5048
+    },
+    "val": {
+      "count": 13380,
+      "mean": 0.25118144245142005,
+      "std": 0.04767421726692953,
+      "min": 0.0623,
+      "q01": 0.14915799999999999,
+      "q05": 0.174095,
+      "q25": 0.2164,
+      "median": 0.2495,
+      "q75": 0.2883,
+      "q95": 0.3267,
+      "q99": 0.3437419999999998,
+      "max": 0.6221
+    },
+    "test": {
+      "count": 13380,
+      "mean": 0.2511165022421525,
+      "std": 0.04747013890303328,
+      "min": 0.0709,
+      "q01": 0.149474,
+      "q05": 0.174,
+      "q25": 0.2163,
+      "median": 0.2494,
+      "q75": 0.2882,
+      "q95": 0.3266,
+      "q99": 0.34362099999999995,
+      "max": 0.4128
+    }
+  },
+  "pairwise_distances": {
+    "train_vs_val": {
+      "ks_distance": 0.0012698701837054877,
+      "standardized_mean_difference": 0.0009020588543865078,
+      "jensen_shannon_distance": 0.031089107939804624
+    },
+    "train_vs_test": {
+      "ks_distance": 0.0011629833150073043,
+      "standardized_mean_difference": 0.00046371966974121184,
+      "jensen_shannon_distance": 0.02762968112690812
+    },
+    "val_vs_test": {
+      "ks_distance": 0.0015695067264573925,
+      "standardized_mean_difference": 0.0013650848562262753,
+      "jensen_shannon_distance": 0.038966869284701035
+    }
+  },
+  "maximum_pairwise_distances": {
+    "ks_distance": 0.0015695067264573925,
+    "standardized_mean_difference": 0.0013650848562262753,
+    "jensen_shannon_distance": 0.038966869284701035
+  },
+  "diagnostic_thresholds": {
+    "ks_distance": 0.03,
+    "standardized_mean_difference": 0.1
+  },
+  "approximately_aligned": true
+}

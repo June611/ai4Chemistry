@@ -9,5 +9,11 @@ Run preprocessing with:
 uv run molgap-prepare --config configs/data/qm9_full.yaml
 ```
 
-Copy a configuration and set `split.method: scaffold_balanced` for a scaffold split. Labels are
-always written in unscaled Hartree values; Chemprop owns target scaling during model training.
+The default random configurations use deterministic quantile stratification on `delta_e` so each
+split receives approximately the same regression-target distribution. `split.stratify.bins`
+controls the requested number of quantile bins; the effective number is recorded in the manifest.
+
+Copy a configuration and set `split.method: scaffold_balanced`, removing `split.stratify`, for a
+scaffold split. Scaffold groups are indivisible, so target stratification is not combined with
+scaffold isolation. Labels are always written in unscaled Hartree values; Chemprop owns target
+scaling during model training.

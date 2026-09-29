@@ -6,8 +6,13 @@ import pandas as pd
 import pytest
 import yaml
 
+from molgap.data.dataset import DataValidationError
 from molgap.data.preprocess import ConfirmationRequired, prepare_dataset
-from molgap.data.split import scaffold_key, split_with_manifest
+from molgap.data.split import (
+    regression_stratified_random_split,
+    scaffold_key,
+    split_with_manifest,
+)
 
 
 def _sha256(path: Path) -> str:
@@ -155,3 +160,67 @@ def test_scaffold_split_has_no_scaffold_leakage() -> None:
     assert not scaffold_sets[0] & scaffold_sets[1]
     assert not scaffold_sets[0] & scaffold_sets[2]
     assert not scaffold_sets[1] & scaffold_sets[2]
+
+
+def test_regression_stratified_split_is_balanced_exact_and_deterministic() -> None:
+    frame = pd.DataFrame(
+        {
+            "sample_id": [f"sample:{index}" for index in range(500)],
+            "delta_e": [*range(450), *range(1000, 1050)],
+        }
+    )
+
+    first, bins_by_sample, effective_bins = regression_stratified_random_split(
+        frame, "delta_e", [0.8, 0.1, 0.1], seed=3407, bins=10
+    )
+    second, second_bins, second_effective = regression_stratified_random_split(
+        frame, "delta_e", [0.8, 0.1, 0.1], seed=3407, bins=10
+    )
+
+    assert [len(first[name]) for name in ("train", "val", "test")] == [400, 50, 50]
+    assert effective_bins == second_effective == 10
+    assert bins_by_sample == second_bins
+    for name in ("train", "val", "test"):
+        assert first[name]["sample_id"].tolist() == second[name]["sample_id"].tolist()
+    bin_counts = {
+        name: first[name]["sample_id"].map(bins_by_sample).value_counts().sort_index().tolist()
+        for name in ("train", "val", "test")
+    }
+    assert bin_counts["train"] == [40] * 10
+    assert bin_counts["val"] == [5] * 10
+    assert bin_counts["test"] == [5] * 10
+
+
+def test_regression_stratification_rejects_constant_target() -> None:
+    frame = pd.DataFrame(
+        {"sample_id": [f"sample:{index}" for index in range(30)], "delta_e": [0.2] * 30}
+    )
+
+    with pytest.raises(DataValidationError, match="at least two unique"):
+        regression_stratified_random_split(frame, "delta_e", [0.8, 0.1, 0.1], seed=7, bins=5)
+
+
+def test_stratification_metadata_is_written_to_manifest() -> None:
+    frame = pd.DataFrame(
+        {
+            "sample_id": [f"sample:{index}" for index in range(60)],
+            "smiles": [f"[{index + 1}CH4]" for index in range(60)],
+            "delta_e": [index / 100 for index in range(60)],
+        }
+    )
+
+    _, manifest = split_with_manifest(
+        frame,
+        "smiles",
+        "random",
+        [0.8, 0.1, 0.1],
+        7,
+        stratify_column="delta_e",
+        stratify_bins=5,
+    )
+
+    assert set(manifest["split_strategy"]) == {"quantile_stratified"}
+    assert set(manifest["stratify_column"]) == {"delta_e"}
+    assert set(manifest["stratify_bins_requested"]) == {5}
+    assert set(manifest["stratify_bins_effective"]) == {5}
+    assert set(manifest["stratify_bin"]) == set(range(5))

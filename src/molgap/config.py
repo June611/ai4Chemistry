@@ -84,6 +84,16 @@ def validate_config(config: dict[str, Any]) -> None:
         raise ConfigError("data.split.sizes must contain three positive fractions summing to 1.")
     if any(not isinstance(value, (int, float)) or value <= 0 for value in sizes):
         raise ConfigError("Every split fraction must be positive.")
+    stratify = split.get("stratify")
+    if stratify is not None:
+        if split["method"] != "random" or not isinstance(stratify, dict):
+            raise ConfigError("data.split.stratify must be a mapping used with random splitting.")
+        if stratify.get("strategy") != "quantile":
+            raise ConfigError("data.split.stratify.strategy must be quantile.")
+        if stratify.get("column") not in targets:
+            raise ConfigError("data.split.stratify.column must be one of data.targets.")
+        if not isinstance(stratify.get("bins"), int) or stratify["bins"] < 2:
+            raise ConfigError("data.split.stratify.bins must be an integer >= 2.")
 
     model = config["model"]
     _require(

@@ -2,7 +2,7 @@ schema_version: 1
 
 dataset:
   name: qm9_full
-  artifact_version: "1.0.0"
+  artifact_version: "1.1.0"
   expected_rows: 133885
   source:
     path: data/raw/qm9_chn.csv
@@ -30,6 +30,10 @@ split:
   method: random
   sizes: [0.8, 0.1, 0.1]
   seed: 3407
+  stratify:
+    strategy: quantile
+    column: delta_e
+    bins: 200
 
 chemprop:
   target_columns: [homo, lumo, delta_e]
