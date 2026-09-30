@@ -15,7 +15,8 @@ from molgap.metrics import regression_metrics
 
 
 def _prediction_column(frame: pd.DataFrame, target: str) -> str:
-    for candidate in (target, f"{target}_pred", f"pred_{target}"):
+    # Transformer exports the true target alongside its explicitly named prediction.
+    for candidate in (f"{target}_pred", f"pred_{target}", target):
         if candidate in frame:
             return candidate
     raise ValueError(
@@ -33,6 +34,8 @@ def evaluate_files(
     truth = pd.read_csv(truth_path)
     predictions = pd.read_csv(prediction_path)
     if id_column in truth and id_column in predictions:
+        if truth[id_column].isna().any() or predictions[id_column].isna().any():
+            raise ValueError(f"Missing {id_column} values prevent unambiguous evaluation.")
         if truth[id_column].duplicated().any() or predictions[id_column].duplicated().any():
             raise ValueError(f"Duplicate {id_column} values prevent unambiguous evaluation.")
         truth_ids = set(truth[id_column].astype(str))
@@ -57,6 +60,11 @@ def evaluate_files(
     for target in targets:
         column = _prediction_column(predictions, target)
         predicted_values[target] = predictions[column].to_numpy(dtype=float)
+        if (
+            not np.isfinite(truth[target].to_numpy(dtype=float)).all()
+            or not np.isfinite(predicted_values[target]).all()
+        ):
+            raise ValueError(f"Nonfinite truth or predictions for target '{target}'.")
         metrics["targets"][target] = regression_metrics(truth[target], predicted_values[target])
 
     required = {"homo", "lumo", "delta_e"}
