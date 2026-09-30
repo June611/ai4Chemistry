@@ -18,7 +18,8 @@ Current stage: establish dependencies, the exact descriptor list, and the data/e
 - [x] Prepare Git-delivered dependency locks, checks, parsing fixes, and server pull/sync instructions.
 - [x] Implement descriptor extraction with fixed column order, sample IDs, and explicit invalid/nonfinite-value handling.
 - [x] Implement CPU XGBoost regression and Random Forest regression (single fit, raw Hartree labels).
-- [ ] Next stage: implement the training-target mean baseline and verify normalization equivalence.
+- [x] Implement the training-target mean baseline and verify normalization equivalence.
+- [x] Run the mean baseline on the full seed3407 split and verify the exported predictions and summary plots.
 - [ ] Next stage: run all three baselines on this split; save configuration, versions, predictions, and metrics.
 - [ ] Next stage: populate one comparison table with all seven runs and assess improvements over both traditional models and the mean baseline.
 
@@ -84,7 +85,7 @@ The four existing run identities and artifacts must be verified before filling t
 | smiles_transformer | pending | pending | pending | Remote artifact identified |
 | RDKit-29 + XGBoost | pending | pending | pending | Next stage |
 | RDKit-29 + Random Forest | pending | pending | pending | Next stage |
-| Training delta_e mean | pending | pending | pending | Next stage |
+| Training delta_e mean | 0.03962738219940107 | 0.047468370054752476 | -2.151474736145076e-7 | Complete: outputs/training_mean/seed3407 |
 
 Before comparison, verify dataset, split identity, target definition, sample IDs, and units for each existing run. Report conclusions for this seed/split without treating one split as a multi-seed robustness result.
 
@@ -118,4 +119,4 @@ Keep metadata alongside each CSV: model name, training seed, split seed (3407), 
 4. Predict the training-label mean on test and verify that affine normalization followed by inverse transformation gives the same predictions and original-unit metrics.
 5. Save per-sample predictions and project-compatible metrics for each baseline, then fill the comparison table only with matched existing runs.
 
-Implementation is tracked in ML_IMPLEMENTATION_TODO.md, with commands in ML_TRAINING.md. The single-run ML training code and mixed-count summary are implemented; full-data model execution, mean baseline, and final result comparison remain separate follow-up tasks.
+Implementation is tracked in ML_IMPLEMENTATION_TODO.md, with commands in ML_TRAINING.md. The single-run ML training code and mixed-count summary are implemented. The mean baseline has been executed locally: mean(train.delta_e)=0.2511385199648723 Hartree, all 13380 test predictions saved, standardization/inverse-mean difference=0. Full-data XGBoost/Random Forest execution and final seven-model comparison remain follow-up tasks.

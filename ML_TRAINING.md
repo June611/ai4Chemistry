@@ -79,4 +79,23 @@ The summary reads `training.run_mode` from each saved config. Explicit `single` 
 
 Single-run results have `runs=1`, JSON `std=null`, an empty CSV SD field, and `SD N/A` in tables. Plots label the number of runs and omit error bars for single runs. Repeated runs retain their mean and sample SD. This summarizes variation across training seeds on one fixed split, not variation across independent dataset splits. For a direct one-run comparison, pass the six `seed3407` directories and `--seeds 3407`.
 
-Formal full-data training and the training-mean baseline are separate follow-up tasks. Implementation verification uses small synthetic splits and does not populate the formal output directories.
+Full-data XGBoost and Random Forest training remain separate follow-up tasks. Their implementation verification uses small synthetic splits and does not populate their formal output directories.
+
+## Training-mean baseline
+
+```bash
+uv run --locked molgap-train-ml --config configs/training_mean.yaml
+```
+
+This baseline uses sklearn DummyRegressor(strategy="mean"), fitted exclusively to train.delta_e. Validation and test labels never contribute to the constant prediction. No RDKit descriptors are computed; feature_names.json is an empty list. A dummy input column supplies only the number of rows, not molecular information. The run uses the same single-run artifact layout under `outputs/training_mean/seed3407/`, including model.joblib and predictions/test_predictions.csv. mean_baseline.json additionally records the training count, mean in Hartree, and a train-only standardization/inverse-transformation equivalence check. Constant training labels are handled using a unit scale for that check. Actual predictions remain unnormalized.
+
+The local full-data run produced a training mean of 0.2511385199648723 Hartree from 107038 training rows. All 13380 test rows receive this constant. Test MAE=0.03962738219940107 Hartree, RMSE=0.047468370054752476 Hartree, MAPE=16.873272567045355%, R2=-2.151474736145076e-7. The small negative R2 reflects the difference between training and test means; R2 uses the test mean as its reference. The normalization check's inverse-transformed mean matched the original mean exactly in this run.
+
+For the seven-model comparison, add `outputs/training_mean` to the six-model summary command above. It will appear as one run, with no SD or error bar. For a standalone export:
+
+```bash
+uv run --locked molgap-summarize outputs/training_mean \
+  --output-dir outputs/comparisons/training_mean
+```
+
+The baseline code/config are versioned; generated outputs remain local under the repository's existing outputs ignore rule. After pulling on another machine, run the baseline command once to reproduce its prediction files using that machine's copy of the same split. Existing output directories remain protected against overwrites.

@@ -1,4 +1,4 @@
-"""Train one CPU RDKit-29 regressor on an existing immutable split."""
+"""Train one CPU RDKit-29 regressor or training-mean baseline on an existing split."""
 
 from __future__ import annotations
 
@@ -15,6 +15,7 @@ import joblib
 import numpy as np
 import pandas as pd
 import yaml
+from sklearn.dummy import DummyRegressor
 from sklearn.ensemble import RandomForestRegressor
 from xgboost import XGBRegressor
 
@@ -58,6 +59,7 @@ def load_ml_config(path: str | Path) -> tuple[dict[str, Any], Path]:
         raise ValueError("training.n_jobs must be a positive integer.")
     model = config["model"]
     allowed = {
+        "training_mean": set(),
         "xgboost": {
             "objective",
             "gamma",
@@ -84,7 +86,7 @@ def load_ml_config(path: str | Path) -> tuple[dict[str, Any], Path]:
     }
     backend, params = model.get("backend"), model.get("params")
     if backend not in allowed or not isinstance(params, dict):
-        raise ValueError("model requires backend=xgboost/random_forest and a params mapping.")
+        raise ValueError("model requires backend=xgboost/random_forest/training_mean and params.")
     if set(params) - allowed[backend]:
         raise ValueError(f"Unsupported model parameters: {sorted(set(params) - allowed[backend])}")
     if backend == "xgboost" and (
@@ -125,7 +127,7 @@ def _write_json(path: Path, payload: Any) -> None:
     path.write_text(json.dumps(payload, indent=2, allow_nan=False) + "\n", encoding="utf-8")
 
 
-def load_estimator(run_dir: str | Path) -> XGBRegressor | RandomForestRegressor:
+def load_estimator(run_dir: str | Path) -> XGBRegressor | RandomForestRegressor | DummyRegressor:
     """Reload trusted local artifacts; callers must use the saved feature order."""
     run_dir = Path(run_dir)
     config = yaml.safe_load((run_dir / "config.yaml").read_text(encoding="utf-8"))
@@ -133,7 +135,7 @@ def load_estimator(run_dir: str | Path) -> XGBRegressor | RandomForestRegressor:
         model = XGBRegressor()
         model.load_model(run_dir / "model.json")
         return model
-    if config["model"]["backend"] == "random_forest":
+    if config["model"]["backend"] in {"random_forest", "training_mean"}:
         return joblib.load(run_dir / "model.joblib")
     raise ValueError("Unknown saved model backend.")
 
@@ -147,21 +149,31 @@ def train_ml(config_path: str | Path, *, dry_run: bool = False) -> dict[str, Any
         raise FileExistsError(f"Output already exists: {run_dir}. Use a new experiment name.")
     directory = resolve_path(root, config["data"]["processed_dir"])
     frames = read_splits(directory)
+    backend = config["model"]["backend"]
+    is_mean = backend == "training_mean"
+    features = [] if is_mean else list(FEATURES)
     plan = {
         "run_dir": str(run_dir),
         "backend": config["model"]["backend"],
         "split_rows": {split: len(frame) for split, frame in frames.items()},
-        "features": list(FEATURES),
+        "features": features,
         "normalization": config["normalization"],
         "training_seed": 3407,
         "run_mode": "single",
         "label_unit": "hartree",
     }
     if dry_run:
-        return {**plan, "descriptor_calculation": "deferred until training"}
+        return {
+            **plan,
+            "descriptor_calculation": "not needed" if is_mean else "deferred until training",
+        }
     started = time.perf_counter()
     matrices, identities = {}, {}
     for split, frame in frames.items():
+        if is_mean:
+            # DummyRegressor needs only a row count; these are not molecular features.
+            matrices[split] = np.zeros((len(frame), 1))
+            continue
         print(f"Calculating RDKit-29: {split} ({len(frame)} molecules)", flush=True)
         matrices[split], canonical = descriptor_matrix(
             frame["smiles"].tolist(), frame["sample_id"].tolist()
@@ -171,13 +183,15 @@ def train_ml(config_path: str | Path, *, dry_run: bool = False) -> dict[str, Any
         if identities[left] & identities[right]:
             raise ValueError(f"Overlapping canonical molecules between {left} and {right}.")
     feature_seconds = time.perf_counter() - started
-    backend = config["model"]["backend"]
     params = {
         **config["model"]["params"],
         "random_state": 3407,
         "n_jobs": config["training"]["n_jobs"],
     }
-    model = XGBRegressor(**params) if backend == "xgboost" else RandomForestRegressor(**params)
+    if is_mean:
+        model = DummyRegressor(strategy="mean")
+    else:
+        model = XGBRegressor(**params) if backend == "xgboost" else RandomForestRegressor(**params)
     run_dir.mkdir(parents=True, exist_ok=False)
     write_run_metadata(run_dir, config, config_path, root)
     environment_path = run_dir / "environment.json"
@@ -188,7 +202,7 @@ def train_ml(config_path: str | Path, *, dry_run: bool = False) -> dict[str, Any
     }
     environment["run_mode"] = "single"
     _write_json(environment_path, environment)
-    _write_json(run_dir / "feature_names.json", list(FEATURES))
+    _write_json(run_dir / "feature_names.json", features)
     _write_json(
         run_dir / "normalization.json",
         {
@@ -201,6 +215,28 @@ def train_ml(config_path: str | Path, *, dry_run: bool = False) -> dict[str, Any
     started = time.perf_counter()
     model.fit(matrices["train"], frames["train"]["delta_e"].to_numpy(dtype=float))
     fit_seconds = time.perf_counter() - started
+    if is_mean:
+        values = frames["train"]["delta_e"].to_numpy(dtype=float)
+        mean = float(model.constant_.item())
+        scale = float(np.std(values, ddof=0)) or 1.0
+        inverse_mean = float(np.mean((values - mean) / scale) * scale + mean)
+        np.testing.assert_allclose(inverse_mean, mean, rtol=1e-12, atol=1e-15)
+        _write_json(
+            run_dir / "mean_baseline.json",
+            {
+                "fit_split": "train",
+                "train_rows": len(values),
+                "mean_hartree": mean,
+                "uses_molecular_features": False,
+                "normalization_check": {
+                    "method": "train-only standardization then inverse transformation",
+                    "scale_hartree": scale,
+                    "inverse_mean_hartree": inverse_mean,
+                    "absolute_difference_hartree": abs(inverse_mean - mean),
+                    "passed": True,
+                },
+            },
+        )
     if backend == "xgboost":
         model.save_model(run_dir / "model.json")
     else:

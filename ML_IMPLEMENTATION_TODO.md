@@ -16,7 +16,17 @@ Use the existing qm9_full/random/seed3407 split. Compute the fixed 29 descriptor
 
 ## Deferred experiments
 
-Full-data training, mean baseline execution, and the final scientific comparison are separate from this implementation/smoke-test stage.
+Full-data XGBoost/Random Forest training and the final scientific comparison remain follow-up tasks.
+
+## Mean baseline follow-up
+
+- [x] Add a deterministic train-only mean model without descriptor calculation or normalization.
+- [x] Reuse the single-run config, model, metric and prediction artifact interface.
+- [x] Verify train-only fitting with deliberately different held-out labels and constant-label edge cases.
+- [x] Verify standardization/inverse transformation preserves the training mean.
+- [x] Execute on qm9_full seed3407; validate all 13380 test IDs, predictions, reloaded model, and recomputed metrics.
+- [x] Export summary tables/plots using the existing comparison command; document seven-model usage.
+- [x] Verify all 49 project tests and Ruff checks after adding the mean baseline.
 
 ## Verification findings
 

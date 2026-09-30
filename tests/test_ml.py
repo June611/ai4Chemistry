@@ -39,10 +39,12 @@ def project(tmp_path: Path) -> Path:
 
 
 def make_config(project: Path, backend: str) -> Path:
-    reference = Path(__file__).resolve().parents[1] / "configs" / f"{backend}_rdkit29.yaml"
+    filename = "training_mean.yaml" if backend == "training_mean" else f"{backend}_rdkit29.yaml"
+    reference = Path(__file__).resolve().parents[1] / "configs" / filename
     config = yaml.safe_load(reference.read_text())
     config["data"]["processed_dir"] = "data"
-    config["model"]["params"].update(n_estimators=3, max_depth=2)
+    if backend != "training_mean":
+        config["model"]["params"].update(n_estimators=3, max_depth=2)
     config["training"]["n_jobs"] = 1
     path = project / "config.yaml"
     path.write_text(yaml.safe_dump(config))
@@ -122,6 +124,49 @@ def test_dry_run_does_not_create_outputs(project: Path) -> None:
     result = train_ml(make_config(project, "xgboost"), dry_run=True)
     assert result["split_rows"] == {"train": 6, "val": 2, "test": 2}
     assert not (project / "outputs").exists()
+
+
+@pytest.mark.parametrize("constant_train", [False, True])
+def test_training_mean_uses_train_only_without_descriptors(
+    project: Path, monkeypatch, constant_train: bool
+) -> None:
+    from molgap.training import ml
+
+    path = make_config(project, "training_mean")
+    for split in ("train", "val", "test"):
+        csv_path = project / "data" / f"{split}.csv"
+        frame = pd.read_csv(csv_path)
+        frame["delta_e"] = (
+            ([3.5] * len(frame) if constant_train else np.arange(1, len(frame) + 1))
+            if split == "train"
+            else np.arange(100, 100 + len(frame))
+        )
+        frame.to_csv(csv_path, index=False)
+
+    def forbid_features(*args, **kwargs):
+        raise AssertionError("Mean baseline must not calculate molecular features")
+
+    monkeypatch.setattr(ml, "descriptor_matrix", forbid_features)
+    result = train_ml(path)
+    run = Path(result["run_dir"])
+    predictions_path = run / "predictions/test_predictions.csv"
+    predictions = pd.read_csv(predictions_path)
+    assert predictions.delta_e_pred.tolist() == [3.5, 3.5]
+    assert predictions.delta_e.tolist() == [100, 101]
+    assert predictions.sample_id.tolist() == ["test_0", "test_1"]
+    assert result["metrics"]["targets"]["delta_e"]["mae"] == pytest.approx(97)
+    assert json.loads((run / "feature_names.json").read_text()) == []
+    mean = json.loads((run / "mean_baseline.json").read_text())
+    assert mean["fit_split"] == "train" and mean["train_rows"] == 6
+    assert mean["mean_hartree"] == 3.5
+    assert mean["normalization_check"]["passed"]
+    assert mean["normalization_check"]["inverse_mean_hartree"] == pytest.approx(3.5)
+    np.testing.assert_array_equal(load_estimator(run).predict(np.zeros((2, 1))), [3.5, 3.5])
+    metrics = evaluate_files(project / "data/test.csv", predictions_path, ["delta_e"], "smiles")
+    assert metrics["targets"] == result["metrics"]["targets"]
+    validate_expected_seeds(load_records(find_metric_files([run])), [3407, 42, 2026, 7, 123])
+    with pytest.raises(FileExistsError):
+        train_ml(path)
 
 
 @pytest.mark.parametrize(

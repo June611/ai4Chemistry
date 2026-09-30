@@ -1,0 +1,23 @@
+experiment:
+  name: training_mean
+data:
+  processed_dir: data/processed/qm9_full/random/seed3407
+  smiles_column: smiles
+  id_column: sample_id
+  targets: [delta_e]
+  label_unit: hartree
+  split:
+    method: random
+    seed: 3407
+normalization:
+  features: none
+  target: none
+model:
+  backend: training_mean
+  params: {}
+training:
+  seed: 3407
+  run_mode: single
+  n_jobs: 1
+output:
+  root: outputs
