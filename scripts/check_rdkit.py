@@ -14,38 +14,7 @@ from rdkit import Chem
 from rdkit.Chem import Descriptors
 from rdkit.ML.Descriptors import MoleculeDescriptors
 
-# Reference notebook selected_columns order, excluding BCUT2D_LOGPHI.
-FEATURES = (
-    "SMR_VSA7",
-    "FractionCSP3",
-    "SMR_VSA10",
-    "BertzCT",
-    "SlogP_VSA6",
-    "BCUT2D_MRHI",
-    "HallKierAlpha",
-    "MolLogP",
-    "BCUT2D_MWHI",
-    "SMR_VSA5",
-    "BalabanJ",
-    "PEOE_VSA11",
-    "BCUT2D_CHGHI",
-    "SMR_VSA9",
-    "PEOE_VSA2",
-    "SlogP_VSA2",
-    "BCUT2D_LOGPLOW",
-    "VSA_EState2",
-    "BCUT2D_MWLOW",
-    "VSA_EState4",
-    "VSA_EState5",
-    "BCUT2D_MRLOW",
-    "Kappa3",
-    "fr_piperzine",
-    "fr_piperdine",
-    "fr_Ar_NH",
-    "fr_aniline",
-    "fr_imidazole",
-    "fr_pyridine",
-)
+from molgap.data.rdkit_features import FEATURES
 
 
 def main() -> None:

@@ -121,23 +121,38 @@ def load_records(metric_paths: list[Path], target: str = "delta_e") -> list[dict
             {
                 "model": model,
                 "seed": seed,
+                "run_mode": config["training"].get("run_mode", "repeated"),
                 "target": target,
                 "unit": "hartree",
                 "metrics_path": str(path),
                 **values,
             }
         )
+    validate_expected_seeds(records, None)
     return sorted(records, key=lambda item: (item["model"], item["seed"]))
 
 
-def validate_expected_seeds(records: list[dict[str, Any]], expected_seeds: list[int]) -> None:
-    """Require every compared model to contain exactly the requested seeds."""
-    expected = set(map(int, expected_seeds))
-    grouped: dict[str, set[int]] = defaultdict(set)
+def validate_expected_seeds(
+    records: list[dict[str, Any]], expected_seeds: list[int] | None
+) -> None:
+    """Validate repeated seeds, allowing explicitly declared single runs at seed3407."""
+    grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for record in records:
-        grouped[record["model"]].add(int(record["seed"]))
+        grouped[record["model"]].append(record)
     problems = []
-    for model, seeds in sorted(grouped.items()):
+    for model, items in sorted(grouped.items()):
+        modes = {item.get("run_mode", "repeated") for item in items}
+        if len(modes) != 1 or not modes <= {"single", "repeated"}:
+            raise ValueError(f"Inconsistent run_mode for {model}: {modes}")
+        seeds = {int(item["seed"]) for item in items}
+        if len(seeds) != len(items):
+            raise ValueError(f"Duplicate seeds for {model}")
+        if modes == {"single"}:
+            expected = {3407}
+        elif expected_seeds:
+            expected = set(map(int, expected_seeds))
+        else:
+            continue
         if seeds != expected:
             problems.append(
                 f"{model}: missing={sorted(expected - seeds)}, "
@@ -151,6 +166,7 @@ def summarize_records(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Calculate per-model sample mean/std and ranges."""
     if not records:
         raise ValueError("No metrics records were found.")
+    validate_expected_seeds(records, None)
     grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for record in records:
         grouped[str(record["model"])].append(record)
@@ -167,7 +183,7 @@ def summarize_records(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
             values = [float(item[metric]) for item in items]
             row[metric] = {
                 "mean": mean(values),
-                "std": stdev(values) if len(values) > 1 else 0.0,
+                "std": stdev(values) if len(values) > 1 else None,
                 "min": min(values),
                 "max": max(values),
                 "count": len(values),
@@ -193,20 +209,24 @@ def _flat_summary_rows(summaries: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return rows
 
 
+def _format_metric(summary: dict[str, Any], metric: str) -> str:
+    value = summary[metric]
+    if value["std"] is None:
+        return f"{value['mean']:.6g} (SD N/A)"
+    return f"{value['mean']:.6g} ± {value['std']:.3g}"
+
+
 def _write_markdown(summaries: list[dict[str, Any]], path: Path) -> None:
     lines = [
-        "# Multi-seed model comparison",
+        "# Model comparison",
         "",
-        "Values are mean ± sample standard deviation across seeds.",
+        "Repeated runs: mean ± sample SD. Single runs: one value; SD is not applicable.",
         "",
-        "| Model | Seeds | MAE (Hartree) | RMSE (Hartree) | MAPE (%) | R² |",
+        "| Model | Runs | MAE (Hartree) | RMSE (Hartree) | MAPE (%) | R² |",
         "|---|---:|---:|---:|---:|---:|",
     ]
     for summary in summaries:
-        formatted = {
-            metric: f"{summary[metric]['mean']:.6g} ± {summary[metric]['std']:.3g}"
-            for metric in METRICS
-        }
+        formatted = {metric: _format_metric(summary, metric) for metric in METRICS}
         lines.append(
             f"| {summary['model']} | {summary['runs']} | {formatted['mae']} | "
             f"{formatted['rmse']} | {formatted['mape']} | {formatted['r2']} |"
@@ -215,14 +235,23 @@ def _write_markdown(summaries: list[dict[str, Any]], path: Path) -> None:
 
 
 def _plot_metrics(summaries: list[dict[str, Any]], path: Path, title: str) -> None:
-    models = [summary["model"] for summary in summaries]
+    models = [f"{summary['model']} (n={summary['runs']})" for summary in summaries]
     figure, axes = plt.subplots(2, 2, figsize=(14, 9), constrained_layout=True)
     colors = plt.get_cmap("tab10")(np.arange(len(models)))
     for axis, metric in zip(axes.flat, METRICS, strict=True):
         means = [summary[metric]["mean"] for summary in summaries]
-        stds = [summary[metric]["std"] for summary in summaries]
         positions = np.arange(len(models))
-        axis.bar(positions, means, yerr=stds, capsize=5, color=colors, alpha=0.85)
+        axis.bar(positions, means, color=colors, alpha=0.85)
+        repeated = [i for i, summary in enumerate(summaries) if summary[metric]["std"] is not None]
+        if repeated:
+            axis.errorbar(
+                positions[repeated],
+                [means[i] for i in repeated],
+                yerr=[summaries[i][metric]["std"] for i in repeated],
+                fmt="none",
+                ecolor="black",
+                capsize=5,
+            )
         axis.set_title(METRIC_LABELS[metric])
         axis.set_xticks(positions, models, rotation=20, ha="right")
         axis.grid(axis="y", alpha=0.25)
@@ -232,17 +261,14 @@ def _plot_metrics(summaries: list[dict[str, Any]], path: Path, title: str) -> No
 
 
 def _plot_table(summaries: list[dict[str, Any]], path: Path) -> None:
-    columns = ["Model", "Seeds", *[METRIC_LABELS[metric] for metric in METRICS]]
+    columns = ["Model", "Runs", *[METRIC_LABELS[metric] for metric in METRICS]]
     cells = []
     for summary in summaries:
         cells.append(
             [
                 summary["model"],
                 str(summary["runs"]),
-                *[
-                    f"{summary[metric]['mean']:.6g} ± {summary[metric]['std']:.3g}"
-                    for metric in METRICS
-                ],
+                *[_format_metric(summary, metric) for metric in METRICS],
             ]
         )
     height = max(2.6, 1.1 + 0.55 * len(cells))
@@ -278,7 +304,7 @@ def write_summary(
         "created_at": datetime.now(UTC).isoformat(),
         "metrics": list(METRICS),
         "mape_unit": "percent",
-        "std_definition": "sample standard deviation (ddof=1; 0 for one run)",
+        "std_definition": "sample standard deviation (ddof=1; null/not applicable for one run)",
         "records": records,
         "models": summaries,
     }
@@ -326,7 +352,10 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--output-dir", required=True, help="Summary artifact directory")
     parser.add_argument(
-        "--seeds", nargs="+", type=int, help="Require exactly these seeds per model"
+        "--seeds",
+        nargs="+",
+        type=int,
+        help="Required repeated-run seeds; run_mode=single models require only seed3407",
     )
     parser.add_argument("--target", default="delta_e")
     parser.add_argument("--title", default="QM9 delta_e model comparison")

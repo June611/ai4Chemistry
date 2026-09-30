@@ -10,12 +10,13 @@ readme = "README.md"
 requires-python = ">=3.11,<3.15"
 dependencies = [
     "chemprop==2.3.1",
+    "joblib>=1.3",
     "lightning>=2.0",
     "numpy>=1.26",
     "pandas>=2.2",
     "pyyaml>=6.0",
     "rdkit>=2024.3",
-    "scikit-learn>=1.4",
+    "scikit-learn==1.5.1",
     "tensorboard>=2.18",
     "torch==2.6.0",
     "tqdm>=4.66",
@@ -29,6 +30,7 @@ molgap-predict = "molgap.training.predict:main"
 molgap-evaluate = "molgap.training.evaluate:main"
 molgap-audit-splits = "molgap.data.distribution:main"
 molgap-train-transformer = "molgap.training.transformer:main"
+molgap-train-ml = "molgap.training.ml:main"
 molgap-run-multiseed = "molgap.experiments.multiseed:main"
 molgap-summarize = "molgap.experiments.summary:main"
 

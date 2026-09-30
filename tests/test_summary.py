@@ -72,3 +72,64 @@ def test_summary_rejects_incomplete_seed_sets() -> None:
     ]
     with pytest.raises(ValueError, match="incomplete"):
         validate_expected_seeds(records, [1, 2])
+
+
+def test_mixed_single_and_five_seed_outputs(tmp_path: Path) -> None:
+    seeds = [3407, 42, 2026, 7, 123]
+    records = [
+        {
+            "model": model,
+            "seed": seed,
+            "target": "delta_e",
+            "unit": "hartree",
+            "mae": 0.01,
+            "rmse": 0.02,
+            "mape": 4.0,
+            "r2": 0.9,
+        }
+        for model in ["single_gap", "multitask", "consistency", "transformer"]
+        for seed in seeds
+    ]
+    records += [
+        {
+            "model": model,
+            "seed": 3407,
+            "run_mode": "single",
+            "target": "delta_e",
+            "unit": "hartree",
+            "mae": 0.02,
+            "rmse": 0.03,
+            "mape": 5.0,
+            "r2": 0.8,
+        }
+        for model in ["xgboost_rdkit29", "random_forest_rdkit29"]
+    ]
+    validate_expected_seeds(records, seeds)
+    artifacts = write_summary(records, tmp_path)
+    payload = json.loads(artifacts["summary_json"].read_text())
+    single = next(m for m in payload["models"] if m["model"] == "xgboost_rdkit29")
+    assert single["runs"] == 1
+    assert single["mae"]["std"] is None
+    assert "SD N/A" in artifacts["summary_markdown"].read_text()
+    assert all(path.stat().st_size > 0 for path in artifacts.values())
+    with pytest.raises(ValueError, match="incomplete"):
+        validate_expected_seeds(records[1:], seeds)
+    with pytest.raises(ValueError, match="incomplete"):
+        validate_expected_seeds(records + [{**records[-1], "seed": 42}], seeds)
+
+
+def test_single_run_must_be_explicit_and_has_no_sd() -> None:
+    record = {
+        "model": "ml",
+        "seed": 3407,
+        "mae": 0.1,
+        "rmse": 0.2,
+        "mape": 3,
+        "r2": 0.8,
+        "target": "delta_e",
+        "unit": "hartree",
+    }
+    with pytest.raises(ValueError, match="incomplete"):
+        validate_expected_seeds([record], [3407, 42])
+    validate_expected_seeds([{**record, "run_mode": "single"}], [3407, 42])
+    assert summarize_records([record])[0]["mae"]["std"] is None

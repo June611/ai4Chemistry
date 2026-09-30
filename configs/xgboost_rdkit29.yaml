@@ -1,0 +1,31 @@
+experiment:
+  name: xgboost_rdkit29
+data:
+  processed_dir: data/processed/qm9_full/random/seed3407
+  smiles_column: smiles
+  id_column: sample_id
+  targets: [delta_e]
+  label_unit: hartree
+  split:
+    method: random
+    seed: 3407
+normalization:
+  features: none
+  target: none
+model:
+  backend: xgboost
+  params:
+    objective: reg:squarederror
+    gamma: 0.000123129
+    learning_rate: 0.032845274
+    max_depth: 8
+    min_child_weight: 2
+    n_estimators: 293
+    tree_method: hist
+    device: cpu
+training:
+  seed: 3407
+  run_mode: single
+  n_jobs: 4
+output:
+  root: outputs

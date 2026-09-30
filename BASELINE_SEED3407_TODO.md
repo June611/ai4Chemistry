@@ -16,8 +16,8 @@ Current stage: establish dependencies, the exact descriptor list, and the data/e
 - [x] Install XGBoost 2.0.3 locally with uv and update pyproject.toml/uv.lock.
 - [x] Fix explicit prediction-column precedence for Transformer evaluation; add regression tests.
 - [x] Prepare Git-delivered dependency locks, checks, parsing fixes, and server pull/sync instructions.
-- [ ] Next stage: implement descriptor extraction with fixed column order, sample IDs, and explicit invalid/nonfinite-value handling.
-- [ ] Next stage: implement CPU XGBoost regression and Random Forest regression.
+- [x] Implement descriptor extraction with fixed column order, sample IDs, and explicit invalid/nonfinite-value handling.
+- [x] Implement CPU XGBoost regression and Random Forest regression (single fit, raw Hartree labels).
 - [ ] Next stage: implement the training-target mean baseline and verify normalization equivalence.
 - [ ] Next stage: run all three baselines on this split; save configuration, versions, predictions, and metrics.
 - [ ] Next stage: populate one comparison table with all seven runs and assess improvements over both traditional models and the mean baseline.
@@ -36,7 +36,7 @@ This repository requires Python >=3.11,<3.15 and rdkit>=2024.3. The reference RD
 
 Verified on 2026-09-30: the reference project's existing `.venv/bin/python` runs Python 3.11.9 and has exactly all six reference package versions listed above. This is reference provenance, not the selected runtime. Per the user's updated requirement, use this project's uv-managed `.venv` for RDKit and subsequent baseline work.
 
-The project environment currently has Python 3.11.9, RDKit 2026.3.6, scikit-learn 1.9.1, NumPy 2.4.6, pandas 3.0.6, SciPy 1.17.1, and XGBoost 2.0.3. uv.lock records the resolved versions. Keep the project's compatible RDKit version; do not force the conflicting 2022.9.5 pin. Descriptor names match the reference, but numerical equivalence across RDKit versions has not been established. Record the actual version with future experiment outputs. All installations are local; server installation is via Git pull followed by uv sync --locked.
+The project environment uses Python 3.11.9, RDKit 2026.3.6, scikit-learn 1.5.1, NumPy 2.4.6, pandas 3.0.6, SciPy 1.17.1, and XGBoost 2.0.3. scikit-learn was pinned to the reference's 1.5.1 after model-saving tests exposed an incompatibility between XGBoost 2.0.3 and scikit-learn 1.9.1. Joblib is now explicit. uv.lock records the resolved versions. Keep the project's compatible RDKit version; do not force the conflicting 2022.9.5 pin. Descriptor names match the reference, but numerical equivalence across RDKit versions has not been established. All installations are local; server installation is via Git pull followed by uv sync --locked.
 
 ## Exact feature contract
 
@@ -118,4 +118,4 @@ Keep metadata alongside each CSV: model name, training seed, split seed (3407), 
 4. Predict the training-label mean on test and verify that affine normalization followed by inverse transformation gives the same predictions and original-unit metrics.
 5. Save per-sample predictions and project-compatible metrics for each baseline, then fill the comparison table only with matched existing runs.
 
-First-stage outcome: dependencies, descriptor identity, full-data split structure, and evaluation conventions are established. Training code and model execution are deferred to the next stage; online results will be imported when available.
+Implementation is tracked in ML_IMPLEMENTATION_TODO.md, with commands in ML_TRAINING.md. The single-run ML training code and mixed-count summary are implemented; full-data model execution, mean baseline, and final result comparison remain separate follow-up tasks.

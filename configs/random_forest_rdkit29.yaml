@@ -1,0 +1,27 @@
+experiment:
+  name: random_forest_rdkit29
+data:
+  processed_dir: data/processed/qm9_full/random/seed3407
+  smiles_column: smiles
+  id_column: sample_id
+  targets: [delta_e]
+  label_unit: hartree
+  split:
+    method: random
+    seed: 3407
+normalization:
+  features: none
+  target: none
+model:
+  backend: random_forest
+  params:
+    n_estimators: 170
+    max_depth: 35
+    min_samples_split: 2
+    min_samples_leaf: 1
+training:
+  seed: 3407
+  run_mode: single
+  n_jobs: 4
+output:
+  root: outputs

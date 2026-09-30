@@ -33,6 +33,8 @@ uv pip check
 
 参考项目的 RDKit 2022.9.5 与本项目 `rdkit>=2024.3` 要求冲突，因此使用本项目 `uv.lock` 已锁定的兼容版本。后续实验应记录实际 RDKit 版本；同名描述符在不同版本间的数值一致性尚未验证。XGBoost 已在 WSL 本地通过 `uv add 'xgboost==2.0.3'` 添加；随机森林由现有 scikit-learn 提供。
 
+后续模型保存测试发现 XGBoost 2.0.3 与 scikit-learn 1.9.1 的序列化接口不兼容，因此当前已固定 `scikit-learn==1.5.1`，并显式声明 joblib 依赖。先前的 1.9.1 记录仅对应导入与拟合检查。正式单次训练入口、保存结构及混合次数汇总见 [ML_TRAINING.md](ML_TRAINING.md)。
+
 ## Git 同步到服务器
 
 依赖在 WSL 修改、解析并验证，提交 `pyproject.toml` 和 `uv.lock`；服务器拉取后按锁文件安装，不复制本地 `.venv`。服务器在项目目录执行：
