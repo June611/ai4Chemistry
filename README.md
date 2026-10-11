@@ -9,10 +9,14 @@ bash scripts/train_all_auto.sh --remote --directory artifacts/auto_training/form
 
 默认 20 个下游模型 × 三组配对 seed（3407/42/2026），加三组 Infomax QM9 预训练，共63项。
 神经网络保持256/100/20；Cormorant、LieTransformer不入队。默认最多两个GPU任务，大模型独占。
+单任务失败后继续其他独立任务。服务器每5秒采样，本地后台程序约每5分钟同步飞书，不调用LLM；
+使用tmux的一次启动方式见操作说明。
 调度功能已通过本地141项测试、服务器相关32项测试和8项真实诊断，飞书指标与7份预测附件回读通过。
 正式实验尚未启动；一轮诊断与正式结果分开记录。详见[最终审查](docs/features/qm9-resource-aware-training/final_review.md)、
 [操作说明](docs/features/qm9-resource-aware-training/operations.md)
 和[实施TODO](docs/features/qm9-resource-aware-training/TODO.md)。
+补查失败隔离、54个神经网络/预训练任务batch256与定时同步，见
+[后续逻辑检查](docs/features/qm9-resource-aware-training/followup_checks.md)。
 
 新增 SPE + Transformer 对照：使用官方 SmilesPE 和现有 Transformer 网络，采用三组
 split/training seed 配对策略。配置为 `configs/spe_transformer.yaml`，批量配置为三份

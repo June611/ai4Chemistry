@@ -18,6 +18,20 @@ bash scripts/train_all_auto.sh --remote --directory artifacts/auto_training/form
 bash scripts/train_all_auto.sh --sync --remote --directory artifacts/auto_training/formal_20261012
 ```
 
+最简单的长期运行方式是在WSL使用已有tmux，把远端启动和本地同步放在同一个会话中：
+
+```bash
+tmux new-session -d -s qm9-training 'bash scripts/train_all_auto.sh --remote --directory artifacts/auto_training/formal_20261012'
+```
+
+只需启动一次，关掉当前终端后会话继续运行。电脑应保持开机、不休眠，WSL与网络保持可用，
+飞书CLI登录和SSH连接需有效。查看输出用`tmux attach -t qm9-training`，按`Ctrl+b`再按`d`
+退出查看而保留后台会话。任务全部结束且最后同步成功时，同步程序自动退出。
+
+这是Python监测/同步进程，不是LLM agent；不会调用Codex或模型API，后续轮询不消耗模型额度。
+无需sub2api或额外Agent框架。既有SSH连接失效或CLI授权过期时，需要恢复连接/登录再补同步；
+同步错误会重试，服务器训练继续，结果保留在服务器。
+
 只在服务器训练、不接飞书时，在服务器项目目录运行：
 
 ```bash
@@ -90,7 +104,7 @@ cp configs/feishu_training.example.json configs/feishu_training.json
 | 完整采样 | 队列目录 `runtime/hardware.jsonl`、逐任务 `runtime/<id>.jsonl`，默认约 5 秒采样 |
 | 汇总 CSV | 队列目录 `runtime/summary.csv`，运行中刷新；服务器真实资源证据 |
 | 日志与状态 | `runtime/<id>.log`、`runtime/state.json`、`runtime/report.json` |
-| 云端采样 | 本地桥默认每轮同步后等待 60 秒；硬件表每分钟更新一条快照 |
+| 云端采样 | `feishu_sync_seconds: 300`，本地桥以约5分钟起始间隔同步；硬件表保存本轮快照 |
 
 FLOPs 表示计算量，不等于推理速度。本次没有完整覆盖所有架构的 FLOPs 测量，留空并标记
 `not_measured`。缺失的历史推理时间、验证 MSE/RMSE 不由训练时间或 MAE 推算。
@@ -112,6 +126,13 @@ FLOPs 表示计算量，不等于推理速度。本次没有完整覆盖所有�
 
 训练失败记录返回码和日志，继续其他任务；依赖失败阻止对应下游。飞书错误不会结束服务器
 训练，修复网络或登录后重跑同步可回填。磁盘低于预留值暂停新任务，已经运行的任务继续。
+子进程启动失败和产物验收失败也只标记对应任务失败；全队列完成后返回非零退出码表示
+存在失败，不代表遇到第一个失败时中止。Infomax预训练失败只阻止同seed的依赖下游。
 配置文件路径、模型和 seed 在生成计划后冻结；同一目录不接受新的模型选择或 epoch 修改。
 新计划保存生成配置SHA-256，配置内容变更后拒绝启动，需使用新目录；历史无哈希计划仍可读取。
 没有CSV/JSON训练历史的入口不会解析TensorBoard猜测验证指标；缺失字段留空。
+
+采样和飞书上传是两个频率：服务器仍每5秒采样，飞书每300秒同步一次摘要，并累计峰值。
+可在`configs/auto_training.yaml`修改`feishu_sync_seconds`；独立同步命令也可加`--interval 300`。
+同步耗时从等待时间扣除，尽量保持起始间隔；网络/API耗时超过周期时不能保证准点。
+每个运行ID更新同一行；完成后上传预测附件；同步失败保留状态并在下一周期重试。

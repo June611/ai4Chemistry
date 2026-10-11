@@ -6,6 +6,8 @@
 状态：2026-10-12已接入本地官方Lark CLI同步桥，并通过服务器8项真实诊断与云端回读。
 训练表60个字段、硬件采样表8个字段；8条completed记录、7份完整预测附件及完整精度JSON
 均已核验。本地全套141项、服务器相关32项测试通过；正式100epoch训练尚未启动。
+后续失败隔离与定时同步补查36项专项测试通过；默认同步周期现为300秒，使用tmux长期运行。
+详见[后续检查](../qm9-resource-aware-training/followup_checks.md)。
 当前推荐[一键调度入口](../qm9-resource-aware-training/operations.md)；
 详见[最终审查](../qm9-resource-aware-training/final_review.md)和[tasks.md](tasks.md)。
 

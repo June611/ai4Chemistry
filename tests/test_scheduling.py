@@ -90,12 +90,24 @@ def test_exclusive_alignn_fits_and_external_allocation_blocks(policy):
     assert admission(job(), [], hw, policy) == "available RAM"
 
 
-def test_queue_isolates_failure_and_resumes_without_rerun(tmp_path, policy, monkeypatch):
+@pytest.mark.parametrize("failure_mode", ["training_exit", "launch", "artifacts"])
+def test_queue_isolates_failure_and_resumes_without_rerun(
+    tmp_path, policy, monkeypatch, failure_mode
+):
     from molgap.scheduling import queue
 
     policy = {**policy, "sample_seconds": 0.01, "launch_spacing_seconds": 0}
     monkeypatch.setattr(queue, "snapshot", lambda *a: hardware())
     monkeypatch.setattr(queue, "sample_resources", lambda *a: {"pss_mib": 10})
+    if failure_mode == "launch":
+        original_popen = queue.subprocess.Popen
+
+        def fail_one_launch(arguments, **kwargs):
+            if arguments[-1] == "failure":
+                raise OSError("Simulated job startup failure")
+            return original_popen(arguments, **kwargs)
+
+        monkeypatch.setattr(queue.subprocess, "Popen", fail_one_launch)
     original_reader = queue.build_record
     attempted = [False]
 
@@ -119,7 +131,7 @@ def test_queue_isolates_failure_and_resumes_without_rerun(tmp_path, policy, monk
             )
         )
         code = (
-            "raise SystemExit(2)"
+            ("raise SystemExit(2)" if failure_mode != "artifacts" else "pass")
             if fail
             else (
                 "from pathlib import Path; import json; "
@@ -148,10 +160,21 @@ def test_queue_isolates_failure_and_resumes_without_rerun(tmp_path, policy, monk
                 "status": "pending",
             }
         )
+    jobs.append(
+        {
+            **jobs[0],
+            "id": "dependent",
+            "model": "dependent",
+            "run_dir": str(tmp_path / "runs/dependent"),
+            "depends_on": ["failure"],
+            "priority": 0,
+        }
+    )
     write_json(tmp_path / "plan.json", {"root": str(tmp_path), "policy": policy, "jobs": jobs})
     assert run_queue(tmp_path) == 1
     state = read_json(tmp_path / "runtime/state.json")
-    assert [j["status"] for j in state["jobs"]] == ["failed", "completed"]
+    assert [j["status"] for j in state["jobs"]] == ["failed", "completed", "blocked"]
+    assert not (tmp_path / "runs/dependent").exists()
     assert state["jobs"][1]["verification"]["test_rows"] == 2
     assert any(j.get("monitor_warning") for j in state["jobs"])
     old_start = state["jobs"][1]["started_at"]
@@ -263,6 +286,59 @@ def test_cloud_failure_does_not_prevent_other_records(tmp_path):
     failures = sync_report(report, client, tmp_path)
     assert len(failures) == 1
     assert client.accepted == ["good_sync"]
+
+
+@pytest.mark.parametrize("cli_interval,expected_interval", [(None, 300), (60, 60)])
+def test_bridge_retries_final_sync_on_configured_cadence(
+    tmp_path, monkeypatch, cli_interval, expected_interval
+):
+    from molgap.tracking import bridge
+
+    monkeypatch.chdir(tmp_path)
+    config = tmp_path / "policy.yaml"
+    config.write_text("feishu_sync_seconds: 300\n")
+    report_dir = tmp_path / "queue/runtime"
+    report_dir.mkdir(parents=True)
+    write_json(
+        report_dir / "report.json",
+        {
+            "terminal": True,
+            "records": [
+                {"run_id": "pretrain", "kind": "pretrain", "fields": {"状态": "completed"}}
+            ],
+        },
+    )
+    calls, sleeps = [], []
+
+    class Client:
+        def __init__(self, *args):
+            pass
+
+        def sync_record(self, record):
+            calls.append(record["run_id"])
+            if len(calls) == 1:
+                raise FeishuError("Temporary cloud outage")
+            return "record", tmp_path / "receipt.json"
+
+    args = ["bridge", "--directory", "queue", "--policy", str(config)]
+    if cli_interval is not None:
+        args += ["--interval", str(cli_interval)]
+    clock = iter([0, 10, 300])
+    monkeypatch.setattr(sys, "argv", args)
+    monkeypatch.setattr(bridge, "LarkCLIClient", Client)
+    monkeypatch.setattr(bridge.time, "monotonic", lambda: next(clock))
+    monkeypatch.setattr(bridge.time, "sleep", sleeps.append)
+    with pytest.raises(SystemExit) as exc:
+        bridge.main()
+    assert exc.value.code == 0
+    assert calls == ["pretrain", "pretrain"]
+    assert sleeps == [expected_interval - 10]
+    assert (
+        read_json(tmp_path / "artifacts/auto_training/feishu_bridge/queue/sync_status.json")[
+            "failures"
+        ]
+        == []
+    )
 
 
 def test_new_field_schema_supports_platform_precision():

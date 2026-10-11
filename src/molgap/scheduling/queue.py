@@ -281,7 +281,6 @@ def run_queue(directory: Path):
                         )
                         continue
                     log = runtime / f"{job['id']}.log"
-                    logs[job["id"]] = log.open("a")
                     env = {
                         **os.environ,
                         "OMP_NUM_THREADS": str(policy["threads_per_job"]),
@@ -289,23 +288,34 @@ def run_queue(directory: Path):
                         "CUDA_VISIBLE_DEVICES": str(policy["gpu"]) if job["gpu_mib"] else "",
                         "PYTHONUNBUFFERED": "1",
                     }
-                    process = subprocess.Popen(
-                        [
-                            sys.executable,
-                            "-m",
-                            "molgap.scheduling",
-                            "worker",
-                            "--directory",
-                            str(directory),
-                            "--job",
-                            job["id"],
-                        ],
-                        cwd=root,
-                        env=env,
-                        stdout=logs[job["id"]],
-                        stderr=subprocess.STDOUT,
-                        start_new_session=True,
-                    )
+                    try:
+                        logs[job["id"]] = log.open("a")
+                        process = subprocess.Popen(
+                            [
+                                sys.executable,
+                                "-m",
+                                "molgap.scheduling",
+                                "worker",
+                                "--directory",
+                                str(directory),
+                                "--job",
+                                job["id"],
+                            ],
+                            cwd=root,
+                            env=env,
+                            stdout=logs[job["id"]],
+                            stderr=subprocess.STDOUT,
+                            start_new_session=True,
+                        )
+                    except OSError as exc:
+                        handle = logs.pop(job["id"], None)
+                        if handle is not None:
+                            handle.close()
+                        job.update(
+                            status="failed", error=f"Worker launch: {exc}", ended_at=utc_now()
+                        )
+                        print(f"{job['id']}: failed to start", flush=True)
+                        continue
                     job.update(
                         status="running",
                         pid=process.pid,

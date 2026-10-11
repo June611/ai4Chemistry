@@ -13,6 +13,7 @@ workers_per_job: 4
 gpu_admission_utilization: 85
 launch_spacing_seconds: 30
 sample_seconds: 5
+feishu_sync_seconds: 300
 exclusive_models: [dimenet_pp, alignn]
 resource_csv: docs/features/qm9-resource-aware-training/verification/resources_active_20.csv
 remote:

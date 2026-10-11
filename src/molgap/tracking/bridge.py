@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import math
 import shlex
 import subprocess
 import time
@@ -112,14 +113,21 @@ def main():
     parser.add_argument("--policy", type=Path, default=Path("configs/auto_training.yaml"))
     parser.add_argument("--remote", action="store_true")
     parser.add_argument("--once", action="store_true")
-    parser.add_argument("--interval", type=float, default=60)
+    parser.add_argument("--interval", type=float, help="Override policy feishu_sync_seconds")
     args = parser.parse_args()
-    if args.interval < 5:
-        parser.error("Use a sync interval >=5 seconds")
-    remote = yaml.safe_load(args.policy.read_text())["remote"] if args.remote else None
+    policy = yaml.safe_load(args.policy.read_text())
+    interval = (
+        args.interval
+        if args.interval is not None
+        else float(policy.get("feishu_sync_seconds", 300))
+    )
+    if not math.isfinite(interval) or interval < 5:
+        parser.error("Use a finite sync interval >=5 seconds")
+    remote = policy["remote"] if args.remote else None
     cache = Path("artifacts/auto_training/feishu_bridge") / args.directory.name
     client = LarkCLIClient(read_json(args.destination), cache / "receipts")
     while True:
+        cycle_started = time.monotonic()
         try:
             if remote:
                 path = Path(remote["root"]) / args.directory / "runtime/report.json"
@@ -140,7 +148,8 @@ def main():
             print(f"Sync deferred; local/server artifacts retained: {exc}", flush=True)
             if args.once:
                 raise SystemExit(1) from None
-        time.sleep(args.interval)
+        # Target start-to-start cadence, rather than adding API time to every period.
+        time.sleep(max(0, interval - (time.monotonic() - cycle_started)))
 
 
 if __name__ == "__main__":
