@@ -1,0 +1,13 @@
+{
+  "platform": "Linux-5.15.0-136-generic-x86_64-with-glibc2.35",
+  "python": "3.11.15",
+  "torch": "2.6.0+cu124",
+  "gpu": "NVIDIA GeForce RTX 3090, 24576 MiB, 570.124.04",
+  "cpu_count": 128,
+  "cpu_affinity_count": 128,
+  "cgroup_limits": {
+    "/sys/fs/cgroup/memory.max": "96636764160",
+    "/sys/fs/cgroup/cpu.max": "1500000 100000"
+  },
+  "scope": "seed3407, neural batch256/1epoch, existing precision and workers; serial pipelines"
+}

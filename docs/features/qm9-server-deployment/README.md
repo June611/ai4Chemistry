@@ -40,3 +40,7 @@ batch256/100epochs/patience20、配对seed、loss/scaler、gap MAE选模均保�
 已验证的66组入口中63组通过，3组Infomax下游等待各自QM9预训练checkpoint；没有正式实验结果。
 审查记录：[deployment-review.txt](deployment-review.txt)。服务器原始证据在
 `artifacts/server_deployment/`，本地副本在`artifacts/server_deployment_20261011/server-reports/`。
+
+2026-10-12 后续实验烟测：seed3407、batch256、1epoch，20个下游通过，
+Cormorant/LieTransformer因显存不足失败；Infomax的QM9一轮预训练和下游均通过。
+逐模型显存/主机内存CSV及正式训练前剩余事项见[一轮烟测功能](../qm9-one-epoch-smoke/README.md)。

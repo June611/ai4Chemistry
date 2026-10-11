@@ -1,0 +1,904 @@
+{
+  "started": "2026-10-11T17:14:26.853544+00:00",
+  "code_commit": "5c032f8f15650adbeb564a09301d271c2df66ed4",
+  "python": "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+  "purpose": "diagnostic_only",
+  "seed": 3407,
+  "epochs": 1,
+  "batch_size": 256,
+  "models": [
+    {
+      "model": "egnn",
+      "kind": "qm9",
+      "source": "configs/qm9_models/egnn.yaml",
+      "config": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/egnn.yaml",
+      "run_dir": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/egnn/seed3407",
+      "status": "success",
+      "source_sha256": "32bfb5b3c5705960ad5095f217c83996e26774789ef85b781cefd1efa1b187d5",
+      "commands": [
+        [
+          "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+          "-m",
+          "molgap.qm9_models.train",
+          "--config",
+          "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/egnn.yaml"
+        ]
+      ],
+      "started": "2026-10-11T17:14:26.984857+00:00",
+      "log": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/logs/egnn.log",
+      "returncode": 0,
+      "checks": {
+        "epochs_completed": 1,
+        "test_rows": 13380,
+        "gap_mae_hartree": 0.018562447359993146
+      },
+      "seconds": 98.52344082295895,
+      "finished": "2026-10-11T17:16:05.509141+00:00"
+    },
+    {
+      "model": "schnet",
+      "kind": "qm9",
+      "source": "configs/qm9_models/schnet.yaml",
+      "config": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/schnet.yaml",
+      "run_dir": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/schnet/seed3407",
+      "status": "success",
+      "source_sha256": "11760fbd8d52ce42909892baaa60093df9c574cef15bbe4d41e83e2d33cd1888",
+      "commands": [
+        [
+          "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+          "-m",
+          "molgap.qm9_models.train",
+          "--config",
+          "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/schnet.yaml"
+        ]
+      ],
+      "started": "2026-10-11T17:16:05.509837+00:00",
+      "log": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/logs/schnet.log",
+      "returncode": 0,
+      "checks": {
+        "epochs_completed": 1,
+        "test_rows": 13380,
+        "gap_mae_hartree": 0.017819865006007064
+      },
+      "seconds": 54.832388274371624,
+      "finished": "2026-10-11T17:17:00.342792+00:00"
+    },
+    {
+      "model": "painn",
+      "kind": "qm9",
+      "source": "configs/qm9_models/painn.yaml",
+      "config": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/painn.yaml",
+      "run_dir": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/painn/seed3407",
+      "status": "success",
+      "source_sha256": "63d86f21a6a4abd1cb3293b9f7db158d2eeba585e7af98f8ebd7412f95508780",
+      "commands": [
+        [
+          "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+          "-m",
+          "molgap.qm9_models.train",
+          "--config",
+          "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/painn.yaml"
+        ]
+      ],
+      "started": "2026-10-11T17:17:00.343497+00:00",
+      "log": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/logs/painn.log",
+      "returncode": 0,
+      "checks": {
+        "epochs_completed": 1,
+        "test_rows": 13380,
+        "gap_mae_hartree": 0.015801443715131158
+      },
+      "seconds": 54.79671061784029,
+      "finished": "2026-10-11T17:17:55.140791+00:00"
+    },
+    {
+      "model": "dimenet_pp",
+      "kind": "qm9",
+      "source": "configs/qm9_models/dimenet_pp.yaml",
+      "config": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/dimenet_pp.yaml",
+      "run_dir": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/dimenet_pp/seed3407",
+      "status": "success",
+      "source_sha256": "4478da8caecbc4b049487d423f58e832854208df40533bdef235a82842066a23",
+      "commands": [
+        [
+          "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+          "-m",
+          "molgap.qm9_models.train",
+          "--config",
+          "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/dimenet_pp.yaml"
+        ]
+      ],
+      "started": "2026-10-11T17:17:55.141503+00:00",
+      "log": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/logs/dimenet_pp.log",
+      "returncode": 0,
+      "checks": {
+        "epochs_completed": 1,
+        "test_rows": 13380,
+        "gap_mae_hartree": 0.0073583689226591024
+      },
+      "seconds": 229.8742504492402,
+      "finished": "2026-10-11T17:21:45.016350+00:00"
+    },
+    {
+      "model": "esa",
+      "kind": "qm9",
+      "source": "configs/qm9_models/esa.yaml",
+      "config": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/esa.yaml",
+      "run_dir": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/esa/seed3407",
+      "status": "success",
+      "source_sha256": "1cde2b42c78474e50ba1b39a87692a1e1f1d60579741e6d6a4bef764cb729144",
+      "commands": [
+        [
+          "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+          "-m",
+          "molgap.qm9_models.train",
+          "--config",
+          "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/esa.yaml"
+        ]
+      ],
+      "started": "2026-10-11T17:21:45.017088+00:00",
+      "log": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/logs/esa.log",
+      "returncode": 0,
+      "checks": {
+        "epochs_completed": 1,
+        "test_rows": 13380,
+        "gap_mae_hartree": 0.01203098861365932
+      },
+      "seconds": 114.93388468027115,
+      "finished": "2026-10-11T17:23:39.951583+00:00"
+    },
+    {
+      "model": "torchmd_net",
+      "kind": "qm9",
+      "source": "configs/qm9_models/torchmd_net.yaml",
+      "config": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/torchmd_net.yaml",
+      "run_dir": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/torchmd_net/seed3407",
+      "status": "success",
+      "source_sha256": "c3c0e11270801648596264e1923c3680bbec3ff4f94a199fbda258c5f66fc331",
+      "commands": [
+        [
+          "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+          "-m",
+          "molgap.qm9_models.train",
+          "--config",
+          "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/torchmd_net.yaml"
+        ]
+      ],
+      "started": "2026-10-11T17:23:39.952388+00:00",
+      "log": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/logs/torchmd_net.log",
+      "returncode": 0,
+      "checks": {
+        "epochs_completed": 1,
+        "test_rows": 13380,
+        "gap_mae_hartree": 0.01234418020622078
+      },
+      "seconds": 155.89319180697203,
+      "finished": "2026-10-11T17:26:15.846239+00:00"
+    },
+    {
+      "model": "cormorant",
+      "kind": "qm9",
+      "source": "configs/qm9_models/cormorant.yaml",
+      "config": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/cormorant.yaml",
+      "run_dir": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/cormorant/seed3407",
+      "status": "failed",
+      "source_sha256": "bad171caf2081e6061788381dc0ced6bc516e11128733bb20eedc71edb6a1e5d",
+      "commands": [
+        [
+          "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+          "-m",
+          "molgap.qm9_models.train",
+          "--config",
+          "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/cormorant.yaml"
+        ]
+      ],
+      "started": "2026-10-11T17:26:15.847077+00:00",
+      "log": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/logs/cormorant.log",
+      "returncode": 1,
+      "error": "Pipeline command exited with code 1; torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 5.94 GiB. GPU 0 has a total capacity of 23.57 GiB of which 4.41 GiB is free. Including non-PyTorch memory, this process has 19.15 GiB memory in use. Of the allocated memory 16.36 GiB is allocated by PyTorch, and 2.50 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)",
+      "log_tail": [
+        "                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/root/autodl-tmp/evan/ai4Chemistry/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py\", line 1739, in _wrapped_call_impl",
+        "    return self._call_impl(*args, **kwargs)",
+        "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/root/autodl-tmp/evan/ai4Chemistry/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py\", line 1750, in _call_impl",
+        "    return forward_call(*args, **kwargs)",
+        "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/root/autodl-tmp/evan/ai4Chemistry/.external/qm9_models/cormorant/src/cormorant/models/cormorant_cg.py\", line 99, in forward",
+        "    atom_reps = atom_level(atom_reps, edge_reps, atom_mask)",
+        "                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/root/autodl-tmp/evan/ai4Chemistry/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py\", line 1739, in _wrapped_call_impl",
+        "    return self._call_impl(*args, **kwargs)",
+        "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/root/autodl-tmp/evan/ai4Chemistry/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py\", line 1750, in _call_impl",
+        "    return forward_call(*args, **kwargs)",
+        "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/root/autodl-tmp/evan/ai4Chemistry/.external/qm9_models/cormorant/src/cormorant/models/cormorant_levels.py\", line 155, in forward",
+        "    reps_ag = self.cg_aggregate(edge_reps, atom_reps)",
+        "              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/root/autodl-tmp/evan/ai4Chemistry/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py\", line 1739, in _wrapped_call_impl",
+        "    return self._call_impl(*args, **kwargs)",
+        "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/root/autodl-tmp/evan/ai4Chemistry/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py\", line 1750, in _call_impl",
+        "    return forward_call(*args, **kwargs)",
+        "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/root/autodl-tmp/evan/ai4Chemistry/.external/qm9_models/cormorant/src/cormorant/cg_lib/cg_ops.py\", line 91, in forward",
+        "    return cg_product(self.cg_dict, rep1, rep2, maxl=self.maxl, minl=self.minl, aggregate=self.aggregate)",
+        "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/root/autodl-tmp/evan/ai4Chemistry/.external/qm9_models/cormorant/src/cormorant/cg_lib/cg_ops.py\", line 171, in cg_product",
+        "    irrep_prod = complex_kron_product(part1, part2, aggregate=aggregate)",
+        "                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/root/autodl-tmp/evan/ai4Chemistry/.external/qm9_models/cormorant/src/cormorant/cg_lib/cg_ops.py\", line 247, in complex_kron_product",
+        "    z = (z1.view(s10) * z2.view(s20))",
+        "         ~~~~~~~~~~~~~^~~~~~~~~~~~~~",
+        "torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 5.94 GiB. GPU 0 has a total capacity of 23.57 GiB of which 4.41 GiB is free. Including non-PyTorch memory, this process has 19.15 GiB memory in use. Of the allocated memory 16.36 GiB is allocated by PyTorch, and 2.50 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+      ],
+      "seconds": 6.156695395708084,
+      "finished": "2026-10-11T17:26:22.004478+00:00"
+    },
+    {
+      "model": "lie_transformer",
+      "kind": "qm9",
+      "source": "configs/qm9_models/lie_transformer.yaml",
+      "config": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/lie_transformer.yaml",
+      "run_dir": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/lie_transformer/seed3407",
+      "status": "failed",
+      "source_sha256": "d957216aecb18c5b789adea14d1a034433ca079356e62a24bfbea7afa1729aae",
+      "commands": [
+        [
+          "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+          "-m",
+          "molgap.qm9_models.train",
+          "--config",
+          "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/lie_transformer.yaml"
+        ]
+      ],
+      "started": "2026-10-11T17:26:22.005539+00:00",
+      "log": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/logs/lie_transformer.log",
+      "returncode": 1,
+      "error": "Pipeline command exited with code 1; torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 1.32 GiB. GPU 0 has a total capacity of 23.57 GiB of which 718.81 MiB is free. Including non-PyTorch memory, this process has 22.86 GiB memory in use. Of the allocated memory 22.45 GiB is allocated by PyTorch, and 108.14 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)",
+      "log_tail": [
+        "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/root/autodl-tmp/evan/ai4Chemistry/.venv/lib/python3.11/site-packages/torch/nn/modules/container.py\", line 250, in forward",
+        "    input = module(input)",
+        "            ^^^^^^^^^^^^^",
+        "  File \"/root/autodl-tmp/evan/ai4Chemistry/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py\", line 1739, in _wrapped_call_impl",
+        "    return self._call_impl(*args, **kwargs)",
+        "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/root/autodl-tmp/evan/ai4Chemistry/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py\", line 1750, in _call_impl",
+        "    return forward_call(*args, **kwargs)",
+        "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/root/autodl-tmp/evan/ai4Chemistry/.venv/lib/python3.11/site-packages/torch/nn/modules/container.py\", line 250, in forward",
+        "    input = module(input)",
+        "            ^^^^^^^^^^^^^",
+        "  File \"/root/autodl-tmp/evan/ai4Chemistry/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py\", line 1739, in _wrapped_call_impl",
+        "    return self._call_impl(*args, **kwargs)",
+        "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/root/autodl-tmp/evan/ai4Chemistry/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py\", line 1750, in _call_impl",
+        "    return forward_call(*args, **kwargs)",
+        "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/root/autodl-tmp/evan/ai4Chemistry/.external/qm9_models/.patched/lieconv-9bab353dbfa7c777190c485a1658f999c462de44/lie_conv/utils.py\", line 95, in forward",
+        "    xs[self.dim] = self.module(xs[self.dim])",
+        "                   ^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/root/autodl-tmp/evan/ai4Chemistry/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py\", line 1739, in _wrapped_call_impl",
+        "    return self._call_impl(*args, **kwargs)",
+        "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/root/autodl-tmp/evan/ai4Chemistry/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py\", line 1750, in _call_impl",
+        "    return forward_call(*args, **kwargs)",
+        "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/root/autodl-tmp/evan/ai4Chemistry/.external/qm9_models/lie-transformer/eqv_transformer/multihead_neural.py\", line 63, in forward",
+        "    return torch.einsum(\"...hi,hio->...ho\", input, self.weight) + self.bias",
+        "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/root/autodl-tmp/evan/ai4Chemistry/.venv/lib/python3.11/site-packages/torch/functional.py\", line 407, in einsum",
+        "    return _VF.einsum(equation, operands)  # type: ignore[attr-defined]",
+        "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 1.32 GiB. GPU 0 has a total capacity of 23.57 GiB of which 718.81 MiB is free. Including non-PyTorch memory, this process has 22.86 GiB memory in use. Of the allocated memory 22.45 GiB is allocated by PyTorch, and 108.14 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+      ],
+      "seconds": 5.491715781390667,
+      "finished": "2026-10-11T17:26:27.498069+00:00"
+    },
+    {
+      "model": "alignn",
+      "kind": "qm9",
+      "source": "configs/qm9_models/alignn.yaml",
+      "config": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/alignn.yaml",
+      "run_dir": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/alignn/seed3407",
+      "status": "success",
+      "source_sha256": "1fc45e2536e961a3ce21b2860d83cded6b1cf178bb7f61678eb03acd1e22fd1e",
+      "commands": [
+        [
+          "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+          "-m",
+          "molgap.qm9_models.train",
+          "--config",
+          "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/alignn.yaml"
+        ]
+      ],
+      "started": "2026-10-11T17:26:27.500755+00:00",
+      "log": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/logs/alignn.log",
+      "returncode": 0,
+      "checks": {
+        "epochs_completed": 1,
+        "test_rows": 13380,
+        "gap_mae_hartree": 0.00914762142640236
+      },
+      "seconds": 315.1134611442685,
+      "finished": "2026-10-11T17:31:42.615606+00:00"
+    },
+    {
+      "model": "3dinfomax_pretrain",
+      "kind": "pretrain",
+      "source": "configs/qm9_models/3dinfomax_pretrain.yaml",
+      "config": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/3dinfomax_pretrain.yaml",
+      "run_dir": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/3dinfomax_pretrain/seed3407",
+      "status": "success",
+      "source_sha256": "0ceadc2d753484a0b1a7a29aef300d1a4e87f05b0c0d1d8133cb4431542e6127",
+      "commands": [
+        [
+          "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+          "-m",
+          "molgap.qm9_models.pretrain_infomax",
+          "--config",
+          "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/3dinfomax_pretrain.yaml"
+        ]
+      ],
+      "started": "2026-10-11T17:31:42.616468+00:00",
+      "log": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/logs/3dinfomax_pretrain.log",
+      "returncode": 0,
+      "checks": {
+        "epochs_completed": 1,
+        "validation_loss": 1.2305412592085132,
+        "checkpoint": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/3dinfomax_pretrain/seed3407/best_checkpoint.pt"
+      },
+      "seconds": 109.28454735130072,
+      "finished": "2026-10-11T17:33:31.901729+00:00"
+    },
+    {
+      "model": "3dinfomax",
+      "kind": "qm9",
+      "source": "configs/qm9_models/3dinfomax.yaml",
+      "config": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/3dinfomax.yaml",
+      "run_dir": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/3dinfomax/seed3407",
+      "status": "success",
+      "source_sha256": "7b136a224d25b2b8c31e3fcaa6752121527abe663f9e5b5584f9f0cc0d1fd797",
+      "commands": [
+        [
+          "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+          "-m",
+          "molgap.qm9_models.train",
+          "--config",
+          "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/3dinfomax.yaml"
+        ]
+      ],
+      "started": "2026-10-11T17:33:31.902771+00:00",
+      "log": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/logs/3dinfomax.log",
+      "returncode": 0,
+      "checks": {
+        "epochs_completed": 1,
+        "test_rows": 13380,
+        "gap_mae_hartree": 0.010646066104212872
+      },
+      "seconds": 157.9795477092266,
+      "finished": "2026-10-11T17:36:09.883087+00:00"
+    },
+    {
+      "model": "chemprop_single_gap",
+      "kind": "chemprop",
+      "source": "configs/baseline.yaml",
+      "config": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012_warmup_recheck/configs/chemprop_single_gap.yaml",
+      "run_dir": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012_warmup_recheck/runs/chemprop_single_gap/seed3407",
+      "status": "success",
+      "source_sha256": "10687983c77b9711c103c4954f1e903676b8d0a7577d6a33c8415f3660985dd4",
+      "commands": [
+        [
+          "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+          "-m",
+          "molgap.training.train",
+          "--config",
+          "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012_warmup_recheck/configs/chemprop_single_gap.yaml"
+        ],
+        [
+          "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+          "-m",
+          "molgap.training.predict",
+          "--config",
+          "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012_warmup_recheck/configs/chemprop_single_gap.yaml"
+        ],
+        [
+          "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+          "-m",
+          "molgap.training.evaluate",
+          "--config",
+          "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012_warmup_recheck/configs/chemprop_single_gap.yaml"
+        ]
+      ],
+      "started": "2026-10-11T17:47:45.752896+00:00",
+      "log": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012_warmup_recheck/logs/chemprop_single_gap.log",
+      "returncode": 0,
+      "checks": {
+        "epochs_completed": 1,
+        "test_rows": 13380,
+        "gap_mae_hartree": 0.010066610041106127
+      },
+      "seconds": 58.303566820919514,
+      "finished": "2026-10-11T17:48:44.056904+00:00",
+      "initial_attempt": {
+        "model": "chemprop_single_gap",
+        "kind": "chemprop",
+        "source": "configs/baseline.yaml",
+        "config": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/chemprop_single_gap.yaml",
+        "run_dir": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/chemprop_single_gap/seed3407",
+        "status": "failed",
+        "source_sha256": "10687983c77b9711c103c4954f1e903676b8d0a7577d6a33c8415f3660985dd4",
+        "commands": [
+          [
+            "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+            "-m",
+            "molgap.training.train",
+            "--config",
+            "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/chemprop_single_gap.yaml"
+          ],
+          [
+            "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+            "-m",
+            "molgap.training.predict",
+            "--config",
+            "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/chemprop_single_gap.yaml"
+          ],
+          [
+            "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+            "-m",
+            "molgap.training.evaluate",
+            "--config",
+            "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/chemprop_single_gap.yaml"
+          ]
+        ],
+        "started": "2026-10-11T17:36:09.884073+00:00",
+        "log": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/logs/chemprop_single_gap.log",
+        "returncode": 1,
+        "error": "Pipeline command exited with code 1; olumns', 'delta_e', '--output-dir', '/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/chemprop_single_gap/seed3407/chemprop', '--metrics', 'gap_mae', 'mae', 'rmse', 'r2', '--logfile', '/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/chemprop_single_gap/seed3407/train.log', '--tracking-metric', 'gap_mae', '--min-delta', '1e-05', '--task-weights', '1.0', '--message-hidden-dim', '300', '--depth', '3', '--dropout', '0.1', '--ffn-hidden-dim', '300', '--ffn-num-layers', '1', '--activation', 'relu', '--aggregation', 'mean', '--batch-size', '256', '--epochs', '1', '--init-lr', '0.0004', '--max-lr', '0.004', '--final-lr', '0.0004', '--warmup-epochs', '2', '--patience', '20', '--num-workers', '8', '--accelerator', 'gpu', '--devices', '1', '--loss-function', 'mse', '--data-seed', '3407', '--pytorch-seed', '3407']' returned non-zero exit status 1.",
+        "log_tail": [
+          "",
+          "COMMAND: /root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python -m molgap.training.train --config /root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/chemprop_single_gap.yaml",
+          "Traceback (most recent call last):",
+          "  File \"<frozen runpy>\", line 198, in _run_module_as_main",
+          "  File \"<frozen runpy>\", line 88, in _run_code",
+          "  File \"/root/autodl-tmp/evan/ai4Chemistry/src/molgap/training/chemprop_gap_cli.py\", line 43, in <module>",
+          "    main()",
+          "  File \"/root/autodl-tmp/evan/ai4Chemistry/src/molgap/training/chemprop_gap_cli.py\", line 39, in main",
+          "    official_main()",
+          "  File \"/root/autodl-tmp/evan/ai4Chemistry/.venv/lib/python3.11/site-packages/chemprop/cli/main.py\", line 91, in main",
+          "    func(args)",
+          "  File \"/root/autodl-tmp/evan/ai4Chemistry/.venv/lib/python3.11/site-packages/chemprop/cli/train.py\", line 112, in func",
+          "    validate_train_args(args)",
+          "  File \"/root/autodl-tmp/evan/ai4Chemistry/.venv/lib/python3.11/site-packages/chemprop/cli/train.py\", line 664, in validate_train_args",
+          "    raise ArgumentError(",
+          "argparse.ArgumentError: The number of epochs should be higher than the number of epochs during warmup. Got 1 epochs and 2 warmup epochs",
+          "Traceback (most recent call last):",
+          "  File \"<frozen runpy>\", line 198, in _run_module_as_main",
+          "  File \"<frozen runpy>\", line 88, in _run_code",
+          "  File \"/root/autodl-tmp/evan/ai4Chemistry/src/molgap/training/train.py\", line 80, in <module>",
+          "    main()",
+          "  File \"/root/autodl-tmp/evan/ai4Chemistry/src/molgap/training/train.py\", line 76, in main",
+          "    train(args.config, args.dry_run, args.overwrite)",
+          "  File \"/root/autodl-tmp/evan/ai4Chemistry/src/molgap/training/train.py\", line 58, in train",
+          "    subprocess.run(command, cwd=root, check=True)",
+          "  File \"/root/autodl-tmp/evan/.uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/subprocess.py\", line 571, in run",
+          "    raise CalledProcessError(retcode, process.args,",
+          "subprocess.CalledProcessError: Command '['/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python', '-m', 'molgap.training.chemprop_gap_cli', 'train', '--data-path', '/root/autodl-tmp/evan/ai4Chemistry/data/processed/qm9_full/random/seed3407/train.csv', '/root/autodl-tmp/evan/ai4Chemistry/data/processed/qm9_full/random/seed3407/val.csv', '/root/autodl-tmp/evan/ai4Chemistry/data/processed/qm9_full/random/seed3407/test.csv', '--task-type', 'regression', '--smiles-columns', 'smiles', '--target-columns', 'delta_e', '--output-dir', '/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/chemprop_single_gap/seed3407/chemprop', '--metrics', 'gap_mae', 'mae', 'rmse', 'r2', '--logfile', '/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/chemprop_single_gap/seed3407/train.log', '--tracking-metric', 'gap_mae', '--min-delta', '1e-05', '--task-weights', '1.0', '--message-hidden-dim', '300', '--depth', '3', '--dropout', '0.1', '--ffn-hidden-dim', '300', '--ffn-num-layers', '1', '--activation', 'relu', '--aggregation', 'mean', '--batch-size', '256', '--epochs', '1', '--init-lr', '0.0004', '--max-lr', '0.004', '--final-lr', '0.0004', '--warmup-epochs', '2', '--patience', '20', '--num-workers', '8', '--accelerator', 'gpu', '--devices', '1', '--loss-function', 'mse', '--data-seed', '3407', '--pytorch-seed', '3407']' returned non-zero exit status 1."
+        ],
+        "seconds": 7.029410511255264,
+        "finished": "2026-10-11T17:36:16.914304+00:00"
+      },
+      "diagnostic_adjustment": "CLI warmup_epochs=0 because total epochs=1"
+    },
+    {
+      "model": "chemprop_multitask",
+      "kind": "chemprop",
+      "source": "configs/multitask.yaml",
+      "config": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012_warmup_recheck/configs/chemprop_multitask.yaml",
+      "run_dir": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012_warmup_recheck/runs/chemprop_multitask/seed3407",
+      "status": "success",
+      "source_sha256": "53f78e9e45dd9299d50df78630d6ae04793a617e42bcb2633376ef1fa46f113d",
+      "commands": [
+        [
+          "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+          "-m",
+          "molgap.training.train",
+          "--config",
+          "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012_warmup_recheck/configs/chemprop_multitask.yaml"
+        ],
+        [
+          "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+          "-m",
+          "molgap.training.predict",
+          "--config",
+          "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012_warmup_recheck/configs/chemprop_multitask.yaml"
+        ],
+        [
+          "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+          "-m",
+          "molgap.training.evaluate",
+          "--config",
+          "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012_warmup_recheck/configs/chemprop_multitask.yaml"
+        ]
+      ],
+      "started": "2026-10-11T17:48:44.057488+00:00",
+      "log": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012_warmup_recheck/logs/chemprop_multitask.log",
+      "returncode": 0,
+      "checks": {
+        "epochs_completed": 1,
+        "test_rows": 13380,
+        "gap_mae_hartree": 0.009614712329970104
+      },
+      "seconds": 50.16480878740549,
+      "finished": "2026-10-11T17:49:34.222679+00:00",
+      "initial_attempt": {
+        "model": "chemprop_multitask",
+        "kind": "chemprop",
+        "source": "configs/multitask.yaml",
+        "config": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/chemprop_multitask.yaml",
+        "run_dir": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/chemprop_multitask/seed3407",
+        "status": "failed",
+        "source_sha256": "53f78e9e45dd9299d50df78630d6ae04793a617e42bcb2633376ef1fa46f113d",
+        "commands": [
+          [
+            "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+            "-m",
+            "molgap.training.train",
+            "--config",
+            "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/chemprop_multitask.yaml"
+          ],
+          [
+            "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+            "-m",
+            "molgap.training.predict",
+            "--config",
+            "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/chemprop_multitask.yaml"
+          ],
+          [
+            "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+            "-m",
+            "molgap.training.evaluate",
+            "--config",
+            "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/chemprop_multitask.yaml"
+          ]
+        ],
+        "started": "2026-10-11T17:36:16.915402+00:00",
+        "log": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/logs/chemprop_multitask.log",
+        "returncode": 1,
+        "error": "Pipeline command exited with code 1; ot/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/chemprop_multitask/seed3407/chemprop', '--metrics', 'gap_mae', 'mae', 'rmse', 'r2', '--logfile', '/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/chemprop_multitask/seed3407/train.log', '--tracking-metric', 'gap_mae', '--min-delta', '1e-05', '--show-individual-scores', '--task-weights', '1.0', '1.0', '1.0', '--message-hidden-dim', '300', '--depth', '3', '--dropout', '0.1', '--ffn-hidden-dim', '300', '--ffn-num-layers', '1', '--activation', 'relu', '--aggregation', 'mean', '--batch-size', '256', '--epochs', '1', '--init-lr', '0.0004', '--max-lr', '0.004', '--final-lr', '0.0004', '--warmup-epochs', '2', '--patience', '20', '--num-workers', '8', '--accelerator', 'gpu', '--devices', '1', '--loss-function', 'mse', '--data-seed', '3407', '--pytorch-seed', '3407']' returned non-zero exit status 1.",
+        "log_tail": [
+          "",
+          "COMMAND: /root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python -m molgap.training.train --config /root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/chemprop_multitask.yaml",
+          "Traceback (most recent call last):",
+          "  File \"<frozen runpy>\", line 198, in _run_module_as_main",
+          "  File \"<frozen runpy>\", line 88, in _run_code",
+          "  File \"/root/autodl-tmp/evan/ai4Chemistry/src/molgap/training/chemprop_gap_cli.py\", line 43, in <module>",
+          "    main()",
+          "  File \"/root/autodl-tmp/evan/ai4Chemistry/src/molgap/training/chemprop_gap_cli.py\", line 39, in main",
+          "    official_main()",
+          "  File \"/root/autodl-tmp/evan/ai4Chemistry/.venv/lib/python3.11/site-packages/chemprop/cli/main.py\", line 91, in main",
+          "    func(args)",
+          "  File \"/root/autodl-tmp/evan/ai4Chemistry/.venv/lib/python3.11/site-packages/chemprop/cli/train.py\", line 112, in func",
+          "    validate_train_args(args)",
+          "  File \"/root/autodl-tmp/evan/ai4Chemistry/.venv/lib/python3.11/site-packages/chemprop/cli/train.py\", line 664, in validate_train_args",
+          "    raise ArgumentError(",
+          "argparse.ArgumentError: The number of epochs should be higher than the number of epochs during warmup. Got 1 epochs and 2 warmup epochs",
+          "Traceback (most recent call last):",
+          "  File \"<frozen runpy>\", line 198, in _run_module_as_main",
+          "  File \"<frozen runpy>\", line 88, in _run_code",
+          "  File \"/root/autodl-tmp/evan/ai4Chemistry/src/molgap/training/train.py\", line 80, in <module>",
+          "    main()",
+          "  File \"/root/autodl-tmp/evan/ai4Chemistry/src/molgap/training/train.py\", line 76, in main",
+          "    train(args.config, args.dry_run, args.overwrite)",
+          "  File \"/root/autodl-tmp/evan/ai4Chemistry/src/molgap/training/train.py\", line 58, in train",
+          "    subprocess.run(command, cwd=root, check=True)",
+          "  File \"/root/autodl-tmp/evan/.uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/subprocess.py\", line 571, in run",
+          "    raise CalledProcessError(retcode, process.args,",
+          "subprocess.CalledProcessError: Command '['/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python', '-m', 'molgap.training.chemprop_gap_cli', 'train', '--data-path', '/root/autodl-tmp/evan/ai4Chemistry/data/processed/qm9_full/random/seed3407/train.csv', '/root/autodl-tmp/evan/ai4Chemistry/data/processed/qm9_full/random/seed3407/val.csv', '/root/autodl-tmp/evan/ai4Chemistry/data/processed/qm9_full/random/seed3407/test.csv', '--task-type', 'regression', '--smiles-columns', 'smiles', '--target-columns', 'homo', 'lumo', 'delta_e', '--output-dir', '/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/chemprop_multitask/seed3407/chemprop', '--metrics', 'gap_mae', 'mae', 'rmse', 'r2', '--logfile', '/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/chemprop_multitask/seed3407/train.log', '--tracking-metric', 'gap_mae', '--min-delta', '1e-05', '--show-individual-scores', '--task-weights', '1.0', '1.0', '1.0', '--message-hidden-dim', '300', '--depth', '3', '--dropout', '0.1', '--ffn-hidden-dim', '300', '--ffn-num-layers', '1', '--activation', 'relu', '--aggregation', 'mean', '--batch-size', '256', '--epochs', '1', '--init-lr', '0.0004', '--max-lr', '0.004', '--final-lr', '0.0004', '--warmup-epochs', '2', '--patience', '20', '--num-workers', '8', '--accelerator', 'gpu', '--devices', '1', '--loss-function', 'mse', '--data-seed', '3407', '--pytorch-seed', '3407']' returned non-zero exit status 1."
+        ],
+        "seconds": 7.448285177350044,
+        "finished": "2026-10-11T17:36:24.364529+00:00"
+      },
+      "diagnostic_adjustment": "CLI warmup_epochs=0 because total epochs=1"
+    },
+    {
+      "model": "chemprop_consistency",
+      "kind": "chemprop",
+      "source": "configs/consistency.yaml",
+      "config": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/chemprop_consistency.yaml",
+      "run_dir": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/chemprop_consistency/seed3407",
+      "status": "success",
+      "source_sha256": "04909cf1c6c81d2b36de70b812eff08bb77ae10fab734be79d6057cb5bf1f67c",
+      "commands": [
+        [
+          "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+          "-m",
+          "molgap.training.train",
+          "--config",
+          "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/chemprop_consistency.yaml"
+        ],
+        [
+          "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+          "-m",
+          "molgap.training.predict",
+          "--config",
+          "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/chemprop_consistency.yaml"
+        ],
+        [
+          "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+          "-m",
+          "molgap.training.evaluate",
+          "--config",
+          "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/chemprop_consistency.yaml"
+        ]
+      ],
+      "started": "2026-10-11T17:36:24.365914+00:00",
+      "log": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/logs/chemprop_consistency.log",
+      "returncode": 0,
+      "checks": {
+        "epochs_completed": 1,
+        "test_rows": 13380,
+        "gap_mae_hartree": 0.010193124606875933
+      },
+      "seconds": 77.84097012132406,
+      "finished": "2026-10-11T17:37:42.207944+00:00"
+    },
+    {
+      "model": "smiles_transformer",
+      "kind": "transformer",
+      "source": "configs/transformer.yaml",
+      "config": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/smiles_transformer.yaml",
+      "run_dir": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/smiles_transformer/seed3407",
+      "status": "success",
+      "source_sha256": "c0252c7020bb3dbdfe524d990548f91a7f786cf13bd7e8e33e83c24682cc0e28",
+      "commands": [
+        [
+          "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+          "-m",
+          "molgap.training.transformer",
+          "--config",
+          "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/smiles_transformer.yaml"
+        ]
+      ],
+      "started": "2026-10-11T17:37:42.209663+00:00",
+      "log": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/logs/smiles_transformer.log",
+      "returncode": 0,
+      "checks": {
+        "epochs_completed": 1,
+        "test_rows": 13380,
+        "gap_mae_hartree": 0.014977815139843049
+      },
+      "seconds": 30.943752460181713,
+      "finished": "2026-10-11T17:38:13.154876+00:00"
+    },
+    {
+      "model": "spe_transformer",
+      "kind": "transformer",
+      "source": "configs/spe_transformer.yaml",
+      "config": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/spe_transformer.yaml",
+      "run_dir": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/spe_transformer/seed3407",
+      "status": "success",
+      "source_sha256": "988d08902b73941c3f335b9488fdae71d36ccaf247cb0359aa6428c0228a0470",
+      "commands": [
+        [
+          "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+          "-m",
+          "molgap.training.transformer",
+          "--config",
+          "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/spe_transformer.yaml"
+        ]
+      ],
+      "started": "2026-10-11T17:38:13.155996+00:00",
+      "log": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/logs/spe_transformer.log",
+      "returncode": 0,
+      "checks": {
+        "epochs_completed": 1,
+        "test_rows": 13380,
+        "gap_mae_hartree": 0.012671866971890882
+      },
+      "seconds": 49.77843816578388,
+      "finished": "2026-10-11T17:39:02.935339+00:00"
+    },
+    {
+      "model": "spe_multitask",
+      "kind": "spe_multitask",
+      "source": "configs/spe_multitask.yaml",
+      "config": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/spe_multitask.yaml",
+      "run_dir": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/spe_multitask/seed3407",
+      "status": "success",
+      "source_sha256": "383d30e0d276f03c283e6c0225175cac50109278a7c482a7e2f0c347b64c4cbf",
+      "commands": [
+        [
+          "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+          "-m",
+          "molgap.training.spe_multitask",
+          "--config",
+          "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/spe_multitask.yaml"
+        ]
+      ],
+      "started": "2026-10-11T17:39:02.936476+00:00",
+      "log": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/logs/spe_multitask.log",
+      "returncode": 0,
+      "checks": {
+        "epochs_completed": 1,
+        "test_rows": 13380,
+        "gap_mae_hartree": 0.012941862685852016
+      },
+      "seconds": 38.15929285436869,
+      "finished": "2026-10-11T17:39:41.096647+00:00"
+    },
+    {
+      "model": "spe_multitask_affinity",
+      "kind": "spe_multitask",
+      "source": "configs/spe_multitask_affinity.yaml",
+      "config": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/spe_multitask_affinity.yaml",
+      "run_dir": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/spe_multitask_affinity/seed3407",
+      "status": "success",
+      "source_sha256": "cf78145bbc19acddf7509ffdae3db9563d0fe24e9a4f8019e6235e58b57d75fe",
+      "commands": [
+        [
+          "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+          "-m",
+          "molgap.training.spe_multitask",
+          "--config",
+          "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/spe_multitask_affinity.yaml"
+        ]
+      ],
+      "started": "2026-10-11T17:39:41.097696+00:00",
+      "log": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/logs/spe_multitask_affinity.log",
+      "returncode": 0,
+      "checks": {
+        "epochs_completed": 1,
+        "test_rows": 13380,
+        "gap_mae_hartree": 0.012963601891621823
+      },
+      "seconds": 47.2210790887475,
+      "finished": "2026-10-11T17:40:28.319671+00:00"
+    },
+    {
+      "model": "spe_multitask_consistency",
+      "kind": "spe_multitask",
+      "source": "configs/spe_multitask_consistency.yaml",
+      "config": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/spe_multitask_consistency.yaml",
+      "run_dir": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/spe_multitask_consistency/seed3407",
+      "status": "success",
+      "source_sha256": "2903b66c782705127cae32a9ace7f938f1f0e2d7a576dc3d1371a01c6a552bba",
+      "commands": [
+        [
+          "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+          "-m",
+          "molgap.training.spe_multitask",
+          "--config",
+          "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/spe_multitask_consistency.yaml"
+        ]
+      ],
+      "started": "2026-10-11T17:40:28.320924+00:00",
+      "log": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/logs/spe_multitask_consistency.log",
+      "returncode": 0,
+      "checks": {
+        "epochs_completed": 1,
+        "test_rows": 13380,
+        "gap_mae_hartree": 0.012941726817638268
+      },
+      "seconds": 47.85304486006498,
+      "finished": "2026-10-11T17:41:16.174931+00:00"
+    },
+    {
+      "model": "spe_multitask_affinity_consistency",
+      "kind": "spe_multitask",
+      "source": "configs/spe_multitask_affinity_consistency.yaml",
+      "config": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/spe_multitask_affinity_consistency.yaml",
+      "run_dir": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/spe_multitask_affinity_consistency/seed3407",
+      "status": "success",
+      "source_sha256": "52810a53179e30b3eba76bafebf494f6588757d06271a1466e6723750a144483",
+      "commands": [
+        [
+          "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+          "-m",
+          "molgap.training.spe_multitask",
+          "--config",
+          "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/spe_multitask_affinity_consistency.yaml"
+        ]
+      ],
+      "started": "2026-10-11T17:41:16.175988+00:00",
+      "log": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/logs/spe_multitask_affinity_consistency.log",
+      "returncode": 0,
+      "checks": {
+        "epochs_completed": 1,
+        "test_rows": 13380,
+        "gap_mae_hartree": 0.012963569793654707
+      },
+      "seconds": 47.588871501386166,
+      "finished": "2026-10-11T17:42:03.765826+00:00"
+    },
+    {
+      "model": "training_mean",
+      "kind": "ml",
+      "source": "configs/training_mean.yaml",
+      "config": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/training_mean.yaml",
+      "run_dir": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/training_mean/seed3407",
+      "status": "success",
+      "source_sha256": "efe801d630a4941170bc1f874d818abf31f970ffaf2c51514d3c648a09e6ba14",
+      "commands": [
+        [
+          "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+          "-m",
+          "molgap.training.ml",
+          "--config",
+          "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/training_mean.yaml"
+        ]
+      ],
+      "started": "2026-10-11T17:42:03.767076+00:00",
+      "log": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/logs/training_mean.log",
+      "returncode": 0,
+      "checks": {
+        "epochs_completed": null,
+        "test_rows": 13380,
+        "gap_mae_hartree": 0.03962738219940107
+      },
+      "seconds": 3.465840943157673,
+      "finished": "2026-10-11T17:42:07.233872+00:00"
+    },
+    {
+      "model": "xgboost_rdkit29",
+      "kind": "ml",
+      "source": "configs/xgboost_rdkit29.yaml",
+      "config": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/xgboost_rdkit29.yaml",
+      "run_dir": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/xgboost_rdkit29/seed3407",
+      "status": "success",
+      "source_sha256": "0c3bd29a594735d94a51bb9e8ae70891d7422b291050351408f1bdfb48df28f9",
+      "commands": [
+        [
+          "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+          "-m",
+          "molgap.training.ml",
+          "--config",
+          "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/xgboost_rdkit29.yaml"
+        ]
+      ],
+      "started": "2026-10-11T17:42:07.234968+00:00",
+      "log": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/logs/xgboost_rdkit29.log",
+      "returncode": 0,
+      "checks": {
+        "epochs_completed": null,
+        "test_rows": 13380,
+        "gap_mae_hartree": 0.008106765516787011
+      },
+      "seconds": 118.92421392351389,
+      "finished": "2026-10-11T17:44:06.160085+00:00"
+    },
+    {
+      "model": "random_forest_rdkit29",
+      "kind": "ml",
+      "source": "configs/random_forest_rdkit29.yaml",
+      "config": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/random_forest_rdkit29.yaml",
+      "run_dir": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/runs/random_forest_rdkit29/seed3407",
+      "status": "success",
+      "source_sha256": "7bc02da593965134caa738684d7a60da4b190e4993fd104e4997718407999726",
+      "commands": [
+        [
+          "/root/autodl-tmp/evan/ai4Chemistry/.venv/bin/python",
+          "-m",
+          "molgap.training.ml",
+          "--config",
+          "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/configs/random_forest_rdkit29.yaml"
+        ]
+      ],
+      "started": "2026-10-11T17:44:06.161201+00:00",
+      "log": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/logs/random_forest_rdkit29.log",
+      "returncode": 0,
+      "checks": {
+        "epochs_completed": null,
+        "test_rows": 13380,
+        "gap_mae_hartree": 0.0067406239988554405
+      },
+      "seconds": 215.05647939443588,
+      "finished": "2026-10-11T17:47:41.218631+00:00"
+    }
+  ],
+  "finished": "2026-10-11T18:13:17.225478+00:00",
+  "original_report": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/status.json",
+  "initial_suite_finished": "2026-10-11T17:47:41.219792+00:00"
+}

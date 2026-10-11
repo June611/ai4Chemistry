@@ -1,0 +1,38 @@
+QM9 全模型一轮烟测审查（2026-10-12）
+
+结论：22个下游模型中20个成功、2个失败；另含1个成功的3D Infomax预训练步骤。
+失败：Cormorant、LieTransformer，RTX3090 batch256下CUDA显存不足。
+失败前的显存峰值不能当作成功训练所需显存上限；没有减小batch、模型或精度来掩盖失败。
+
+范围：仅QM9固定seed3407划分，初始化seed3407；下游107038/13380/13380行。
+神经网络1epoch、batch256、原patience20；Infomax从训练集抽取50000条预训练1epoch。
+传统基线各按原参数拟合一次，epoch/batch为N/A。
+原架构、tokenizer、loss、scaler及LR数值不变；正式256/100/20与三组配对seed配置审计PASS。
+
+诊断例外：官方Chemprop CLI要求epochs>warmup，single gap/multitask初次epochs1/warmup2退出。
+仅复制的诊断配置设warmup0，重试后均通过。Python consistency入口保留原warmup。
+初次状态、错误与修正重试保存于final_status.json及resources_complete.csv。
+
+成功验收：完成一轮、保存checkpoint/模型、覆盖全部13380条固定test样本、预测有限、重算gap MAE。
+Infomax checkpoint校验配对seed、split manifest和geometry哈希，没有使用外部预训练权重。
+资源验收：23行均有完整尝试采样与非零采样数量；早期4模型补测结果一致；无缺失覆盖或结果冲突。
+每约1秒采样，CSV包括GPU进程/整卡峰值、主机RSS/PSS、耗时、workers、precision、配额、状态。
+RSS重复统计共享页，PSS分摊共享页；资源包含训练器/数据加载子进程和少量入口开销。
+短瞬时峰值可能漏采；一轮时间含准备、训练、验证/预测，不直接乘100估算正式耗时。
+
+环境：RTX3090/24576MiB，Python3.11.15、Torch2.6.0+cu124。
+容器实际CPU配额15核、内存上限90GiB，不使用宿主机128核/773GB数值作配额依据。
+DimeNet++峰值21.605GiB、ALIGNN峰值22.234GiB，应在24GiB卡上独占执行。
+
+证据：verification/resources_complete.csv、final_results.md、final_status.json、completion.json。
+服务器原始目录：/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012。
+本地原始目录：artifacts/one_epoch_smoke_20261012_server/（含原日志、复制配置、重试/补测）。
+86文件证据包104368bytes，SHA256：5ec35826e04395db4412b20ca130f5a641f59fdde82003b1b6451a6c437d2631。
+模型权重保存在服务器隔离runs目录；未启动100epoch正式训练，GPU训练进程已退出。
+
+未完成：解决两个模型的batch256显存问题；三组正式Infomax预训练；三组100epoch训练与最终结果审查。
+一轮烟测只证明当前入口可执行，不能证明论文精度、全面复现正确性或训练收敛。
+
+Codex配置：本地0.162.1支持--approve-for-me；用户配置已是on-request/auto_review/workspace-write。
+观察到旧CLI会话turn_context仍记录reviewer=user，需/permissions选择Approve for me，
+或codex resume --last --approve-for-me；Shift误触具体组合未确认，使用/keymap检查。

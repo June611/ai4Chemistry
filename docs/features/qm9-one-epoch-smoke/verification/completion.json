@@ -1,0 +1,43 @@
+{
+  "completed_at": "2026-10-11T18:13:17.225478+00:00",
+  "resource_csv": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012/resources_complete.csv",
+  "resource_rechecked_models": [
+    "egnn",
+    "schnet",
+    "painn",
+    "dimenet_pp"
+  ],
+  "resource_recheck_directory": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/one_epoch_smoke_20261012_resource_recheck",
+  "diagnostic_warmup_retried_models": [
+    "chemprop_single_gap",
+    "chemprop_multitask"
+  ],
+  "inconsistent_outcomes": [],
+  "missing_full_coverage": [],
+  "downstream_success": [
+    "egnn",
+    "schnet",
+    "painn",
+    "dimenet_pp",
+    "esa",
+    "torchmd_net",
+    "alignn",
+    "3dinfomax",
+    "chemprop_single_gap",
+    "chemprop_multitask",
+    "chemprop_consistency",
+    "smiles_transformer",
+    "spe_transformer",
+    "spe_multitask",
+    "spe_multitask_affinity",
+    "spe_multitask_consistency",
+    "spe_multitask_affinity_consistency",
+    "training_mean",
+    "xgboost_rdkit29",
+    "random_forest_rdkit29"
+  ],
+  "downstream_failed_or_blocked": [
+    "cormorant",
+    "lie_transformer"
+  ]
+}
