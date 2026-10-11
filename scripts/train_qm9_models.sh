@@ -7,6 +7,7 @@ export WARP_CACHE_PATH="${WARP_CACHE_PATH:-/tmp/molgap-warp-cache}"
 
 paired_seeds=( ${QM9_PAIRED_SEEDS:-3407 42 2026} )
 models=(egnn schnet painn dimenet_pp esa torchmd_net cormorant lie_transformer alignn)
+paused_models="$(uv run python -m molgap.qm9_models.policy)"
 
 for split_seed in "${paired_seeds[@]}"; do
   seed="$split_seed"
@@ -16,6 +17,10 @@ for split_seed in "${paired_seeds[@]}"; do
     checkpoint="${checkpoint//\{seed\}/$seed}"
   fi
   for model in "${models[@]}"; do
+    if [[ " $paused_models " == *" $model "* ]]; then
+      echo "Skipping ${model}: paused by user request (see README.md and paused_models.yaml)."
+      continue
+    fi
     uv run python -m molgap.qm9_models.train \
       --config "configs/qm9_models/${model}.yaml" \
       --split-seed "$split_seed" --seed "$seed"

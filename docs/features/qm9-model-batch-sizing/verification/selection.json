@@ -1,0 +1,31 @@
+{
+  "started": "2026-10-11T18:27:48.340770+00:00",
+  "seed": 3407,
+  "epochs": 1,
+  "selection_rule": "largest tested passing halving candidate below failed batch256",
+  "candidates": [
+    128,
+    64,
+    32,
+    16,
+    8,
+    4,
+    2,
+    1
+  ],
+  "models": {
+    "cormorant": {
+      "status": "stopped",
+      "last_attempt_batch_size": 32,
+      "epochs_completed": 0,
+      "accepted_batch_size": null
+    },
+    "lie_transformer": {
+      "status": "not_started",
+      "accepted_batch_size": null
+    }
+  },
+  "stopped": "2026-10-11T18:35:03.155352+00:00",
+  "stop_reason": "user_requested_stop",
+  "accepted_batch_sizes": {}
+}

@@ -200,7 +200,8 @@ def main() -> None:
     lines = [
         "# QM9 final one-epoch smoke results",
         "",
-        "Seed/split3407; neural batch256, 1epoch; full fixed QM9 split.",
+        "Seed/split3407; neural batches recorded in resources_complete.csv, 1epoch; "
+        "full fixed QM9 split.",
         "CLI Chemprop uses warmup0 for this diagnostic only. Initial failed attempts are retained.",
         "",
         "| Model | Final status | GPU peak GiB | RAM peak PSS GiB | Note |",

@@ -1,0 +1,18 @@
+QM9 两模型暂停审查 — 2026-10-12
+
+用户最新指令：停止Cormorant/LieTransformer，不继续显存适配，README说明并防止运行。
+PASS：本轮专属重试/训练/4个数据worker/监控进程已停止，服务器无GPU计算进程，显存1MiB。
+PASS：中央暂停名单；批量训练和默认烟测跳过；显式烟测拒绝；直接train/--smoke在加载数据前拒绝。
+PASS：dry-run仍允许检查；两个模型实现、batch256配置、原证据均保留。
+PASS：本地23项相关pytest；Ruff；shell语法；git diff --check；服务器两个直接入口保护实际验证。
+PASS：服务器同步后相同23项pytest通过，默认prepare-only仅21个任务，不包含两个暂停模型。
+PASS：服务器shell语法/git diff检查通过；最终GPU计算进程为空，显存1MiB。
+PASS：原正式预算256/100/20与三组配对seed不变。注册66组评估中暂停6组，当前启用60组。
+STOPPED：Cormorant batch32只运行部分一轮；0个完整epoch；不接受其为可运行batch。
+FAILED：Cormorant batch128/64 CUDA OOM；资源记录仅表示失败过程。
+NOT STARTED：LieTransformer降batch重试。
+PENDING：两个模型后续显存适配和所有模型三组正式100epoch产物验收。
+
+证据：verification/stop_receipt.json、selection.json、attempts_after_stop.csv、paused_protocol_audit.json。
+原始服务器日志：artifacts/batch_sizing_20261012/；本地完整小型归档位于同名artifacts目录。
+未覆盖原batch256烟测证据；无数据集/权重上传Git。

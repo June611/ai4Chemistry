@@ -21,6 +21,7 @@ from molgap.metrics.regression import regression_metrics
 from molgap.qm9_models.batch import collate_molecules
 from molgap.qm9_models.data import load_data
 from molgap.qm9_models.factory import build_model
+from molgap.qm9_models.policy import require_enabled
 from molgap.utils.files import write_run_metadata
 
 
@@ -67,6 +68,8 @@ def run(
     config = yaml.safe_load(config_path.read_text())
     config = copy.deepcopy(config)
     training = config["training"]
+    if not dry_run:
+        require_enabled(config["model"]["name"], root)
     if training["early_stopping"].get("monitor") != "val_mae":
         raise ValueError("QM9 downstream selection must monitor raw Hartree gap val_mae")
     if split_seed_override is not None:

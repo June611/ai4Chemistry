@@ -1,0 +1,16 @@
+{
+  "stopped_at": "2026-10-11T18:35:03.155352+00:00",
+  "pids": [
+    26128,
+    26342,
+    26344,
+    26345,
+    26409,
+    26410,
+    26411,
+    26412,
+    28050
+  ],
+  "reason": "user_requested_stop",
+  "formal_configs_changed": false
+}

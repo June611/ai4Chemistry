@@ -10,8 +10,12 @@ from typing import Any
 
 import yaml
 
+from molgap.qm9_models.policy import paused_models
+
 PROTOCOL_ID = "paired_split_gap_mae_v2"
 SEEDS = (3407, 42, 2026)
+# Frozen approved budget; YAML files remain the runtime parameter source.
+APPROVED_BATCH_SIZE = 256
 
 CHEMPROP = ("baseline.yaml", "multitask.yaml", "consistency.yaml")
 SEQUENCE = (
@@ -54,32 +58,34 @@ def audit(root: Path) -> dict[str, Any]:
         training = config["training"]
         neural[name] = _record(
             {
-                "batch_size_256": int(training["batch_size"]) == 256,
+                "approved_batch_size": int(training["batch_size"]) == APPROVED_BATCH_SIZE,
                 "epochs_100": int(training["epochs"]) == 100,
                 "patience_20": int(training["patience"]) == 20,
                 "gap_mae_selection": training.get("selection_metric") == "gap_mae",
                 "min_delta_hartree": training.get("early_stopping_min_delta") == 1e-5,
                 "single_device": training["devices"] == 1,
-            }
+            },
+            batch_size=int(training["batch_size"]),
         )
     for name in SEQUENCE:
         config = _yaml(root / "configs" / name)
         training = config["training"]
         neural[name] = _record(
             {
-                "batch_size_256": int(training["batch_size"]) == 256,
+                "approved_batch_size": int(training["batch_size"]) == APPROVED_BATCH_SIZE,
                 "epochs_100": int(training["epochs"]) == 100,
                 "patience_20": int(training["early_stopping_patience"]) == 20,
                 "min_delta_hartree": training["early_stopping_min_delta"] == 1e-5,
                 "single_device": training["devices"] == 1,
-            }
+            },
+            batch_size=int(training["batch_size"]),
         )
     for name in QM9:
         config = _yaml(root / "configs/qm9_models" / name)
         training = config["training"]
         neural[f"qm9_models/{name}"] = _record(
             {
-                "batch_size_256": int(training["batch_size"]) == 256,
+                "approved_batch_size": int(training["batch_size"]) == APPROVED_BATCH_SIZE,
                 "epochs_100": int(training["epochs"]) == 100,
                 "patience_20": int(training["early_stopping"]["patience"]) == 20,
                 "gap_mae_selection": training["early_stopping"]["monitor"] == "val_mae",
@@ -87,19 +93,21 @@ def audit(root: Path) -> dict[str, Any]:
                 "preserved_loss": training["loss"] == "mae",
                 "preserved_scaler": training["target_scaling"] == "mad",
                 "isolated_output_root": config["output"]["root"] == "outputs/paired_gap_mae_v2",
-            }
+            },
+            batch_size=int(training["batch_size"]),
         )
     pretrain = _yaml(root / "configs/qm9_models/3dinfomax_pretrain.yaml")
     settings = pretrain["pretraining"]
     pretrain_result = _record(
         {
-            "batch_size_256": int(settings["batch_size"]) == 256,
+            "approved_batch_size": int(settings["batch_size"]) == APPROVED_BATCH_SIZE,
             "epochs_100": int(settings["epochs"]) == 100,
             "patience_20": int(settings["patience"]) == 20,
             "lr_decay_before_early_stop": settings["lr_patience"] < settings["patience"],
             "isolated_output_root": pretrain["output"]["root"]
             == "outputs/paired_gap_mae_v2/3dinfomax_pretrain",
-        }
+        },
+        batch_size=int(settings["batch_size"]),
     )
 
     matrix_paths = {
@@ -170,7 +178,8 @@ def audit(root: Path) -> dict[str, Any]:
     report = {
         "protocol_id": PROTOCOL_ID,
         "paired_seeds": list(SEEDS),
-        "budget": {"batch_size": 256, "epochs": 100, "early_stopping_patience": 20},
+        "paused_models": paused_models(root),
+        "budget": {"batch_size": APPROVED_BATCH_SIZE, "epochs": 100, "early_stopping_patience": 20},
         "selection": {
             "target": "delta_e",
             "metric": "mae",
@@ -192,6 +201,13 @@ def audit(root: Path) -> dict[str, Any]:
             "qm9_downstream": len(QM9) * len(SEEDS),
             "traditional": 3 * len(SEEDS),
             "evaluated_total": planned_neural_runs + len(QM9) * len(SEEDS) + 3 * len(SEEDS),
+            "paused_evaluated_runs": len(paused_models(root)) * len(SEEDS),
+            "runnable_evaluated_runs": (
+                planned_neural_runs
+                + len(QM9) * len(SEEDS)
+                + 3 * len(SEEDS)
+                - len(paused_models(root)) * len(SEEDS)
+            ),
             "3dinfomax_pretraining_auxiliary": len(SEEDS),
         },
     }

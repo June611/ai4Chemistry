@@ -99,8 +99,10 @@ def export(directory: Path, report: dict, samples: dict, interval: float) -> Non
                     "status": entry["status"],
                     "split_seed": 3407,
                     "training_seed": 3407,
-                    "batch_size": "N/A" if entry["kind"] == "ml" else 256,
-                    "epochs": "N/A" if entry["kind"] == "ml" else 1,
+                    "batch_size": "N/A" if entry["kind"] == "ml" else entry.get(
+                        "batch_size", report.get("batch_size", 256)
+                    ),
+                    "epochs": "N/A" if entry["kind"] == "ml" else entry.get("epochs", 1),
                     "pipeline_seconds": round(entry.get("seconds", 0), 2),
                     **{
                         key: round(measurement[key], 2) if key in measurement else ""

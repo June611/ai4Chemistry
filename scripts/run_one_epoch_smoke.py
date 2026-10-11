@@ -18,6 +18,8 @@ from pathlib import Path
 
 import yaml
 
+from molgap.qm9_models.policy import paused_models
+
 
 def now() -> str:
     return datetime.now(UTC).isoformat()
@@ -65,14 +67,25 @@ def models(root: Path) -> list[tuple[str, str, Path]]:
 
 
 def prepare(
-    root: Path, destination: Path, name: str, kind: str, source: Path
+    root: Path,
+    destination: Path,
+    name: str,
+    kind: str,
+    source: Path,
+    batch_size: int | None = None,
 ) -> tuple[Path, Path, dict]:
     config = copy.deepcopy(yaml.safe_load(source.read_text()))
     if int(config["data"]["split"]["seed"]) != 3407:
         raise ValueError(f"Unexpected split in {source}")
     output = destination / "runs"
+    settings = config["pretraining" if kind == "pretrain" else "training"]
+    selected_batch = (
+        None if kind == "ml" else int(settings["batch_size"] if batch_size is None else batch_size)
+    )
+    if selected_batch is not None and selected_batch < 1:
+        raise ValueError("batch_size must be positive")
     if kind == "pretrain":
-        config["pretraining"].update(seed=3407, epochs=1, batch_size=256)
+        config["pretraining"].update(seed=3407, epochs=1, batch_size=selected_batch)
         config["output"]["root"] = str(output / name)
         run_dir = output / name / "seed3407"
     else:
@@ -85,7 +98,7 @@ def prepare(
         )
         if kind != "ml":
             config["training"].update(
-                epochs=1, batch_size=256, accelerator="gpu" if kind != "qm9" else "cuda"
+                epochs=1, batch_size=selected_batch, accelerator="gpu" if kind != "qm9" else "cuda"
             )
         if kind == "chemprop" and config["model"]["backend"] == "chemprop_cli":
             # The official CLI requires epochs > warmup_epochs. The formal
@@ -103,7 +116,8 @@ def prepare(
         "split_seed": 3407,
         "training_seed": 3407,
         "epochs": None if kind == "ml" else 1,
-        "batch_size": None if kind == "ml" else 256,
+        "batch_size": selected_batch,
+        "batch_override": batch_size,
         "source_config": str(source.relative_to(root)),
         "source_sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
     }
@@ -191,12 +205,12 @@ def publish(destination: Path, report: dict) -> None:
     rows = [
         "# QM9 one-epoch smoke results",
         "",
-        "Seed/split 3407; neural batch 256, 1 epoch; full fixed split. "
+        "Seed/split 3407; neural batches shown per model, 1 epoch; full fixed split. "
         "Traditional models: one fit.",
         "Diagnostic results only; these do not replace the three-seed, 100-epoch experiments.",
         "",
-        "| Model | Status | Seconds | Detail |",
-        "|---|---|---:|---|",
+        "| Model | Batch | Status | Seconds | Detail |",
+        "|---|---:|---|---:|---|",
     ]
     for item in report["models"]:
         detail = item.get("error", "")
@@ -205,8 +219,11 @@ def publish(destination: Path, report: dict) -> None:
         if item["kind"] == "ml":
             detail += "; epochs N/A"
         clean_detail = detail.replace("|", "/").replace("\n", " ")
+        batch = item.get("batch_size", report.get("batch_size", 256))
+        if item["kind"] == "ml":
+            batch = "N/A"
         rows.append(
-            f"| {item['model']} | {item['status']} | "
+            f"| {item['model']} | {batch} | {item['status']} | "
             f"{item.get('seconds', 0):.1f} | {clean_detail} |"
         )
     (destination / "results.md").write_text("\n".join(rows) + "\n")
@@ -217,9 +234,16 @@ def main() -> None:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--prepare-only", action="store_true")
     parser.add_argument(
+        "--batch-size",
+        type=int,
+        help="Diagnostic override for selected neural models; default uses each source config",
+    )
+    parser.add_argument(
         "--models", nargs="+", help="Run only these models in a new output directory"
     )
     args = parser.parse_args()
+    if args.batch_size is not None and args.batch_size < 1:
+        parser.error("--batch-size must be positive")
     root = Path(__file__).resolve().parents[1]
     destination = args.output.resolve()
     destination.mkdir(parents=True, exist_ok=True)
@@ -228,17 +252,23 @@ def main() -> None:
     os.environ.setdefault("MKL_NUM_THREADS", "2")
     os.environ["PYTHONUNBUFFERED"] = "1"
     definitions = models(root)
+    paused = paused_models(root)
     if args.models:
         selected = set(args.models)
+        if selected & paused.keys():
+            parser.error(f"Models paused by user request: {sorted(selected & paused.keys())}")
         if "3dinfomax" in selected:
             selected.add("3dinfomax_pretrain")
         unknown = selected - {item[0] for item in definitions}
         if unknown:
             raise ValueError(f"Unknown model selection: {sorted(unknown)}")
         definitions = [item for item in definitions if item[0] in selected]
+    definitions = [item for item in definitions if item[0] not in paused]
     report_path = destination / "status.json"
     if report_path.exists():
         report = json.loads(report_path.read_text())
+        if report.get("batch_override") != args.batch_size:
+            raise ValueError("Existing run uses a different batch override; choose a new output")
     else:
         report = {
             "started": now(),
@@ -249,11 +279,14 @@ def main() -> None:
             "purpose": "diagnostic_only",
             "seed": 3407,
             "epochs": 1,
-            "batch_size": 256,
+            "batch_override": args.batch_size,
+            "paused_models": paused,
             "models": [],
         }
         for name, kind, source in definitions:
-            config_path, run_dir, config = prepare(root, destination, name, kind, source)
+            config_path, run_dir, config = prepare(
+                root, destination, name, kind, source, args.batch_size
+            )
             report["models"].append(
                 {
                     "model": name,
@@ -262,6 +295,8 @@ def main() -> None:
                     "config": str(config_path),
                     "run_dir": str(run_dir),
                     "status": "pending",
+                    "batch_size": config["smoke_suite"]["batch_size"],
+                    "epochs": config["smoke_suite"]["epochs"],
                     "source_sha256": config["smoke_suite"]["source_sha256"],
                     "commands": commands(kind, config_path),
                 }
@@ -270,6 +305,7 @@ def main() -> None:
     if args.prepare_only:
         print(f"Prepared {len(report['models'])} sequential pipelines at {destination}")
         return
+    monitor = None
     if not report.get("finished"):
         monitor_log = (destination / "resource-monitor.log").open("a")
         monitor = subprocess.Popen(
@@ -293,12 +329,16 @@ def main() -> None:
                 raise RuntimeError("Resource monitor did not become ready; see its log")
             time.sleep(0.05)
     for entry in report["models"]:
-        if entry["status"] in {"success", "failed", "blocked"}:
+        if entry["status"] in {"success", "failed", "blocked", "stopped"}:
             continue
         if entry["status"] == "running":
             raise RuntimeError(
                 f"Interrupted run needs inspection before resuming: {entry['model']}"
             )
+        if entry["model"] in paused:
+            entry.update(status="blocked", error="Paused by user request; see paused_models.yaml")
+            publish(destination, report)
+            continue
         if entry["model"] == "3dinfomax":
             pretrain = next(item for item in report["models"] if item["kind"] == "pretrain")
             if pretrain["status"] != "success":
@@ -345,6 +385,11 @@ def main() -> None:
         )
     report["finished"] = now()
     publish(destination, report)
+    if monitor is not None:
+        # The final CSV must include the terminal status before callers consume it.
+        if monitor.wait(timeout=15) != 0:
+            raise RuntimeError("Resource monitor failed; see resource-monitor.log")
+        monitor_log.close()
     failed = [item["model"] for item in report["models"] if item["status"] != "success"]
     print(json.dumps({"success": len(report["models"]) - len(failed), "failed_or_blocked": failed}))
 

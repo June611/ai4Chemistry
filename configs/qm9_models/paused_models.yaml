@@ -1,0 +1,5 @@
+# User-requested pause, 2026-10-12. Keep architecture and batch256 configs for reference.
+# Remove an entry only when explicitly resuming that model's memory investigation.
+paused_models:
+  cormorant: RTX3090 batch256 OOM; batch128/64 also OOM; batch32 interrupted before completing one epoch.
+  lie_transformer: RTX3090 batch256 OOM; reduced-batch retry cancelled before starting.

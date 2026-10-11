@@ -479,6 +479,17 @@ uv run molgap-run-multiseed \
 
 ## QM9 十模型正式训练
 
+**当前暂停 Cormorant 和 LieTransformer（2026-10-12 用户决定）**：两者在 RTX3090
+24 GiB、batch256 下均 OOM；Cormorant 的 batch128/64 重试也 OOM，batch32 仅完成部分
+训练后按要求停止，尚未验收；LieTransformer 降 batch 重试未启动。
+`scripts/train_qm9_models.sh` 和全模型烟测默认跳过这两个模型，直接调用训练入口也会在
+加载数据/GPU模型前拒绝；`--dry-run` 仍可检查配置。暂停名单统一保存在
+[`paused_models.yaml`](configs/qm9_models/paused_models.yaml)。后续明确恢复任务后删除对应
+名单项即可恢复入口，先验证显存，再运行正式实验。模型结构和原 batch256 配置保留，
+其他已通过模型及 Infomax 预训练仍使用256，100 epochs、patience20和三组配对seed不变。
+当前可运行范围为17个下游神经网络与3个传统基线，共60组配对实验；另有3组Infomax预训练。
+停止记录与未完成事项见[显存适配档案](docs/features/qm9-model-batch-sizing/README.md)。
+
 EGNN、SchNet、PaiNN、DimeNet++、ESA、TorchMD-Net、Cormorant、LieTransformer、ALIGNN
 和 3D Infomax 已接入统一的固定划分训练入口。迁移到服务器后先运行：
 
@@ -499,7 +510,7 @@ QM9_PAIRED_SEEDS="3407" bash scripts/train_qm9_models.sh
 ```
 
 3D Infomax 必须提供在 QM9 上完成对比预训练的 checkpoint；设置方式如下。未设置时训练脚本
-会明确跳过该模型，其余九个模型继续执行。
+会明确跳过该模型，其余七个未暂停的 QM9 模型继续执行。
 
 ```bash
 bash scripts/pretrain_3dinfomax_paired.sh
