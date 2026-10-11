@@ -12,7 +12,8 @@ bash scripts/train_all_auto.sh --remote --directory artifacts/auto_training/form
 单任务失败后继续其他独立任务。服务器每5秒采样，本地后台程序约每5分钟同步飞书，不调用LLM；
 使用tmux的一次启动方式见操作说明。
 调度功能已通过本地141项测试、服务器相关32项测试和8项真实诊断，飞书指标与7份预测附件回读通过。
-正式实验尚未启动；一轮诊断与正式结果分开记录。详见[最终审查](docs/features/qm9-resource-aware-training/final_review.md)、
+2026-10-12三组正式队列已启动，63项运行中；诊断与正式结果分开记录，尚未验收全部结果。
+当前入口与启动证据见[正式运行记录](docs/features/qm9-resource-aware-training/formal_run.md)。详见[最终审查](docs/features/qm9-resource-aware-training/final_review.md)、
 [操作说明](docs/features/qm9-resource-aware-training/operations.md)
 和[实施TODO](docs/features/qm9-resource-aware-training/TODO.md)。
 补查失败隔离、54个神经网络/预训练任务batch256与定时同步，见
@@ -30,7 +31,8 @@ split/training seed 配对策略。配置为 `configs/spe_transformer.yaml`，�
 
 十个 adapter、正式配置、固定 split 数据校验和服务器入口已完成本地验收。19 项 adapter
 sanity tests 通过，十个模型在三套 split 上共完成 30 次全数据配置 dry-run；3D Infomax 的
-PNA/Net3D 预训练与下游权重迁移链路完成 smoke 验证。正式长训练仍需在 GPU 服务器执行。
+PNA/Net3D 预训练与下游权重迁移链路完成 smoke 验证。启用模型的正式长训练已在GPU服务器排队执行，
+Cormorant/LieTransformer保持暂停；正式结果完成后逐任务验收。
 
 详细状态见 [十模型功能文档](docs/features/qm9-ten-models/README.md)、
 [复现与公平性审查](docs/features/qm9-ten-models/reproduction-audit.md) 和

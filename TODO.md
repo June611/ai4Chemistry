@@ -4,7 +4,8 @@
 这里不因代码可运行而标记正式实验完成；服务器状态未经本轮核验时，保留“待核验”。
 
 - [ ] 资源调度与飞书同步实现验收已完成（本地141项、服务器32项测试，8项诊断及7份预测附件）；
-  后续启动正式三组训练，并实测校准并发收益。[一键调度 TODO](docs/features/qm9-resource-aware-training/TODO.md)
+  2026-10-12正式三组63项队列已启动，持续验收正式产物并实测校准并发收益。
+  [运行记录](docs/features/qm9-resource-aware-training/formal_run.md) · [一键调度 TODO](docs/features/qm9-resource-aware-training/TODO.md)
 
 - [ ] 三组 paired split/training seed 的 256/100/20 配置与审查已完成；服务器GPU环境、QM9数据/源码、95项测试和十模型batch2检查通过。
   单seed一轮烟测已完成，20个下游成功、2个OOM；Cormorant/LieTransformer按用户要求暂停，

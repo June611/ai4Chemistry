@@ -1,0 +1,55 @@
+{
+  "status": "started_not_completed",
+  "queue": "artifacts/auto_training/formal_20261012",
+  "source_commit": "6ee081e908d884482090cbbaeabf9c46e7551eb9",
+  "server_git_head": "3c85976fda2e4966ca8875e18e379127367422d3",
+  "matched_source_files": 188,
+  "total_tasks": 63,
+  "neural_tasks_batch256_epochs100_patience20": 54,
+  "ml_tasks": 9,
+  "seeds": [
+    3407,
+    42,
+    2026
+  ],
+  "split_audit": "pass",
+  "split_rows": {
+    "3407": {
+      "train": 107038,
+      "val": 13380,
+      "test": 13380
+    },
+    "42": {
+      "train": 107038,
+      "val": 13380,
+      "test": 13380
+    },
+    "2026": {
+      "train": 107038,
+      "val": 13380,
+      "test": 13380
+    }
+  },
+  "tmux_session": "qm9-training",
+  "gpu_sampling_seconds": 5,
+  "feishu_sync_seconds": 300,
+  "snapshot_time": "2026-10-11T20:45:28.735384+00:00",
+  "started_jobs": [
+    {
+      "model": "alignn",
+      "status": "running",
+      "started_at": "2026-10-11T20:43:02.741647+00:00",
+      "run_id": "033286f47a21163d:alignn_seed3407"
+    },
+    {
+      "model": "random_forest_rdkit29",
+      "status": "running",
+      "started_at": "2026-10-11T20:43:34.561822+00:00",
+      "run_id": "033286f47a21163d:random_forest_rdkit29_seed3407"
+    }
+  ],
+  "feishu_synced_records": 2,
+  "feishu_failures": [],
+  "concurrency_performance_calibration": "pending",
+  "full_formal_results": "pending"
+}
