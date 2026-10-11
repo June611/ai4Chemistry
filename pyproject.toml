@@ -50,6 +50,7 @@ qm9 = [
     "pydantic-settings>=2",
     "torch-geometric==2.6.1",
     "torchmd-net==3.0.3",
+    "warp-lang==1.18.0",
 ]
 
 [tool.uv]
@@ -71,6 +72,9 @@ packages = ["src/molgap"]
 
 [tool.uv.sources]
 torch = { index = "pytorch-cu124" }
+# Match the Linux/Python 3.11 CUDA environments used locally and on the server.
+dgl = { url = "https://data.dgl.ai/wheels/cu121/dgl-1.1.3%2Bcu121-cp311-cp311-manylinux1_x86_64.whl", marker = "sys_platform == 'linux' and platform_machine == 'x86_64' and python_version == '3.11'" }
+warp-lang = { url = "https://github.com/NVIDIA/warp/releases/download/v1.18.0/warp_lang-1.18.0%2Bcu12-py3-none-manylinux_2_28_x86_64.whl", marker = "sys_platform == 'linux' and platform_machine == 'x86_64'" }
 
 [[tool.uv.index]]
 name = "pytorch-cu124"

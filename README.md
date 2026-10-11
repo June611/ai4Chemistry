@@ -83,6 +83,7 @@ checkpoint、数据哈希、指标和运行环境。
 - [SPE 多任务亲和力消融](docs/features/spe-multitask-affinity/README.md)
 - [三组配对 seed、100-epoch 统一协议](docs/features/paired-seed-100epoch-benchmark/README.md)
 - [环境指南](docs/guides/environment.md) · [服务器连接](docs/guides/server-access.md)
+- [QM9 服务器部署与 GPU 环境](docs/features/qm9-server-deployment/README.md)
 - [SPE 训练指南](docs/guides/spe-training.md) · [传统基线训练指南](docs/guides/ml-training.md)
 
 ## 当前范围

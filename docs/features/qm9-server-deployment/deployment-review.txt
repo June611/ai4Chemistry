@@ -1,0 +1,32 @@
+QM9服务器部署审查（开始2026-10-11；收尾2026-10-12）
+
+项目：/root/autodl-tmp/evan/ai4Chemistry；初始源码提交dc2023bd797aeec633a9c9056b5d1c5e29363e8e。
+uv0.11.7，独立Python3.11.15，项目.venv；保留服务器原Conda环境。
+GPU：RTX3090/24GiB；驱动570.124.04。
+数据：QM9归档SCP迁移，归档及86文件哈希通过。
+数据归档SHA256：4e49cb416a4ab3bf3439bfdf603bb13b627a97a979309cb7fb98261384943061。
+活动配置范围：仅QM9；不使用QMv4/QMugs或外部预训练权重。
+固定划分：3407、42、2026；split/geometry身份、顺序、内容哈希与集合隔离通过。
+训练协议：配对split/training seed，256/100/20，原始Hartree的验证gap MAE选模，配置审计通过。
+十个官方源码：sources.lock.json的精确提交和无修改检查均通过。
+
+已验收：
+- Torch2.6.0+cu124、DGL1.1.3+cu121 CUDA矩阵运算和图迁移通过。
+- 十个adapter的真实QM9 train batch2 GPU前向/反向通过。
+- Infomax上述检查仅随机初始化下游PNA；不计为预训练或正式实验。
+- 95项现有测试通过；Warp构建修复后受影响TorchMD-Net测试复验通过。
+- 66组实际入口：63通过、0失败、3待预训练checkpoint生成。
+- 本地GTX1050Ti的DGL与TorchMD-Net GPU检查通过。
+- 本地正常uv锁定同步dry-run无变更。
+
+配置修正：
+- 原dgl==1.1.3默认PyPI wheel为CPU构建，是此前部署步骤复杂的原因。
+- Linux/x86_64/Python3.11在uv.sources及uv.lock直接指定DGL官方cu121 wheel。
+- Warp1.18.0默认PyPI wheel使用CUDA13，当前服务器驱动不满足；改为同版本官方cu12构建。
+- 其他包锁定版本不变；模型、loss/scaler、学习率与训练口径不变。
+- 正常入口：uv sync --locked --extra qm9。无需手工反复替换、UV_NO_SYNC或另行uv add。
+
+收尾待核验：最终GPU锁文件同步到服务器、激活文件上传、服务器再次同步不回退构建。
+未验收：逐模型完整batch256显存、三组正式预训练/下游训练、最终checkpoint与测试集指标。
+下载此前受官方PyPI和世界网络速度影响；依赖和源码当前均已到达，无需用户手动下载。
+凭据不保存；原始机器日志与报告保存于项目artifacts/server_deployment。

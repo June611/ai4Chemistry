@@ -1,0 +1,400 @@
+{
+  "status": "pass",
+  "scope": "active config/source routing; split contents verified by separate data audit",
+  "dataset": "QM9 only",
+  "configs": [
+    {
+      "config": "configs/baseline.yaml",
+      "checks": {
+        "allowed_seed": true,
+        "qm9_split": true,
+        "hartree": true,
+        "gap_target": true,
+        "qm9_geometry": true
+      },
+      "split_seed": 3407
+    },
+    {
+      "config": "configs/multitask.yaml",
+      "checks": {
+        "allowed_seed": true,
+        "qm9_split": true,
+        "hartree": true,
+        "gap_target": true,
+        "qm9_geometry": true
+      },
+      "split_seed": 3407
+    },
+    {
+      "config": "configs/consistency.yaml",
+      "checks": {
+        "allowed_seed": true,
+        "qm9_split": true,
+        "hartree": true,
+        "gap_target": true,
+        "qm9_geometry": true
+      },
+      "split_seed": 3407
+    },
+    {
+      "config": "configs/transformer.yaml",
+      "checks": {
+        "allowed_seed": true,
+        "qm9_split": true,
+        "hartree": true,
+        "gap_target": true,
+        "qm9_geometry": true
+      },
+      "split_seed": 3407
+    },
+    {
+      "config": "configs/spe_transformer.yaml",
+      "checks": {
+        "allowed_seed": true,
+        "qm9_split": true,
+        "hartree": true,
+        "gap_target": true,
+        "qm9_geometry": true
+      },
+      "split_seed": 3407
+    },
+    {
+      "config": "configs/spe_multitask.yaml",
+      "checks": {
+        "allowed_seed": true,
+        "qm9_split": true,
+        "hartree": true,
+        "gap_target": true,
+        "qm9_geometry": true
+      },
+      "split_seed": 3407
+    },
+    {
+      "config": "configs/spe_multitask_affinity.yaml",
+      "checks": {
+        "allowed_seed": true,
+        "qm9_split": true,
+        "hartree": true,
+        "gap_target": true,
+        "qm9_geometry": true
+      },
+      "split_seed": 3407
+    },
+    {
+      "config": "configs/spe_multitask_consistency.yaml",
+      "checks": {
+        "allowed_seed": true,
+        "qm9_split": true,
+        "hartree": true,
+        "gap_target": true,
+        "qm9_geometry": true
+      },
+      "split_seed": 3407
+    },
+    {
+      "config": "configs/spe_multitask_affinity_consistency.yaml",
+      "checks": {
+        "allowed_seed": true,
+        "qm9_split": true,
+        "hartree": true,
+        "gap_target": true,
+        "qm9_geometry": true
+      },
+      "split_seed": 3407
+    },
+    {
+      "config": "configs/qm9_models/egnn.yaml",
+      "checks": {
+        "allowed_seed": true,
+        "qm9_split": true,
+        "hartree": true,
+        "gap_target": true,
+        "qm9_geometry": true
+      },
+      "split_seed": 3407
+    },
+    {
+      "config": "configs/qm9_models/schnet.yaml",
+      "checks": {
+        "allowed_seed": true,
+        "qm9_split": true,
+        "hartree": true,
+        "gap_target": true,
+        "qm9_geometry": true
+      },
+      "split_seed": 3407
+    },
+    {
+      "config": "configs/qm9_models/painn.yaml",
+      "checks": {
+        "allowed_seed": true,
+        "qm9_split": true,
+        "hartree": true,
+        "gap_target": true,
+        "qm9_geometry": true
+      },
+      "split_seed": 3407
+    },
+    {
+      "config": "configs/qm9_models/dimenet_pp.yaml",
+      "checks": {
+        "allowed_seed": true,
+        "qm9_split": true,
+        "hartree": true,
+        "gap_target": true,
+        "qm9_geometry": true
+      },
+      "split_seed": 3407
+    },
+    {
+      "config": "configs/qm9_models/esa.yaml",
+      "checks": {
+        "allowed_seed": true,
+        "qm9_split": true,
+        "hartree": true,
+        "gap_target": true,
+        "qm9_geometry": true
+      },
+      "split_seed": 3407
+    },
+    {
+      "config": "configs/qm9_models/torchmd_net.yaml",
+      "checks": {
+        "allowed_seed": true,
+        "qm9_split": true,
+        "hartree": true,
+        "gap_target": true,
+        "qm9_geometry": true
+      },
+      "split_seed": 3407
+    },
+    {
+      "config": "configs/qm9_models/cormorant.yaml",
+      "checks": {
+        "allowed_seed": true,
+        "qm9_split": true,
+        "hartree": true,
+        "gap_target": true,
+        "qm9_geometry": true
+      },
+      "split_seed": 3407
+    },
+    {
+      "config": "configs/qm9_models/lie_transformer.yaml",
+      "checks": {
+        "allowed_seed": true,
+        "qm9_split": true,
+        "hartree": true,
+        "gap_target": true,
+        "qm9_geometry": true
+      },
+      "split_seed": 3407
+    },
+    {
+      "config": "configs/qm9_models/alignn.yaml",
+      "checks": {
+        "allowed_seed": true,
+        "qm9_split": true,
+        "hartree": true,
+        "gap_target": true,
+        "qm9_geometry": true
+      },
+      "split_seed": 3407
+    },
+    {
+      "config": "configs/qm9_models/3dinfomax.yaml",
+      "checks": {
+        "allowed_seed": true,
+        "qm9_split": true,
+        "hartree": true,
+        "gap_target": true,
+        "qm9_geometry": true,
+        "requires_qm9_pretraining": true,
+        "no_external_weights_configured": true
+      },
+      "split_seed": 3407
+    },
+    {
+      "config": "configs/qm9_models/3dinfomax_pretrain.yaml",
+      "checks": {
+        "allowed_seed": true,
+        "qm9_split": true,
+        "hartree": true,
+        "gap_target": true,
+        "qm9_geometry": true,
+        "train_subset_within_qm9": true,
+        "paired_pretraining_seed": true
+      },
+      "split_seed": 3407
+    },
+    {
+      "config": "configs/training_mean.yaml",
+      "checks": {
+        "allowed_seed": true,
+        "qm9_split": true,
+        "hartree": true,
+        "gap_target": true,
+        "qm9_geometry": true
+      },
+      "split_seed": 3407
+    },
+    {
+      "config": "configs/random_forest_rdkit29.yaml",
+      "checks": {
+        "allowed_seed": true,
+        "qm9_split": true,
+        "hartree": true,
+        "gap_target": true,
+        "qm9_geometry": true
+      },
+      "split_seed": 3407
+    },
+    {
+      "config": "configs/xgboost_rdkit29.yaml",
+      "checks": {
+        "allowed_seed": true,
+        "qm9_split": true,
+        "hartree": true,
+        "gap_target": true,
+        "qm9_geometry": true
+      },
+      "split_seed": 3407
+    },
+    {
+      "config": "configs/training_mean_seed42.yaml",
+      "checks": {
+        "allowed_seed": true,
+        "qm9_split": true,
+        "hartree": true,
+        "gap_target": true,
+        "qm9_geometry": true
+      },
+      "split_seed": 42
+    },
+    {
+      "config": "configs/random_forest_rdkit29_seed42.yaml",
+      "checks": {
+        "allowed_seed": true,
+        "qm9_split": true,
+        "hartree": true,
+        "gap_target": true,
+        "qm9_geometry": true
+      },
+      "split_seed": 42
+    },
+    {
+      "config": "configs/xgboost_rdkit29_seed42.yaml",
+      "checks": {
+        "allowed_seed": true,
+        "qm9_split": true,
+        "hartree": true,
+        "gap_target": true,
+        "qm9_geometry": true
+      },
+      "split_seed": 42
+    },
+    {
+      "config": "configs/training_mean_seed2026.yaml",
+      "checks": {
+        "allowed_seed": true,
+        "qm9_split": true,
+        "hartree": true,
+        "gap_target": true,
+        "qm9_geometry": true
+      },
+      "split_seed": 2026
+    },
+    {
+      "config": "configs/random_forest_rdkit29_seed2026.yaml",
+      "checks": {
+        "allowed_seed": true,
+        "qm9_split": true,
+        "hartree": true,
+        "gap_target": true,
+        "qm9_geometry": true
+      },
+      "split_seed": 2026
+    },
+    {
+      "config": "configs/xgboost_rdkit29_seed2026.yaml",
+      "checks": {
+        "allowed_seed": true,
+        "qm9_split": true,
+        "hartree": true,
+        "gap_target": true,
+        "qm9_geometry": true
+      },
+      "split_seed": 2026
+    }
+  ],
+  "matrices": [
+    {
+      "matrix": "configs/multiseed.yaml",
+      "checks": {
+        "qm9_source": true,
+        "qm9_name": true,
+        "paired_seed": true,
+        "qm9_data_config": true,
+        "paired_seeds": true,
+        "audited_models_only": true
+      }
+    },
+    {
+      "matrix": "configs/spe_affinity_ablation_multiseed.yaml",
+      "checks": {
+        "qm9_source": true,
+        "qm9_name": true,
+        "paired_seed": true,
+        "qm9_data_config": true,
+        "paired_seeds": true,
+        "audited_models_only": true
+      }
+    },
+    {
+      "matrix": "configs/multiseed_seed42.yaml",
+      "checks": {
+        "qm9_source": true,
+        "qm9_name": true,
+        "paired_seed": true,
+        "qm9_data_config": true,
+        "paired_seeds": true,
+        "audited_models_only": true
+      }
+    },
+    {
+      "matrix": "configs/spe_affinity_ablation_multiseed_seed42.yaml",
+      "checks": {
+        "qm9_source": true,
+        "qm9_name": true,
+        "paired_seed": true,
+        "qm9_data_config": true,
+        "paired_seeds": true,
+        "audited_models_only": true
+      }
+    },
+    {
+      "matrix": "configs/multiseed_seed2026.yaml",
+      "checks": {
+        "qm9_source": true,
+        "qm9_name": true,
+        "paired_seed": true,
+        "qm9_data_config": true,
+        "paired_seeds": true,
+        "audited_models_only": true
+      }
+    },
+    {
+      "matrix": "configs/spe_affinity_ablation_multiseed_seed2026.yaml",
+      "checks": {
+        "qm9_source": true,
+        "qm9_name": true,
+        "paired_seed": true,
+        "qm9_data_config": true,
+        "paired_seeds": true,
+        "audited_models_only": true
+      }
+    }
+  ],
+  "pretraining_policy": "QM9 train partition only; no QMugs/QMv4/external checkpoint",
+  "historical_data": "QM9 CN/test subsets may exist in package but are not active training inputs"
+}
