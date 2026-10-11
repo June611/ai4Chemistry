@@ -1,0 +1,50 @@
+[
+  {
+    "model": "chemprop_single_gap",
+    "seed": 3407,
+    "epochs": 100,
+    "warmup_epochs": 2,
+    "batch_size": 256,
+    "status": "command_valid"
+  },
+  {
+    "model": "chemprop_multitask",
+    "seed": 3407,
+    "epochs": 100,
+    "warmup_epochs": 2,
+    "batch_size": 256,
+    "status": "command_valid"
+  },
+  {
+    "model": "chemprop_single_gap",
+    "seed": 42,
+    "epochs": 100,
+    "warmup_epochs": 2,
+    "batch_size": 256,
+    "status": "command_valid"
+  },
+  {
+    "model": "chemprop_multitask",
+    "seed": 42,
+    "epochs": 100,
+    "warmup_epochs": 2,
+    "batch_size": 256,
+    "status": "command_valid"
+  },
+  {
+    "model": "chemprop_single_gap",
+    "seed": 2026,
+    "epochs": 100,
+    "warmup_epochs": 2,
+    "batch_size": 256,
+    "status": "command_valid"
+  },
+  {
+    "model": "chemprop_multitask",
+    "seed": 2026,
+    "epochs": 100,
+    "warmup_epochs": 2,
+    "batch_size": 256,
+    "status": "command_valid"
+  }
+]

@@ -1,0 +1,291 @@
+{
+  "used_successful_one_seed_runs_gib": 0.672412109375,
+  "three_seed_projection_gib": 2.0172363281249996,
+  "rows": [
+    {
+      "model": "egnn",
+      "kind": "qm9",
+      "run_mib": 3.71,
+      "models": [
+        {
+          "path": "model.pt",
+          "mib": 2.92
+        }
+      ]
+    },
+    {
+      "model": "schnet",
+      "kind": "qm9",
+      "run_mib": 2.56,
+      "models": [
+        {
+          "path": "model.pt",
+          "mib": 1.76
+        }
+      ]
+    },
+    {
+      "model": "painn",
+      "kind": "qm9",
+      "run_mib": 3.06,
+      "models": [
+        {
+          "path": "model.pt",
+          "mib": 2.26
+        }
+      ]
+    },
+    {
+      "model": "dimenet_pp",
+      "kind": "qm9",
+      "run_mib": 8.04,
+      "models": [
+        {
+          "path": "model.pt",
+          "mib": 7.24
+        }
+      ]
+    },
+    {
+      "model": "esa",
+      "kind": "qm9",
+      "run_mib": 12.26,
+      "models": [
+        {
+          "path": "model.pt",
+          "mib": 11.47
+        }
+      ]
+    },
+    {
+      "model": "torchmd_net",
+      "kind": "qm9",
+      "run_mib": 5.97,
+      "models": [
+        {
+          "path": "model.pt",
+          "mib": 5.17
+        }
+      ]
+    },
+    {
+      "model": "alignn",
+      "kind": "qm9",
+      "run_mib": 4.85,
+      "models": [
+        {
+          "path": "model.pt",
+          "mib": 4.06
+        }
+      ]
+    },
+    {
+      "model": "3dinfomax_pretrain",
+      "kind": "pretrain",
+      "run_mib": 19.18,
+      "models": [
+        {
+          "path": "best_checkpoint.pt",
+          "mib": 19.18
+        }
+      ]
+    },
+    {
+      "model": "3dinfomax",
+      "kind": "qm9",
+      "run_mib": 19.85,
+      "models": [
+        {
+          "path": "model.pt",
+          "mib": 19.06
+        }
+      ]
+    },
+    {
+      "model": "chemprop_single_gap",
+      "kind": "chemprop",
+      "run_mib": 9.72,
+      "models": [
+        {
+          "path": "chemprop/model_0/best.pt",
+          "mib": 1.23
+        },
+        {
+          "path": "chemprop/model_0/checkpoints/best-epoch=0-val_gap_mae=0.01.ckpt",
+          "mib": 3.67
+        },
+        {
+          "path": "chemprop/model_0/checkpoints/last.ckpt",
+          "mib": 3.67
+        }
+      ]
+    },
+    {
+      "model": "chemprop_multitask",
+      "kind": "chemprop",
+      "run_mib": 10.15,
+      "models": [
+        {
+          "path": "chemprop/model_0/best.pt",
+          "mib": 1.24
+        },
+        {
+          "path": "chemprop/model_0/checkpoints/best-epoch=0-val_gap_mae=0.01.ckpt",
+          "mib": 3.68
+        },
+        {
+          "path": "chemprop/model_0/checkpoints/last.ckpt",
+          "mib": 3.68
+        }
+      ]
+    },
+    {
+      "model": "chemprop_consistency",
+      "kind": "chemprop",
+      "run_mib": 8.58,
+      "models": [
+        {
+          "path": "checkpoints/best.ckpt",
+          "mib": 5.76
+        },
+        {
+          "path": "chemprop/model.pt",
+          "mib": 1.93
+        }
+      ]
+    },
+    {
+      "model": "smiles_transformer",
+      "kind": "transformer",
+      "run_mib": 33.77,
+      "models": [
+        {
+          "path": "model.pt",
+          "mib": 8.26
+        },
+        {
+          "path": "checkpoints/best-epoch=000-val_mae=0.014941.ckpt",
+          "mib": 24.8
+        }
+      ]
+    },
+    {
+      "model": "spe_transformer",
+      "kind": "transformer",
+      "run_mib": 36.82,
+      "models": [
+        {
+          "path": "model.pt",
+          "mib": 9.03
+        },
+        {
+          "path": "checkpoints/best-epoch=000-val_mae=0.012769.ckpt",
+          "mib": 27.05
+        }
+      ]
+    },
+    {
+      "model": "spe_multitask",
+      "kind": "spe_multitask",
+      "run_mib": 38.76,
+      "models": [
+        {
+          "path": "model.pt",
+          "mib": 9.28
+        },
+        {
+          "path": "checkpoints/best-epoch=000-val_delta_e_mae=0.013055.ckpt",
+          "mib": 27.82
+        }
+      ]
+    },
+    {
+      "model": "spe_multitask_affinity",
+      "kind": "spe_multitask",
+      "run_mib": 38.77,
+      "models": [
+        {
+          "path": "model.pt",
+          "mib": 9.28
+        },
+        {
+          "path": "checkpoints/best-epoch=000-val_delta_e_mae=0.013086.ckpt",
+          "mib": 27.82
+        }
+      ]
+    },
+    {
+      "model": "spe_multitask_consistency",
+      "kind": "spe_multitask",
+      "run_mib": 38.76,
+      "models": [
+        {
+          "path": "model.pt",
+          "mib": 9.28
+        },
+        {
+          "path": "checkpoints/best-epoch=000-val_delta_e_mae=0.013055.ckpt",
+          "mib": 27.82
+        }
+      ]
+    },
+    {
+      "model": "spe_multitask_affinity_consistency",
+      "kind": "spe_multitask",
+      "run_mib": 38.77,
+      "models": [
+        {
+          "path": "model.pt",
+          "mib": 9.28
+        },
+        {
+          "path": "checkpoints/best-epoch=000-val_delta_e_mae=0.013086.ckpt",
+          "mib": 27.82
+        }
+      ]
+    },
+    {
+      "model": "training_mean",
+      "kind": "ml",
+      "run_mib": 0.78,
+      "models": [
+        {
+          "path": "model.joblib",
+          "mib": 0.0
+        }
+      ]
+    },
+    {
+      "model": "xgboost_rdkit29",
+      "kind": "ml",
+      "run_mib": 6.66,
+      "models": [
+        {
+          "path": "model.json",
+          "mib": 5.87
+        }
+      ]
+    },
+    {
+      "model": "random_forest_rdkit29",
+      "kind": "ml",
+      "run_mib": 347.53,
+      "models": [
+        {
+          "path": "model.joblib",
+          "mib": 346.74
+        }
+      ]
+    }
+  ],
+  "disk_bytes": {
+    "/": {
+      "total": 32212254720,
+      "free": 31690551296
+    },
+    "/root/autodl-tmp": {
+      "total": 53687091200,
+      "free": 28336189440
+    }
+  }
+}

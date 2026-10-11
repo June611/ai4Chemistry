@@ -20,6 +20,7 @@ from lightning.pytorch.loggers import CSVLogger
 
 from molgap.config import load_config, resolve_path, run_directory
 from molgap.models import build_phase3_model
+from molgap.tracking.inference import measure_prediction
 from molgap.training.evaluate import evaluate_files
 from molgap.training.gap_metric import GAP_MONITOR, GapMetricScale
 from molgap.utils.files import write_run_metadata
@@ -169,8 +170,11 @@ def train_phase3(
     # checkpoints contain Chemprop metric objects. This checkpoint was created by
     # this run, so restore the trusted full checkpoint explicitly.
     trainer.test(model, loaders["test"], ckpt_path="best", weights_only=False)
-    batches = trainer.predict(model, loaders["test"], ckpt_path="best", weights_only=False)
-    predictions = torch.cat(batches, dim=0).detach().cpu().numpy()
+    with measure_prediction(
+        run_dir, len(frames["test"]), "test_loader_checkpoint_restore_and_forward", model=model
+    ):
+        batches = trainer.predict(model, loaders["test"], ckpt_path="best", weights_only=False)
+        predictions = torch.cat(batches, dim=0).detach().cpu().numpy()
 
     checkpoint_payload = torch.load(
         checkpoint.best_model_path, map_location="cpu", weights_only=False

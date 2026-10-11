@@ -8,6 +8,7 @@ def test_regression_metrics() -> None:
 
     assert result["n"] == 3
     assert result["mae"] == pytest.approx(1 / 3)
+    assert result["mse"] == pytest.approx(1 / 3)
     assert result["rmse"] == pytest.approx((1 / 3) ** 0.5)
     assert result["mape"] == pytest.approx(100 / 9)
     assert result["mape_n"] == 3

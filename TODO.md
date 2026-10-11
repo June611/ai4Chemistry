@@ -3,6 +3,9 @@
 更新时间：2026-10-12。仅列跨功能的未完成工作；详细子任务及证据以对应功能 tasks.md 为准。
 这里不因代码可运行而标记正式实验完成；服务器状态未经本轮核验时，保留“待核验”。
 
+- [ ] 资源调度与飞书同步实现验收已完成（本地141项、服务器32项测试，8项诊断及7份预测附件）；
+  后续启动正式三组训练，并实测校准并发收益。[一键调度 TODO](docs/features/qm9-resource-aware-training/TODO.md)
+
 - [ ] 三组 paired split/training seed 的 256/100/20 配置与审查已完成；服务器GPU环境、QM9数据/源码、95项测试和十模型batch2检查通过。
   单seed一轮烟测已完成，20个下游成功、2个OOM；Cormorant/LieTransformer按用户要求暂停，
   完成Infomax三组正式QM9预训练及正式产物验收。[统一协议 TODO](docs/features/paired-seed-100epoch-benchmark/tasks.md)
@@ -20,6 +23,8 @@
   不替代当前三组验收。[传统基线](docs/features/traditional-baselines/tasks.md)
 - [ ] 导入并核验已有服务器模型结果，检查划分、标签单位和预测样本身份。[统一比较](docs/features/model-benchmark/tasks.md)
 - [ ] 汇总可比模型结果，分别报告单次与多 seed 结果，并注明预训练和监督信息差异。[统一比较](docs/features/model-benchmark/tasks.md)
+- [ ] 飞书CLI自动同步与服务器真实显存验收已通过；后续检查正式三组训练的最终结果完整性。
+  [接入步骤与验收](docs/features/feishu-training-monitoring/README.md)
 
 文档组织及后续工作规则见 [README](README.md#文档与复现方法管理)。
 已完成的细项保留在功能档案，不在根目录继续新增功能专属 TODO。

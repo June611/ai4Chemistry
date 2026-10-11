@@ -1,0 +1,22 @@
+# One RTX 3090; sample-based reservations are estimates, never hard guarantees.
+seeds: [3407, 42, 2026]
+gpu: 0
+max_gpu_jobs: 2
+max_cpu_jobs: 1
+gpu_reserve_mib: 2048
+exclusive_gpu_reserve_mib: 1024
+ram_reserve_mib: 20480
+disk_reserve_gib: 10
+cpu_reserve: 2
+threads_per_job: 2
+workers_per_job: 4
+gpu_admission_utilization: 85
+launch_spacing_seconds: 30
+sample_seconds: 5
+exclusive_models: [dimenet_pp, alignn]
+resource_csv: docs/features/qm9-resource-aware-training/verification/resources_active_20.csv
+remote:
+  host: root@connect.nmb2.seetacloud.com
+  port: 22233
+  root: /root/autodl-tmp/evan/ai4Chemistry
+  environment: artifacts/server_deployment/server-env.sh

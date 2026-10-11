@@ -7,6 +7,7 @@ import subprocess
 from pathlib import Path
 
 from molgap.config import load_config, resolve_path, run_directory
+from molgap.tracking.inference import measure_prediction
 from molgap.training.commands import build_predict_command
 from molgap.utils.files import write_command_record
 
@@ -53,7 +54,12 @@ def predict(
     output_path.parent.mkdir(parents=True, exist_ok=True)
     command = build_predict_command(config, root, model_paths, input_path, output_path)
     write_command_record(run_dir / "predict_command.json", command, {"kind": "predict"})
-    subprocess.run(command, cwd=root, check=True)
+    with measure_prediction(
+        run_dir,
+        sum(1 for _ in __import__("csv").DictReader(input_path.open())),
+        "chemprop_cli_startup_featurization_and_forward",
+    ):
+        subprocess.run(command, cwd=root, check=True)
     return output_path
 
 

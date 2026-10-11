@@ -1,5 +1,19 @@
 # Molecular HOMO–LUMO Gap Prediction
 
+现已提供 QM9 资源调度与飞书监测。在本地 WSL 项目目录运行下列命令，即可在既有服务器
+后台调度全部启用模型，并通过本地 Lark CLI 同步资源、进度、指标和预测 CSV 附件：
+
+```bash
+bash scripts/train_all_auto.sh --remote --directory artifacts/auto_training/formal_20261012
+```
+
+默认 20 个下游模型 × 三组配对 seed（3407/42/2026），加三组 Infomax QM9 预训练，共63项。
+神经网络保持256/100/20；Cormorant、LieTransformer不入队。默认最多两个GPU任务，大模型独占。
+调度功能已通过本地141项测试、服务器相关32项测试和8项真实诊断，飞书指标与7份预测附件回读通过。
+正式实验尚未启动；一轮诊断与正式结果分开记录。详见[最终审查](docs/features/qm9-resource-aware-training/final_review.md)、
+[操作说明](docs/features/qm9-resource-aware-training/operations.md)
+和[实施TODO](docs/features/qm9-resource-aware-training/TODO.md)。
+
 新增 SPE + Transformer 对照：使用官方 SmilesPE 和现有 Transformer 网络，采用三组
 split/training seed 配对策略。配置为 `configs/spe_transformer.yaml`，批量配置为三份
 `configs/spe_affinity_ablation_multiseed*.yaml`；详见 [SPE 训练指南](docs/guides/spe-training.md) 和
@@ -85,6 +99,7 @@ checkpoint、数据哈希、指标和运行环境。
 - [环境指南](docs/guides/environment.md) · [服务器连接](docs/guides/server-access.md)
 - [QM9 服务器部署与 GPU 环境](docs/features/qm9-server-deployment/README.md)
 - [全模型一轮烟测与资源 CSV](docs/features/qm9-one-epoch-smoke/README.md)
+- [飞书多维表格训练监测与历史结果同步](docs/features/feishu-training-monitoring/README.md)
 - [SPE 训练指南](docs/guides/spe-training.md) · [传统基线训练指南](docs/guides/ml-training.md)
 
 ## 当前范围

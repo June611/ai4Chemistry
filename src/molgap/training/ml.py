@@ -22,6 +22,7 @@ from xgboost import XGBRegressor
 from molgap.config import find_project_root, resolve_path, run_directory
 from molgap.data.rdkit_features import FEATURES, descriptor_matrix
 from molgap.metrics import regression_metrics
+from molgap.tracking.inference import measure_prediction
 from molgap.utils.files import write_run_metadata
 
 
@@ -252,7 +253,8 @@ def train_ml(config_path: str | Path, *, dry_run: bool = False) -> dict[str, Any
     predictions, metrics = {}, {}
     started = time.perf_counter()
     for split in ("val", "test"):
-        prediction = np.asarray(model.predict(matrices[split]), dtype=float)
+        with measure_prediction(run_dir, len(frames[split]), "model_predict_precomputed_features"):
+            prediction = np.asarray(model.predict(matrices[split]), dtype=float)
         if prediction.shape != (len(frames[split]),) or not np.isfinite(prediction).all():
             raise ValueError(f"Invalid predictions for {split}.")
         predictions[split] = prediction

@@ -22,6 +22,7 @@ from molgap.qm9_models.batch import collate_molecules
 from molgap.qm9_models.data import load_data
 from molgap.qm9_models.factory import build_model
 from molgap.qm9_models.policy import require_enabled
+from molgap.tracking.inference import measure_prediction
 from molgap.utils.files import write_run_metadata
 
 
@@ -272,7 +273,10 @@ def run(
     model.load_state_dict(best_state["state_dict"])
     model.eval()
     predictions = []
-    with torch.no_grad():
+    with (
+        measure_prediction(run_dir, len(frames["test"]), "test_loader_and_forward", model=model),
+        torch.no_grad(),
+    ):
         for raw in loaders["test"]:
             predictions.extend((model(move(raw, device)) * scale + mean).cpu().tolist())
     if not np.isfinite(predictions).all():

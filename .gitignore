@@ -30,5 +30,13 @@ outputs/*
 # Pinned upstream checkouts, reconstructed from sources.lock.json
 .external/
 
+# Private Feishu API configuration
+.env.feishu
+.env.feishu.*
+
+# Machine-specific cloud destination and CLI authoring drafts (no login credentials in Git).
+configs/feishu_training.json
+draft_*_folder/
+
 # Local reference papers (code provenance lives in docs and source locks)
 papers/

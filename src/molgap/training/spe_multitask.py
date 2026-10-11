@@ -14,13 +14,14 @@ import lightning.pytorch as pl
 import numpy as np
 import torch
 from lightning.pytorch.callbacks import EarlyStopping, ModelCheckpoint, TQDMProgressBar
-from lightning.pytorch.loggers import TensorBoardLogger
+from lightning.pytorch.loggers import CSVLogger, TensorBoardLogger
 from torch.optim import AdamW
 from torch.optim.lr_scheduler import LambdaLR
 from torch.utils.data import DataLoader
 
 from molgap.config import run_directory
 from molgap.metrics.regression import regression_metrics
+from molgap.tracking.inference import measure_prediction
 from molgap.transformer.dataset import (
     PreparedMultiTaskTransformerData,
     prepare_multitask_transformer_data,
@@ -315,7 +316,10 @@ def train_spe_multitask(
             ),
             TQDMProgressBar(refresh_rate=1),
         ],
-        logger=TensorBoardLogger(run_dir / "logs", name="spe_multitask"),
+        logger=[
+            TensorBoardLogger(run_dir / "logs", name="spe_multitask"),
+            CSVLogger(run_dir / "logs", name="spe_multitask_csv", flush_logs_every_n_steps=1),
+        ],
         deterministic=True,
         gradient_clip_val=float(training["gradient_clip_val"]),
         log_every_n_steps=int(training.get("log_every_n_steps", 50)),
@@ -324,10 +328,16 @@ def train_spe_multitask(
     fit_started = time.perf_counter()
     trainer.fit(lightning_model, loaders["train"], loaders["val"])
     fit_seconds = time.perf_counter() - fit_started
-    prediction_batches = trainer.predict(
-        lightning_model, loaders["test"], ckpt_path="best", weights_only=False
-    )
-    predictions = torch.cat(prediction_batches).detach().cpu().numpy().astype(float)
+    with measure_prediction(
+        run_dir,
+        len(prepared.frames["test"]),
+        "test_loader_checkpoint_restore_and_forward",
+        model=lightning_model,
+    ):
+        prediction_batches = trainer.predict(
+            lightning_model, loaders["test"], ckpt_path="best", weights_only=False
+        )
+        predictions = torch.cat(prediction_batches).detach().cpu().numpy().astype(float)
     checkpoint_payload = torch.load(
         checkpoint.best_model_path, map_location="cpu", weights_only=False
     )

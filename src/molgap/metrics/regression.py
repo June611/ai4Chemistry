@@ -30,7 +30,8 @@ def regression_metrics(
 
     residual = prediction - truth
     mae = float(np.mean(np.abs(residual)))
-    rmse = float(math.sqrt(float(np.mean(residual**2))))
+    mse = float(np.mean(residual**2))
+    rmse = float(math.sqrt(mse))
     mape_mask = np.abs(truth) > float(mape_zero_tolerance)
     mape_n = int(mape_mask.sum())
     mape = (
@@ -45,6 +46,7 @@ def regression_metrics(
     return {
         "n": int(truth.size),
         "mae": mae,
+        "mse": mse,
         "rmse": rmse,
         "mape": mape,
         "mape_n": mape_n,

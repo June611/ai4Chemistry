@@ -1,0 +1,5 @@
+{
+  "base_token": "replace_with_existing_base_token",
+  "table_id": "tbl_replace_with_training_table_id",
+  "hardware_table_id": "tbl_replace_with_hardware_table_id"
+}

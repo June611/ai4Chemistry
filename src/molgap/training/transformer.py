@@ -13,7 +13,7 @@ from typing import Any
 import lightning.pytorch as pl
 import torch
 from lightning.pytorch.callbacks import EarlyStopping, ModelCheckpoint, TQDMProgressBar
-from lightning.pytorch.loggers import TensorBoardLogger
+from lightning.pytorch.loggers import CSVLogger, TensorBoardLogger
 from torch import nn
 from torch.optim import AdamW
 from torch.optim.lr_scheduler import LambdaLR
@@ -22,6 +22,7 @@ from torchmetrics.regression import MeanAbsoluteError, R2Score
 
 from molgap.config import run_directory
 from molgap.metrics.regression import regression_metrics
+from molgap.tracking.inference import measure_prediction
 from molgap.transformer.config import load_transformer_config
 from molgap.transformer.dataset import (
     PreparedTransformerData,
@@ -252,7 +253,10 @@ def train_transformer(
         precision=training["precision"],
         max_epochs=int(training["epochs"]),
         callbacks=callbacks,
-        logger=TensorBoardLogger(run_dir / "logs", name="transformer"),
+        logger=[
+            TensorBoardLogger(run_dir / "logs", name="transformer"),
+            CSVLogger(run_dir / "logs", name="transformer_csv", flush_logs_every_n_steps=1),
+        ],
         deterministic=True,
         gradient_clip_val=float(training["gradient_clip_val"]),
         log_every_n_steps=int(training.get("log_every_n_steps", 50)),
@@ -262,10 +266,16 @@ def train_transformer(
     trainer.fit(lightning_model, loaders["train"], loaders["val"])
     fit_seconds = time.perf_counter() - fit_started
     trainer.test(lightning_model, loaders["test"], ckpt_path="best", weights_only=False)
-    prediction_batches = trainer.predict(
-        lightning_model, loaders["test"], ckpt_path="best", weights_only=False
-    )
-    predictions = torch.cat(prediction_batches).detach().cpu().numpy().astype(float)
+    with measure_prediction(
+        run_dir,
+        len(prepared.frames["test"]),
+        "test_loader_checkpoint_restore_and_forward",
+        model=lightning_model,
+    ):
+        prediction_batches = trainer.predict(
+            lightning_model, loaders["test"], ckpt_path="best", weights_only=False
+        )
+        predictions = torch.cat(prediction_batches).detach().cpu().numpy().astype(float)
 
     checkpoint_payload = torch.load(
         checkpoint.best_model_path, map_location="cpu", weights_only=False
@@ -303,6 +313,7 @@ def train_transformer(
         "unit": "hartree",
         "n": computed["n"],
         "mae": computed["mae"],
+        "mse": computed["mse"],
         "rmse": computed["rmse"],
         "mape": computed["mape"],
         "mape_n": computed["mape_n"],
