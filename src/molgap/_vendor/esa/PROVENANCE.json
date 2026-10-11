@@ -1,0 +1,37 @@
+{
+  "repository": "https://github.com/davidbuterez/edge-set-attention",
+  "commit": "861a0b12d445ae80cc69b3948af623b4331321d4",
+  "modifications": [
+    "Import namespace isolation",
+    "Use torch SDPA math backend on CPU; retain official mask semantics",
+    "Infer tensor device rather than hardcoded cuda:0",
+    "Optional xformers; equivalent torch SwiGLU instead of flash extension"
+  ],
+  "files": {
+    "masked_layers.py": {
+      "source": "esa/masked_layers.py",
+      "original_sha256": "8c7fcfa2e6bc1686778b45009170dd280a112282bffdeb1ccb49ba80ba351d9c",
+      "adapted_sha256": "b14022890c18e7430109d01a6c7487d4ab774fbf2845e0a42d6e1fa332506b8b"
+    },
+    "mha.py": {
+      "source": "esa/mha.py",
+      "original_sha256": "ad3527f1b49a490903f75fecfc1fc92f49bc4bb35150ee7e71db6251dc2a99b4",
+      "adapted_sha256": "3440797163a4dbb0952dfa91c003061b740abe1ded453584f3bb39916d0a7f86"
+    },
+    "mlp_utils.py": {
+      "source": "esa/mlp_utils.py",
+      "original_sha256": "f37428e6cbd3f77de3bbe94191ec291ecd80a1a4a571db517f127484aff62f88",
+      "adapted_sha256": "aa87edf171a42b8cf6d7fcc6a567782afc62a732379c791c2f14943cec40e874"
+    },
+    "norm_layers.py": {
+      "source": "utils/norm_layers.py",
+      "original_sha256": "f37cd17d646fea002293a4f62493755330c85cc2b9fdbfae029fe89bc591b65f",
+      "adapted_sha256": "aa2c1eae66446c867ebd4ee7340c7d5596cbf406766b180a3a7d11de471b249a"
+    },
+    "batch_renorm.py": {
+      "source": "utils/batch_renorm.py",
+      "original_sha256": "922d0f444d4139783c158fe9a075fe0ba13971a72e2069de7a18bb66bec1fa9a",
+      "adapted_sha256": "922d0f444d4139783c158fe9a075fe0ba13971a72e2069de7a18bb66bec1fa9a"
+    }
+  }
+}

@@ -1,0 +1,61 @@
+# LieTransformer Configuration for QM9 Gap Prediction
+# Paper: LieTransformer: Equivariant self-attention for Lie Groups
+# Repo: https://github.com/oxcsml/lie-transformer
+
+experiment:
+  name: lie_transformer_qm9
+  model_type: lie_transformer
+
+data:
+  processed_dir: data/processed/qm9_full/random/seed3407
+  geometry: data/geometry/qm9_full_seed3407.npz
+  smiles_column: smiles
+  id_column: sample_id
+  target_column: delta_e
+  targets: [delta_e]
+  label_unit: hartree
+  split:
+    method: random
+    sizes: [0.8, 0.1, 0.1]
+    seed: 3407
+    stratify:
+      strategy: quantile
+      column: delta_e
+      bins: 200
+
+model:
+  name: lie_transformer
+  params:
+    dim_hidden: 128
+    num_layers: 6
+    num_heads: 8
+    block_norm: "layer_pre"
+    kernel_norm: "none"
+    kernel_type: "mlp"
+    fill: 1.0
+    liftsamples: 4
+
+training:
+  seed: 3407
+  epochs: 100
+  batch_size: 256
+  optimizer: adam
+  lr: 0.0003
+  weight_decay: 0.0
+  gradient_clip_val: 1.0
+  target_scaling: mad
+  loss: mae
+  accelerator: auto
+  num_workers: 4
+  early_stopping:
+    monitor: val_mae
+    patience: 20
+    min_delta: 0.00001
+
+evaluation:
+  metrics: [mae, rmse, mape, r2]
+
+output:
+  root: outputs/paired_gap_mae_v2
+  save_predictions: true
+  save_model: true

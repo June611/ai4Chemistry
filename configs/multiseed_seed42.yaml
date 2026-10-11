@@ -1,0 +1,23 @@
+name: qm9_paired_seed42
+protocol_id: paired_split_gap_mae_v2
+seed_pairing: matched
+split_seed: 42
+training_seeds: [42]
+parallel_jobs: 1
+gpu: "0"
+data_config: configs/data/qm9_full_seed42.yaml
+models:
+  - name: chemprop_single_gap
+    trainer: chemprop
+    config: configs/baseline.yaml
+  - name: chemprop_multitask
+    trainer: chemprop
+    config: configs/multitask.yaml
+  - name: chemprop_consistency
+    trainer: chemprop
+    config: configs/consistency.yaml
+  - name: smiles_transformer
+    trainer: transformer
+    config: configs/transformer.yaml
+output:
+  root: outputs/batches

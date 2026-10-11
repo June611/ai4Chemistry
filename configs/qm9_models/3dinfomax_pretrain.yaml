@@ -1,0 +1,74 @@
+data:
+  processed_dir: data/processed/qm9_full/random/seed3407
+  geometry: data/geometry/qm9_full_seed3407.npz
+  smiles_column: smiles
+  id_column: sample_id
+  target_column: delta_e
+  targets: [delta_e]
+  label_unit: hartree
+  split:
+    method: random
+    sizes: [0.8, 0.1, 0.1]
+    seed: 3407
+    stratify:
+      strategy: quantile
+      column: delta_e
+      bins: 200
+
+pretraining:
+  seed: 3407
+  epochs: 100
+  batch_size: 256
+  num_train: 50000
+  num_workers: 4
+  lr: 0.00008
+  warmup_steps: 700
+  lr_factor: 0.6
+  # Allow one LR reduction before the 20-epoch early-stopping horizon.
+  lr_patience: 10
+  lr_cooldown: 20
+  min_lr: 0.000001
+  tau: 0.1
+  gradient_clip_val: 10.0
+  patience: 20
+  min_delta: 0.0001
+
+model2d:
+  target_dim: 256
+  hidden_dim: 200
+  mid_batch_norm: true
+  last_batch_norm: true
+  readout_batchnorm: true
+  batch_norm_momentum: 0.93
+  readout_hidden_dim: 200
+  readout_layers: 2
+  dropout: 0.0
+  propagation_depth: 7
+  aggregators: [mean, max, min, std]
+  scalers: [identity, amplification, attenuation]
+  readout_aggregators: [min, max, mean]
+  pretrans_layers: 2
+  posttrans_layers: 1
+  residual: true
+
+model3d:
+  node_dim: 0
+  edge_dim: 0
+  target_dim: 256
+  hidden_dim: 20
+  node_wise_output_layers: 0
+  message_net_layers: 1
+  update_net_layers: 1
+  reduce_func: mean
+  fourier_encodings: 4
+  propagation_depth: 1
+  dropout: 0.0
+  batch_norm: true
+  readout_batchnorm: true
+  batch_norm_momentum: 0.93
+  readout_hidden_dim: 20
+  readout_layers: 1
+  readout_aggregators: [min, max, mean]
+
+output:
+  root: outputs/paired_gap_mae_v2/3dinfomax_pretrain

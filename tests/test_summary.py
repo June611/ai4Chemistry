@@ -133,3 +133,61 @@ def test_single_run_must_be_explicit_and_has_no_sd() -> None:
         validate_expected_seeds([record], [3407, 42])
     validate_expected_seeds([{**record, "run_mode": "single"}], [3407, 42])
     assert summarize_records([record])[0]["mae"]["std"] is None
+
+
+def test_paired_runs_require_matching_complete_seed_set() -> None:
+    records = [
+        {
+            "model": "paired_model",
+            "seed": seed,
+            "split_seed": seed,
+            "run_mode": "paired_split_seed",
+        }
+        for seed in (3407, 42, 2026)
+    ]
+    validate_expected_seeds(records, [3407, 42, 2026])
+
+    with pytest.raises(ValueError, match="differ"):
+        validate_expected_seeds([{**records[0], "split_seed": 42}], [3407])
+    with pytest.raises(ValueError, match="incomplete"):
+        validate_expected_seeds(records[:2], [3407, 42, 2026])
+
+
+def test_qm9_paired_runs_group_by_model_id(tmp_path: Path) -> None:
+    for seed in (3407, 42, 2026):
+        run_dir = _write_run(
+            tmp_path,
+            f"egnn_qm9_splitseed{seed}",
+            seed,
+            {
+                "target": "delta_e",
+                "unit": "hartree",
+                "mae": seed / 100000,
+                "rmse": 0.05,
+                "mape": 10.0,
+                "r2": 0.8,
+            },
+        )
+        config_path = run_dir / "config.yaml"
+        config = yaml.safe_load(config_path.read_text())
+        config["experiment"]["model_id"] = "egnn"
+        config["training"].update(run_mode="paired_split_seed", split_seed=seed)
+        config_path.write_text(yaml.safe_dump(config))
+    records = load_records(find_metric_files([tmp_path / "outputs"]))
+    validate_expected_seeds(records, [3407, 42, 2026])
+    summaries = summarize_records(records)
+    assert len(summaries) == 1
+    assert summaries[0]["model"] == "egnn"
+    assert summaries[0]["runs"] == 3
+    assert summaries[0]["run_mode"] == "paired_split_seed"
+    artifacts = write_summary(records, tmp_path / "summary")
+    assert "not initialization variance" in artifacts["summary_markdown"].read_text()
+
+
+def test_summary_rejects_mixing_old_and_gap_selection_protocols() -> None:
+    records = [
+        {"model": "old", "seed": 3407, "protocol_id": "paired_split_training_seed_v1"},
+        {"model": "new", "seed": 3407, "protocol_id": "paired_split_gap_mae_v2"},
+    ]
+    with pytest.raises(ValueError, match="different experiment protocols"):
+        validate_expected_seeds(records, None)

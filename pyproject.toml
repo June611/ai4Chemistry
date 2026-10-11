@@ -17,6 +17,7 @@ dependencies = [
     "pyyaml>=6.0",
     "rdkit>=2024.3",
     "scikit-learn==1.5.1",
+    "smilespe==0.0.3",
     "tensorboard>=2.18",
     "torch==2.6.0",
     "tqdm>=4.66",
@@ -30,9 +31,26 @@ molgap-predict = "molgap.training.predict:main"
 molgap-evaluate = "molgap.training.evaluate:main"
 molgap-audit-splits = "molgap.data.distribution:main"
 molgap-train-transformer = "molgap.training.transformer:main"
+molgap-train-spe-multitask = "molgap.training.spe_multitask:main"
 molgap-train-ml = "molgap.training.ml:main"
 molgap-run-multiseed = "molgap.experiments.multiseed:main"
 molgap-summarize = "molgap.experiments.summary:main"
+molgap-train-qm9 = "molgap.qm9_models.train:main"
+molgap-bootstrap-qm9 = "molgap.qm9_models.bootstrap:main"
+molgap-prepare-qm9-geometry = "molgap.qm9_models.prepare:main"
+molgap-pretrain-3dinfomax = "molgap.qm9_models.pretrain_infomax:main"
+
+[project.optional-dependencies]
+qm9 = [
+    "admin-torch>=0.1.0",
+    "dgl==1.1.3",
+    "einops>=0.8",
+    "jarvis-tools>=2026.6.12",
+    "ogb==1.3.6",
+    "pydantic-settings>=2",
+    "torch-geometric==2.6.1",
+    "torchmd-net==3.0.3",
+]
 
 [tool.uv]
 default-groups = ["dev","analysis"]
@@ -64,6 +82,7 @@ addopts = "-ra"
 testpaths = ["tests"]
 
 [tool.ruff]
+extend-exclude = ["src/molgap/_vendor"]
 line-length = 100
 target-version = "py311"
 

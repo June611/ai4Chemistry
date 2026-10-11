@@ -64,6 +64,13 @@ def validate_transformer_config(config: dict[str, Any]) -> None:
         raise ConfigError("Transformer splits must be stratified on delta_e with at least 2 bins.")
 
     tokenizer = config["tokenizer"]
+    tokenizer_type = tokenizer.get("type", "regex")
+    if tokenizer_type not in {"regex", "spe"}:
+        raise ConfigError("tokenizer.type must be regex or spe.")
+    if tokenizer_type == "spe":
+        _require(tokenizer, ("num_merges", "min_frequency"), "tokenizer")
+        if int(tokenizer["num_merges"]) < 1 or int(tokenizer["min_frequency"]) < 2:
+            raise ConfigError("SPE requires num_merges >= 1 and min_frequency >= 2.")
     _require(
         tokenizer,
         ("pattern", "max_length", "overlength_policy", "vocabulary_source", "special_tokens"),

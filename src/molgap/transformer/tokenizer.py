@@ -120,6 +120,10 @@ class SmilesTokenizer:
     @classmethod
     def from_dict(cls, payload: dict[str, object]) -> SmilesTokenizer:
         """Restore a tokenizer from a saved artifact."""
+        if payload.get("type") == "spe":
+            from molgap.transformer.spe import SpeSmilesTokenizer
+
+            return SpeSmilesTokenizer.from_dict(payload)
         return cls(
             pattern=str(payload["pattern"]),
             max_length=int(payload["max_length"]),

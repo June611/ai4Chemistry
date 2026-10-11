@@ -45,6 +45,12 @@ def build_train_command(config: dict[str, Any], root: Path) -> list[str]:
         "--logfile",
         str(run_dir / "train.log"),
     ]
+    if training.get("selection_metric") == "gap_mae":
+        command[:1] = [sys.executable, "-m", "molgap.training.chemprop_gap_cli"]
+        metrics_index = command.index("--metrics") + 1
+        command.insert(metrics_index, "gap_mae")
+        command.extend(("--tracking-metric", "gap_mae"))
+        _append(command, "--min-delta", training["early_stopping_min_delta"])
     if len(data["targets"]) > 1:
         command.append("--show-individual-scores")
     command.extend(("--task-weights", *(str(value) for value in task_weights(config))))

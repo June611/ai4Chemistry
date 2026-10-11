@@ -1,0 +1,109 @@
+{
+  "status": "pass",
+  "seeds": {
+    "3407": {
+      "checks": {
+        "preprocess_complete": true,
+        "manifest_seed": true,
+        "manifest_strategy": true,
+        "manifest_bins": true,
+        "split_rows": true,
+        "pairwise_disjoint": true,
+        "union_matches_dataset": true,
+        "split_order_matches_manifest": true,
+        "labels_finite": true,
+        "geometry_hash_matches_metadata": true,
+        "geometry_order_matches_splits": true,
+        "geometry_content_matches_reference": true
+      },
+      "manifest_sha256": "c23bfbb887e8fb7014353cea2154a623444defe3b356cee60350079b221ccd43",
+      "geometry_sha256": "b9ca7d881ec66a554fe747b376bf0229f2b34ba7d39f16bb2487fe266da29b19",
+      "delta_e": {
+        "train": {
+          "mean": 0.2511385199648723,
+          "std": 0.04749098600952133
+        },
+        "val": {
+          "mean": 0.25118144245142005,
+          "std": 0.04767243568591032
+        },
+        "test": {
+          "mean": 0.2511165022421525,
+          "std": 0.047468364948403355
+        }
+      }
+    },
+    "42": {
+      "checks": {
+        "preprocess_complete": true,
+        "manifest_seed": true,
+        "manifest_strategy": true,
+        "manifest_bins": true,
+        "split_rows": true,
+        "pairwise_disjoint": true,
+        "union_matches_dataset": true,
+        "split_order_matches_manifest": true,
+        "labels_finite": true,
+        "geometry_hash_matches_metadata": true,
+        "geometry_order_matches_splits": true,
+        "geometry_content_matches_reference": true
+      },
+      "manifest_sha256": "cd291da6fcde7055870b30aa31a30f281ec92792881b57ebbee83c92ffcaf6cf",
+      "geometry_sha256": "0f2d284e59242ae71493f15aea876c444a7e8b0baa607c8b2e9380caf0e6b210",
+      "delta_e": {
+        "train": {
+          "mean": 0.2511373203908892,
+          "std": 0.04751450974383313
+        },
+        "val": {
+          "mean": 0.2511340358744395,
+          "std": 0.047445237742676574
+        },
+        "test": {
+          "mean": 0.2511735052316891,
+          "std": 0.047507668264361695
+        }
+      }
+    },
+    "2026": {
+      "checks": {
+        "preprocess_complete": true,
+        "manifest_seed": true,
+        "manifest_strategy": true,
+        "manifest_bins": true,
+        "split_rows": true,
+        "pairwise_disjoint": true,
+        "union_matches_dataset": true,
+        "split_order_matches_manifest": true,
+        "labels_finite": true,
+        "geometry_hash_matches_metadata": true,
+        "geometry_order_matches_splits": true,
+        "geometry_content_matches_reference": true
+      },
+      "manifest_sha256": "814583d9523c67427e3725cb7d991c8d47cd3a4f9280eaa39e7df1b598218c3c",
+      "geometry_sha256": "442448d38c3606cc0fe4d5f305679d738c97db4fd75fec18b5a527d0599bc076",
+      "delta_e": {
+        "train": {
+          "mean": 0.2511387259664792,
+          "std": 0.04751919789113156
+        },
+        "val": {
+          "mean": 0.2511406763826607,
+          "std": 0.047476205411736146
+        },
+        "test": {
+          "mean": 0.251155620328849,
+          "std": 0.04743918018571695
+        }
+      }
+    }
+  },
+  "cross_seed": {
+    "same_sample_universe": true,
+    "same_preprocessed_dataset": true,
+    "assignment_changes_vs_reference": {
+      "42": 45641,
+      "2026": 45559
+    }
+  }
+}

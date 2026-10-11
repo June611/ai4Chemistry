@@ -81,14 +81,23 @@ def _validate_matrix(matrix: dict[str, Any], matrix_path: Path) -> None:
     training_seeds = matrix["training_seeds"]
     if (
         not isinstance(training_seeds, list)
-        or len(training_seeds) != 5
-        or len(set(map(int, training_seeds))) != 5
+        or not training_seeds
+        or len(set(map(int, training_seeds))) != len(training_seeds)
     ):
-        raise ConfigError("training_seeds must contain exactly five unique integers.")
+        raise ConfigError("training_seeds must contain one or more unique integers.")
     try:
         int(matrix["split_seed"])
     except (TypeError, ValueError) as error:
         raise ConfigError("split_seed must be an integer.") from error
+    pairing = matrix.get("seed_pairing")
+    if pairing not in {None, "matched"}:
+        raise ConfigError("seed_pairing must be matched when provided.")
+    if pairing == "matched" and list(map(int, training_seeds)) != [int(matrix["split_seed"])]:
+        raise ConfigError(
+            "seed_pairing=matched requires exactly one training seed equal to split_seed."
+        )
+    if pairing == "matched" and not str(matrix.get("protocol_id", "")).strip():
+        raise ConfigError("Paired-seed matrices require protocol_id.")
     if int(matrix["parallel_jobs"]) <= 0:
         raise ConfigError("parallel_jobs must be positive.")
     models = matrix["models"]
@@ -102,7 +111,7 @@ def _validate_matrix(matrix: dict[str, Any], matrix_path: Path) -> None:
     ):
         raise ConfigError("Every model requires a unique non-empty name.")
     for model in models:
-        if model.get("trainer") not in {"chemprop", "transformer"}:
+        if model.get("trainer") not in {"chemprop", "transformer", "spe_multitask"}:
             raise ConfigError(
                 f"Unsupported trainer for {model.get('name')}: {model.get('trainer')}"
             )
@@ -148,6 +157,11 @@ def _pipeline_commands(
     config_args = ("--config", str(config_path))
     if trainer == "transformer":
         command = [sys.executable, "-m", "molgap.training.transformer", *config_args]
+        if overwrite:
+            command.append("--overwrite")
+        return (tuple(command),)
+    if trainer == "spe_multitask":
+        command = [sys.executable, "-m", "molgap.training.spe_multitask", *config_args]
         if overwrite:
             command.append("--overwrite")
         return (tuple(command),)
@@ -203,7 +217,13 @@ def expand_matrix(
             generated = _training_seed_config(
                 base, model_name, training_seed, data_base, processed_dir, root
             )
-            if trainer == "transformer":
+            if matrix.get("seed_pairing") == "matched":
+                generated["experiment"]["protocol_id"] = str(matrix["protocol_id"])
+                generated["training"]["run_mode"] = "paired_split_seed"
+                generated["training"]["split_seed"] = split_seed
+                generated["training"]["seed_pairing"] = "matched"
+                generated["output"]["root"] = "outputs/paired_gap_mae_v2"
+            if trainer in {"transformer", "spe_multitask"}:
                 reference_base_path = resolve_path(root, base["data"]["chemprop_reference_config"])
                 reference_base = _load_yaml(reference_base_path)
                 reference = _training_seed_config(
@@ -350,6 +370,8 @@ def run_matrix(
     selected_gpu = str(gpu if gpu is not None else matrix["gpu"])
     plan = {
         "name": matrix["name"],
+        "protocol_id": matrix.get("protocol_id"),
+        "seed_pairing": matrix.get("seed_pairing"),
         "split_seed": int(matrix["split_seed"]),
         "training_seeds": [int(seed) for seed in matrix["training_seeds"]],
         "parallel_jobs": concurrency,

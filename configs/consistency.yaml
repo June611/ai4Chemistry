@@ -36,8 +36,10 @@ training:
   num_workers: 8
   pin_memory: true
   accelerator: auto
-  devices: auto
+  devices: 1
   patience: 20
+  selection_metric: gap_mae
+  early_stopping_min_delta: 0.00001
 
 loss:
   function: mse

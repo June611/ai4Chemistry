@@ -1,0 +1,5 @@
+# Preserve received CSV bytes, including Windows CRLF, for input hash provenance.
+*.csv whitespace=cr-at-eol
+
+# Vendored upstream sources retain original formatting and license text.
+src/molgap/_vendor/** -whitespace

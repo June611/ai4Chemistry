@@ -1,0 +1,29 @@
+name: qm9_spe_affinity_ablation_paired_seed42
+protocol_id: paired_split_gap_mae_v2
+seed_pairing: matched
+split_seed: 42
+training_seeds: [42]
+parallel_jobs: 1
+gpu: "0"
+
+data_config: configs/data/qm9_full_seed42.yaml
+
+models:
+  - name: spe_transformer
+    trainer: transformer
+    config: configs/spe_transformer.yaml
+  - name: spe_multitask
+    trainer: spe_multitask
+    config: configs/spe_multitask.yaml
+  - name: spe_multitask_affinity
+    trainer: spe_multitask
+    config: configs/spe_multitask_affinity.yaml
+  - name: spe_multitask_consistency
+    trainer: spe_multitask
+    config: configs/spe_multitask_consistency.yaml
+  - name: spe_multitask_affinity_consistency
+    trainer: spe_multitask
+    config: configs/spe_multitask_affinity_consistency.yaml
+
+output:
+  root: outputs/batches

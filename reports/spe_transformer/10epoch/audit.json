@@ -1,0 +1,127 @@
+{
+  "test_rows": 13380,
+  "identity_and_finiteness_checks": "passed",
+  "recomputed_csv_metrics": {
+    "n": 13380,
+    "mae": 0.007851938902653214,
+    "rmse": 0.011090813010028358,
+    "mape": 3.3354872807198817,
+    "mape_n": 13380,
+    "mape_excluded_zero_targets": 0,
+    "r2": 0.945409355573883
+  },
+  "portable_prediction_max_absolute_difference_hartree": 4.999847758035969e-11,
+  "portable_prediction_samples": 13380,
+  "cpu_vs_original_cuda_max_absolute_difference_hartree_64_samples": 6.169099853514659e-06,
+  "comparisons": [
+    {
+      "model": "Training mean",
+      "n": 13380,
+      "mae": 0.03962738219940107,
+      "rmse": 0.047468370054752476,
+      "mape": 16.873272567045355,
+      "mape_n": 13380,
+      "mape_excluded_zero_targets": 0,
+      "r2": -2.151474736145076e-07
+    },
+    {
+      "model": "Training median",
+      "n": 13380,
+      "mae": 0.03960662182361734,
+      "rmse": 0.04749588140432486,
+      "mape": 16.754935488637333,
+      "mape_n": 13380,
+      "mape_excluded_zero_targets": 0,
+      "r2": -0.0011596957813613251
+    },
+    {
+      "model": "SPE + Transformer (10 epochs)",
+      "n": 13380,
+      "mae": 0.007851938902653214,
+      "rmse": 0.011090813010028358,
+      "mape": 3.3354872807198817,
+      "mape_n": 13380,
+      "mape_excluded_zero_targets": 0,
+      "r2": 0.945409355573883
+    }
+  ],
+  "learning_curves": [
+    {
+      "epoch": 1,
+      "step": 418,
+      "val_mae_hartree": 0.014458141289651394,
+      "train_normalized_mse": 0.37067314982414246,
+      "val_r2": 0.8317083716392517
+    },
+    {
+      "epoch": 2,
+      "step": 837,
+      "val_mae_hartree": 0.011671973392367363,
+      "train_normalized_mse": 0.13850508630275726,
+      "val_r2": 0.8887080550193787
+    },
+    {
+      "epoch": 3,
+      "step": 1256,
+      "val_mae_hartree": 0.010351779870688915,
+      "train_normalized_mse": 0.10283628851175308,
+      "val_r2": 0.9093529582023621
+    },
+    {
+      "epoch": 4,
+      "step": 1675,
+      "val_mae_hartree": 0.010164497420191765,
+      "train_normalized_mse": 0.08254511654376984,
+      "val_r2": 0.9169270992279053
+    },
+    {
+      "epoch": 5,
+      "step": 2094,
+      "val_mae_hartree": 0.00863610114902258,
+      "train_normalized_mse": 0.07019121944904327,
+      "val_r2": 0.9335720539093018
+    },
+    {
+      "epoch": 6,
+      "step": 2513,
+      "val_mae_hartree": 0.008632604032754898,
+      "train_normalized_mse": 0.061900269240140915,
+      "val_r2": 0.9349086880683899
+    },
+    {
+      "epoch": 7,
+      "step": 2932,
+      "val_mae_hartree": 0.008320012129843235,
+      "train_normalized_mse": 0.05586053431034088,
+      "val_r2": 0.9378723502159119
+    },
+    {
+      "epoch": 8,
+      "step": 3351,
+      "val_mae_hartree": 0.008255302906036377,
+      "train_normalized_mse": 0.05144112929701805,
+      "val_r2": 0.9388915300369263
+    },
+    {
+      "epoch": 9,
+      "step": 3770,
+      "val_mae_hartree": 0.008039074018597603,
+      "train_normalized_mse": 0.048578329384326935,
+      "val_r2": 0.9405885934829712
+    },
+    {
+      "epoch": 10,
+      "step": 4189,
+      "val_mae_hartree": 0.007957437075674534,
+      "train_normalized_mse": 0.04672085493803024,
+      "val_r2": 0.9415909051895142
+    }
+  ],
+  "fit": {
+    "fit_seconds": 1120.6861592839996,
+    "epochs_completed": 10
+  },
+  "best_validation_mae_hartree": 0.007957437075674534,
+  "best_checkpoint": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/spe_transformer_10epoch/seed3407/checkpoints/best-epoch=009-val_mae=0.007957.ckpt",
+  "mae_reduction_vs_training_mean_percent": 80.18557253380243
+}

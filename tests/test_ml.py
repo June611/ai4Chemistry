@@ -68,7 +68,7 @@ def test_ml_single_fit_artifacts_and_reload(project: Path, backend: str, monkeyp
     monkeypatch.setattr(estimator, "fit", track_fit)
     result = train_ml(config_path)
     run_dir = Path(result["run_dir"])
-    assert run_dir == project / "outputs" / f"{backend}_rdkit29" / "seed3407"
+    assert run_dir == project / "outputs" / "paired_gap_mae_v2" / f"{backend}_rdkit29" / "seed3407"
     assert len(fits) == 1
     train = pd.read_csv(project / "data/train.csv", float_precision="round_trip")
     expected_x, _ = descriptor_matrix(train.smiles.tolist(), train.sample_id.tolist())
@@ -113,8 +113,8 @@ def test_ml_single_fit_artifacts_and_reload(project: Path, backend: str, monkeyp
     assert evaluated["targets"]["delta_e"] == pytest.approx(result["metrics"]["targets"]["delta_e"])
     assert len(list((run_dir / "predictions").glob("*.csv"))) == 1
     records = load_records(find_metric_files([run_dir]))
-    assert records[0]["run_mode"] == "single"
-    validate_expected_seeds(records, [3407, 42, 2026, 7, 123])
+    assert records[0]["run_mode"] == "paired_split_seed"
+    validate_expected_seeds(records, [3407])
     with pytest.raises(FileExistsError):
         train_ml(config_path)
     assert len(fits) == 1
@@ -164,7 +164,7 @@ def test_training_mean_uses_train_only_without_descriptors(
     np.testing.assert_array_equal(load_estimator(run).predict(np.zeros((2, 1))), [3.5, 3.5])
     metrics = evaluate_files(project / "data/test.csv", predictions_path, ["delta_e"], "smiles")
     assert metrics["targets"] == result["metrics"]["targets"]
-    validate_expected_seeds(load_records(find_metric_files([run])), [3407, 42, 2026, 7, 123])
+    validate_expected_seeds(load_records(find_metric_files([run])), [3407])
     with pytest.raises(FileExistsError):
         train_ml(path)
 

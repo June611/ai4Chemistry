@@ -1,0 +1,55 @@
+{
+  "repository": "https://github.com/atomistic-machine-learning/schnetpack",
+  "commit": "ab4314d6a328d5f2b4d7a72d5097e3a2e0fef61f",
+  "modifications": "Only import namespace changed to molgap._vendor.schnetpack; minimal package initializers avoid unrelated training/ASE dependencies. Algorithms unchanged.",
+  "files": {
+    "properties.py": {
+      "original_sha256": "ca0257f56b0f80abd4a78800609c7f32ecc5d0cade7647e41215f737feb85616",
+      "adapted_sha256": "ca0257f56b0f80abd4a78800609c7f32ecc5d0cade7647e41215f737feb85616"
+    },
+    "nn/activations.py": {
+      "original_sha256": "31cf4004d7c8b5eafb5372fa73b3e333ebdbb7501d0e9b8bc96f6a45f1fddc7e",
+      "adapted_sha256": "31cf4004d7c8b5eafb5372fa73b3e333ebdbb7501d0e9b8bc96f6a45f1fddc7e"
+    },
+    "nn/base.py": {
+      "original_sha256": "1c3defe00e9b5a0166e6a18a853471ef852c3314db2768a3ffc88c20736d824d",
+      "adapted_sha256": "1c3defe00e9b5a0166e6a18a853471ef852c3314db2768a3ffc88c20736d824d"
+    },
+    "nn/blocks.py": {
+      "original_sha256": "4dc74b823cbf5fe3d84da9443788e20c2d86b59ff12481067d675a3b895cd08a",
+      "adapted_sha256": "c9c79310260cffc732430bce49b8c596c4d2fa03f4209711c7fe8922d2037c31"
+    },
+    "nn/cutoff.py": {
+      "original_sha256": "c40d6af199590df4d927a7aad7b021b6f285e8c40f469dbf84ab07b0b735d0ff",
+      "adapted_sha256": "c40d6af199590df4d927a7aad7b021b6f285e8c40f469dbf84ab07b0b735d0ff"
+    },
+    "nn/scatter.py": {
+      "original_sha256": "11bdb29dca364f7610e13bab03321681701faf6ad21fb2b662609539f656fe17",
+      "adapted_sha256": "11bdb29dca364f7610e13bab03321681701faf6ad21fb2b662609539f656fe17"
+    },
+    "nn/radial.py": {
+      "original_sha256": "a37f759e67c2b28fb0f3e9730a7a6942a71d132e1621c39b36b682bda6401603",
+      "adapted_sha256": "a37f759e67c2b28fb0f3e9730a7a6942a71d132e1621c39b36b682bda6401603"
+    },
+    "nn/utils.py": {
+      "original_sha256": "001a036112fab7041c33529871cf275621ce081dc8ae7c6ad1c750497e3802a5",
+      "adapted_sha256": "001a036112fab7041c33529871cf275621ce081dc8ae7c6ad1c750497e3802a5"
+    },
+    "nn/equivariant.py": {
+      "original_sha256": "7fe273571011af4880d99465e3da1db6d0d808bc77b493ec37597feb0545cd69",
+      "adapted_sha256": "f7b6fb0c356b6e7cbaddf751035feccca10c38ca3cd454667f099f03cf229d65"
+    },
+    "representation/schnet.py": {
+      "original_sha256": "a3edb92cb333bdb4cab89c79dfd50ac1c8397a9c1ee7821c83aa32aa95bf74f8",
+      "adapted_sha256": "3703f3a6b7cb70f464922de28abcdf0e43ca9446d95172fc54d3d432f76aaafd"
+    },
+    "representation/painn.py": {
+      "original_sha256": "227414bcf7505ca008f9fcc92681a5731950efa686fa8f4352fb7c8b4211960b",
+      "adapted_sha256": "bd153e1d1f25bce9e81cb7f7d558a2802ae37592037afcb7bfd7cfdbaffec39b"
+    },
+    "atomistic/atomwise.py": {
+      "original_sha256": "ef3f314197be0b994982e9af9ef9b2fdd3c6a5e9dfb827958eed186e1a7fec49",
+      "adapted_sha256": "ed9e63b878588425bd6a7489ad3ae436a37fca2a9663c9e9ba7e3e44de7cc18a"
+    }
+  }
+}

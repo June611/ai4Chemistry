@@ -1,0 +1,41 @@
+{
+  "protocol_id": "paired_split_gap_mae_v2",
+  "status": "pass",
+  "scope": "local code/config review; server/formal experiments pending",
+  "pytest": {
+    "passed": 95,
+    "warnings": 31
+  },
+  "ruff": "pass",
+  "shell_syntax": "pass",
+  "diff_check": "pass",
+  "runtime_plans": {
+    "pass": 66,
+    "command_only": 9,
+    "full_data_loaders": 57
+  },
+  "data_audit": "pass",
+  "archive_verification": "86 files pass",
+  "pretraining_smoke": {
+    "seeds": [
+      3407,
+      42,
+      2026
+    ],
+    "epochs": 1,
+    "scope": "routing only"
+  },
+  "pending": [
+    "server GPU Torch/DGL compatibility",
+    "all-model batch256 forward/backward and memory",
+    "formal pretraining/downstream experiments",
+    "data transfer choice/upload"
+  ],
+  "fairness_limits": [
+    "architecture-specific loss/scaler/optimizer/LR",
+    "3D input versus SMILES",
+    "auxiliary HOMO/LUMO labels",
+    "Infomax extra pretraining budget",
+    "no equal-budget HPO executed"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "repository": "https://github.com/XinhaoLi74/SmilesPE",
+  "inspected_commit": "e5f27dfea0778966818ac0a9dd23ac646c62707d",
+  "package_version": "0.0.3",
+  "license": "Apache-2.0",
+  "files": {
+    "learner.py": {
+      "installed_sha256": "7eff2bfa0f33e2cfeeacabfb4304c72172a76bc3669ab01be88641a6ce02d777",
+      "repository_sha256": "7eff2bfa0f33e2cfeeacabfb4304c72172a76bc3669ab01be88641a6ce02d777",
+      "identical": true
+    },
+    "tokenizer.py": {
+      "installed_sha256": "a41d27d9dd0670b49c039dafbb0013e8faf1f17676e4b1ee0b7146eb0d4bb310",
+      "repository_sha256": "a41d27d9dd0670b49c039dafbb0013e8faf1f17676e4b1ee0b7146eb0d4bb310",
+      "identical": true
+    },
+    "pretokenizer.py": {
+      "installed_sha256": "a62087b5ccbb84a3abf90a1f7474656f7875a1a9daec3875bb13fd3b13e32f4b",
+      "repository_sha256": "a62087b5ccbb84a3abf90a1f7474656f7875a1a9daec3875bb13fd3b13e32f4b",
+      "identical": true
+    }
+  }
+}

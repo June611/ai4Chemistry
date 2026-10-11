@@ -1,0 +1,11 @@
+﻿模型名,官方git仓库,QM9-only 适用性
+EGNN,https://github.com/vgsatorras/egnn,直接支持QM9-only；官方main_qm9.py提供--property gap；可从零训练；需要QM9原子坐标。
+SchNet,https://github.com/atomistic-machine-learning/schnetpack,直接支持QM9-only；SchNetPack官方qm9_atomwise训练配置；将预测属性改为gap；可从零训练。
+PaiNN,https://github.com/atomistic-machine-learning/schnetpack,直接支持QM9-only；SchNetPack切换model/representation=painn；将预测属性改为gap；可从零训练。
+DimeNet++,https://github.com/gasteigerjo/dimenet,直接支持QM9-only；官方config_pp.yaml列出gap目标并有训练Notebook；需设置targets为gap；留意旧数据索引偏移问题。
+ESA,https://github.com/davidbuterez/edge-set-attention,直接支持QM9-only；官方提供QM9单目标回归训练命令（示例homo）；将dataset-target-name改为gap；可从零训练。
+TorchMD-Net,https://github.com/torchmd/torchmd-net,直接支持QM9-only；官方ET-QM9.yaml可启动训练；默认配置目标可能非gap，需更改预测目标和相应先验设置。
+Cormorant,https://github.com/risilab/cormorant,直接支持QM9-only；官方examples/train_qm9.py训练入口；需设置gap目标；旧代码可能需适配依赖。
+LieTF (LieTransformer),https://github.com/oxcsml/lie-transformer,直接支持QM9-only；官方scripts/train_molecule.py示例用--task homo；改为--task gap；旧依赖可能需适配。
+ALIGNN,https://github.com/usnistgov/alignn,支持QM9-only且论文报告gap指标；需将QM9转成仓库支持的结构文件与id_prop.csv或使用相应数据脚本；可从零训练。
+3D Infomax,https://github.com/HannesStark/3DInfomax,支持仅用QM9但为两阶段；官方pre-train_QM9.yml自监督预训练后微调；微调示例为homo需改gap与预训练权重路径；勿使用QMugs权重。

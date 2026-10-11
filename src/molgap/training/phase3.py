@@ -21,6 +21,7 @@ from lightning.pytorch.loggers import CSVLogger
 from molgap.config import load_config, resolve_path, run_directory
 from molgap.models import build_phase3_model
 from molgap.training.evaluate import evaluate_files
+from molgap.training.gap_metric import GAP_MONITOR, GapMetricScale
 from molgap.utils.files import write_run_metadata
 
 
@@ -66,6 +67,15 @@ def _dry_run_plan(config: dict[str, Any], root: Path) -> dict[str, Any]:
         "heads": ["homo", "lumo", "delta_e"],
         "loss": config["loss"],
         "training": config["training"],
+        "selection": {
+            "target": "delta_e",
+            "metric": "mae",
+            "unit": "hartree",
+            "mode": "min",
+            "monitor": GAP_MONITOR,
+            "patience": config["training"]["patience"],
+            "min_delta": config["training"].get("early_stopping_min_delta", 1e-5),
+        },
         "run_dir": str(run_directory(config, root)),
     }
 
@@ -128,13 +138,19 @@ def train_phase3(
     checkpoint = ModelCheckpoint(
         dirpath=run_dir / "checkpoints",
         filename="best",
-        monitor="val_loss",
+        monitor=GAP_MONITOR,
         mode="min",
         save_top_k=1,
     )
     callbacks = [
+        GapMetricScale(),
         checkpoint,
-        EarlyStopping(monitor="val_loss", mode="min", patience=int(training["patience"])),
+        EarlyStopping(
+            monitor=GAP_MONITOR,
+            mode="min",
+            patience=int(training["patience"]),
+            min_delta=float(training.get("early_stopping_min_delta", 1e-5)),
+        ),
         TQDMProgressBar(refresh_rate=1),
     ]
     trainer = pl.Trainer(

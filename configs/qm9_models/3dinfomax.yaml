@@ -1,0 +1,82 @@
+# 3D Infomax Configuration for QM9 Gap Prediction
+# Paper: 3D Infomax improves GNNs for Molecular Property Prediction
+# Repo: https://github.com/HannesStark/3DInfomax
+#
+# NOTE: This is a TWO-STAGE method:
+# 1. Pretrain on QM9 with self-supervised 3D Infomax objective
+# 2. Finetune on gap prediction task
+#
+# IMPORTANT: Must use QM9-pretrained weights, NOT QMugs weights!
+# The pretrain_checkpoint path must point to a model pretrained on QM9 only.
+
+experiment:
+  name: 3dinfomax_qm9
+  model_type: 3dinfomax
+
+data:
+  processed_dir: data/processed/qm9_full/random/seed3407
+  geometry: data/geometry/qm9_full_seed3407.npz
+  smiles_column: smiles
+  id_column: sample_id
+  target_column: delta_e
+  targets: [delta_e]
+  label_unit: hartree
+  split:
+    method: random
+    sizes: [0.8, 0.1, 0.1]
+    seed: 3407
+    stratify:
+      strategy: quantile
+      column: delta_e
+      bins: 200
+
+model:
+  name: 3dinfomax
+  params:
+    # Authors' downstream PNA configuration. Coordinates are used during the
+    # separate contrastive pretraining stage, then the 2D encoder is transferred.
+    hidden_dim: 200
+    propagation_depth: 7
+    aggregators: [mean, max, min, std]
+    scalers: [identity, amplification, attenuation]
+    readout_aggregators: [min, max, mean, sum]
+    mid_batch_norm: true
+    last_batch_norm: true
+    readout_batchnorm: true
+    batch_norm_momentum: 0.1
+    readout_hidden_dim: 200
+    readout_layers: 2
+    dropout: 0.0
+    pretrans_layers: 2
+    posttrans_layers: 1
+    residual: true
+    require_pretrained: true
+    pretrain_checkpoint: null  # REQUIRED: QM9 3D-Infomax model_state_dict checkpoint
+
+training:
+  seed: 3407
+  epochs: 100
+  batch_size: 256
+  optimizer: adam
+  lr: 0.0001
+  weight_decay: 0.0
+  gradient_clip_val: 1.0
+  target_scaling: mad
+  loss: mae
+  accelerator: auto
+  num_workers: 4
+  early_stopping:
+    monitor: val_mae
+    patience: 20
+    min_delta: 0.00001
+
+evaluation:
+  metrics: [mae, rmse, mape, r2]
+
+output:
+  root: outputs/paired_gap_mae_v2
+  save_predictions: true
+  save_model: true
+
+# Pretraining configuration (separate step, not part of this config)
+# See official repo for pretraining script and hyperparameters

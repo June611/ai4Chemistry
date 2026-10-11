@@ -1,0 +1,226 @@
+{
+  "policy": "preserve architecture-specific loss/scaler/LR",
+  "status": "pass",
+  "models": {
+    "chemprop": [
+      {
+        "name": "baseline",
+        "loss": {
+          "function": "mse",
+          "weights": {
+            "homo": 0.0,
+            "lumo": 0.0,
+            "gap": 1.0,
+            "consistency": 0.0
+          }
+        },
+        "scaler": "standard",
+        "lr": {
+          "init_lr": 0.0004,
+          "max_lr": 0.004,
+          "final_lr": 0.0004
+        }
+      },
+      {
+        "name": "multitask",
+        "loss": {
+          "function": "mse",
+          "weights": {
+            "homo": 1.0,
+            "lumo": 1.0,
+            "gap": 1.0,
+            "consistency": 0.0
+          }
+        },
+        "scaler": "standard",
+        "lr": {
+          "init_lr": 0.0004,
+          "max_lr": 0.004,
+          "final_lr": 0.0004
+        }
+      },
+      {
+        "name": "consistency",
+        "loss": {
+          "function": "mse",
+          "weights": {
+            "homo": 1.0,
+            "lumo": 1.0,
+            "gap": 1.0,
+            "consistency": 0.1
+          }
+        },
+        "scaler": "standard",
+        "lr": {
+          "init_lr": 0.0004,
+          "max_lr": 0.004,
+          "final_lr": 0.0004
+        }
+      }
+    ],
+    "sequence": [
+      {
+        "name": "transformer",
+        "loss": "mse",
+        "scaler": "standard",
+        "lr": {
+          "lr": 0.0003
+        }
+      },
+      {
+        "name": "spe_transformer",
+        "loss": "mse",
+        "scaler": "standard",
+        "lr": {
+          "lr": 0.0003
+        }
+      },
+      {
+        "name": "spe_multitask",
+        "loss": {
+          "function": "mse",
+          "task_weights": {
+            "homo": 1.0,
+            "lumo": 1.0,
+            "delta_e": 1.0
+          },
+          "consistency_weight": 0.0
+        },
+        "scaler": "standard",
+        "lr": {
+          "lr": 0.0003
+        }
+      },
+      {
+        "name": "spe_multitask_affinity",
+        "loss": {
+          "function": "mse",
+          "task_weights": {
+            "homo": 1.0,
+            "lumo": 1.0,
+            "delta_e": 1.0
+          },
+          "consistency_weight": 0.0
+        },
+        "scaler": "standard",
+        "lr": {
+          "lr": 0.0003
+        }
+      },
+      {
+        "name": "spe_multitask_consistency",
+        "loss": {
+          "function": "mse",
+          "task_weights": {
+            "homo": 1.0,
+            "lumo": 1.0,
+            "delta_e": 1.0
+          },
+          "consistency_weight": 0.1
+        },
+        "scaler": "standard",
+        "lr": {
+          "lr": 0.0003
+        }
+      },
+      {
+        "name": "spe_multitask_affinity_consistency",
+        "loss": {
+          "function": "mse",
+          "task_weights": {
+            "homo": 1.0,
+            "lumo": 1.0,
+            "delta_e": 1.0
+          },
+          "consistency_weight": 0.1
+        },
+        "scaler": "standard",
+        "lr": {
+          "lr": 0.0003
+        }
+      }
+    ],
+    "qm9": [
+      {
+        "name": "qm9_models/egnn",
+        "loss": "mae",
+        "scaler": "mad",
+        "lr": {
+          "lr": 0.0005
+        }
+      },
+      {
+        "name": "qm9_models/schnet",
+        "loss": "mae",
+        "scaler": "mad",
+        "lr": {
+          "lr": 0.0001
+        }
+      },
+      {
+        "name": "qm9_models/painn",
+        "loss": "mae",
+        "scaler": "mad",
+        "lr": {
+          "lr": 0.0005
+        }
+      },
+      {
+        "name": "qm9_models/dimenet_pp",
+        "loss": "mae",
+        "scaler": "mad",
+        "lr": {
+          "lr": 0.001
+        }
+      },
+      {
+        "name": "qm9_models/esa",
+        "loss": "mae",
+        "scaler": "mad",
+        "lr": {
+          "lr": 0.0001
+        }
+      },
+      {
+        "name": "qm9_models/torchmd_net",
+        "loss": "mae",
+        "scaler": "mad",
+        "lr": {
+          "lr": 0.0001
+        }
+      },
+      {
+        "name": "qm9_models/cormorant",
+        "loss": "mae",
+        "scaler": "mad",
+        "lr": {
+          "lr": 0.001
+        }
+      },
+      {
+        "name": "qm9_models/lie_transformer",
+        "loss": "mae",
+        "scaler": "mad",
+        "lr": {
+          "lr": 0.0003
+        }
+      },
+      {
+        "name": "qm9_models/alignn",
+        "loss": "mae",
+        "scaler": "mad",
+        "lr": {
+          "lr": 0.001
+        }
+      },
+      {
+        "name": "qm9_models/3dinfomax",
+        "loss": "mae",
+        "scaler": "mad",
+        "lr": {
+          "lr": 0.0001
+        }
+      }
+    ]
+  }
+}

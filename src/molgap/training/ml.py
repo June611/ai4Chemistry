@@ -47,13 +47,18 @@ def load_ml_config(path: str | Path) -> tuple[dict[str, Any], Path]:
         raise ValueError("ML requires sample_id, smiles, and targets=[delta_e].")
     if data.get("label_unit") != "hartree":
         raise ValueError("ML labels must use hartree.")
-    if data.get("split", {}).get("seed") != 3407:
-        raise ValueError("ML uses the existing split seed3407.")
+    split_seed = data.get("split", {}).get("seed")
+    if split_seed not in {3407, 42, 2026}:
+        raise ValueError("ML split seed must be one of 3407, 42, or 2026.")
     if config["normalization"] != {"features": "none", "target": "none"}:
         raise ValueError("Feature and target normalization must both be none.")
     training = config["training"]
-    if training.get("seed") != 3407 or training.get("run_mode") != "single":
-        raise ValueError("ML requires seed=3407 and run_mode=single.")
+    if training.get("seed") != split_seed or training.get("run_mode") != "paired_split_seed":
+        raise ValueError("ML requires training.seed == split seed and paired_split_seed mode.")
+    if training.get("seed_pairing") != "matched":
+        raise ValueError("ML requires training.seed_pairing=matched.")
+    if config["experiment"].get("protocol_id") != "paired_split_gap_mae_v2":
+        raise ValueError("ML requires the paired split/training seed protocol.")
     jobs = training.get("n_jobs")
     if type(jobs) is not int or jobs < 1:
         raise ValueError("training.n_jobs must be a positive integer.")
@@ -158,8 +163,11 @@ def train_ml(config_path: str | Path, *, dry_run: bool = False) -> dict[str, Any
         "split_rows": {split: len(frame) for split, frame in frames.items()},
         "features": features,
         "normalization": config["normalization"],
-        "training_seed": 3407,
-        "run_mode": "single",
+        "split_seed": int(config["data"]["split"]["seed"]),
+        "training_seed": int(config["training"]["seed"]),
+        "seed_pairing": config["training"]["seed_pairing"],
+        "run_mode": config["training"]["run_mode"],
+        "budget": {"batch_size": None, "epochs": None, "early_stopping_patience": None},
         "label_unit": "hartree",
     }
     if dry_run:
@@ -185,7 +193,7 @@ def train_ml(config_path: str | Path, *, dry_run: bool = False) -> dict[str, Any
     feature_seconds = time.perf_counter() - started
     params = {
         **config["model"]["params"],
-        "random_state": 3407,
+        "random_state": int(config["training"]["seed"]),
         "n_jobs": config["training"]["n_jobs"],
     }
     if is_mean:
@@ -200,7 +208,7 @@ def train_ml(config_path: str | Path, *, dry_run: bool = False) -> dict[str, Any
         name: version(name)
         for name in ("rdkit", "numpy", "pandas", "scikit-learn", "xgboost", "joblib")
     }
-    environment["run_mode"] = "single"
+    environment["run_mode"] = config["training"]["run_mode"]
     _write_json(environment_path, environment)
     _write_json(run_dir / "feature_names.json", features)
     _write_json(

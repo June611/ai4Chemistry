@@ -9,12 +9,14 @@ htmlcov/
 .ipynb_checkpoints/
 
 # Local data and experiment artifacts
-#data/raw/*
-#!data/raw/.gitkeep
-#data/processed/*
-#!data/processed/.gitkeep
-#data/splits/*
-#!data/splits/.gitkeep
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+data/splits/*
+!data/splits/.gitkeep
+data/geometry/
+artifacts/
 outputs/*
 !outputs/.gitkeep
 
@@ -22,4 +24,11 @@ outputs/*
 .idea/
 .vscode/
 .DS_Store
+*:Zone.Identifier
 
+
+# Pinned upstream checkouts, reconstructed from sources.lock.json
+.external/
+
+# Local reference papers (code provenance lives in docs and source locks)
+papers/

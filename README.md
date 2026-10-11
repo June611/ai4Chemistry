@@ -1,6 +1,89 @@
 # Molecular HOMO–LUMO Gap Prediction
 
-基于 Chemprop D-MPNN，从分子 SMILES 预测 HOMO–LUMO 能隙。Chemprop 作为固定的第三方依赖；本仓库只管理数据、配置、实验、评估与后续自定义模块。
+新增 SPE + Transformer 对照：使用官方 SmilesPE 和现有 Transformer 网络，采用三组
+split/training seed 配对策略。配置为 `configs/spe_transformer.yaml`，批量配置为三份
+`configs/spe_affinity_ablation_multiseed*.yaml`；详见 [SPE 训练指南](docs/guides/spe-training.md) 和
+[执行清单](docs/features/spe-transformer/tasks.md)。
+
+本项目从分子 SMILES 预测 HOMO–LUMO 能隙，以 Chemprop 为起点，持续接入其他方法，
+形成共享数据与评估协议的多方法实验项目。Chemprop 保持为固定第三方依赖。
+
+## QM9 十模型接入状态
+
+十个 adapter、正式配置、固定 split 数据校验和服务器入口已完成本地验收。19 项 adapter
+sanity tests 通过，十个模型在三套 split 上共完成 30 次全数据配置 dry-run；3D Infomax 的
+PNA/Net3D 预训练与下游权重迁移链路完成 smoke 验证。正式长训练仍需在 GPU 服务器执行。
+
+详细状态见 [十模型功能文档](docs/features/qm9-ten-models/README.md)、
+[复现与公平性审查](docs/features/qm9-ten-models/reproduction-audit.md) 和
+[任务清单](docs/features/qm9-ten-models/tasks.md)。
+
+---
+
+## 文档与复现方法管理
+
+**以功能或研究任务（feature）为组织单位，不以 conversation 为目录单位。**
+同一方法可以跨多次沟通完成；需求、实现、验证和实验结果应关联到稳定的功能档案。
+这里的 feature 指项目功能或方法接入任务，不是分子描述符。
+
+把多种方法接入同一项目是合理的，但应共享实验接口、保留方法独立性：
+
+- 统一任务、样本划分、标签单位、预测文件格式和评估口径，记录输入 SHA-256。
+- 各方法保留独立适配代码与 YAML，记录论文、上游源码版本、许可、依赖和预训练来源。
+- 不强制所有方法使用 Chemprop 网络或同一组超参数；依赖冲突时允许独立环境，
+  通过统一数据和预测文件接口接入。
+- 明确区分“原论文设定复现”和“迁移到本项目 QM9 任务的适配”，分别配置、分别报告。
+  记录额外监督、外部预训练和预算差异，不能仅凭误差高低判断实现是否正确。
+- 分别验收代码适配、正确性检查、正式训练和结果报告；短跑通过不代表正式实验完成。
+
+根目录仅维护两个项目级 Markdown 入口：本 README 和 [TODO.md](TODO.md)。
+统一使用文件名 `TODO.md`，不再建立大小写不同的 `TODO.MD` 或功能专属根目录待办。
+
+```text
+docs/
+├── guides/                       # 持续维护的环境、服务器和训练操作说明
+├── features/
+│   ├── model-benchmark/          # 多方法清单、接入验收及统一比较
+│   │   └── inputs/               # 实际收到的模型 CSV 等原始需求输入
+│   ├── qm9-ten-models/           # 十模型接入、逐项验收与交接
+│   ├── spe-transformer/
+│   ├── spe-multitask-affinity/
+│   ├── paired-seed-100epoch-benchmark/
+│   ├── traditional-baselines/
+│   ├── smiles-transformer/
+│   ├── chemprop-pipeline/
+│   ├── data-splitting/
+│   └── experiment-infrastructure/
+└── templates/feature.md          # 新功能档案模板
+```
+
+每个功能目录包含 `README.md`（目标、状态与证据入口）、`tasks.md`（详细任务及验收证据）
+和 `decisions.md`（关键需求、选择原因及范围变化）。根目录 TODO 仅保留活动工作摘要，
+详细进度以各功能 tasks.md 为准；功能完成后移出根目录待办，保留功能内完成记录。
+
+收到包含多个模型的 CSV 时，先保存原始输入，记录接收日期、SHA-256 和稳定模型 ID，
+再在 [接入清单](docs/features/model-benchmark/tasks.md) 逐项追踪；复杂方法单独建功能目录。
+尚未收到的文件不创建虚假条目。训练数据仍放 `data/`，论文放 `papers/`，
+分析报告放 `reports/`，权重、预测和运行日志放 `outputs/`，通过链接关联而不重复复制。
+若 outputs 未纳入 Git，交接时需另行记录和提供产物存储位置，不能只留下不可访问的链接。
+
+沟通记录只提取影响实施的需求、决定、约束与验证结论，不用聊天全文代替技术文档。
+决定按日期追加，变更注明替代关系；未知历史日期、提交号及实验结果必须如实标注。
+文档和代码一起进行版本管理；路径调整需同步检查链接。
+
+十模型接入的代码验收已经收口；后续按单项顺序在服务器执行正式训练，每次完成后记录
+checkpoint、数据哈希、指标和运行环境。
+
+文档入口：
+
+- [十模型任务清单](docs/features/qm9-ten-models/tasks.md) · [复现与公平性审查](docs/features/qm9-ten-models/reproduction-audit.md) · [设计决定](docs/features/qm9-ten-models/decisions.md)
+
+- [当前待办](TODO.md) · [多方法接入规范](docs/features/model-benchmark/README.md) · [新功能模板](docs/templates/feature.md)
+- [SPE 功能档案](docs/features/spe-transformer/README.md) · [传统基线档案](docs/features/traditional-baselines/README.md)
+- [SPE 多任务亲和力消融](docs/features/spe-multitask-affinity/README.md)
+- [三组配对 seed、100-epoch 统一协议](docs/features/paired-seed-100epoch-benchmark/README.md)
+- [环境指南](docs/guides/environment.md) · [服务器连接](docs/guides/server-access.md)
+- [SPE 训练指南](docs/guides/spe-training.md) · [传统基线训练指南](docs/guides/ml-training.md)
 
 ## 当前范围
 
@@ -66,7 +149,14 @@ uv sync --group analysis
 uv run molgap-prepare --config configs/data/qm9_full.yaml
 ```
 
-产物位于 `data/processed/qm9_full/random/seed3407/`。其中 `train.csv`、`val.csv`、
+项目现有三个独立的数据划分 seed：`3407`、`42`、`2026`。后两套可用以下命令重建：
+
+```bash
+uv run molgap-prepare --config configs/data/qm9_full_seed42.yaml
+uv run molgap-prepare --config configs/data/qm9_full_seed2026.yaml
+```
+
+产物分别位于 `data/processed/qm9_full/random/seed<split_seed>/`。其中 `train.csv`、`val.csv`、
 `test.csv` 的列为 `sample_id,smiles,homo,lumo,delta_e`。Phase 1 通过
 `--target-columns delta_e` 只读取 gap；Phase 2/3 使用全部三个标签。目录同时保存重复记录、
 拒绝记录、逐字段变更、处理日志、目标统计、完整 lineage 和 SHA-256。
@@ -137,96 +227,71 @@ AdamW、warmup + cosine decay 和验证集 Hartree MAE early stopping，最终�
 
 单卡并行时，每个进程都会创建 8 个 worker。`--jobs 2` 因此最多使用约 16 个数据 worker；若服务器 CPU 核数不足或主机内存压力较大，先使用 `--jobs 1`，再依据 GPU 利用率逐步增加。
 
-## 五个随机种子与单卡并行
+## 三组配对 seed 统一实验
 
-批量配置位于 `configs/multiseed.yaml`。所有实验固定复用 `split_seed: 3407` 对应的同一份
-train/val/test；`training_seeds: [3407, 42, 2026, 7, 123]` 只控制模型初始化、训练集
-shuffle、Dropout、worker 和框架随机状态。四个模型共执行 20 次训练，但数据划分始终只有一份。
+当前协议固定三组 `(split seed, training seed)`：`(3407, 3407)`、`(42, 42)`、
+`(2026, 2026)`。每次运行同时选择对应的数据划分和模型随机种子，不生成 3×3 交叉组合。
+所有神经网络使用 batch size 256、最多 100 epochs、early-stopping patience 20。完整范围和
+验收条件见 [统一协议](docs/features/paired-seed-100epoch-benchmark/README.md)。
 
-数据已经准备好时，分四次顺序运行四个模型：
+当前所有下游神经网络统一按**原始 Hartree 的验证集 gap MAE**保存最佳checkpoint与早停，
+min_delta为1e-5 Hartree。Chemprop通过项目内gap指标和scaler回调接入，保留官方网络/训练流程。
+loss/scaler保留各方法既有配方：Chemprop/序列模型MSE与train-only Z-score，
+QM9十模型MAE与train-only mean/MAD，传统基线不做scaler。它们是允许并披露的差异，
+不影响共同gap MAE选模与测试口径；Infomax对比预训练单独使用对比验证loss。
+
+本轮按 [实施计划](docs/features/paired-seed-100epoch-benchmark/standardization-plan.md) 和
+[U系列TODO](docs/features/paired-seed-100epoch-benchmark/tasks.md) 执行。代码验收与服务器显存、
+正式实验验收分开记录；历史审查保留，新审查见[最终TXT](docs/features/paired-seed-100epoch-benchmark/final-gap-mae-review.txt)。
+正式协议ID为paired_split_gap_mae_v2，旧v1结果不进入新表。大文件只提供三种迁移方案。
+三套数据的66次实际入口dry-run已通过；服务器先执行`bash scripts/qm9_server_preflight.sh`，
+确认Torch/DGL的GPU支持，再逐模型检查batch256的显存；本地CPU检查不代表GPU验收。
+
+Chemprop 三模型和原子 Transformer 使用三份矩阵配置：
+
+```bash
+for config in \
+  configs/multiseed.yaml \
+  configs/multiseed_seed42.yaml \
+  configs/multiseed_seed2026.yaml
+do
+  uv run molgap-run-multiseed --config "$config" --jobs 1 --gpu 0
+done
+```
+
+正式训练前把上述命令末尾替换为 `--jobs 1 --gpu 0 --dry-run`，检查生成计划。每个生成配置
+都记录 `protocol_id: paired_split_gap_mae_v2`、split seed、training seed 和
+`seed_pairing: matched`，结果统一写入 `outputs/paired_gap_mae_v2/`。
+
+```bash
+uv run molgap-run-multiseed --config configs/multiseed.yaml --jobs 1 --gpu 0 --dry-run
+```
+
+只运行一个模型时仍可使用 `--model` 过滤：
 
 ```bash
 uv run molgap-run-multiseed \
   --config configs/multiseed.yaml \
   --model chemprop_single_gap \
-  --jobs 2
-
-uv run molgap-run-multiseed \
-  --config configs/multiseed.yaml \
-  --model chemprop_multitask \
-  --jobs 2
-
-uv run molgap-run-multiseed \
-  --config configs/multiseed.yaml \
-  --model chemprop_consistency \
-  --jobs 2
-
-uv run molgap-run-multiseed \
-  --config configs/multiseed.yaml \
-  --model smiles_transformer \
-  --jobs 2
+  --jobs 1
 ```
 
-`--jobs x` 表示同一时刻最多有 x 个训练进程，所有进程共享 `gpu: "0"` 指定的单张 GPU。
-显存不足时使用 `--jobs 1`；显存和算力允许时可增加。也可以直接修改 YAML 中的
-`parallel_jobs`。先查看将要生成的 20 个 model/training-seed 任务：
+## 三组 paired split-seed 汇总
 
-```bash
-uv run molgap-run-multiseed --config configs/multiseed.yaml --jobs 2 --dry-run
-```
-
-如果固定划分尚未生成，可单独执行一次
-`uv run molgap-prepare --config configs/data/qm9_full.yaml`；批量命令中的 `--prepare-data`
-也只会检查或生成这一份固定划分，不会按训练 seed 重新划分。
-
-只运行一个模型时使用 `--model` 过滤：
-
-```bash
-uv run molgap-run-multiseed \
-  --config configs/multiseed.yaml \
-  --model chemprop_single_gap \
-  --jobs 2
-```
-
-调度器为每个 training seed 生成独立训练 YAML；所有 YAML 的 `data.processed_dir`、
-`data.split.seed` 和 split manifest 都相同，只有 `training.seed` 改变。
-Chemprop 任务依次运行 train、predict、evaluate；Transformer 在训练末尾完成预测和评估。
-计划、配置、每个任务的 stdout/stderr 和最终状态位于
-`outputs/batches/qm9_five_seed/`。已有训练结果默认不会覆盖；确需重跑时添加 `--overwrite`。
-批量运行的终端 tqdm 显示已完成任务数、总耗时和 ETA；并行子进程的逐 epoch 输出写入独立日志，
-可在另一个终端实时查看，例如：
-
-```bash
-tail -F outputs/batches/qm9_five_seed/logs/chemprop_single_gap/training_seed3407.log
-```
-
-## 五 seed 汇总与模型比较
-
-汇总单个模型：
+比较模型时显式要求三组 seed：
 
 ```bash
 uv run molgap-summarize \
-  outputs/chemprop_single_gap \
-  --seeds 3407 42 2026 7 123 \
-  --output-dir outputs/summaries/chemprop_single_gap
+  outputs/paired_gap_mae_v2/chemprop_single_gap \
+  outputs/paired_gap_mae_v2/chemprop_multitask \
+  outputs/paired_gap_mae_v2/chemprop_consistency \
+  outputs/paired_gap_mae_v2/smiles_transformer \
+  --seeds 3407 42 2026 \
+  --output-dir outputs/paired_gap_mae_v2/summaries/main_models
 ```
 
-比较全部模型：
-
-```bash
-uv run molgap-summarize \
-  outputs/chemprop_single_gap \
-  outputs/chemprop_multitask \
-  outputs/chemprop_consistency \
-  outputs/smiles_transformer \
-  --seeds 3407 42 2026 7 123 \
-  --output-dir outputs/summaries/qm9_model_comparison
-```
-
-汇总器检查每个模型是否恰好包含指定的五个 seeds，并针对 `delta_e` 计算 MAE、RMSE、MAPE、
-R² 的均值、样本标准差、最小值和最大值。MAPE 的单位是百分比，绝对值不超过 `1e-12` 的
-真实标签只从 MAPE 中排除并单独计数。输出包括 `runs.csv`、`summary.csv`、`summary.json`、
-`summary.md`、带标准差误差条的 `model_comparison.png` 和 `model_comparison_table.png`。
+汇总器校验三组运行均满足 `split_seed == training_seed`。三次运行同时改变数据划分和训练
+随机性，因此标准差表示 paired split-seed 变化，不能解释为固定划分下的纯初始化方差。
 
 ## 目录
 
@@ -252,13 +317,12 @@ R² 的均值、样本标准差、最小值和最大值。MAPE 的单位是百�
 
 ## 实验约定
 
-所有训练参数都在 YAML 中，包括网络结构、学习率、设备、任务权重和一致性权重。Phase 3
-消融模板位于 `configs/experiments/exp003_consistency_0.yaml` 与
-`exp004_consistency_01.yaml`；二者只改变 `loss.weights.consistency` 和实验名。
+所有训练参数都在 YAML 中，包括网络结构、学习率、设备、任务权重和一致性权重。当前协议
+明确排除旧的 `configs/experiments/exp003_consistency_0.yaml` 和
+`exp004_consistency_01.yaml`；它们只作为历史文件保留，不进入训练矩阵和结果汇总。
 
-`baseline.yaml` 使用 split seed 3407 的固定随机划分。重复训练只修改 `training.seed`，不得
-修改 `data.processed_dir` 或 `data.split.seed`。如果后续单独研究 random split 与 scaffold
-split，应建立另一组明确命名的数据划分实验，不与本组训练随机性实验混合。
+每组实验必须同时选择相同编号的数据划分和训练 seed。不得只修改 `training.seed` 后复用另一
+个 split，也不得把三套 split 与三个 training seed 做交叉组合。
 
 每次正式运行会记录解析后的配置、命令（Phase 1/2）、Python/Chemprop/Torch/CUDA 环境、
 随机种子以及输入划分和 lineage 的 SHA-256。指标按 `sample_id` 对齐后计算，包含每个目标的
@@ -287,3 +351,173 @@ uv run molgap-train --config configs/multitask.yaml
 uv run molgap-train --config configs/consistency.yaml
 uv run molgap-train-transformer --config configs/transformer.yaml
 ```
+
+## output/workspace 目录
+
+调度计划、生成配置和日志位于 `outputs/batches/<matrix-name>/`。模型产物统一写入
+`outputs/paired_gap_mae_v2/<model>/seed<seed>/`，其中只允许 `seed3407`、`seed42` 和
+`seed2026`。每个运行目录包含解析后的配置、数据身份、最佳 checkpoint、逐样本预测与指标。
+
+## SPE + Transformer：在线算力服务器训练
+
+本方法使用官方 `SmilesPE==0.0.3` 分词器，接入项目已有的 Transformer 回归网络。
+SPE 合并规则和词表仅在训练集拟合；与原 Transformer 共享固定数据划分、网络结构和训练策略。
+详细实现与来源见 [SPE 训练指南](docs/guides/spe-training.md)。
+
+将项目代码、`pyproject.toml`、`uv.lock`、`configs/` 及现有
+`data/processed/qm9_full/random/seed{3407,42,2026}/` 三个完整目录同步到服务器，
+在项目根目录执行。十个 QM9 模型还需要对应三份 `data/geometry/*.npz`。
+数据包和 SHA-256 校验方法见 [数据迁移指南](docs/guides/data-transfer.md)。
+服务器需提供兼容项目 PyTorch CUDA 12.4 wheel 的 NVIDIA 驱动。
+复用已有处理数据，无需重新划分。安装依赖并检查 GPU：
+
+```bash
+uv sync --locked
+uv run python -c "import torch; print(torch.__version__, torch.version.cuda, torch.cuda.is_available())"
+```
+
+先检查分词、数据划分和模型配置（不训练）：
+
+```bash
+uv run molgap-train-transformer --config configs/spe_transformer.yaml --dry-run
+```
+
+三组配对实验分别运行对应矩阵：
+
+```bash
+for config in \
+  configs/spe_affinity_ablation_multiseed.yaml \
+  configs/spe_affinity_ablation_multiseed_seed42.yaml \
+  configs/spe_affinity_ablation_multiseed_seed2026.yaml
+do
+  uv run molgap-run-multiseed --config "$config" --jobs 1 --gpu 0
+done
+```
+
+每份矩阵只包含与 split seed 相同的一个 training seed，覆盖 SPE 单任务和四个多任务消融。
+训练参数为 batch size 256、最多 100 epochs、patience 20、AdamW lr 3e-4、全精度。
+
+需要断开 SSH 后继续训练时，使用下面的后台命令替代上面的前台命令：
+
+```bash
+mkdir -p outputs/batches/paired_protocol
+nohup uv run molgap-run-multiseed \
+  --config configs/spe_affinity_ablation_multiseed.yaml --jobs 1 --gpu 0 \
+  > outputs/batches/paired_protocol/spe_seed3407.log 2>&1 &
+```
+
+查看第一个 seed 的训练进度：
+
+```bash
+tail -f outputs/batches/paired_protocol/spe_seed3407.log
+```
+
+如果只想用基础配置训练 seed 3407，使用以下命令。基础配置写入
+`outputs/spe_transformer/seed3407/`；正式矩阵写入 `outputs/paired_gap_mae_v2/`，
+汇总正式实验时只读取后者：
+
+```bash
+CUDA_VISIBLE_DEVICES=0 uv run molgap-train-transformer --config configs/spe_transformer.yaml
+```
+
+**本次本机试跑已按要求停止，保留了未完成的 seed3407 产物，没有最终测试结果。**
+同步到服务器时不要复制本机的 `.venv/` 和 `outputs/spe_transformer/`，让服务器从空的
+模型输出目录开始训练。如果已复制中断产物，可先将其改名保留，再运行上述命令：
+
+```bash
+mv outputs/spe_transformer outputs/spe_transformer_local_interrupted
+```
+
+该改名命令仅在源目录存在且目标目录不存在时执行。`--overwrite` 会删除相应运行目录并
+重新训练，不是断点续训；默认不覆盖已有产物。
+
+三组 seed 全部完成后汇总均值、标准差及比较图：
+
+```bash
+uv run molgap-summarize outputs/paired_gap_mae_v2/spe_transformer \
+  --seeds 3407 42 2026 \
+  --output-dir outputs/paired_gap_mae_v2/summaries/spe_transformer
+```
+
+每个 seed 自动保存最佳模型、分词词表与合并规则、逐样本测试预测，以及
+MAE/RMSE（Hartree）、MAPE（%）、R²。将 `outputs/paired_gap_mae_v2/spe_transformer` 加入已有模型的
+`molgap-summarize` 命令即可合并比较；参与比较的每个模型都需要完整三组配对结果。
+
+## SPE 多任务、物理一致性与亲和力矩阵消融
+
+在相同 SPE tokenizer 和 Transformer encoder 上新增 HOMO、LUMO、`delta_e` 三任务预测。
+物理关系沿用 Phase 3：
+
+```text
+delta_e = lumo - homo
+residual = predicted_delta_e - (predicted_lumo - predicted_homo)
+```
+
+完整模型在三个任务表示之间使用逐行 softmax 的可学习 3×3 亲和力矩阵。单次检查及训练：
+
+```bash
+uv run molgap-train-spe-multitask \
+  --config configs/spe_multitask_affinity_consistency.yaml --dry-run
+uv run molgap-train-spe-multitask \
+  --config configs/spe_multitask_affinity_consistency.yaml
+```
+
+运行单任务基线和四组多任务 2×2 消融的 seed 3407 配对实验：
+
+```bash
+uv run molgap-run-multiseed \
+  --config configs/spe_affinity_ablation_multiseed.yaml \
+  --jobs 1 --gpu 0
+```
+
+该配置使用 split seed 3407。split seed 42 和 2026 分别使用
+`configs/spe_affinity_ablation_multiseed_seed42.yaml` 与
+`configs/spe_affinity_ablation_multiseed_seed2026.yaml`。详细设计、输出指标和执行状态见
+[SPE 多任务亲和力融合](docs/features/spe-multitask-affinity/README.md)。
+
+## QM9 十模型正式训练
+
+EGNN、SchNet、PaiNN、DimeNet++、ESA、TorchMD-Net、Cormorant、LieTransformer、ALIGNN
+和 3D Infomax 已接入统一的固定划分训练入口。迁移到服务器后先运行：
+
+```bash
+bash scripts/qm9_server_preflight.sh
+```
+
+预检通过后运行三组配对 seed；脚本默认依次使用 3407、42、2026：
+
+```bash
+bash scripts/train_qm9_models.sh
+```
+
+若只运行一组，可覆盖配对 seed 列表：
+
+```bash
+QM9_PAIRED_SEEDS="3407" bash scripts/train_qm9_models.sh
+```
+
+3D Infomax 必须提供在 QM9 上完成对比预训练的 checkpoint；设置方式如下。未设置时训练脚本
+会明确跳过该模型，其余九个模型继续执行。
+
+```bash
+bash scripts/pretrain_3dinfomax_paired.sh
+
+INFOMAX_CHECKPOINT_TEMPLATE='outputs/paired_gap_mae_v2/3dinfomax_pretrain/splitseed{split_seed}/seed{split_seed}/best_checkpoint.pt' \
+  bash scripts/train_qm9_models.sh
+```
+
+跨数据划分比较时，3D Infomax 必须在每套训练划分上分别预训练，避免预训练阶段看到该划分的
+验证集或测试集。预训练同样使用 batch 256、最多 100 epochs、patience 20，且预训练 seed
+严格等于对应 split seed。
+
+三个传统基线通过同一配对协议运行：
+
+```bash
+bash scripts/train_ml_paired.sh
+```
+
+XGBoost、Random Forest 和训练均值没有 mini-batch、epoch 与 early stopping 概念，审计记录为
+N/A；它们仍使用相同数据划分和配对 seed。
+
+完整状态、数据例外和本地验收证据见
+[QM9 十模型功能文档](docs/features/qm9-ten-models/README.md)。

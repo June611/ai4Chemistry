@@ -20,6 +20,7 @@ from sklearn.preprocessing import StandardScaler
 from molgap.config import task_weights
 from molgap.models.losses import PhysicsConsistencyMSE
 from molgap.models.multitask_head import QuantumMultiTaskHead
+from molgap.training.gap_metric import GapMAE
 
 
 def build_phase3_model(config: dict[str, Any], scaler: StandardScaler) -> MPNN:
@@ -52,6 +53,7 @@ def build_phase3_model(config: dict[str, Any], scaler: StandardScaler) -> MPNN:
     )
     metric_types = {"mae": MAE, "rmse": RMSE, "r2": R2Score}
     metrics = [metric_types[name](task_weights=weights) for name in config["evaluation"]["metrics"]]
+    metrics.insert(0, GapMAE())
     return MPNN(
         message_passing,
         aggregation,

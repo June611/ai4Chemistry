@@ -1,0 +1,15 @@
+/home/june/deepLear_zone/Chem_proj/chempro/.external/qm9_models/cormorant/src/cormorant/data/prepare/process.py:126: SyntaxWarning: "is" with a literal. Did you mean "=="?
+  if line[0] is '#':
+/home/june/deepLear_zone/Chem_proj/chempro/.external/qm9_models/cormorant/src/cormorant/data/prepare/process.py:128: SyntaxWarning: "is" with a literal. Did you mean "=="?
+  if line_counter is 0:
+/home/june/deepLear_zone/Chem_proj/chempro/.external/qm9_models/cormorant/src/cormorant/data/prepare/process.py:130: SyntaxWarning: "is" with a literal. Did you mean "=="?
+  elif line_counter is 1:
+/home/june/deepLear_zone/Chem_proj/chempro/.external/qm9_models/cormorant/src/cormorant/data/prepare/process.py:143: SyntaxWarning: "is" with a literal. Did you mean "=="?
+  if len(split) is 4:
+/home/june/deepLear_zone/Chem_proj/chempro/.external/qm9_models/cormorant/src/cormorant/nn/so3_nn.py:54: SyntaxWarning: "is" with a literal. Did you mean "=="?
+  if weight_init is 'randn':
+/home/june/deepLear_zone/Chem_proj/chempro/.external/qm9_models/cormorant/src/cormorant/nn/so3_nn.py:56: SyntaxWarning: "is" with a literal. Did you mean "=="?
+  elif weight_init is 'rand':
+CGDICT 1
+Number of scalars at top: 24
+tensor([0.0119], grad_fn=<ViewBackward0>)

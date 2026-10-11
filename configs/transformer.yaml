@@ -49,7 +49,7 @@ training:
   early_stopping_min_delta: 0.00001
   seed: 3407
   accelerator: auto
-  devices: auto
+  devices: 1
   precision: 32-true
   num_workers: 8
   pin_memory: true

@@ -59,6 +59,29 @@ class PreparedTransformerData:
     tokenizer_report: dict[str, Any]
 
 
+@dataclass
+class PreparedMultiTaskTransformerData:
+    """Validated three-target data with a train-only scaler per target."""
+
+    frames: dict[str, pd.DataFrame]
+    datasets: dict[str, SmilesRegressionDataset]
+    tokenizer: SmilesTokenizer
+    target_columns: tuple[str, ...]
+    target_means: tuple[float, ...]
+    target_scales: tuple[float, ...]
+    split_identity: dict[str, Any]
+    tokenizer_report: dict[str, Any]
+
+
+def _target_columns(data: dict[str, Any]) -> tuple[str, ...]:
+    columns = data.get("target_columns")
+    if columns is None:
+        columns = [data["target_column"]]
+    if not isinstance(columns, list) or not columns or not all(isinstance(x, str) for x in columns):
+        raise ConfigError("data.target_columns must be a non-empty list of column names.")
+    return tuple(columns)
+
+
 def _load_reference_config(config: dict[str, Any], root: Path) -> tuple[Path, dict[str, Any]]:
     reference_path = resolve_path(root, config["data"]["chemprop_reference_config"])
     if not reference_path.is_file():
@@ -81,7 +104,7 @@ def _validate_chemprop_reference(config: dict[str, Any], root: Path) -> dict[str
         "processed_dir": actual_dir == reference_dir,
         "id_column": data["id_column"] == reference_data.get("id_column"),
         "smiles_column": data["smiles_column"] == reference_data.get("smiles_column"),
-        "target": data["target_column"] in reference_data.get("targets", []),
+        "targets": set(_target_columns(data)).issubset(reference_data.get("targets", [])),
         "split": data["split"] == reference_data.get("split"),
     }
     failed = [name for name, matched in comparisons.items() if not matched]
@@ -148,15 +171,16 @@ def _read_and_validate_splits(
         if not path.is_file():
             raise FileNotFoundError(f"Missing processed split: {path}")
         frame = pd.read_csv(path)
-        required = [data["id_column"], data["smiles_column"], data["target_column"]]
+        target_columns = _target_columns(data)
+        required = [data["id_column"], data["smiles_column"], *target_columns]
         missing = [column for column in required if column not in frame]
         if missing:
             raise ValueError(f"{path} is missing required columns: {missing}")
         if frame[data["id_column"]].astype(str).duplicated().any():
             raise ValueError(f"{path} contains duplicate sample IDs.")
-        targets = frame[data["target_column"]].to_numpy(dtype=float)
+        targets = frame[list(target_columns)].to_numpy(dtype=float)
         if not np.isfinite(targets).all():
-            raise ValueError(f"{path} contains missing or non-finite delta_e values.")
+            raise ValueError(f"{path} contains missing or non-finite target values.")
 
         expected = (
             manifest.loc[manifest["split"] == split_name]
@@ -204,10 +228,21 @@ def prepare_transformer_data(config: dict[str, Any], root: Path) -> PreparedTran
     frames, identity = _read_and_validate_splits(config, root)
     data = config["data"]
     tokenizer_config = config["tokenizer"]
-    tokenizer = SmilesTokenizer(
+    tokenizer_class = SmilesTokenizer
+    tokenizer_options = {}
+    if tokenizer_config.get("type", "regex") == "spe":
+        from molgap.transformer.spe import SpeSmilesTokenizer
+
+        tokenizer_class = SpeSmilesTokenizer
+        tokenizer_options = {
+            "num_merges": int(tokenizer_config["num_merges"]),
+            "min_frequency": int(tokenizer_config["min_frequency"]),
+        }
+    tokenizer = tokenizer_class(
         pattern=tokenizer_config["pattern"],
         max_length=int(tokenizer_config["max_length"]),
         special_tokens=tokenizer_config["special_tokens"],
+        **tokenizer_options,
     )
     tokenizer.fit(frames["train"][data["smiles_column"]].astype(str))
 
@@ -238,6 +273,7 @@ def prepare_transformer_data(config: dict[str, Any], root: Path) -> PreparedTran
     if not np.isfinite(target_scale) or target_scale <= 0:
         raise ValueError("Training delta_e standard deviation must be finite and positive.")
     report = {
+        "tokenizer_type": tokenizer_config.get("type", "regex"),
         "vocabulary_source": "train",
         "vocabulary_size": len(tokenizer.vocabulary),
         "max_length_including_cls": tokenizer.max_length,
@@ -265,8 +301,97 @@ def prepare_transformer_data(config: dict[str, Any], root: Path) -> PreparedTran
     )
 
 
-def write_data_artifacts(prepared: PreparedTransformerData, run_dir: Path) -> None:
+def prepare_multitask_transformer_data(
+    config: dict[str, Any], root: Path
+) -> PreparedMultiTaskTransformerData:
+    """Prepare SPE inputs and three targets without using validation/test statistics."""
+    frames, identity = _read_and_validate_splits(config, root)
+    data = config["data"]
+    target_columns = _target_columns(data)
+    if target_columns != ("homo", "lumo", "delta_e"):
+        raise ConfigError("SPE multitask target order must be [homo, lumo, delta_e].")
+    tokenizer_config = config["tokenizer"]
+    if tokenizer_config.get("type") != "spe":
+        raise ConfigError("SPE multitask training requires tokenizer.type=spe.")
+    from molgap.transformer.spe import SpeSmilesTokenizer
+
+    tokenizer = SpeSmilesTokenizer(
+        pattern=tokenizer_config["pattern"],
+        max_length=int(tokenizer_config["max_length"]),
+        special_tokens=tokenizer_config["special_tokens"],
+        num_merges=int(tokenizer_config["num_merges"]),
+        min_frequency=int(tokenizer_config["min_frequency"]),
+    )
+    tokenizer.fit(frames["train"][data["smiles_column"]].astype(str))
+
+    datasets: dict[str, SmilesRegressionDataset] = {}
+    split_reports: dict[str, Any] = {}
+    for split_name, frame in frames.items():
+        encoded = [tokenizer.encode(smiles) for smiles in frame[data["smiles_column"]].astype(str)]
+        input_ids = torch.tensor([item.input_ids for item in encoded], dtype=torch.long)
+        attention_mask = torch.tensor([item.attention_mask for item in encoded], dtype=torch.bool)
+        targets = torch.tensor(frame[list(target_columns)].to_numpy(), dtype=torch.float32)
+        datasets[split_name] = SmilesRegressionDataset(input_ids, attention_mask, targets)
+        token_counts = [item.token_count for item in encoded]
+        unknown_count = sum(item.unknown_count for item in encoded)
+        total_tokens = sum(token_counts)
+        split_reports[split_name] = {
+            "rows": len(frame),
+            "min_tokens_without_cls": min(token_counts),
+            "max_tokens_without_cls": max(token_counts),
+            "mean_tokens_without_cls": float(np.mean(token_counts)),
+            "unknown_tokens": unknown_count,
+            "unknown_rate": 0.0 if total_tokens == 0 else unknown_count / total_tokens,
+            "overlength_rows": 0,
+        }
+
+    train_targets = frames["train"][list(target_columns)].to_numpy(dtype=np.float64)
+    target_means_array = np.mean(train_targets, axis=0)
+    target_scales_array = np.std(train_targets, axis=0, ddof=0)
+    if not np.isfinite(target_means_array).all() or not np.isfinite(target_scales_array).all():
+        raise ValueError("Training target scaler contains non-finite values.")
+    if np.any(target_scales_array <= 0):
+        raise ValueError("Every training target standard deviation must be positive.")
+    target_means = tuple(float(value) for value in target_means_array)
+    target_scales = tuple(float(value) for value in target_scales_array)
+    report = {
+        "tokenizer_type": "spe",
+        "vocabulary_source": "train",
+        "vocabulary_size": len(tokenizer.vocabulary),
+        "max_length_including_cls": tokenizer.max_length,
+        "special_token_ids": {
+            "pad": tokenizer.pad_id,
+            "unk": tokenizer.unk_id,
+            "cls": tokenizer.cls_id,
+        },
+        "splits": split_reports,
+        "target_scaler": {
+            "fit_split": "train",
+            "method": "standard",
+            "columns": list(target_columns),
+            "mean_hartree": dict(zip(target_columns, target_means, strict=True)),
+            "scale_hartree": dict(zip(target_columns, target_scales, strict=True)),
+        },
+    }
+    return PreparedMultiTaskTransformerData(
+        frames=frames,
+        datasets=datasets,
+        tokenizer=tokenizer,
+        target_columns=target_columns,
+        target_means=target_means,
+        target_scales=target_scales,
+        split_identity=identity,
+        tokenizer_report=report,
+    )
+
+
+def write_data_artifacts(
+    prepared: PreparedTransformerData | PreparedMultiTaskTransformerData, run_dir: Path
+) -> None:
     """Persist the exact split proof, tokenizer, and audit statistics."""
+    payload = prepared.tokenizer.to_dict()
+    if payload.get("type") == "spe":
+        (run_dir / "spe_merges.txt").write_text(str(payload["merge_codes"]), encoding="utf-8")
     artifacts = {
         "split_identity.json": prepared.split_identity,
         "tokenizer_report.json": prepared.tokenizer_report,

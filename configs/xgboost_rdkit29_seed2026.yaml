@@ -1,0 +1,33 @@
+experiment:
+  name: xgboost_rdkit29
+  protocol_id: paired_split_gap_mae_v2
+data:
+  processed_dir: data/processed/qm9_full/random/seed2026
+  smiles_column: smiles
+  id_column: sample_id
+  targets: [delta_e]
+  label_unit: hartree
+  split:
+    method: random
+    seed: 2026
+normalization:
+  features: none
+  target: none
+model:
+  backend: xgboost
+  params:
+    objective: reg:squarederror
+    gamma: 0.000123129
+    learning_rate: 0.032845274
+    max_depth: 8
+    min_child_weight: 2
+    n_estimators: 293
+    tree_method: hist
+    device: cpu
+training:
+  seed: 2026
+  seed_pairing: matched
+  run_mode: paired_split_seed
+  n_jobs: 4
+output:
+  root: outputs/paired_gap_mae_v2

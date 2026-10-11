@@ -158,8 +158,18 @@ def _plan(
 ) -> dict[str, Any]:
     return {
         "experiment": config["experiment"]["name"],
+        "selection": {
+            "target": "delta_e",
+            "metric": "mae",
+            "unit": "hartree",
+            "mode": "min",
+            "monitor": "val_mae",
+            "patience": config["training"]["early_stopping_patience"],
+            "min_delta": config["training"]["early_stopping_min_delta"],
+        },
         "pipeline": (
-            "canonical SMILES -> regex tokenizer -> Transformer encoder "
+            f"canonical SMILES -> {config['tokenizer'].get('type', 'regex')} tokenizer "
+            "-> Transformer encoder "
             "-> regression head -> delta_e"
         ),
         "verified_same_split_as_chemprop": prepared.split_identity[

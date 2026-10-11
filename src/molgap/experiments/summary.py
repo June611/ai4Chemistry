@@ -108,7 +108,7 @@ def load_records(metric_paths: list[Path], target: str = "delta_e") -> list[dict
             raise ValueError(f"Metrics root must be a mapping: {path}")
         run_dir = path.parent
         config = _load_config(run_dir)
-        model = str(config["experiment"]["name"])
+        model = str(config["experiment"].get("model_id", config["experiment"]["name"]))
         seed = int(config["training"]["seed"])
         identity = (model, seed)
         if identity in identities:
@@ -121,7 +121,9 @@ def load_records(metric_paths: list[Path], target: str = "delta_e") -> list[dict
             {
                 "model": model,
                 "seed": seed,
+                "split_seed": int(config["data"].get("split", {}).get("seed", seed)),
                 "run_mode": config["training"].get("run_mode", "repeated"),
+                "protocol_id": config["experiment"].get("protocol_id"),
                 "target": target,
                 "unit": "hartree",
                 "metrics_path": str(path),
@@ -137,18 +139,30 @@ def validate_expected_seeds(
 ) -> None:
     """Validate repeated seeds, allowing explicitly declared single runs at seed3407."""
     grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    protocols = {record.get("protocol_id") for record in records}
+    if len(protocols) > 1:
+        raise ValueError(f"Cannot mix different experiment protocols: {protocols}")
     for record in records:
         grouped[record["model"]].append(record)
     problems = []
     for model, items in sorted(grouped.items()):
         modes = {item.get("run_mode", "repeated") for item in items}
-        if len(modes) != 1 or not modes <= {"single", "repeated"}:
+        if len(modes) != 1 or not modes <= {"single", "repeated", "paired_split_seed"}:
             raise ValueError(f"Inconsistent run_mode for {model}: {modes}")
         seeds = {int(item["seed"]) for item in items}
         if len(seeds) != len(items):
             raise ValueError(f"Duplicate seeds for {model}")
         if modes == {"single"}:
             expected = {3407}
+        elif modes == {"paired_split_seed"}:
+            mismatched = [
+                item for item in items if int(item["seed"]) != int(item.get("split_seed", -1))
+            ]
+            if mismatched:
+                raise ValueError(f"Paired split/training seeds differ for {model}.")
+            if not expected_seeds:
+                continue
+            expected = set(map(int, expected_seeds))
         elif expected_seeds:
             expected = set(map(int, expected_seeds))
         else:
@@ -176,6 +190,7 @@ def summarize_records(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
             "model": model,
             "runs": len(items),
             "seeds": [int(item["seed"]) for item in sorted(items, key=lambda item: item["seed"])],
+            "run_mode": items[0].get("run_mode", "repeated"),
             "target": items[0]["target"],
             "unit": items[0]["unit"],
         }
@@ -199,6 +214,7 @@ def _flat_summary_rows(summaries: list[dict[str, Any]]) -> list[dict[str, Any]]:
             "model": summary["model"],
             "runs": summary["runs"],
             "seeds": ",".join(map(str, summary["seeds"])),
+            "run_mode": summary["run_mode"],
             "target": summary["target"],
             "unit": summary["unit"],
         }
@@ -221,6 +237,8 @@ def _write_markdown(summaries: list[dict[str, Any]], path: Path) -> None:
         "# Model comparison",
         "",
         "Repeated runs: mean ± sample SD. Single runs: one value; SD is not applicable.",
+        "Paired split-seed runs change both data partition and training randomness; "
+        "their SD is not initialization variance on a fixed split.",
         "",
         "| Model | Runs | MAE (Hartree) | RMSE (Hartree) | MAPE (%) | R² |",
         "|---|---:|---:|---:|---:|---:|",

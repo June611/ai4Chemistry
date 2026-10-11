@@ -137,6 +137,11 @@ def validate_config(config: dict[str, Any]) -> None:
     )
     if int(training["epochs"]) <= 0 or int(training["batch_size"]) <= 0:
         raise ConfigError("training.epochs and training.batch_size must be positive.")
+    if "selection_metric" in training:
+        if training["selection_metric"] != "gap_mae":
+            raise ConfigError("training.selection_metric must be gap_mae")
+        if float(training.get("early_stopping_min_delta", -1)) < 0:
+            raise ConfigError("Gap selection requires a non-negative early_stopping_min_delta")
 
     loss = config["loss"]
     _require(loss, ("function", "weights"), "loss")

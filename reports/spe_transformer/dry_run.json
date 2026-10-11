@@ -1,0 +1,51 @@
+{
+  "experiment": "spe_transformer",
+  "pipeline": "canonical SMILES -> spe tokenizer -> Transformer encoder -> regression head -> delta_e",
+  "verified_same_split_as_chemprop": true,
+  "split_manifest_sha256": "c23bfbb887e8fb7014353cea2154a623444defe3b356cee60350079b221ccd43",
+  "split_rows": {
+    "train": 107038,
+    "val": 13380,
+    "test": 13380
+  },
+  "vocabulary_size": 803,
+  "max_observed_tokens_without_cls": 12,
+  "max_length_including_cls": 40,
+  "unknown_tokens_by_split": {
+    "train": 0,
+    "val": 0,
+    "test": 0
+  },
+  "trainable_parameters": 2357761,
+  "target": {
+    "column": "delta_e",
+    "unit": "hartree"
+  },
+  "metrics": [
+    "mae",
+    "rmse",
+    "mape",
+    "r2"
+  ],
+  "training": {
+    "batch_size": 256,
+    "epochs": 100,
+    "optimizer": "adamw",
+    "lr": 0.0003,
+    "weight_decay": 0.01,
+    "warmup_ratio": 0.1,
+    "min_lr_ratio": 0.1,
+    "gradient_clip_val": 1.0,
+    "target_scaling": "standard",
+    "early_stopping_patience": 20,
+    "early_stopping_min_delta": 1e-05,
+    "seed": 3407,
+    "accelerator": "auto",
+    "devices": "auto",
+    "precision": "32-true",
+    "num_workers": 8,
+    "pin_memory": true,
+    "log_every_n_steps": 50
+  },
+  "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/spe_transformer/seed3407"
+}

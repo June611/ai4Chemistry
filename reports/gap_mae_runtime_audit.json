@@ -1,0 +1,4788 @@
+{
+  "protocol_id": "paired_split_gap_mae_v2",
+  "scope": "Resolved plans; Chemprop command-only, other methods full-data dry-run",
+  "counts": {
+    "pass": 66,
+    "pending": 0,
+    "fail": 0
+  },
+  "records": [
+    {
+      "model": "chemprop_single_gap",
+      "seed": 3407,
+      "status": "pass",
+      "plan": [
+        "/home/june/deepLear_zone/Chem_proj/chempro/.venv/bin/python",
+        "-m",
+        "molgap.training.chemprop_gap_cli",
+        "train",
+        "--data-path",
+        "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/train.csv",
+        "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/val.csv",
+        "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/test.csv",
+        "--task-type",
+        "regression",
+        "--smiles-columns",
+        "smiles",
+        "--target-columns",
+        "delta_e",
+        "--output-dir",
+        "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/chemprop_single_gap/seed3407/chemprop",
+        "--metrics",
+        "gap_mae",
+        "mae",
+        "rmse",
+        "r2",
+        "--logfile",
+        "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/chemprop_single_gap/seed3407/train.log",
+        "--tracking-metric",
+        "gap_mae",
+        "--min-delta",
+        "1e-05",
+        "--task-weights",
+        "1.0",
+        "--message-hidden-dim",
+        "300",
+        "--depth",
+        "3",
+        "--dropout",
+        "0.1",
+        "--ffn-hidden-dim",
+        "300",
+        "--ffn-num-layers",
+        "1",
+        "--activation",
+        "relu",
+        "--aggregation",
+        "mean",
+        "--batch-size",
+        "256",
+        "--epochs",
+        "100",
+        "--init-lr",
+        "0.0004",
+        "--max-lr",
+        "0.004",
+        "--final-lr",
+        "0.0004",
+        "--warmup-epochs",
+        "2",
+        "--patience",
+        "20",
+        "--num-workers",
+        "8",
+        "--accelerator",
+        "auto",
+        "--devices",
+        "1",
+        "--loss-function",
+        "mse",
+        "--data-seed",
+        "3407",
+        "--pytorch-seed",
+        "3407"
+      ],
+      "data_scope": "command/plan only; input data covered by split audit"
+    },
+    {
+      "model": "chemprop_multitask",
+      "seed": 3407,
+      "status": "pass",
+      "plan": [
+        "/home/june/deepLear_zone/Chem_proj/chempro/.venv/bin/python",
+        "-m",
+        "molgap.training.chemprop_gap_cli",
+        "train",
+        "--data-path",
+        "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/train.csv",
+        "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/val.csv",
+        "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/test.csv",
+        "--task-type",
+        "regression",
+        "--smiles-columns",
+        "smiles",
+        "--target-columns",
+        "homo",
+        "lumo",
+        "delta_e",
+        "--output-dir",
+        "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/chemprop_multitask/seed3407/chemprop",
+        "--metrics",
+        "gap_mae",
+        "mae",
+        "rmse",
+        "r2",
+        "--logfile",
+        "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/chemprop_multitask/seed3407/train.log",
+        "--tracking-metric",
+        "gap_mae",
+        "--min-delta",
+        "1e-05",
+        "--show-individual-scores",
+        "--task-weights",
+        "1.0",
+        "1.0",
+        "1.0",
+        "--message-hidden-dim",
+        "300",
+        "--depth",
+        "3",
+        "--dropout",
+        "0.1",
+        "--ffn-hidden-dim",
+        "300",
+        "--ffn-num-layers",
+        "1",
+        "--activation",
+        "relu",
+        "--aggregation",
+        "mean",
+        "--batch-size",
+        "256",
+        "--epochs",
+        "100",
+        "--init-lr",
+        "0.0004",
+        "--max-lr",
+        "0.004",
+        "--final-lr",
+        "0.0004",
+        "--warmup-epochs",
+        "2",
+        "--patience",
+        "20",
+        "--num-workers",
+        "8",
+        "--accelerator",
+        "auto",
+        "--devices",
+        "1",
+        "--loss-function",
+        "mse",
+        "--data-seed",
+        "3407",
+        "--pytorch-seed",
+        "3407"
+      ],
+      "data_scope": "command/plan only; input data covered by split audit"
+    },
+    {
+      "model": "chemprop_consistency",
+      "seed": 3407,
+      "status": "pass",
+      "plan": {
+        "phase": 3,
+        "backend": "chemprop_python",
+        "input_files": [
+          "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/train.csv",
+          "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/val.csv",
+          "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/test.csv"
+        ],
+        "targets": [
+          "homo",
+          "lumo",
+          "delta_e"
+        ],
+        "heads": [
+          "homo",
+          "lumo",
+          "delta_e"
+        ],
+        "loss": {
+          "function": "mse",
+          "weights": {
+            "homo": 1.0,
+            "lumo": 1.0,
+            "gap": 1.0,
+            "consistency": 0.1
+          }
+        },
+        "training": {
+          "batch_size": 256,
+          "epochs": 100,
+          "warmup_epochs": 2,
+          "init_lr": 0.0004,
+          "max_lr": 0.004,
+          "final_lr": 0.0004,
+          "seed": 3407,
+          "num_workers": 8,
+          "pin_memory": true,
+          "accelerator": "auto",
+          "devices": 1,
+          "patience": 20,
+          "selection_metric": "gap_mae",
+          "early_stopping_min_delta": 1e-05,
+          "run_mode": "paired_split_seed",
+          "split_seed": 3407,
+          "seed_pairing": "matched"
+        },
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val/gap_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/chemprop_consistency/seed3407"
+      },
+      "data_scope": "command/plan only; input data covered by split audit"
+    },
+    {
+      "model": "smiles_transformer",
+      "seed": 3407,
+      "status": "pass",
+      "plan": {
+        "experiment": "smiles_transformer",
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "pipeline": "canonical SMILES -> regex tokenizer -> Transformer encoder -> regression head -> delta_e",
+        "verified_same_split_as_chemprop": true,
+        "split_manifest_sha256": "c23bfbb887e8fb7014353cea2154a623444defe3b356cee60350079b221ccd43",
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "vocabulary_size": 33,
+        "max_observed_tokens_without_cls": 22,
+        "max_length_including_cls": 40,
+        "unknown_tokens_by_split": {
+          "train": 0,
+          "val": 0,
+          "test": 0
+        },
+        "trainable_parameters": 2160641,
+        "target": {
+          "column": "delta_e",
+          "unit": "hartree"
+        },
+        "metrics": [
+          "mae",
+          "rmse",
+          "mape",
+          "r2"
+        ],
+        "training": {
+          "batch_size": 256,
+          "epochs": 100,
+          "optimizer": "adamw",
+          "lr": 0.0003,
+          "weight_decay": 0.01,
+          "warmup_ratio": 0.1,
+          "min_lr_ratio": 0.1,
+          "gradient_clip_val": 1.0,
+          "target_scaling": "standard",
+          "early_stopping_patience": 20,
+          "early_stopping_min_delta": 1e-05,
+          "seed": 3407,
+          "accelerator": "auto",
+          "devices": 1,
+          "precision": "32-true",
+          "num_workers": 8,
+          "pin_memory": true,
+          "log_every_n_steps": 50,
+          "run_mode": "paired_split_seed",
+          "split_seed": 3407,
+          "seed_pairing": "matched"
+        },
+        "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/smiles_transformer/seed3407"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "spe_transformer",
+      "seed": 3407,
+      "status": "pass",
+      "plan": {
+        "experiment": "spe_transformer",
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "pipeline": "canonical SMILES -> spe tokenizer -> Transformer encoder -> regression head -> delta_e",
+        "verified_same_split_as_chemprop": true,
+        "split_manifest_sha256": "c23bfbb887e8fb7014353cea2154a623444defe3b356cee60350079b221ccd43",
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "vocabulary_size": 803,
+        "max_observed_tokens_without_cls": 12,
+        "max_length_including_cls": 40,
+        "unknown_tokens_by_split": {
+          "train": 0,
+          "val": 0,
+          "test": 0
+        },
+        "trainable_parameters": 2357761,
+        "target": {
+          "column": "delta_e",
+          "unit": "hartree"
+        },
+        "metrics": [
+          "mae",
+          "rmse",
+          "mape",
+          "r2"
+        ],
+        "training": {
+          "batch_size": 256,
+          "epochs": 100,
+          "optimizer": "adamw",
+          "lr": 0.0003,
+          "weight_decay": 0.01,
+          "warmup_ratio": 0.1,
+          "min_lr_ratio": 0.1,
+          "gradient_clip_val": 1.0,
+          "target_scaling": "standard",
+          "early_stopping_patience": 20,
+          "early_stopping_min_delta": 1e-05,
+          "seed": 3407,
+          "accelerator": "auto",
+          "devices": 1,
+          "precision": "32-true",
+          "num_workers": 8,
+          "pin_memory": true,
+          "log_every_n_steps": 50,
+          "run_mode": "paired_split_seed",
+          "split_seed": 3407,
+          "seed_pairing": "matched"
+        },
+        "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/spe_transformer/seed3407"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "spe_multitask",
+      "seed": 3407,
+      "status": "pass",
+      "plan": {
+        "experiment": "spe_multitask",
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_delta_e_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "pipeline": "canonical SMILES -> train-only SPE -> Transformer encoder -> three task representations -> affinity fusion -> homo/lumo/delta_e heads",
+        "ablation": {
+          "use_affinity": false,
+          "consistency_weight": 0.0
+        },
+        "physics": {
+          "identity": "delta_e = lumo - homo",
+          "residual": "pred_delta_e - (pred_lumo - pred_homo)"
+        },
+        "verified_same_split_as_chemprop": true,
+        "split_manifest_sha256": "c23bfbb887e8fb7014353cea2154a623444defe3b356cee60350079b221ccd43",
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "vocabulary_size": 803,
+        "trainable_parameters": 2423811,
+        "targets": [
+          "homo",
+          "lumo",
+          "delta_e"
+        ],
+        "target_unit": "hartree",
+        "metrics": [
+          "mae",
+          "rmse",
+          "mape",
+          "r2"
+        ],
+        "training": {
+          "batch_size": 256,
+          "epochs": 100,
+          "optimizer": "adamw",
+          "lr": 0.0003,
+          "weight_decay": 0.01,
+          "warmup_ratio": 0.1,
+          "min_lr_ratio": 0.1,
+          "gradient_clip_val": 1.0,
+          "target_scaling": "standard",
+          "early_stopping_patience": 20,
+          "early_stopping_min_delta": 1e-05,
+          "seed": 3407,
+          "accelerator": "auto",
+          "devices": 1,
+          "precision": "32-true",
+          "num_workers": 8,
+          "pin_memory": true,
+          "log_every_n_steps": 50,
+          "run_mode": "paired_split_seed",
+          "split_seed": 3407,
+          "seed_pairing": "matched"
+        },
+        "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/spe_multitask/seed3407"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "spe_multitask_affinity",
+      "seed": 3407,
+      "status": "pass",
+      "plan": {
+        "experiment": "spe_multitask_affinity",
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_delta_e_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "pipeline": "canonical SMILES -> train-only SPE -> Transformer encoder -> three task representations -> affinity fusion -> homo/lumo/delta_e heads",
+        "ablation": {
+          "use_affinity": true,
+          "consistency_weight": 0.0
+        },
+        "physics": {
+          "identity": "delta_e = lumo - homo",
+          "residual": "pred_delta_e - (pred_lumo - pred_homo)"
+        },
+        "verified_same_split_as_chemprop": true,
+        "split_manifest_sha256": "c23bfbb887e8fb7014353cea2154a623444defe3b356cee60350079b221ccd43",
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "vocabulary_size": 803,
+        "trainable_parameters": 2423820,
+        "targets": [
+          "homo",
+          "lumo",
+          "delta_e"
+        ],
+        "target_unit": "hartree",
+        "metrics": [
+          "mae",
+          "rmse",
+          "mape",
+          "r2"
+        ],
+        "training": {
+          "batch_size": 256,
+          "epochs": 100,
+          "optimizer": "adamw",
+          "lr": 0.0003,
+          "weight_decay": 0.01,
+          "warmup_ratio": 0.1,
+          "min_lr_ratio": 0.1,
+          "gradient_clip_val": 1.0,
+          "target_scaling": "standard",
+          "early_stopping_patience": 20,
+          "early_stopping_min_delta": 1e-05,
+          "seed": 3407,
+          "accelerator": "auto",
+          "devices": 1,
+          "precision": "32-true",
+          "num_workers": 8,
+          "pin_memory": true,
+          "log_every_n_steps": 50,
+          "run_mode": "paired_split_seed",
+          "split_seed": 3407,
+          "seed_pairing": "matched"
+        },
+        "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/spe_multitask_affinity/seed3407"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "spe_multitask_consistency",
+      "seed": 3407,
+      "status": "pass",
+      "plan": {
+        "experiment": "spe_multitask_consistency",
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_delta_e_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "pipeline": "canonical SMILES -> train-only SPE -> Transformer encoder -> three task representations -> affinity fusion -> homo/lumo/delta_e heads",
+        "ablation": {
+          "use_affinity": false,
+          "consistency_weight": 0.1
+        },
+        "physics": {
+          "identity": "delta_e = lumo - homo",
+          "residual": "pred_delta_e - (pred_lumo - pred_homo)"
+        },
+        "verified_same_split_as_chemprop": true,
+        "split_manifest_sha256": "c23bfbb887e8fb7014353cea2154a623444defe3b356cee60350079b221ccd43",
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "vocabulary_size": 803,
+        "trainable_parameters": 2423811,
+        "targets": [
+          "homo",
+          "lumo",
+          "delta_e"
+        ],
+        "target_unit": "hartree",
+        "metrics": [
+          "mae",
+          "rmse",
+          "mape",
+          "r2"
+        ],
+        "training": {
+          "batch_size": 256,
+          "epochs": 100,
+          "optimizer": "adamw",
+          "lr": 0.0003,
+          "weight_decay": 0.01,
+          "warmup_ratio": 0.1,
+          "min_lr_ratio": 0.1,
+          "gradient_clip_val": 1.0,
+          "target_scaling": "standard",
+          "early_stopping_patience": 20,
+          "early_stopping_min_delta": 1e-05,
+          "seed": 3407,
+          "accelerator": "auto",
+          "devices": 1,
+          "precision": "32-true",
+          "num_workers": 8,
+          "pin_memory": true,
+          "log_every_n_steps": 50,
+          "run_mode": "paired_split_seed",
+          "split_seed": 3407,
+          "seed_pairing": "matched"
+        },
+        "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/spe_multitask_consistency/seed3407"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "spe_multitask_affinity_consistency",
+      "seed": 3407,
+      "status": "pass",
+      "plan": {
+        "experiment": "spe_multitask_affinity_consistency",
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_delta_e_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "pipeline": "canonical SMILES -> train-only SPE -> Transformer encoder -> three task representations -> affinity fusion -> homo/lumo/delta_e heads",
+        "ablation": {
+          "use_affinity": true,
+          "consistency_weight": 0.1
+        },
+        "physics": {
+          "identity": "delta_e = lumo - homo",
+          "residual": "pred_delta_e - (pred_lumo - pred_homo)"
+        },
+        "verified_same_split_as_chemprop": true,
+        "split_manifest_sha256": "c23bfbb887e8fb7014353cea2154a623444defe3b356cee60350079b221ccd43",
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "vocabulary_size": 803,
+        "trainable_parameters": 2423820,
+        "targets": [
+          "homo",
+          "lumo",
+          "delta_e"
+        ],
+        "target_unit": "hartree",
+        "metrics": [
+          "mae",
+          "rmse",
+          "mape",
+          "r2"
+        ],
+        "training": {
+          "batch_size": 256,
+          "epochs": 100,
+          "optimizer": "adamw",
+          "lr": 0.0003,
+          "weight_decay": 0.01,
+          "warmup_ratio": 0.1,
+          "min_lr_ratio": 0.1,
+          "gradient_clip_val": 1.0,
+          "target_scaling": "standard",
+          "early_stopping_patience": 20,
+          "early_stopping_min_delta": 1e-05,
+          "seed": 3407,
+          "accelerator": "auto",
+          "devices": 1,
+          "precision": "32-true",
+          "num_workers": 8,
+          "pin_memory": true,
+          "log_every_n_steps": 50,
+          "run_mode": "paired_split_seed",
+          "split_seed": 3407,
+          "seed_pairing": "matched"
+        },
+        "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/spe_multitask_affinity_consistency/seed3407"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "egnn",
+      "seed": 3407,
+      "status": "pass",
+      "plan": {
+        "model": "egnn",
+        "protocol_id": "paired_split_gap_mae_v2",
+        "split_seed": 3407,
+        "training_seed": 3407,
+        "budget": {
+          "batch_size": 256,
+          "epochs": 100,
+          "early_stopping_patience": 20
+        },
+        "smoke": false,
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "parameters": 758664,
+        "split_identity": {
+          "verified_same_split_as_chemprop": true,
+          "chemprop_reference": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/configs/baseline.yaml",
+            "sha256": "10687983c77b9711c103c4954f1e903676b8d0a7577d6a33c8415f3660985dd4",
+            "comparisons": {
+              "processed_dir": true,
+              "id_column": true,
+              "smiles_column": true,
+              "targets": true,
+              "split": true
+            }
+          },
+          "manifest": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/split_manifest.csv",
+            "sha256": "c23bfbb887e8fb7014353cea2154a623444defe3b356cee60350079b221ccd43",
+            "rows": 133798
+          },
+          "split_files": {
+            "train": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/train.csv",
+              "sha256": "1e14487f4607f8f0b71443447ce683da195df476b4f8a982a2aa18fd4c44023c",
+              "rows": 107038
+            },
+            "val": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/val.csv",
+              "sha256": "b4bafe0cd8ba08cc6d81202d1f9ce313c17db3628dc945a67223ad617becc579",
+              "rows": 13380
+            },
+            "test": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/test.csv",
+              "sha256": "a2bf1945045c83a8e4b31daff16834b018298cf458df3f7226f4d648226bce45",
+              "rows": 13380
+            }
+          },
+          "manifest_checks": {
+            "method": true,
+            "strategy": true,
+            "seed": true,
+            "stratify_column": true,
+            "stratify_bins": true
+          },
+          "no_sample_overlap": true,
+          "row_order_matches_manifest": true
+        },
+        "geometry_sha256": "b9ca7d881ec66a554fe747b376bf0229f2b34ba7d39f16bb2487fe266da29b19"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "schnet",
+      "seed": 3407,
+      "status": "pass",
+      "plan": {
+        "model": "schnet",
+        "protocol_id": "paired_split_gap_mae_v2",
+        "split_seed": 3407,
+        "training_seed": 3407,
+        "budget": {
+          "batch_size": 256,
+          "epochs": 100,
+          "early_stopping_patience": 20
+        },
+        "smoke": false,
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "parameters": 455809,
+        "split_identity": {
+          "verified_same_split_as_chemprop": true,
+          "chemprop_reference": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/configs/baseline.yaml",
+            "sha256": "10687983c77b9711c103c4954f1e903676b8d0a7577d6a33c8415f3660985dd4",
+            "comparisons": {
+              "processed_dir": true,
+              "id_column": true,
+              "smiles_column": true,
+              "targets": true,
+              "split": true
+            }
+          },
+          "manifest": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/split_manifest.csv",
+            "sha256": "c23bfbb887e8fb7014353cea2154a623444defe3b356cee60350079b221ccd43",
+            "rows": 133798
+          },
+          "split_files": {
+            "train": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/train.csv",
+              "sha256": "1e14487f4607f8f0b71443447ce683da195df476b4f8a982a2aa18fd4c44023c",
+              "rows": 107038
+            },
+            "val": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/val.csv",
+              "sha256": "b4bafe0cd8ba08cc6d81202d1f9ce313c17db3628dc945a67223ad617becc579",
+              "rows": 13380
+            },
+            "test": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/test.csv",
+              "sha256": "a2bf1945045c83a8e4b31daff16834b018298cf458df3f7226f4d648226bce45",
+              "rows": 13380
+            }
+          },
+          "manifest_checks": {
+            "method": true,
+            "strategy": true,
+            "seed": true,
+            "stratify_column": true,
+            "stratify_bins": true
+          },
+          "no_sample_overlap": true,
+          "row_order_matches_manifest": true
+        },
+        "geometry_sha256": "b9ca7d881ec66a554fe747b376bf0229f2b34ba7d39f16bb2487fe266da29b19"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "painn",
+      "seed": 3407,
+      "status": "pass",
+      "plan": {
+        "model": "painn",
+        "protocol_id": "paired_split_gap_mae_v2",
+        "split_seed": 3407,
+        "training_seed": 3407,
+        "budget": {
+          "batch_size": 256,
+          "epochs": 100,
+          "early_stopping_patience": 20
+        },
+        "smoke": false,
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "parameters": 589057,
+        "split_identity": {
+          "verified_same_split_as_chemprop": true,
+          "chemprop_reference": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/configs/baseline.yaml",
+            "sha256": "10687983c77b9711c103c4954f1e903676b8d0a7577d6a33c8415f3660985dd4",
+            "comparisons": {
+              "processed_dir": true,
+              "id_column": true,
+              "smiles_column": true,
+              "targets": true,
+              "split": true
+            }
+          },
+          "manifest": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/split_manifest.csv",
+            "sha256": "c23bfbb887e8fb7014353cea2154a623444defe3b356cee60350079b221ccd43",
+            "rows": 133798
+          },
+          "split_files": {
+            "train": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/train.csv",
+              "sha256": "1e14487f4607f8f0b71443447ce683da195df476b4f8a982a2aa18fd4c44023c",
+              "rows": 107038
+            },
+            "val": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/val.csv",
+              "sha256": "b4bafe0cd8ba08cc6d81202d1f9ce313c17db3628dc945a67223ad617becc579",
+              "rows": 13380
+            },
+            "test": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/test.csv",
+              "sha256": "a2bf1945045c83a8e4b31daff16834b018298cf458df3f7226f4d648226bce45",
+              "rows": 13380
+            }
+          },
+          "manifest_checks": {
+            "method": true,
+            "strategy": true,
+            "seed": true,
+            "stratify_column": true,
+            "stratify_bins": true
+          },
+          "no_sample_overlap": true,
+          "row_order_matches_manifest": true
+        },
+        "geometry_sha256": "b9ca7d881ec66a554fe747b376bf0229f2b34ba7d39f16bb2487fe266da29b19"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "dimenet_pp",
+      "seed": 3407,
+      "status": "pass",
+      "plan": {
+        "model": "dimenet_pp",
+        "protocol_id": "paired_split_gap_mae_v2",
+        "split_seed": 3407,
+        "training_seed": 3407,
+        "budget": {
+          "batch_size": 256,
+          "epochs": 100,
+          "early_stopping_patience": 20
+        },
+        "smoke": false,
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "parameters": 1885830,
+        "split_identity": {
+          "verified_same_split_as_chemprop": true,
+          "chemprop_reference": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/configs/baseline.yaml",
+            "sha256": "10687983c77b9711c103c4954f1e903676b8d0a7577d6a33c8415f3660985dd4",
+            "comparisons": {
+              "processed_dir": true,
+              "id_column": true,
+              "smiles_column": true,
+              "targets": true,
+              "split": true
+            }
+          },
+          "manifest": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/split_manifest.csv",
+            "sha256": "c23bfbb887e8fb7014353cea2154a623444defe3b356cee60350079b221ccd43",
+            "rows": 133798
+          },
+          "split_files": {
+            "train": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/train.csv",
+              "sha256": "1e14487f4607f8f0b71443447ce683da195df476b4f8a982a2aa18fd4c44023c",
+              "rows": 107038
+            },
+            "val": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/val.csv",
+              "sha256": "b4bafe0cd8ba08cc6d81202d1f9ce313c17db3628dc945a67223ad617becc579",
+              "rows": 13380
+            },
+            "test": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/test.csv",
+              "sha256": "a2bf1945045c83a8e4b31daff16834b018298cf458df3f7226f4d648226bce45",
+              "rows": 13380
+            }
+          },
+          "manifest_checks": {
+            "method": true,
+            "strategy": true,
+            "seed": true,
+            "stratify_column": true,
+            "stratify_bins": true
+          },
+          "no_sample_overlap": true,
+          "row_order_matches_manifest": true
+        },
+        "geometry_sha256": "b9ca7d881ec66a554fe747b376bf0229f2b34ba7d39f16bb2487fe266da29b19"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "esa",
+      "seed": 3407,
+      "status": "pass",
+      "plan": {
+        "model": "esa",
+        "protocol_id": "paired_split_gap_mae_v2",
+        "split_seed": 3407,
+        "training_seed": 3407,
+        "budget": {
+          "batch_size": 256,
+          "epochs": 100,
+          "early_stopping_patience": 20
+        },
+        "smoke": false,
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "parameters": 2992065,
+        "split_identity": {
+          "verified_same_split_as_chemprop": true,
+          "chemprop_reference": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/configs/baseline.yaml",
+            "sha256": "10687983c77b9711c103c4954f1e903676b8d0a7577d6a33c8415f3660985dd4",
+            "comparisons": {
+              "processed_dir": true,
+              "id_column": true,
+              "smiles_column": true,
+              "targets": true,
+              "split": true
+            }
+          },
+          "manifest": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/split_manifest.csv",
+            "sha256": "c23bfbb887e8fb7014353cea2154a623444defe3b356cee60350079b221ccd43",
+            "rows": 133798
+          },
+          "split_files": {
+            "train": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/train.csv",
+              "sha256": "1e14487f4607f8f0b71443447ce683da195df476b4f8a982a2aa18fd4c44023c",
+              "rows": 107038
+            },
+            "val": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/val.csv",
+              "sha256": "b4bafe0cd8ba08cc6d81202d1f9ce313c17db3628dc945a67223ad617becc579",
+              "rows": 13380
+            },
+            "test": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/test.csv",
+              "sha256": "a2bf1945045c83a8e4b31daff16834b018298cf458df3f7226f4d648226bce45",
+              "rows": 13380
+            }
+          },
+          "manifest_checks": {
+            "method": true,
+            "strategy": true,
+            "seed": true,
+            "stratify_column": true,
+            "stratify_bins": true
+          },
+          "no_sample_overlap": true,
+          "row_order_matches_manifest": true
+        },
+        "geometry_sha256": "b9ca7d881ec66a554fe747b376bf0229f2b34ba7d39f16bb2487fe266da29b19"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "torchmd_net",
+      "seed": 3407,
+      "status": "pass",
+      "plan": {
+        "model": "torchmd_net",
+        "protocol_id": "paired_split_gap_mae_v2",
+        "split_seed": 3407,
+        "training_seed": 3407,
+        "budget": {
+          "batch_size": 256,
+          "epochs": 100,
+          "early_stopping_patience": 20
+        },
+        "smoke": false,
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "parameters": 1345282,
+        "split_identity": {
+          "verified_same_split_as_chemprop": true,
+          "chemprop_reference": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/configs/baseline.yaml",
+            "sha256": "10687983c77b9711c103c4954f1e903676b8d0a7577d6a33c8415f3660985dd4",
+            "comparisons": {
+              "processed_dir": true,
+              "id_column": true,
+              "smiles_column": true,
+              "targets": true,
+              "split": true
+            }
+          },
+          "manifest": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/split_manifest.csv",
+            "sha256": "c23bfbb887e8fb7014353cea2154a623444defe3b356cee60350079b221ccd43",
+            "rows": 133798
+          },
+          "split_files": {
+            "train": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/train.csv",
+              "sha256": "1e14487f4607f8f0b71443447ce683da195df476b4f8a982a2aa18fd4c44023c",
+              "rows": 107038
+            },
+            "val": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/val.csv",
+              "sha256": "b4bafe0cd8ba08cc6d81202d1f9ce313c17db3628dc945a67223ad617becc579",
+              "rows": 13380
+            },
+            "test": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/test.csv",
+              "sha256": "a2bf1945045c83a8e4b31daff16834b018298cf458df3f7226f4d648226bce45",
+              "rows": 13380
+            }
+          },
+          "manifest_checks": {
+            "method": true,
+            "strategy": true,
+            "seed": true,
+            "stratify_column": true,
+            "stratify_bins": true
+          },
+          "no_sample_overlap": true,
+          "row_order_matches_manifest": true
+        },
+        "geometry_sha256": "b9ca7d881ec66a554fe747b376bf0229f2b34ba7d39f16bb2487fe266da29b19"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "cormorant",
+      "seed": 3407,
+      "status": "pass",
+      "plan": {
+        "model": "cormorant",
+        "protocol_id": "paired_split_gap_mae_v2",
+        "split_seed": 3407,
+        "training_seed": 3407,
+        "budget": {
+          "batch_size": 256,
+          "epochs": 100,
+          "early_stopping_patience": 20
+        },
+        "smoke": false,
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "parameters": 19647600,
+        "split_identity": {
+          "verified_same_split_as_chemprop": true,
+          "chemprop_reference": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/configs/baseline.yaml",
+            "sha256": "10687983c77b9711c103c4954f1e903676b8d0a7577d6a33c8415f3660985dd4",
+            "comparisons": {
+              "processed_dir": true,
+              "id_column": true,
+              "smiles_column": true,
+              "targets": true,
+              "split": true
+            }
+          },
+          "manifest": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/split_manifest.csv",
+            "sha256": "c23bfbb887e8fb7014353cea2154a623444defe3b356cee60350079b221ccd43",
+            "rows": 133798
+          },
+          "split_files": {
+            "train": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/train.csv",
+              "sha256": "1e14487f4607f8f0b71443447ce683da195df476b4f8a982a2aa18fd4c44023c",
+              "rows": 107038
+            },
+            "val": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/val.csv",
+              "sha256": "b4bafe0cd8ba08cc6d81202d1f9ce313c17db3628dc945a67223ad617becc579",
+              "rows": 13380
+            },
+            "test": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/test.csv",
+              "sha256": "a2bf1945045c83a8e4b31daff16834b018298cf458df3f7226f4d648226bce45",
+              "rows": 13380
+            }
+          },
+          "manifest_checks": {
+            "method": true,
+            "strategy": true,
+            "seed": true,
+            "stratify_column": true,
+            "stratify_bins": true
+          },
+          "no_sample_overlap": true,
+          "row_order_matches_manifest": true
+        },
+        "geometry_sha256": "b9ca7d881ec66a554fe747b376bf0229f2b34ba7d39f16bb2487fe266da29b19"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "lie_transformer",
+      "seed": 3407,
+      "status": "pass",
+      "plan": {
+        "model": "lie_transformer",
+        "protocol_id": "paired_split_gap_mae_v2",
+        "split_seed": 3407,
+        "training_seed": 3407,
+        "budget": {
+          "batch_size": 256,
+          "epochs": 100,
+          "early_stopping_patience": 20
+        },
+        "smoke": false,
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "parameters": 651953,
+        "split_identity": {
+          "verified_same_split_as_chemprop": true,
+          "chemprop_reference": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/configs/baseline.yaml",
+            "sha256": "10687983c77b9711c103c4954f1e903676b8d0a7577d6a33c8415f3660985dd4",
+            "comparisons": {
+              "processed_dir": true,
+              "id_column": true,
+              "smiles_column": true,
+              "targets": true,
+              "split": true
+            }
+          },
+          "manifest": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/split_manifest.csv",
+            "sha256": "c23bfbb887e8fb7014353cea2154a623444defe3b356cee60350079b221ccd43",
+            "rows": 133798
+          },
+          "split_files": {
+            "train": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/train.csv",
+              "sha256": "1e14487f4607f8f0b71443447ce683da195df476b4f8a982a2aa18fd4c44023c",
+              "rows": 107038
+            },
+            "val": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/val.csv",
+              "sha256": "b4bafe0cd8ba08cc6d81202d1f9ce313c17db3628dc945a67223ad617becc579",
+              "rows": 13380
+            },
+            "test": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/test.csv",
+              "sha256": "a2bf1945045c83a8e4b31daff16834b018298cf458df3f7226f4d648226bce45",
+              "rows": 13380
+            }
+          },
+          "manifest_checks": {
+            "method": true,
+            "strategy": true,
+            "seed": true,
+            "stratify_column": true,
+            "stratify_bins": true
+          },
+          "no_sample_overlap": true,
+          "row_order_matches_manifest": true
+        },
+        "geometry_sha256": "b9ca7d881ec66a554fe747b376bf0229f2b34ba7d39f16bb2487fe266da29b19"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "alignn",
+      "seed": 3407,
+      "status": "pass",
+      "plan": {
+        "model": "alignn",
+        "protocol_id": "paired_split_gap_mae_v2",
+        "split_seed": 3407,
+        "training_seed": 3407,
+        "budget": {
+          "batch_size": 256,
+          "epochs": 100,
+          "early_stopping_patience": 20
+        },
+        "smoke": false,
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "parameters": 1034369,
+        "split_identity": {
+          "verified_same_split_as_chemprop": true,
+          "chemprop_reference": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/configs/baseline.yaml",
+            "sha256": "10687983c77b9711c103c4954f1e903676b8d0a7577d6a33c8415f3660985dd4",
+            "comparisons": {
+              "processed_dir": true,
+              "id_column": true,
+              "smiles_column": true,
+              "targets": true,
+              "split": true
+            }
+          },
+          "manifest": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/split_manifest.csv",
+            "sha256": "c23bfbb887e8fb7014353cea2154a623444defe3b356cee60350079b221ccd43",
+            "rows": 133798
+          },
+          "split_files": {
+            "train": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/train.csv",
+              "sha256": "1e14487f4607f8f0b71443447ce683da195df476b4f8a982a2aa18fd4c44023c",
+              "rows": 107038
+            },
+            "val": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/val.csv",
+              "sha256": "b4bafe0cd8ba08cc6d81202d1f9ce313c17db3628dc945a67223ad617becc579",
+              "rows": 13380
+            },
+            "test": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/test.csv",
+              "sha256": "a2bf1945045c83a8e4b31daff16834b018298cf458df3f7226f4d648226bce45",
+              "rows": 13380
+            }
+          },
+          "manifest_checks": {
+            "method": true,
+            "strategy": true,
+            "seed": true,
+            "stratify_column": true,
+            "stratify_bins": true
+          },
+          "no_sample_overlap": true,
+          "row_order_matches_manifest": true
+        },
+        "geometry_sha256": "b9ca7d881ec66a554fe747b376bf0229f2b34ba7d39f16bb2487fe266da29b19"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "3dinfomax",
+      "seed": 3407,
+      "status": "pass",
+      "plan": {
+        "model": "3dinfomax",
+        "protocol_id": "paired_split_gap_mae_v2",
+        "split_seed": 3407,
+        "training_seed": 3407,
+        "budget": {
+          "batch_size": 256,
+          "epochs": 100,
+          "early_stopping_patience": 20
+        },
+        "smoke": false,
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "parameters": 4970801,
+        "split_identity": {
+          "verified_same_split_as_chemprop": true,
+          "chemprop_reference": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/configs/baseline.yaml",
+            "sha256": "10687983c77b9711c103c4954f1e903676b8d0a7577d6a33c8415f3660985dd4",
+            "comparisons": {
+              "processed_dir": true,
+              "id_column": true,
+              "smiles_column": true,
+              "targets": true,
+              "split": true
+            }
+          },
+          "manifest": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/split_manifest.csv",
+            "sha256": "c23bfbb887e8fb7014353cea2154a623444defe3b356cee60350079b221ccd43",
+            "rows": 133798
+          },
+          "split_files": {
+            "train": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/train.csv",
+              "sha256": "1e14487f4607f8f0b71443447ce683da195df476b4f8a982a2aa18fd4c44023c",
+              "rows": 107038
+            },
+            "val": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/val.csv",
+              "sha256": "b4bafe0cd8ba08cc6d81202d1f9ce313c17db3628dc945a67223ad617becc579",
+              "rows": 13380
+            },
+            "test": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed3407/test.csv",
+              "sha256": "a2bf1945045c83a8e4b31daff16834b018298cf458df3f7226f4d648226bce45",
+              "rows": 13380
+            }
+          },
+          "manifest_checks": {
+            "method": true,
+            "strategy": true,
+            "seed": true,
+            "stratify_column": true,
+            "stratify_bins": true
+          },
+          "no_sample_overlap": true,
+          "row_order_matches_manifest": true
+        },
+        "geometry_sha256": "b9ca7d881ec66a554fe747b376bf0229f2b34ba7d39f16bb2487fe266da29b19"
+      },
+      "checkpoint_scope": "one-epoch smoke checkpoint: routing verification only, not formal pretraining",
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "xgboost_rdkit29",
+      "seed": 3407,
+      "status": "pass",
+      "plan": {
+        "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/xgboost_rdkit29/seed3407",
+        "backend": "xgboost",
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "features": [
+          "SMR_VSA7",
+          "FractionCSP3",
+          "SMR_VSA10",
+          "BertzCT",
+          "SlogP_VSA6",
+          "BCUT2D_MRHI",
+          "HallKierAlpha",
+          "MolLogP",
+          "BCUT2D_MWHI",
+          "SMR_VSA5",
+          "BalabanJ",
+          "PEOE_VSA11",
+          "BCUT2D_CHGHI",
+          "SMR_VSA9",
+          "PEOE_VSA2",
+          "SlogP_VSA2",
+          "BCUT2D_LOGPLOW",
+          "VSA_EState2",
+          "BCUT2D_MWLOW",
+          "VSA_EState4",
+          "VSA_EState5",
+          "BCUT2D_MRLOW",
+          "Kappa3",
+          "fr_piperzine",
+          "fr_piperdine",
+          "fr_Ar_NH",
+          "fr_aniline",
+          "fr_imidazole",
+          "fr_pyridine"
+        ],
+        "normalization": {
+          "features": "none",
+          "target": "none"
+        },
+        "split_seed": 3407,
+        "training_seed": 3407,
+        "seed_pairing": "matched",
+        "run_mode": "paired_split_seed",
+        "budget": {
+          "batch_size": null,
+          "epochs": null,
+          "early_stopping_patience": null
+        },
+        "label_unit": "hartree",
+        "descriptor_calculation": "deferred until training"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "random_forest_rdkit29",
+      "seed": 3407,
+      "status": "pass",
+      "plan": {
+        "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/random_forest_rdkit29/seed3407",
+        "backend": "random_forest",
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "features": [
+          "SMR_VSA7",
+          "FractionCSP3",
+          "SMR_VSA10",
+          "BertzCT",
+          "SlogP_VSA6",
+          "BCUT2D_MRHI",
+          "HallKierAlpha",
+          "MolLogP",
+          "BCUT2D_MWHI",
+          "SMR_VSA5",
+          "BalabanJ",
+          "PEOE_VSA11",
+          "BCUT2D_CHGHI",
+          "SMR_VSA9",
+          "PEOE_VSA2",
+          "SlogP_VSA2",
+          "BCUT2D_LOGPLOW",
+          "VSA_EState2",
+          "BCUT2D_MWLOW",
+          "VSA_EState4",
+          "VSA_EState5",
+          "BCUT2D_MRLOW",
+          "Kappa3",
+          "fr_piperzine",
+          "fr_piperdine",
+          "fr_Ar_NH",
+          "fr_aniline",
+          "fr_imidazole",
+          "fr_pyridine"
+        ],
+        "normalization": {
+          "features": "none",
+          "target": "none"
+        },
+        "split_seed": 3407,
+        "training_seed": 3407,
+        "seed_pairing": "matched",
+        "run_mode": "paired_split_seed",
+        "budget": {
+          "batch_size": null,
+          "epochs": null,
+          "early_stopping_patience": null
+        },
+        "label_unit": "hartree",
+        "descriptor_calculation": "deferred until training"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "training_mean",
+      "seed": 3407,
+      "status": "pass",
+      "plan": {
+        "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/training_mean/seed3407",
+        "backend": "training_mean",
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "features": [],
+        "normalization": {
+          "features": "none",
+          "target": "none"
+        },
+        "split_seed": 3407,
+        "training_seed": 3407,
+        "seed_pairing": "matched",
+        "run_mode": "paired_split_seed",
+        "budget": {
+          "batch_size": null,
+          "epochs": null,
+          "early_stopping_patience": null
+        },
+        "label_unit": "hartree",
+        "descriptor_calculation": "not needed"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "chemprop_single_gap",
+      "seed": 42,
+      "status": "pass",
+      "plan": [
+        "/home/june/deepLear_zone/Chem_proj/chempro/.venv/bin/python",
+        "-m",
+        "molgap.training.chemprop_gap_cli",
+        "train",
+        "--data-path",
+        "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/train.csv",
+        "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/val.csv",
+        "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/test.csv",
+        "--task-type",
+        "regression",
+        "--smiles-columns",
+        "smiles",
+        "--target-columns",
+        "delta_e",
+        "--output-dir",
+        "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/chemprop_single_gap/seed42/chemprop",
+        "--metrics",
+        "gap_mae",
+        "mae",
+        "rmse",
+        "r2",
+        "--logfile",
+        "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/chemprop_single_gap/seed42/train.log",
+        "--tracking-metric",
+        "gap_mae",
+        "--min-delta",
+        "1e-05",
+        "--task-weights",
+        "1.0",
+        "--message-hidden-dim",
+        "300",
+        "--depth",
+        "3",
+        "--dropout",
+        "0.1",
+        "--ffn-hidden-dim",
+        "300",
+        "--ffn-num-layers",
+        "1",
+        "--activation",
+        "relu",
+        "--aggregation",
+        "mean",
+        "--batch-size",
+        "256",
+        "--epochs",
+        "100",
+        "--init-lr",
+        "0.0004",
+        "--max-lr",
+        "0.004",
+        "--final-lr",
+        "0.0004",
+        "--warmup-epochs",
+        "2",
+        "--patience",
+        "20",
+        "--num-workers",
+        "8",
+        "--accelerator",
+        "auto",
+        "--devices",
+        "1",
+        "--loss-function",
+        "mse",
+        "--data-seed",
+        "42",
+        "--pytorch-seed",
+        "42"
+      ],
+      "data_scope": "command/plan only; input data covered by split audit"
+    },
+    {
+      "model": "chemprop_multitask",
+      "seed": 42,
+      "status": "pass",
+      "plan": [
+        "/home/june/deepLear_zone/Chem_proj/chempro/.venv/bin/python",
+        "-m",
+        "molgap.training.chemprop_gap_cli",
+        "train",
+        "--data-path",
+        "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/train.csv",
+        "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/val.csv",
+        "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/test.csv",
+        "--task-type",
+        "regression",
+        "--smiles-columns",
+        "smiles",
+        "--target-columns",
+        "homo",
+        "lumo",
+        "delta_e",
+        "--output-dir",
+        "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/chemprop_multitask/seed42/chemprop",
+        "--metrics",
+        "gap_mae",
+        "mae",
+        "rmse",
+        "r2",
+        "--logfile",
+        "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/chemprop_multitask/seed42/train.log",
+        "--tracking-metric",
+        "gap_mae",
+        "--min-delta",
+        "1e-05",
+        "--show-individual-scores",
+        "--task-weights",
+        "1.0",
+        "1.0",
+        "1.0",
+        "--message-hidden-dim",
+        "300",
+        "--depth",
+        "3",
+        "--dropout",
+        "0.1",
+        "--ffn-hidden-dim",
+        "300",
+        "--ffn-num-layers",
+        "1",
+        "--activation",
+        "relu",
+        "--aggregation",
+        "mean",
+        "--batch-size",
+        "256",
+        "--epochs",
+        "100",
+        "--init-lr",
+        "0.0004",
+        "--max-lr",
+        "0.004",
+        "--final-lr",
+        "0.0004",
+        "--warmup-epochs",
+        "2",
+        "--patience",
+        "20",
+        "--num-workers",
+        "8",
+        "--accelerator",
+        "auto",
+        "--devices",
+        "1",
+        "--loss-function",
+        "mse",
+        "--data-seed",
+        "42",
+        "--pytorch-seed",
+        "42"
+      ],
+      "data_scope": "command/plan only; input data covered by split audit"
+    },
+    {
+      "model": "chemprop_consistency",
+      "seed": 42,
+      "status": "pass",
+      "plan": {
+        "phase": 3,
+        "backend": "chemprop_python",
+        "input_files": [
+          "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/train.csv",
+          "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/val.csv",
+          "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/test.csv"
+        ],
+        "targets": [
+          "homo",
+          "lumo",
+          "delta_e"
+        ],
+        "heads": [
+          "homo",
+          "lumo",
+          "delta_e"
+        ],
+        "loss": {
+          "function": "mse",
+          "weights": {
+            "homo": 1.0,
+            "lumo": 1.0,
+            "gap": 1.0,
+            "consistency": 0.1
+          }
+        },
+        "training": {
+          "batch_size": 256,
+          "epochs": 100,
+          "warmup_epochs": 2,
+          "init_lr": 0.0004,
+          "max_lr": 0.004,
+          "final_lr": 0.0004,
+          "seed": 42,
+          "num_workers": 8,
+          "pin_memory": true,
+          "accelerator": "auto",
+          "devices": 1,
+          "patience": 20,
+          "selection_metric": "gap_mae",
+          "early_stopping_min_delta": 1e-05,
+          "run_mode": "paired_split_seed",
+          "split_seed": 42,
+          "seed_pairing": "matched"
+        },
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val/gap_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/chemprop_consistency/seed42"
+      },
+      "data_scope": "command/plan only; input data covered by split audit"
+    },
+    {
+      "model": "smiles_transformer",
+      "seed": 42,
+      "status": "pass",
+      "plan": {
+        "experiment": "smiles_transformer",
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "pipeline": "canonical SMILES -> regex tokenizer -> Transformer encoder -> regression head -> delta_e",
+        "verified_same_split_as_chemprop": true,
+        "split_manifest_sha256": "cd291da6fcde7055870b30aa31a30f281ec92792881b57ebbee83c92ffcaf6cf",
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "vocabulary_size": 33,
+        "max_observed_tokens_without_cls": 22,
+        "max_length_including_cls": 40,
+        "unknown_tokens_by_split": {
+          "train": 0,
+          "val": 0,
+          "test": 0
+        },
+        "trainable_parameters": 2160641,
+        "target": {
+          "column": "delta_e",
+          "unit": "hartree"
+        },
+        "metrics": [
+          "mae",
+          "rmse",
+          "mape",
+          "r2"
+        ],
+        "training": {
+          "batch_size": 256,
+          "epochs": 100,
+          "optimizer": "adamw",
+          "lr": 0.0003,
+          "weight_decay": 0.01,
+          "warmup_ratio": 0.1,
+          "min_lr_ratio": 0.1,
+          "gradient_clip_val": 1.0,
+          "target_scaling": "standard",
+          "early_stopping_patience": 20,
+          "early_stopping_min_delta": 1e-05,
+          "seed": 42,
+          "accelerator": "auto",
+          "devices": 1,
+          "precision": "32-true",
+          "num_workers": 8,
+          "pin_memory": true,
+          "log_every_n_steps": 50,
+          "run_mode": "paired_split_seed",
+          "split_seed": 42,
+          "seed_pairing": "matched"
+        },
+        "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/smiles_transformer/seed42"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "spe_transformer",
+      "seed": 42,
+      "status": "pass",
+      "plan": {
+        "experiment": "spe_transformer",
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "pipeline": "canonical SMILES -> spe tokenizer -> Transformer encoder -> regression head -> delta_e",
+        "verified_same_split_as_chemprop": true,
+        "split_manifest_sha256": "cd291da6fcde7055870b30aa31a30f281ec92792881b57ebbee83c92ffcaf6cf",
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "vocabulary_size": 801,
+        "max_observed_tokens_without_cls": 12,
+        "max_length_including_cls": 40,
+        "unknown_tokens_by_split": {
+          "train": 0,
+          "val": 0,
+          "test": 0
+        },
+        "trainable_parameters": 2357249,
+        "target": {
+          "column": "delta_e",
+          "unit": "hartree"
+        },
+        "metrics": [
+          "mae",
+          "rmse",
+          "mape",
+          "r2"
+        ],
+        "training": {
+          "batch_size": 256,
+          "epochs": 100,
+          "optimizer": "adamw",
+          "lr": 0.0003,
+          "weight_decay": 0.01,
+          "warmup_ratio": 0.1,
+          "min_lr_ratio": 0.1,
+          "gradient_clip_val": 1.0,
+          "target_scaling": "standard",
+          "early_stopping_patience": 20,
+          "early_stopping_min_delta": 1e-05,
+          "seed": 42,
+          "accelerator": "auto",
+          "devices": 1,
+          "precision": "32-true",
+          "num_workers": 8,
+          "pin_memory": true,
+          "log_every_n_steps": 50,
+          "run_mode": "paired_split_seed",
+          "split_seed": 42,
+          "seed_pairing": "matched"
+        },
+        "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/spe_transformer/seed42"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "spe_multitask",
+      "seed": 42,
+      "status": "pass",
+      "plan": {
+        "experiment": "spe_multitask",
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_delta_e_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "pipeline": "canonical SMILES -> train-only SPE -> Transformer encoder -> three task representations -> affinity fusion -> homo/lumo/delta_e heads",
+        "ablation": {
+          "use_affinity": false,
+          "consistency_weight": 0.0
+        },
+        "physics": {
+          "identity": "delta_e = lumo - homo",
+          "residual": "pred_delta_e - (pred_lumo - pred_homo)"
+        },
+        "verified_same_split_as_chemprop": true,
+        "split_manifest_sha256": "cd291da6fcde7055870b30aa31a30f281ec92792881b57ebbee83c92ffcaf6cf",
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "vocabulary_size": 801,
+        "trainable_parameters": 2423299,
+        "targets": [
+          "homo",
+          "lumo",
+          "delta_e"
+        ],
+        "target_unit": "hartree",
+        "metrics": [
+          "mae",
+          "rmse",
+          "mape",
+          "r2"
+        ],
+        "training": {
+          "batch_size": 256,
+          "epochs": 100,
+          "optimizer": "adamw",
+          "lr": 0.0003,
+          "weight_decay": 0.01,
+          "warmup_ratio": 0.1,
+          "min_lr_ratio": 0.1,
+          "gradient_clip_val": 1.0,
+          "target_scaling": "standard",
+          "early_stopping_patience": 20,
+          "early_stopping_min_delta": 1e-05,
+          "seed": 42,
+          "accelerator": "auto",
+          "devices": 1,
+          "precision": "32-true",
+          "num_workers": 8,
+          "pin_memory": true,
+          "log_every_n_steps": 50,
+          "run_mode": "paired_split_seed",
+          "split_seed": 42,
+          "seed_pairing": "matched"
+        },
+        "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/spe_multitask/seed42"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "spe_multitask_affinity",
+      "seed": 42,
+      "status": "pass",
+      "plan": {
+        "experiment": "spe_multitask_affinity",
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_delta_e_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "pipeline": "canonical SMILES -> train-only SPE -> Transformer encoder -> three task representations -> affinity fusion -> homo/lumo/delta_e heads",
+        "ablation": {
+          "use_affinity": true,
+          "consistency_weight": 0.0
+        },
+        "physics": {
+          "identity": "delta_e = lumo - homo",
+          "residual": "pred_delta_e - (pred_lumo - pred_homo)"
+        },
+        "verified_same_split_as_chemprop": true,
+        "split_manifest_sha256": "cd291da6fcde7055870b30aa31a30f281ec92792881b57ebbee83c92ffcaf6cf",
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "vocabulary_size": 801,
+        "trainable_parameters": 2423308,
+        "targets": [
+          "homo",
+          "lumo",
+          "delta_e"
+        ],
+        "target_unit": "hartree",
+        "metrics": [
+          "mae",
+          "rmse",
+          "mape",
+          "r2"
+        ],
+        "training": {
+          "batch_size": 256,
+          "epochs": 100,
+          "optimizer": "adamw",
+          "lr": 0.0003,
+          "weight_decay": 0.01,
+          "warmup_ratio": 0.1,
+          "min_lr_ratio": 0.1,
+          "gradient_clip_val": 1.0,
+          "target_scaling": "standard",
+          "early_stopping_patience": 20,
+          "early_stopping_min_delta": 1e-05,
+          "seed": 42,
+          "accelerator": "auto",
+          "devices": 1,
+          "precision": "32-true",
+          "num_workers": 8,
+          "pin_memory": true,
+          "log_every_n_steps": 50,
+          "run_mode": "paired_split_seed",
+          "split_seed": 42,
+          "seed_pairing": "matched"
+        },
+        "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/spe_multitask_affinity/seed42"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "spe_multitask_consistency",
+      "seed": 42,
+      "status": "pass",
+      "plan": {
+        "experiment": "spe_multitask_consistency",
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_delta_e_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "pipeline": "canonical SMILES -> train-only SPE -> Transformer encoder -> three task representations -> affinity fusion -> homo/lumo/delta_e heads",
+        "ablation": {
+          "use_affinity": false,
+          "consistency_weight": 0.1
+        },
+        "physics": {
+          "identity": "delta_e = lumo - homo",
+          "residual": "pred_delta_e - (pred_lumo - pred_homo)"
+        },
+        "verified_same_split_as_chemprop": true,
+        "split_manifest_sha256": "cd291da6fcde7055870b30aa31a30f281ec92792881b57ebbee83c92ffcaf6cf",
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "vocabulary_size": 801,
+        "trainable_parameters": 2423299,
+        "targets": [
+          "homo",
+          "lumo",
+          "delta_e"
+        ],
+        "target_unit": "hartree",
+        "metrics": [
+          "mae",
+          "rmse",
+          "mape",
+          "r2"
+        ],
+        "training": {
+          "batch_size": 256,
+          "epochs": 100,
+          "optimizer": "adamw",
+          "lr": 0.0003,
+          "weight_decay": 0.01,
+          "warmup_ratio": 0.1,
+          "min_lr_ratio": 0.1,
+          "gradient_clip_val": 1.0,
+          "target_scaling": "standard",
+          "early_stopping_patience": 20,
+          "early_stopping_min_delta": 1e-05,
+          "seed": 42,
+          "accelerator": "auto",
+          "devices": 1,
+          "precision": "32-true",
+          "num_workers": 8,
+          "pin_memory": true,
+          "log_every_n_steps": 50,
+          "run_mode": "paired_split_seed",
+          "split_seed": 42,
+          "seed_pairing": "matched"
+        },
+        "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/spe_multitask_consistency/seed42"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "spe_multitask_affinity_consistency",
+      "seed": 42,
+      "status": "pass",
+      "plan": {
+        "experiment": "spe_multitask_affinity_consistency",
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_delta_e_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "pipeline": "canonical SMILES -> train-only SPE -> Transformer encoder -> three task representations -> affinity fusion -> homo/lumo/delta_e heads",
+        "ablation": {
+          "use_affinity": true,
+          "consistency_weight": 0.1
+        },
+        "physics": {
+          "identity": "delta_e = lumo - homo",
+          "residual": "pred_delta_e - (pred_lumo - pred_homo)"
+        },
+        "verified_same_split_as_chemprop": true,
+        "split_manifest_sha256": "cd291da6fcde7055870b30aa31a30f281ec92792881b57ebbee83c92ffcaf6cf",
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "vocabulary_size": 801,
+        "trainable_parameters": 2423308,
+        "targets": [
+          "homo",
+          "lumo",
+          "delta_e"
+        ],
+        "target_unit": "hartree",
+        "metrics": [
+          "mae",
+          "rmse",
+          "mape",
+          "r2"
+        ],
+        "training": {
+          "batch_size": 256,
+          "epochs": 100,
+          "optimizer": "adamw",
+          "lr": 0.0003,
+          "weight_decay": 0.01,
+          "warmup_ratio": 0.1,
+          "min_lr_ratio": 0.1,
+          "gradient_clip_val": 1.0,
+          "target_scaling": "standard",
+          "early_stopping_patience": 20,
+          "early_stopping_min_delta": 1e-05,
+          "seed": 42,
+          "accelerator": "auto",
+          "devices": 1,
+          "precision": "32-true",
+          "num_workers": 8,
+          "pin_memory": true,
+          "log_every_n_steps": 50,
+          "run_mode": "paired_split_seed",
+          "split_seed": 42,
+          "seed_pairing": "matched"
+        },
+        "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/spe_multitask_affinity_consistency/seed42"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "egnn",
+      "seed": 42,
+      "status": "pass",
+      "plan": {
+        "model": "egnn",
+        "protocol_id": "paired_split_gap_mae_v2",
+        "split_seed": 42,
+        "training_seed": 42,
+        "budget": {
+          "batch_size": 256,
+          "epochs": 100,
+          "early_stopping_patience": 20
+        },
+        "smoke": false,
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "parameters": 758664,
+        "split_identity": {
+          "verified_same_split_as_chemprop": true,
+          "chemprop_reference": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/configs/qm9_models/split_references/seed42.yaml",
+            "sha256": "bb6d10738c2bad3067dc231d5724c6da82d03716ff0311ebc7d6c950af311696",
+            "comparisons": {
+              "processed_dir": true,
+              "id_column": true,
+              "smiles_column": true,
+              "targets": true,
+              "split": true
+            }
+          },
+          "manifest": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/split_manifest.csv",
+            "sha256": "cd291da6fcde7055870b30aa31a30f281ec92792881b57ebbee83c92ffcaf6cf",
+            "rows": 133798
+          },
+          "split_files": {
+            "train": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/train.csv",
+              "sha256": "f44fd7778aaf7201ae4582cc38a281bf9ae9e2492b7ed41f7d01605d4a151542",
+              "rows": 107038
+            },
+            "val": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/val.csv",
+              "sha256": "20a19fc67e0daedc069028dd6ea2657189a8fc0cfbaa5d41b1d138776a5163c3",
+              "rows": 13380
+            },
+            "test": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/test.csv",
+              "sha256": "b422da1a71532294ed81789d8de88251fccc01a9a56c6bf2e2deb3cf24dcf96f",
+              "rows": 13380
+            }
+          },
+          "manifest_checks": {
+            "method": true,
+            "strategy": true,
+            "seed": true,
+            "stratify_column": true,
+            "stratify_bins": true
+          },
+          "no_sample_overlap": true,
+          "row_order_matches_manifest": true
+        },
+        "geometry_sha256": "0f2d284e59242ae71493f15aea876c444a7e8b0baa607c8b2e9380caf0e6b210"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "schnet",
+      "seed": 42,
+      "status": "pass",
+      "plan": {
+        "model": "schnet",
+        "protocol_id": "paired_split_gap_mae_v2",
+        "split_seed": 42,
+        "training_seed": 42,
+        "budget": {
+          "batch_size": 256,
+          "epochs": 100,
+          "early_stopping_patience": 20
+        },
+        "smoke": false,
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "parameters": 455809,
+        "split_identity": {
+          "verified_same_split_as_chemprop": true,
+          "chemprop_reference": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/configs/qm9_models/split_references/seed42.yaml",
+            "sha256": "bb6d10738c2bad3067dc231d5724c6da82d03716ff0311ebc7d6c950af311696",
+            "comparisons": {
+              "processed_dir": true,
+              "id_column": true,
+              "smiles_column": true,
+              "targets": true,
+              "split": true
+            }
+          },
+          "manifest": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/split_manifest.csv",
+            "sha256": "cd291da6fcde7055870b30aa31a30f281ec92792881b57ebbee83c92ffcaf6cf",
+            "rows": 133798
+          },
+          "split_files": {
+            "train": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/train.csv",
+              "sha256": "f44fd7778aaf7201ae4582cc38a281bf9ae9e2492b7ed41f7d01605d4a151542",
+              "rows": 107038
+            },
+            "val": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/val.csv",
+              "sha256": "20a19fc67e0daedc069028dd6ea2657189a8fc0cfbaa5d41b1d138776a5163c3",
+              "rows": 13380
+            },
+            "test": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/test.csv",
+              "sha256": "b422da1a71532294ed81789d8de88251fccc01a9a56c6bf2e2deb3cf24dcf96f",
+              "rows": 13380
+            }
+          },
+          "manifest_checks": {
+            "method": true,
+            "strategy": true,
+            "seed": true,
+            "stratify_column": true,
+            "stratify_bins": true
+          },
+          "no_sample_overlap": true,
+          "row_order_matches_manifest": true
+        },
+        "geometry_sha256": "0f2d284e59242ae71493f15aea876c444a7e8b0baa607c8b2e9380caf0e6b210"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "painn",
+      "seed": 42,
+      "status": "pass",
+      "plan": {
+        "model": "painn",
+        "protocol_id": "paired_split_gap_mae_v2",
+        "split_seed": 42,
+        "training_seed": 42,
+        "budget": {
+          "batch_size": 256,
+          "epochs": 100,
+          "early_stopping_patience": 20
+        },
+        "smoke": false,
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "parameters": 589057,
+        "split_identity": {
+          "verified_same_split_as_chemprop": true,
+          "chemprop_reference": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/configs/qm9_models/split_references/seed42.yaml",
+            "sha256": "bb6d10738c2bad3067dc231d5724c6da82d03716ff0311ebc7d6c950af311696",
+            "comparisons": {
+              "processed_dir": true,
+              "id_column": true,
+              "smiles_column": true,
+              "targets": true,
+              "split": true
+            }
+          },
+          "manifest": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/split_manifest.csv",
+            "sha256": "cd291da6fcde7055870b30aa31a30f281ec92792881b57ebbee83c92ffcaf6cf",
+            "rows": 133798
+          },
+          "split_files": {
+            "train": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/train.csv",
+              "sha256": "f44fd7778aaf7201ae4582cc38a281bf9ae9e2492b7ed41f7d01605d4a151542",
+              "rows": 107038
+            },
+            "val": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/val.csv",
+              "sha256": "20a19fc67e0daedc069028dd6ea2657189a8fc0cfbaa5d41b1d138776a5163c3",
+              "rows": 13380
+            },
+            "test": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/test.csv",
+              "sha256": "b422da1a71532294ed81789d8de88251fccc01a9a56c6bf2e2deb3cf24dcf96f",
+              "rows": 13380
+            }
+          },
+          "manifest_checks": {
+            "method": true,
+            "strategy": true,
+            "seed": true,
+            "stratify_column": true,
+            "stratify_bins": true
+          },
+          "no_sample_overlap": true,
+          "row_order_matches_manifest": true
+        },
+        "geometry_sha256": "0f2d284e59242ae71493f15aea876c444a7e8b0baa607c8b2e9380caf0e6b210"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "dimenet_pp",
+      "seed": 42,
+      "status": "pass",
+      "plan": {
+        "model": "dimenet_pp",
+        "protocol_id": "paired_split_gap_mae_v2",
+        "split_seed": 42,
+        "training_seed": 42,
+        "budget": {
+          "batch_size": 256,
+          "epochs": 100,
+          "early_stopping_patience": 20
+        },
+        "smoke": false,
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "parameters": 1885830,
+        "split_identity": {
+          "verified_same_split_as_chemprop": true,
+          "chemprop_reference": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/configs/qm9_models/split_references/seed42.yaml",
+            "sha256": "bb6d10738c2bad3067dc231d5724c6da82d03716ff0311ebc7d6c950af311696",
+            "comparisons": {
+              "processed_dir": true,
+              "id_column": true,
+              "smiles_column": true,
+              "targets": true,
+              "split": true
+            }
+          },
+          "manifest": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/split_manifest.csv",
+            "sha256": "cd291da6fcde7055870b30aa31a30f281ec92792881b57ebbee83c92ffcaf6cf",
+            "rows": 133798
+          },
+          "split_files": {
+            "train": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/train.csv",
+              "sha256": "f44fd7778aaf7201ae4582cc38a281bf9ae9e2492b7ed41f7d01605d4a151542",
+              "rows": 107038
+            },
+            "val": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/val.csv",
+              "sha256": "20a19fc67e0daedc069028dd6ea2657189a8fc0cfbaa5d41b1d138776a5163c3",
+              "rows": 13380
+            },
+            "test": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/test.csv",
+              "sha256": "b422da1a71532294ed81789d8de88251fccc01a9a56c6bf2e2deb3cf24dcf96f",
+              "rows": 13380
+            }
+          },
+          "manifest_checks": {
+            "method": true,
+            "strategy": true,
+            "seed": true,
+            "stratify_column": true,
+            "stratify_bins": true
+          },
+          "no_sample_overlap": true,
+          "row_order_matches_manifest": true
+        },
+        "geometry_sha256": "0f2d284e59242ae71493f15aea876c444a7e8b0baa607c8b2e9380caf0e6b210"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "esa",
+      "seed": 42,
+      "status": "pass",
+      "plan": {
+        "model": "esa",
+        "protocol_id": "paired_split_gap_mae_v2",
+        "split_seed": 42,
+        "training_seed": 42,
+        "budget": {
+          "batch_size": 256,
+          "epochs": 100,
+          "early_stopping_patience": 20
+        },
+        "smoke": false,
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "parameters": 2992065,
+        "split_identity": {
+          "verified_same_split_as_chemprop": true,
+          "chemprop_reference": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/configs/qm9_models/split_references/seed42.yaml",
+            "sha256": "bb6d10738c2bad3067dc231d5724c6da82d03716ff0311ebc7d6c950af311696",
+            "comparisons": {
+              "processed_dir": true,
+              "id_column": true,
+              "smiles_column": true,
+              "targets": true,
+              "split": true
+            }
+          },
+          "manifest": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/split_manifest.csv",
+            "sha256": "cd291da6fcde7055870b30aa31a30f281ec92792881b57ebbee83c92ffcaf6cf",
+            "rows": 133798
+          },
+          "split_files": {
+            "train": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/train.csv",
+              "sha256": "f44fd7778aaf7201ae4582cc38a281bf9ae9e2492b7ed41f7d01605d4a151542",
+              "rows": 107038
+            },
+            "val": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/val.csv",
+              "sha256": "20a19fc67e0daedc069028dd6ea2657189a8fc0cfbaa5d41b1d138776a5163c3",
+              "rows": 13380
+            },
+            "test": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/test.csv",
+              "sha256": "b422da1a71532294ed81789d8de88251fccc01a9a56c6bf2e2deb3cf24dcf96f",
+              "rows": 13380
+            }
+          },
+          "manifest_checks": {
+            "method": true,
+            "strategy": true,
+            "seed": true,
+            "stratify_column": true,
+            "stratify_bins": true
+          },
+          "no_sample_overlap": true,
+          "row_order_matches_manifest": true
+        },
+        "geometry_sha256": "0f2d284e59242ae71493f15aea876c444a7e8b0baa607c8b2e9380caf0e6b210"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "torchmd_net",
+      "seed": 42,
+      "status": "pass",
+      "plan": {
+        "model": "torchmd_net",
+        "protocol_id": "paired_split_gap_mae_v2",
+        "split_seed": 42,
+        "training_seed": 42,
+        "budget": {
+          "batch_size": 256,
+          "epochs": 100,
+          "early_stopping_patience": 20
+        },
+        "smoke": false,
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "parameters": 1345282,
+        "split_identity": {
+          "verified_same_split_as_chemprop": true,
+          "chemprop_reference": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/configs/qm9_models/split_references/seed42.yaml",
+            "sha256": "bb6d10738c2bad3067dc231d5724c6da82d03716ff0311ebc7d6c950af311696",
+            "comparisons": {
+              "processed_dir": true,
+              "id_column": true,
+              "smiles_column": true,
+              "targets": true,
+              "split": true
+            }
+          },
+          "manifest": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/split_manifest.csv",
+            "sha256": "cd291da6fcde7055870b30aa31a30f281ec92792881b57ebbee83c92ffcaf6cf",
+            "rows": 133798
+          },
+          "split_files": {
+            "train": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/train.csv",
+              "sha256": "f44fd7778aaf7201ae4582cc38a281bf9ae9e2492b7ed41f7d01605d4a151542",
+              "rows": 107038
+            },
+            "val": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/val.csv",
+              "sha256": "20a19fc67e0daedc069028dd6ea2657189a8fc0cfbaa5d41b1d138776a5163c3",
+              "rows": 13380
+            },
+            "test": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/test.csv",
+              "sha256": "b422da1a71532294ed81789d8de88251fccc01a9a56c6bf2e2deb3cf24dcf96f",
+              "rows": 13380
+            }
+          },
+          "manifest_checks": {
+            "method": true,
+            "strategy": true,
+            "seed": true,
+            "stratify_column": true,
+            "stratify_bins": true
+          },
+          "no_sample_overlap": true,
+          "row_order_matches_manifest": true
+        },
+        "geometry_sha256": "0f2d284e59242ae71493f15aea876c444a7e8b0baa607c8b2e9380caf0e6b210"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "cormorant",
+      "seed": 42,
+      "status": "pass",
+      "plan": {
+        "model": "cormorant",
+        "protocol_id": "paired_split_gap_mae_v2",
+        "split_seed": 42,
+        "training_seed": 42,
+        "budget": {
+          "batch_size": 256,
+          "epochs": 100,
+          "early_stopping_patience": 20
+        },
+        "smoke": false,
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "parameters": 19647600,
+        "split_identity": {
+          "verified_same_split_as_chemprop": true,
+          "chemprop_reference": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/configs/qm9_models/split_references/seed42.yaml",
+            "sha256": "bb6d10738c2bad3067dc231d5724c6da82d03716ff0311ebc7d6c950af311696",
+            "comparisons": {
+              "processed_dir": true,
+              "id_column": true,
+              "smiles_column": true,
+              "targets": true,
+              "split": true
+            }
+          },
+          "manifest": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/split_manifest.csv",
+            "sha256": "cd291da6fcde7055870b30aa31a30f281ec92792881b57ebbee83c92ffcaf6cf",
+            "rows": 133798
+          },
+          "split_files": {
+            "train": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/train.csv",
+              "sha256": "f44fd7778aaf7201ae4582cc38a281bf9ae9e2492b7ed41f7d01605d4a151542",
+              "rows": 107038
+            },
+            "val": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/val.csv",
+              "sha256": "20a19fc67e0daedc069028dd6ea2657189a8fc0cfbaa5d41b1d138776a5163c3",
+              "rows": 13380
+            },
+            "test": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/test.csv",
+              "sha256": "b422da1a71532294ed81789d8de88251fccc01a9a56c6bf2e2deb3cf24dcf96f",
+              "rows": 13380
+            }
+          },
+          "manifest_checks": {
+            "method": true,
+            "strategy": true,
+            "seed": true,
+            "stratify_column": true,
+            "stratify_bins": true
+          },
+          "no_sample_overlap": true,
+          "row_order_matches_manifest": true
+        },
+        "geometry_sha256": "0f2d284e59242ae71493f15aea876c444a7e8b0baa607c8b2e9380caf0e6b210"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "lie_transformer",
+      "seed": 42,
+      "status": "pass",
+      "plan": {
+        "model": "lie_transformer",
+        "protocol_id": "paired_split_gap_mae_v2",
+        "split_seed": 42,
+        "training_seed": 42,
+        "budget": {
+          "batch_size": 256,
+          "epochs": 100,
+          "early_stopping_patience": 20
+        },
+        "smoke": false,
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "parameters": 651953,
+        "split_identity": {
+          "verified_same_split_as_chemprop": true,
+          "chemprop_reference": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/configs/qm9_models/split_references/seed42.yaml",
+            "sha256": "bb6d10738c2bad3067dc231d5724c6da82d03716ff0311ebc7d6c950af311696",
+            "comparisons": {
+              "processed_dir": true,
+              "id_column": true,
+              "smiles_column": true,
+              "targets": true,
+              "split": true
+            }
+          },
+          "manifest": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/split_manifest.csv",
+            "sha256": "cd291da6fcde7055870b30aa31a30f281ec92792881b57ebbee83c92ffcaf6cf",
+            "rows": 133798
+          },
+          "split_files": {
+            "train": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/train.csv",
+              "sha256": "f44fd7778aaf7201ae4582cc38a281bf9ae9e2492b7ed41f7d01605d4a151542",
+              "rows": 107038
+            },
+            "val": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/val.csv",
+              "sha256": "20a19fc67e0daedc069028dd6ea2657189a8fc0cfbaa5d41b1d138776a5163c3",
+              "rows": 13380
+            },
+            "test": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/test.csv",
+              "sha256": "b422da1a71532294ed81789d8de88251fccc01a9a56c6bf2e2deb3cf24dcf96f",
+              "rows": 13380
+            }
+          },
+          "manifest_checks": {
+            "method": true,
+            "strategy": true,
+            "seed": true,
+            "stratify_column": true,
+            "stratify_bins": true
+          },
+          "no_sample_overlap": true,
+          "row_order_matches_manifest": true
+        },
+        "geometry_sha256": "0f2d284e59242ae71493f15aea876c444a7e8b0baa607c8b2e9380caf0e6b210"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "alignn",
+      "seed": 42,
+      "status": "pass",
+      "plan": {
+        "model": "alignn",
+        "protocol_id": "paired_split_gap_mae_v2",
+        "split_seed": 42,
+        "training_seed": 42,
+        "budget": {
+          "batch_size": 256,
+          "epochs": 100,
+          "early_stopping_patience": 20
+        },
+        "smoke": false,
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "parameters": 1034369,
+        "split_identity": {
+          "verified_same_split_as_chemprop": true,
+          "chemprop_reference": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/configs/qm9_models/split_references/seed42.yaml",
+            "sha256": "bb6d10738c2bad3067dc231d5724c6da82d03716ff0311ebc7d6c950af311696",
+            "comparisons": {
+              "processed_dir": true,
+              "id_column": true,
+              "smiles_column": true,
+              "targets": true,
+              "split": true
+            }
+          },
+          "manifest": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/split_manifest.csv",
+            "sha256": "cd291da6fcde7055870b30aa31a30f281ec92792881b57ebbee83c92ffcaf6cf",
+            "rows": 133798
+          },
+          "split_files": {
+            "train": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/train.csv",
+              "sha256": "f44fd7778aaf7201ae4582cc38a281bf9ae9e2492b7ed41f7d01605d4a151542",
+              "rows": 107038
+            },
+            "val": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/val.csv",
+              "sha256": "20a19fc67e0daedc069028dd6ea2657189a8fc0cfbaa5d41b1d138776a5163c3",
+              "rows": 13380
+            },
+            "test": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/test.csv",
+              "sha256": "b422da1a71532294ed81789d8de88251fccc01a9a56c6bf2e2deb3cf24dcf96f",
+              "rows": 13380
+            }
+          },
+          "manifest_checks": {
+            "method": true,
+            "strategy": true,
+            "seed": true,
+            "stratify_column": true,
+            "stratify_bins": true
+          },
+          "no_sample_overlap": true,
+          "row_order_matches_manifest": true
+        },
+        "geometry_sha256": "0f2d284e59242ae71493f15aea876c444a7e8b0baa607c8b2e9380caf0e6b210"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "3dinfomax",
+      "seed": 42,
+      "status": "pass",
+      "plan": {
+        "model": "3dinfomax",
+        "protocol_id": "paired_split_gap_mae_v2",
+        "split_seed": 42,
+        "training_seed": 42,
+        "budget": {
+          "batch_size": 256,
+          "epochs": 100,
+          "early_stopping_patience": 20
+        },
+        "smoke": false,
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "parameters": 4970801,
+        "split_identity": {
+          "verified_same_split_as_chemprop": true,
+          "chemprop_reference": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/configs/qm9_models/split_references/seed42.yaml",
+            "sha256": "bb6d10738c2bad3067dc231d5724c6da82d03716ff0311ebc7d6c950af311696",
+            "comparisons": {
+              "processed_dir": true,
+              "id_column": true,
+              "smiles_column": true,
+              "targets": true,
+              "split": true
+            }
+          },
+          "manifest": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/split_manifest.csv",
+            "sha256": "cd291da6fcde7055870b30aa31a30f281ec92792881b57ebbee83c92ffcaf6cf",
+            "rows": 133798
+          },
+          "split_files": {
+            "train": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/train.csv",
+              "sha256": "f44fd7778aaf7201ae4582cc38a281bf9ae9e2492b7ed41f7d01605d4a151542",
+              "rows": 107038
+            },
+            "val": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/val.csv",
+              "sha256": "20a19fc67e0daedc069028dd6ea2657189a8fc0cfbaa5d41b1d138776a5163c3",
+              "rows": 13380
+            },
+            "test": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed42/test.csv",
+              "sha256": "b422da1a71532294ed81789d8de88251fccc01a9a56c6bf2e2deb3cf24dcf96f",
+              "rows": 13380
+            }
+          },
+          "manifest_checks": {
+            "method": true,
+            "strategy": true,
+            "seed": true,
+            "stratify_column": true,
+            "stratify_bins": true
+          },
+          "no_sample_overlap": true,
+          "row_order_matches_manifest": true
+        },
+        "geometry_sha256": "0f2d284e59242ae71493f15aea876c444a7e8b0baa607c8b2e9380caf0e6b210"
+      },
+      "checkpoint_scope": "one-epoch smoke checkpoint: routing verification only, not formal pretraining",
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "xgboost_rdkit29",
+      "seed": 42,
+      "status": "pass",
+      "plan": {
+        "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/xgboost_rdkit29/seed42",
+        "backend": "xgboost",
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "features": [
+          "SMR_VSA7",
+          "FractionCSP3",
+          "SMR_VSA10",
+          "BertzCT",
+          "SlogP_VSA6",
+          "BCUT2D_MRHI",
+          "HallKierAlpha",
+          "MolLogP",
+          "BCUT2D_MWHI",
+          "SMR_VSA5",
+          "BalabanJ",
+          "PEOE_VSA11",
+          "BCUT2D_CHGHI",
+          "SMR_VSA9",
+          "PEOE_VSA2",
+          "SlogP_VSA2",
+          "BCUT2D_LOGPLOW",
+          "VSA_EState2",
+          "BCUT2D_MWLOW",
+          "VSA_EState4",
+          "VSA_EState5",
+          "BCUT2D_MRLOW",
+          "Kappa3",
+          "fr_piperzine",
+          "fr_piperdine",
+          "fr_Ar_NH",
+          "fr_aniline",
+          "fr_imidazole",
+          "fr_pyridine"
+        ],
+        "normalization": {
+          "features": "none",
+          "target": "none"
+        },
+        "split_seed": 42,
+        "training_seed": 42,
+        "seed_pairing": "matched",
+        "run_mode": "paired_split_seed",
+        "budget": {
+          "batch_size": null,
+          "epochs": null,
+          "early_stopping_patience": null
+        },
+        "label_unit": "hartree",
+        "descriptor_calculation": "deferred until training"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "random_forest_rdkit29",
+      "seed": 42,
+      "status": "pass",
+      "plan": {
+        "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/random_forest_rdkit29/seed42",
+        "backend": "random_forest",
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "features": [
+          "SMR_VSA7",
+          "FractionCSP3",
+          "SMR_VSA10",
+          "BertzCT",
+          "SlogP_VSA6",
+          "BCUT2D_MRHI",
+          "HallKierAlpha",
+          "MolLogP",
+          "BCUT2D_MWHI",
+          "SMR_VSA5",
+          "BalabanJ",
+          "PEOE_VSA11",
+          "BCUT2D_CHGHI",
+          "SMR_VSA9",
+          "PEOE_VSA2",
+          "SlogP_VSA2",
+          "BCUT2D_LOGPLOW",
+          "VSA_EState2",
+          "BCUT2D_MWLOW",
+          "VSA_EState4",
+          "VSA_EState5",
+          "BCUT2D_MRLOW",
+          "Kappa3",
+          "fr_piperzine",
+          "fr_piperdine",
+          "fr_Ar_NH",
+          "fr_aniline",
+          "fr_imidazole",
+          "fr_pyridine"
+        ],
+        "normalization": {
+          "features": "none",
+          "target": "none"
+        },
+        "split_seed": 42,
+        "training_seed": 42,
+        "seed_pairing": "matched",
+        "run_mode": "paired_split_seed",
+        "budget": {
+          "batch_size": null,
+          "epochs": null,
+          "early_stopping_patience": null
+        },
+        "label_unit": "hartree",
+        "descriptor_calculation": "deferred until training"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "training_mean",
+      "seed": 42,
+      "status": "pass",
+      "plan": {
+        "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/training_mean/seed42",
+        "backend": "training_mean",
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "features": [],
+        "normalization": {
+          "features": "none",
+          "target": "none"
+        },
+        "split_seed": 42,
+        "training_seed": 42,
+        "seed_pairing": "matched",
+        "run_mode": "paired_split_seed",
+        "budget": {
+          "batch_size": null,
+          "epochs": null,
+          "early_stopping_patience": null
+        },
+        "label_unit": "hartree",
+        "descriptor_calculation": "not needed"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "chemprop_single_gap",
+      "seed": 2026,
+      "status": "pass",
+      "plan": [
+        "/home/june/deepLear_zone/Chem_proj/chempro/.venv/bin/python",
+        "-m",
+        "molgap.training.chemprop_gap_cli",
+        "train",
+        "--data-path",
+        "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/train.csv",
+        "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/val.csv",
+        "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/test.csv",
+        "--task-type",
+        "regression",
+        "--smiles-columns",
+        "smiles",
+        "--target-columns",
+        "delta_e",
+        "--output-dir",
+        "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/chemprop_single_gap/seed2026/chemprop",
+        "--metrics",
+        "gap_mae",
+        "mae",
+        "rmse",
+        "r2",
+        "--logfile",
+        "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/chemprop_single_gap/seed2026/train.log",
+        "--tracking-metric",
+        "gap_mae",
+        "--min-delta",
+        "1e-05",
+        "--task-weights",
+        "1.0",
+        "--message-hidden-dim",
+        "300",
+        "--depth",
+        "3",
+        "--dropout",
+        "0.1",
+        "--ffn-hidden-dim",
+        "300",
+        "--ffn-num-layers",
+        "1",
+        "--activation",
+        "relu",
+        "--aggregation",
+        "mean",
+        "--batch-size",
+        "256",
+        "--epochs",
+        "100",
+        "--init-lr",
+        "0.0004",
+        "--max-lr",
+        "0.004",
+        "--final-lr",
+        "0.0004",
+        "--warmup-epochs",
+        "2",
+        "--patience",
+        "20",
+        "--num-workers",
+        "8",
+        "--accelerator",
+        "auto",
+        "--devices",
+        "1",
+        "--loss-function",
+        "mse",
+        "--data-seed",
+        "2026",
+        "--pytorch-seed",
+        "2026"
+      ],
+      "data_scope": "command/plan only; input data covered by split audit"
+    },
+    {
+      "model": "chemprop_multitask",
+      "seed": 2026,
+      "status": "pass",
+      "plan": [
+        "/home/june/deepLear_zone/Chem_proj/chempro/.venv/bin/python",
+        "-m",
+        "molgap.training.chemprop_gap_cli",
+        "train",
+        "--data-path",
+        "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/train.csv",
+        "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/val.csv",
+        "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/test.csv",
+        "--task-type",
+        "regression",
+        "--smiles-columns",
+        "smiles",
+        "--target-columns",
+        "homo",
+        "lumo",
+        "delta_e",
+        "--output-dir",
+        "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/chemprop_multitask/seed2026/chemprop",
+        "--metrics",
+        "gap_mae",
+        "mae",
+        "rmse",
+        "r2",
+        "--logfile",
+        "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/chemprop_multitask/seed2026/train.log",
+        "--tracking-metric",
+        "gap_mae",
+        "--min-delta",
+        "1e-05",
+        "--show-individual-scores",
+        "--task-weights",
+        "1.0",
+        "1.0",
+        "1.0",
+        "--message-hidden-dim",
+        "300",
+        "--depth",
+        "3",
+        "--dropout",
+        "0.1",
+        "--ffn-hidden-dim",
+        "300",
+        "--ffn-num-layers",
+        "1",
+        "--activation",
+        "relu",
+        "--aggregation",
+        "mean",
+        "--batch-size",
+        "256",
+        "--epochs",
+        "100",
+        "--init-lr",
+        "0.0004",
+        "--max-lr",
+        "0.004",
+        "--final-lr",
+        "0.0004",
+        "--warmup-epochs",
+        "2",
+        "--patience",
+        "20",
+        "--num-workers",
+        "8",
+        "--accelerator",
+        "auto",
+        "--devices",
+        "1",
+        "--loss-function",
+        "mse",
+        "--data-seed",
+        "2026",
+        "--pytorch-seed",
+        "2026"
+      ],
+      "data_scope": "command/plan only; input data covered by split audit"
+    },
+    {
+      "model": "chemprop_consistency",
+      "seed": 2026,
+      "status": "pass",
+      "plan": {
+        "phase": 3,
+        "backend": "chemprop_python",
+        "input_files": [
+          "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/train.csv",
+          "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/val.csv",
+          "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/test.csv"
+        ],
+        "targets": [
+          "homo",
+          "lumo",
+          "delta_e"
+        ],
+        "heads": [
+          "homo",
+          "lumo",
+          "delta_e"
+        ],
+        "loss": {
+          "function": "mse",
+          "weights": {
+            "homo": 1.0,
+            "lumo": 1.0,
+            "gap": 1.0,
+            "consistency": 0.1
+          }
+        },
+        "training": {
+          "batch_size": 256,
+          "epochs": 100,
+          "warmup_epochs": 2,
+          "init_lr": 0.0004,
+          "max_lr": 0.004,
+          "final_lr": 0.0004,
+          "seed": 2026,
+          "num_workers": 8,
+          "pin_memory": true,
+          "accelerator": "auto",
+          "devices": 1,
+          "patience": 20,
+          "selection_metric": "gap_mae",
+          "early_stopping_min_delta": 1e-05,
+          "run_mode": "paired_split_seed",
+          "split_seed": 2026,
+          "seed_pairing": "matched"
+        },
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val/gap_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/chemprop_consistency/seed2026"
+      },
+      "data_scope": "command/plan only; input data covered by split audit"
+    },
+    {
+      "model": "smiles_transformer",
+      "seed": 2026,
+      "status": "pass",
+      "plan": {
+        "experiment": "smiles_transformer",
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "pipeline": "canonical SMILES -> regex tokenizer -> Transformer encoder -> regression head -> delta_e",
+        "verified_same_split_as_chemprop": true,
+        "split_manifest_sha256": "814583d9523c67427e3725cb7d991c8d47cd3a4f9280eaa39e7df1b598218c3c",
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "vocabulary_size": 33,
+        "max_observed_tokens_without_cls": 22,
+        "max_length_including_cls": 40,
+        "unknown_tokens_by_split": {
+          "train": 0,
+          "val": 0,
+          "test": 0
+        },
+        "trainable_parameters": 2160641,
+        "target": {
+          "column": "delta_e",
+          "unit": "hartree"
+        },
+        "metrics": [
+          "mae",
+          "rmse",
+          "mape",
+          "r2"
+        ],
+        "training": {
+          "batch_size": 256,
+          "epochs": 100,
+          "optimizer": "adamw",
+          "lr": 0.0003,
+          "weight_decay": 0.01,
+          "warmup_ratio": 0.1,
+          "min_lr_ratio": 0.1,
+          "gradient_clip_val": 1.0,
+          "target_scaling": "standard",
+          "early_stopping_patience": 20,
+          "early_stopping_min_delta": 1e-05,
+          "seed": 2026,
+          "accelerator": "auto",
+          "devices": 1,
+          "precision": "32-true",
+          "num_workers": 8,
+          "pin_memory": true,
+          "log_every_n_steps": 50,
+          "run_mode": "paired_split_seed",
+          "split_seed": 2026,
+          "seed_pairing": "matched"
+        },
+        "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/smiles_transformer/seed2026"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "spe_transformer",
+      "seed": 2026,
+      "status": "pass",
+      "plan": {
+        "experiment": "spe_transformer",
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "pipeline": "canonical SMILES -> spe tokenizer -> Transformer encoder -> regression head -> delta_e",
+        "verified_same_split_as_chemprop": true,
+        "split_manifest_sha256": "814583d9523c67427e3725cb7d991c8d47cd3a4f9280eaa39e7df1b598218c3c",
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "vocabulary_size": 807,
+        "max_observed_tokens_without_cls": 12,
+        "max_length_including_cls": 40,
+        "unknown_tokens_by_split": {
+          "train": 0,
+          "val": 0,
+          "test": 0
+        },
+        "trainable_parameters": 2358785,
+        "target": {
+          "column": "delta_e",
+          "unit": "hartree"
+        },
+        "metrics": [
+          "mae",
+          "rmse",
+          "mape",
+          "r2"
+        ],
+        "training": {
+          "batch_size": 256,
+          "epochs": 100,
+          "optimizer": "adamw",
+          "lr": 0.0003,
+          "weight_decay": 0.01,
+          "warmup_ratio": 0.1,
+          "min_lr_ratio": 0.1,
+          "gradient_clip_val": 1.0,
+          "target_scaling": "standard",
+          "early_stopping_patience": 20,
+          "early_stopping_min_delta": 1e-05,
+          "seed": 2026,
+          "accelerator": "auto",
+          "devices": 1,
+          "precision": "32-true",
+          "num_workers": 8,
+          "pin_memory": true,
+          "log_every_n_steps": 50,
+          "run_mode": "paired_split_seed",
+          "split_seed": 2026,
+          "seed_pairing": "matched"
+        },
+        "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/spe_transformer/seed2026"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "spe_multitask",
+      "seed": 2026,
+      "status": "pass",
+      "plan": {
+        "experiment": "spe_multitask",
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_delta_e_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "pipeline": "canonical SMILES -> train-only SPE -> Transformer encoder -> three task representations -> affinity fusion -> homo/lumo/delta_e heads",
+        "ablation": {
+          "use_affinity": false,
+          "consistency_weight": 0.0
+        },
+        "physics": {
+          "identity": "delta_e = lumo - homo",
+          "residual": "pred_delta_e - (pred_lumo - pred_homo)"
+        },
+        "verified_same_split_as_chemprop": true,
+        "split_manifest_sha256": "814583d9523c67427e3725cb7d991c8d47cd3a4f9280eaa39e7df1b598218c3c",
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "vocabulary_size": 807,
+        "trainable_parameters": 2424835,
+        "targets": [
+          "homo",
+          "lumo",
+          "delta_e"
+        ],
+        "target_unit": "hartree",
+        "metrics": [
+          "mae",
+          "rmse",
+          "mape",
+          "r2"
+        ],
+        "training": {
+          "batch_size": 256,
+          "epochs": 100,
+          "optimizer": "adamw",
+          "lr": 0.0003,
+          "weight_decay": 0.01,
+          "warmup_ratio": 0.1,
+          "min_lr_ratio": 0.1,
+          "gradient_clip_val": 1.0,
+          "target_scaling": "standard",
+          "early_stopping_patience": 20,
+          "early_stopping_min_delta": 1e-05,
+          "seed": 2026,
+          "accelerator": "auto",
+          "devices": 1,
+          "precision": "32-true",
+          "num_workers": 8,
+          "pin_memory": true,
+          "log_every_n_steps": 50,
+          "run_mode": "paired_split_seed",
+          "split_seed": 2026,
+          "seed_pairing": "matched"
+        },
+        "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/spe_multitask/seed2026"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "spe_multitask_affinity",
+      "seed": 2026,
+      "status": "pass",
+      "plan": {
+        "experiment": "spe_multitask_affinity",
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_delta_e_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "pipeline": "canonical SMILES -> train-only SPE -> Transformer encoder -> three task representations -> affinity fusion -> homo/lumo/delta_e heads",
+        "ablation": {
+          "use_affinity": true,
+          "consistency_weight": 0.0
+        },
+        "physics": {
+          "identity": "delta_e = lumo - homo",
+          "residual": "pred_delta_e - (pred_lumo - pred_homo)"
+        },
+        "verified_same_split_as_chemprop": true,
+        "split_manifest_sha256": "814583d9523c67427e3725cb7d991c8d47cd3a4f9280eaa39e7df1b598218c3c",
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "vocabulary_size": 807,
+        "trainable_parameters": 2424844,
+        "targets": [
+          "homo",
+          "lumo",
+          "delta_e"
+        ],
+        "target_unit": "hartree",
+        "metrics": [
+          "mae",
+          "rmse",
+          "mape",
+          "r2"
+        ],
+        "training": {
+          "batch_size": 256,
+          "epochs": 100,
+          "optimizer": "adamw",
+          "lr": 0.0003,
+          "weight_decay": 0.01,
+          "warmup_ratio": 0.1,
+          "min_lr_ratio": 0.1,
+          "gradient_clip_val": 1.0,
+          "target_scaling": "standard",
+          "early_stopping_patience": 20,
+          "early_stopping_min_delta": 1e-05,
+          "seed": 2026,
+          "accelerator": "auto",
+          "devices": 1,
+          "precision": "32-true",
+          "num_workers": 8,
+          "pin_memory": true,
+          "log_every_n_steps": 50,
+          "run_mode": "paired_split_seed",
+          "split_seed": 2026,
+          "seed_pairing": "matched"
+        },
+        "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/spe_multitask_affinity/seed2026"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "spe_multitask_consistency",
+      "seed": 2026,
+      "status": "pass",
+      "plan": {
+        "experiment": "spe_multitask_consistency",
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_delta_e_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "pipeline": "canonical SMILES -> train-only SPE -> Transformer encoder -> three task representations -> affinity fusion -> homo/lumo/delta_e heads",
+        "ablation": {
+          "use_affinity": false,
+          "consistency_weight": 0.1
+        },
+        "physics": {
+          "identity": "delta_e = lumo - homo",
+          "residual": "pred_delta_e - (pred_lumo - pred_homo)"
+        },
+        "verified_same_split_as_chemprop": true,
+        "split_manifest_sha256": "814583d9523c67427e3725cb7d991c8d47cd3a4f9280eaa39e7df1b598218c3c",
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "vocabulary_size": 807,
+        "trainable_parameters": 2424835,
+        "targets": [
+          "homo",
+          "lumo",
+          "delta_e"
+        ],
+        "target_unit": "hartree",
+        "metrics": [
+          "mae",
+          "rmse",
+          "mape",
+          "r2"
+        ],
+        "training": {
+          "batch_size": 256,
+          "epochs": 100,
+          "optimizer": "adamw",
+          "lr": 0.0003,
+          "weight_decay": 0.01,
+          "warmup_ratio": 0.1,
+          "min_lr_ratio": 0.1,
+          "gradient_clip_val": 1.0,
+          "target_scaling": "standard",
+          "early_stopping_patience": 20,
+          "early_stopping_min_delta": 1e-05,
+          "seed": 2026,
+          "accelerator": "auto",
+          "devices": 1,
+          "precision": "32-true",
+          "num_workers": 8,
+          "pin_memory": true,
+          "log_every_n_steps": 50,
+          "run_mode": "paired_split_seed",
+          "split_seed": 2026,
+          "seed_pairing": "matched"
+        },
+        "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/spe_multitask_consistency/seed2026"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "spe_multitask_affinity_consistency",
+      "seed": 2026,
+      "status": "pass",
+      "plan": {
+        "experiment": "spe_multitask_affinity_consistency",
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_delta_e_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "pipeline": "canonical SMILES -> train-only SPE -> Transformer encoder -> three task representations -> affinity fusion -> homo/lumo/delta_e heads",
+        "ablation": {
+          "use_affinity": true,
+          "consistency_weight": 0.1
+        },
+        "physics": {
+          "identity": "delta_e = lumo - homo",
+          "residual": "pred_delta_e - (pred_lumo - pred_homo)"
+        },
+        "verified_same_split_as_chemprop": true,
+        "split_manifest_sha256": "814583d9523c67427e3725cb7d991c8d47cd3a4f9280eaa39e7df1b598218c3c",
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "vocabulary_size": 807,
+        "trainable_parameters": 2424844,
+        "targets": [
+          "homo",
+          "lumo",
+          "delta_e"
+        ],
+        "target_unit": "hartree",
+        "metrics": [
+          "mae",
+          "rmse",
+          "mape",
+          "r2"
+        ],
+        "training": {
+          "batch_size": 256,
+          "epochs": 100,
+          "optimizer": "adamw",
+          "lr": 0.0003,
+          "weight_decay": 0.01,
+          "warmup_ratio": 0.1,
+          "min_lr_ratio": 0.1,
+          "gradient_clip_val": 1.0,
+          "target_scaling": "standard",
+          "early_stopping_patience": 20,
+          "early_stopping_min_delta": 1e-05,
+          "seed": 2026,
+          "accelerator": "auto",
+          "devices": 1,
+          "precision": "32-true",
+          "num_workers": 8,
+          "pin_memory": true,
+          "log_every_n_steps": 50,
+          "run_mode": "paired_split_seed",
+          "split_seed": 2026,
+          "seed_pairing": "matched"
+        },
+        "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/spe_multitask_affinity_consistency/seed2026"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "egnn",
+      "seed": 2026,
+      "status": "pass",
+      "plan": {
+        "model": "egnn",
+        "protocol_id": "paired_split_gap_mae_v2",
+        "split_seed": 2026,
+        "training_seed": 2026,
+        "budget": {
+          "batch_size": 256,
+          "epochs": 100,
+          "early_stopping_patience": 20
+        },
+        "smoke": false,
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "parameters": 758664,
+        "split_identity": {
+          "verified_same_split_as_chemprop": true,
+          "chemprop_reference": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/configs/qm9_models/split_references/seed2026.yaml",
+            "sha256": "25c81dddb43aab425af8776d4a28771f60edd702911e58e01ef0e73da4e84c63",
+            "comparisons": {
+              "processed_dir": true,
+              "id_column": true,
+              "smiles_column": true,
+              "targets": true,
+              "split": true
+            }
+          },
+          "manifest": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/split_manifest.csv",
+            "sha256": "814583d9523c67427e3725cb7d991c8d47cd3a4f9280eaa39e7df1b598218c3c",
+            "rows": 133798
+          },
+          "split_files": {
+            "train": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/train.csv",
+              "sha256": "c673eb2906af95665805af332c712af458c008fc100e3a234421a776ed658542",
+              "rows": 107038
+            },
+            "val": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/val.csv",
+              "sha256": "b2691e3eba5310c0a34cd449213ed7a1f373a1db960f49726895b31028784e24",
+              "rows": 13380
+            },
+            "test": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/test.csv",
+              "sha256": "b09335c397ed4ce0dcd24b8d349a1885f16fa8d2f7ef2b3918173efc6a3dd2fa",
+              "rows": 13380
+            }
+          },
+          "manifest_checks": {
+            "method": true,
+            "strategy": true,
+            "seed": true,
+            "stratify_column": true,
+            "stratify_bins": true
+          },
+          "no_sample_overlap": true,
+          "row_order_matches_manifest": true
+        },
+        "geometry_sha256": "442448d38c3606cc0fe4d5f305679d738c97db4fd75fec18b5a527d0599bc076"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "schnet",
+      "seed": 2026,
+      "status": "pass",
+      "plan": {
+        "model": "schnet",
+        "protocol_id": "paired_split_gap_mae_v2",
+        "split_seed": 2026,
+        "training_seed": 2026,
+        "budget": {
+          "batch_size": 256,
+          "epochs": 100,
+          "early_stopping_patience": 20
+        },
+        "smoke": false,
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "parameters": 455809,
+        "split_identity": {
+          "verified_same_split_as_chemprop": true,
+          "chemprop_reference": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/configs/qm9_models/split_references/seed2026.yaml",
+            "sha256": "25c81dddb43aab425af8776d4a28771f60edd702911e58e01ef0e73da4e84c63",
+            "comparisons": {
+              "processed_dir": true,
+              "id_column": true,
+              "smiles_column": true,
+              "targets": true,
+              "split": true
+            }
+          },
+          "manifest": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/split_manifest.csv",
+            "sha256": "814583d9523c67427e3725cb7d991c8d47cd3a4f9280eaa39e7df1b598218c3c",
+            "rows": 133798
+          },
+          "split_files": {
+            "train": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/train.csv",
+              "sha256": "c673eb2906af95665805af332c712af458c008fc100e3a234421a776ed658542",
+              "rows": 107038
+            },
+            "val": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/val.csv",
+              "sha256": "b2691e3eba5310c0a34cd449213ed7a1f373a1db960f49726895b31028784e24",
+              "rows": 13380
+            },
+            "test": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/test.csv",
+              "sha256": "b09335c397ed4ce0dcd24b8d349a1885f16fa8d2f7ef2b3918173efc6a3dd2fa",
+              "rows": 13380
+            }
+          },
+          "manifest_checks": {
+            "method": true,
+            "strategy": true,
+            "seed": true,
+            "stratify_column": true,
+            "stratify_bins": true
+          },
+          "no_sample_overlap": true,
+          "row_order_matches_manifest": true
+        },
+        "geometry_sha256": "442448d38c3606cc0fe4d5f305679d738c97db4fd75fec18b5a527d0599bc076"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "painn",
+      "seed": 2026,
+      "status": "pass",
+      "plan": {
+        "model": "painn",
+        "protocol_id": "paired_split_gap_mae_v2",
+        "split_seed": 2026,
+        "training_seed": 2026,
+        "budget": {
+          "batch_size": 256,
+          "epochs": 100,
+          "early_stopping_patience": 20
+        },
+        "smoke": false,
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "parameters": 589057,
+        "split_identity": {
+          "verified_same_split_as_chemprop": true,
+          "chemprop_reference": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/configs/qm9_models/split_references/seed2026.yaml",
+            "sha256": "25c81dddb43aab425af8776d4a28771f60edd702911e58e01ef0e73da4e84c63",
+            "comparisons": {
+              "processed_dir": true,
+              "id_column": true,
+              "smiles_column": true,
+              "targets": true,
+              "split": true
+            }
+          },
+          "manifest": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/split_manifest.csv",
+            "sha256": "814583d9523c67427e3725cb7d991c8d47cd3a4f9280eaa39e7df1b598218c3c",
+            "rows": 133798
+          },
+          "split_files": {
+            "train": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/train.csv",
+              "sha256": "c673eb2906af95665805af332c712af458c008fc100e3a234421a776ed658542",
+              "rows": 107038
+            },
+            "val": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/val.csv",
+              "sha256": "b2691e3eba5310c0a34cd449213ed7a1f373a1db960f49726895b31028784e24",
+              "rows": 13380
+            },
+            "test": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/test.csv",
+              "sha256": "b09335c397ed4ce0dcd24b8d349a1885f16fa8d2f7ef2b3918173efc6a3dd2fa",
+              "rows": 13380
+            }
+          },
+          "manifest_checks": {
+            "method": true,
+            "strategy": true,
+            "seed": true,
+            "stratify_column": true,
+            "stratify_bins": true
+          },
+          "no_sample_overlap": true,
+          "row_order_matches_manifest": true
+        },
+        "geometry_sha256": "442448d38c3606cc0fe4d5f305679d738c97db4fd75fec18b5a527d0599bc076"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "dimenet_pp",
+      "seed": 2026,
+      "status": "pass",
+      "plan": {
+        "model": "dimenet_pp",
+        "protocol_id": "paired_split_gap_mae_v2",
+        "split_seed": 2026,
+        "training_seed": 2026,
+        "budget": {
+          "batch_size": 256,
+          "epochs": 100,
+          "early_stopping_patience": 20
+        },
+        "smoke": false,
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "parameters": 1885830,
+        "split_identity": {
+          "verified_same_split_as_chemprop": true,
+          "chemprop_reference": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/configs/qm9_models/split_references/seed2026.yaml",
+            "sha256": "25c81dddb43aab425af8776d4a28771f60edd702911e58e01ef0e73da4e84c63",
+            "comparisons": {
+              "processed_dir": true,
+              "id_column": true,
+              "smiles_column": true,
+              "targets": true,
+              "split": true
+            }
+          },
+          "manifest": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/split_manifest.csv",
+            "sha256": "814583d9523c67427e3725cb7d991c8d47cd3a4f9280eaa39e7df1b598218c3c",
+            "rows": 133798
+          },
+          "split_files": {
+            "train": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/train.csv",
+              "sha256": "c673eb2906af95665805af332c712af458c008fc100e3a234421a776ed658542",
+              "rows": 107038
+            },
+            "val": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/val.csv",
+              "sha256": "b2691e3eba5310c0a34cd449213ed7a1f373a1db960f49726895b31028784e24",
+              "rows": 13380
+            },
+            "test": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/test.csv",
+              "sha256": "b09335c397ed4ce0dcd24b8d349a1885f16fa8d2f7ef2b3918173efc6a3dd2fa",
+              "rows": 13380
+            }
+          },
+          "manifest_checks": {
+            "method": true,
+            "strategy": true,
+            "seed": true,
+            "stratify_column": true,
+            "stratify_bins": true
+          },
+          "no_sample_overlap": true,
+          "row_order_matches_manifest": true
+        },
+        "geometry_sha256": "442448d38c3606cc0fe4d5f305679d738c97db4fd75fec18b5a527d0599bc076"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "esa",
+      "seed": 2026,
+      "status": "pass",
+      "plan": {
+        "model": "esa",
+        "protocol_id": "paired_split_gap_mae_v2",
+        "split_seed": 2026,
+        "training_seed": 2026,
+        "budget": {
+          "batch_size": 256,
+          "epochs": 100,
+          "early_stopping_patience": 20
+        },
+        "smoke": false,
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "parameters": 2992065,
+        "split_identity": {
+          "verified_same_split_as_chemprop": true,
+          "chemprop_reference": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/configs/qm9_models/split_references/seed2026.yaml",
+            "sha256": "25c81dddb43aab425af8776d4a28771f60edd702911e58e01ef0e73da4e84c63",
+            "comparisons": {
+              "processed_dir": true,
+              "id_column": true,
+              "smiles_column": true,
+              "targets": true,
+              "split": true
+            }
+          },
+          "manifest": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/split_manifest.csv",
+            "sha256": "814583d9523c67427e3725cb7d991c8d47cd3a4f9280eaa39e7df1b598218c3c",
+            "rows": 133798
+          },
+          "split_files": {
+            "train": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/train.csv",
+              "sha256": "c673eb2906af95665805af332c712af458c008fc100e3a234421a776ed658542",
+              "rows": 107038
+            },
+            "val": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/val.csv",
+              "sha256": "b2691e3eba5310c0a34cd449213ed7a1f373a1db960f49726895b31028784e24",
+              "rows": 13380
+            },
+            "test": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/test.csv",
+              "sha256": "b09335c397ed4ce0dcd24b8d349a1885f16fa8d2f7ef2b3918173efc6a3dd2fa",
+              "rows": 13380
+            }
+          },
+          "manifest_checks": {
+            "method": true,
+            "strategy": true,
+            "seed": true,
+            "stratify_column": true,
+            "stratify_bins": true
+          },
+          "no_sample_overlap": true,
+          "row_order_matches_manifest": true
+        },
+        "geometry_sha256": "442448d38c3606cc0fe4d5f305679d738c97db4fd75fec18b5a527d0599bc076"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "torchmd_net",
+      "seed": 2026,
+      "status": "pass",
+      "plan": {
+        "model": "torchmd_net",
+        "protocol_id": "paired_split_gap_mae_v2",
+        "split_seed": 2026,
+        "training_seed": 2026,
+        "budget": {
+          "batch_size": 256,
+          "epochs": 100,
+          "early_stopping_patience": 20
+        },
+        "smoke": false,
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "parameters": 1345282,
+        "split_identity": {
+          "verified_same_split_as_chemprop": true,
+          "chemprop_reference": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/configs/qm9_models/split_references/seed2026.yaml",
+            "sha256": "25c81dddb43aab425af8776d4a28771f60edd702911e58e01ef0e73da4e84c63",
+            "comparisons": {
+              "processed_dir": true,
+              "id_column": true,
+              "smiles_column": true,
+              "targets": true,
+              "split": true
+            }
+          },
+          "manifest": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/split_manifest.csv",
+            "sha256": "814583d9523c67427e3725cb7d991c8d47cd3a4f9280eaa39e7df1b598218c3c",
+            "rows": 133798
+          },
+          "split_files": {
+            "train": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/train.csv",
+              "sha256": "c673eb2906af95665805af332c712af458c008fc100e3a234421a776ed658542",
+              "rows": 107038
+            },
+            "val": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/val.csv",
+              "sha256": "b2691e3eba5310c0a34cd449213ed7a1f373a1db960f49726895b31028784e24",
+              "rows": 13380
+            },
+            "test": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/test.csv",
+              "sha256": "b09335c397ed4ce0dcd24b8d349a1885f16fa8d2f7ef2b3918173efc6a3dd2fa",
+              "rows": 13380
+            }
+          },
+          "manifest_checks": {
+            "method": true,
+            "strategy": true,
+            "seed": true,
+            "stratify_column": true,
+            "stratify_bins": true
+          },
+          "no_sample_overlap": true,
+          "row_order_matches_manifest": true
+        },
+        "geometry_sha256": "442448d38c3606cc0fe4d5f305679d738c97db4fd75fec18b5a527d0599bc076"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "cormorant",
+      "seed": 2026,
+      "status": "pass",
+      "plan": {
+        "model": "cormorant",
+        "protocol_id": "paired_split_gap_mae_v2",
+        "split_seed": 2026,
+        "training_seed": 2026,
+        "budget": {
+          "batch_size": 256,
+          "epochs": 100,
+          "early_stopping_patience": 20
+        },
+        "smoke": false,
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "parameters": 19647600,
+        "split_identity": {
+          "verified_same_split_as_chemprop": true,
+          "chemprop_reference": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/configs/qm9_models/split_references/seed2026.yaml",
+            "sha256": "25c81dddb43aab425af8776d4a28771f60edd702911e58e01ef0e73da4e84c63",
+            "comparisons": {
+              "processed_dir": true,
+              "id_column": true,
+              "smiles_column": true,
+              "targets": true,
+              "split": true
+            }
+          },
+          "manifest": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/split_manifest.csv",
+            "sha256": "814583d9523c67427e3725cb7d991c8d47cd3a4f9280eaa39e7df1b598218c3c",
+            "rows": 133798
+          },
+          "split_files": {
+            "train": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/train.csv",
+              "sha256": "c673eb2906af95665805af332c712af458c008fc100e3a234421a776ed658542",
+              "rows": 107038
+            },
+            "val": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/val.csv",
+              "sha256": "b2691e3eba5310c0a34cd449213ed7a1f373a1db960f49726895b31028784e24",
+              "rows": 13380
+            },
+            "test": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/test.csv",
+              "sha256": "b09335c397ed4ce0dcd24b8d349a1885f16fa8d2f7ef2b3918173efc6a3dd2fa",
+              "rows": 13380
+            }
+          },
+          "manifest_checks": {
+            "method": true,
+            "strategy": true,
+            "seed": true,
+            "stratify_column": true,
+            "stratify_bins": true
+          },
+          "no_sample_overlap": true,
+          "row_order_matches_manifest": true
+        },
+        "geometry_sha256": "442448d38c3606cc0fe4d5f305679d738c97db4fd75fec18b5a527d0599bc076"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "lie_transformer",
+      "seed": 2026,
+      "status": "pass",
+      "plan": {
+        "model": "lie_transformer",
+        "protocol_id": "paired_split_gap_mae_v2",
+        "split_seed": 2026,
+        "training_seed": 2026,
+        "budget": {
+          "batch_size": 256,
+          "epochs": 100,
+          "early_stopping_patience": 20
+        },
+        "smoke": false,
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "parameters": 651953,
+        "split_identity": {
+          "verified_same_split_as_chemprop": true,
+          "chemprop_reference": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/configs/qm9_models/split_references/seed2026.yaml",
+            "sha256": "25c81dddb43aab425af8776d4a28771f60edd702911e58e01ef0e73da4e84c63",
+            "comparisons": {
+              "processed_dir": true,
+              "id_column": true,
+              "smiles_column": true,
+              "targets": true,
+              "split": true
+            }
+          },
+          "manifest": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/split_manifest.csv",
+            "sha256": "814583d9523c67427e3725cb7d991c8d47cd3a4f9280eaa39e7df1b598218c3c",
+            "rows": 133798
+          },
+          "split_files": {
+            "train": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/train.csv",
+              "sha256": "c673eb2906af95665805af332c712af458c008fc100e3a234421a776ed658542",
+              "rows": 107038
+            },
+            "val": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/val.csv",
+              "sha256": "b2691e3eba5310c0a34cd449213ed7a1f373a1db960f49726895b31028784e24",
+              "rows": 13380
+            },
+            "test": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/test.csv",
+              "sha256": "b09335c397ed4ce0dcd24b8d349a1885f16fa8d2f7ef2b3918173efc6a3dd2fa",
+              "rows": 13380
+            }
+          },
+          "manifest_checks": {
+            "method": true,
+            "strategy": true,
+            "seed": true,
+            "stratify_column": true,
+            "stratify_bins": true
+          },
+          "no_sample_overlap": true,
+          "row_order_matches_manifest": true
+        },
+        "geometry_sha256": "442448d38c3606cc0fe4d5f305679d738c97db4fd75fec18b5a527d0599bc076"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "alignn",
+      "seed": 2026,
+      "status": "pass",
+      "plan": {
+        "model": "alignn",
+        "protocol_id": "paired_split_gap_mae_v2",
+        "split_seed": 2026,
+        "training_seed": 2026,
+        "budget": {
+          "batch_size": 256,
+          "epochs": 100,
+          "early_stopping_patience": 20
+        },
+        "smoke": false,
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "parameters": 1034369,
+        "split_identity": {
+          "verified_same_split_as_chemprop": true,
+          "chemprop_reference": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/configs/qm9_models/split_references/seed2026.yaml",
+            "sha256": "25c81dddb43aab425af8776d4a28771f60edd702911e58e01ef0e73da4e84c63",
+            "comparisons": {
+              "processed_dir": true,
+              "id_column": true,
+              "smiles_column": true,
+              "targets": true,
+              "split": true
+            }
+          },
+          "manifest": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/split_manifest.csv",
+            "sha256": "814583d9523c67427e3725cb7d991c8d47cd3a4f9280eaa39e7df1b598218c3c",
+            "rows": 133798
+          },
+          "split_files": {
+            "train": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/train.csv",
+              "sha256": "c673eb2906af95665805af332c712af458c008fc100e3a234421a776ed658542",
+              "rows": 107038
+            },
+            "val": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/val.csv",
+              "sha256": "b2691e3eba5310c0a34cd449213ed7a1f373a1db960f49726895b31028784e24",
+              "rows": 13380
+            },
+            "test": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/test.csv",
+              "sha256": "b09335c397ed4ce0dcd24b8d349a1885f16fa8d2f7ef2b3918173efc6a3dd2fa",
+              "rows": 13380
+            }
+          },
+          "manifest_checks": {
+            "method": true,
+            "strategy": true,
+            "seed": true,
+            "stratify_column": true,
+            "stratify_bins": true
+          },
+          "no_sample_overlap": true,
+          "row_order_matches_manifest": true
+        },
+        "geometry_sha256": "442448d38c3606cc0fe4d5f305679d738c97db4fd75fec18b5a527d0599bc076"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "3dinfomax",
+      "seed": 2026,
+      "status": "pass",
+      "plan": {
+        "model": "3dinfomax",
+        "protocol_id": "paired_split_gap_mae_v2",
+        "split_seed": 2026,
+        "training_seed": 2026,
+        "budget": {
+          "batch_size": 256,
+          "epochs": 100,
+          "early_stopping_patience": 20
+        },
+        "smoke": false,
+        "selection": {
+          "target": "delta_e",
+          "metric": "mae",
+          "unit": "hartree",
+          "mode": "min",
+          "monitor": "val_mae",
+          "patience": 20,
+          "min_delta": 1e-05
+        },
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "parameters": 4970801,
+        "split_identity": {
+          "verified_same_split_as_chemprop": true,
+          "chemprop_reference": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/configs/qm9_models/split_references/seed2026.yaml",
+            "sha256": "25c81dddb43aab425af8776d4a28771f60edd702911e58e01ef0e73da4e84c63",
+            "comparisons": {
+              "processed_dir": true,
+              "id_column": true,
+              "smiles_column": true,
+              "targets": true,
+              "split": true
+            }
+          },
+          "manifest": {
+            "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/split_manifest.csv",
+            "sha256": "814583d9523c67427e3725cb7d991c8d47cd3a4f9280eaa39e7df1b598218c3c",
+            "rows": 133798
+          },
+          "split_files": {
+            "train": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/train.csv",
+              "sha256": "c673eb2906af95665805af332c712af458c008fc100e3a234421a776ed658542",
+              "rows": 107038
+            },
+            "val": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/val.csv",
+              "sha256": "b2691e3eba5310c0a34cd449213ed7a1f373a1db960f49726895b31028784e24",
+              "rows": 13380
+            },
+            "test": {
+              "path": "/home/june/deepLear_zone/Chem_proj/chempro/data/processed/qm9_full/random/seed2026/test.csv",
+              "sha256": "b09335c397ed4ce0dcd24b8d349a1885f16fa8d2f7ef2b3918173efc6a3dd2fa",
+              "rows": 13380
+            }
+          },
+          "manifest_checks": {
+            "method": true,
+            "strategy": true,
+            "seed": true,
+            "stratify_column": true,
+            "stratify_bins": true
+          },
+          "no_sample_overlap": true,
+          "row_order_matches_manifest": true
+        },
+        "geometry_sha256": "442448d38c3606cc0fe4d5f305679d738c97db4fd75fec18b5a527d0599bc076"
+      },
+      "checkpoint_scope": "one-epoch smoke checkpoint: routing verification only, not formal pretraining",
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "xgboost_rdkit29",
+      "seed": 2026,
+      "status": "pass",
+      "plan": {
+        "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/xgboost_rdkit29/seed2026",
+        "backend": "xgboost",
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "features": [
+          "SMR_VSA7",
+          "FractionCSP3",
+          "SMR_VSA10",
+          "BertzCT",
+          "SlogP_VSA6",
+          "BCUT2D_MRHI",
+          "HallKierAlpha",
+          "MolLogP",
+          "BCUT2D_MWHI",
+          "SMR_VSA5",
+          "BalabanJ",
+          "PEOE_VSA11",
+          "BCUT2D_CHGHI",
+          "SMR_VSA9",
+          "PEOE_VSA2",
+          "SlogP_VSA2",
+          "BCUT2D_LOGPLOW",
+          "VSA_EState2",
+          "BCUT2D_MWLOW",
+          "VSA_EState4",
+          "VSA_EState5",
+          "BCUT2D_MRLOW",
+          "Kappa3",
+          "fr_piperzine",
+          "fr_piperdine",
+          "fr_Ar_NH",
+          "fr_aniline",
+          "fr_imidazole",
+          "fr_pyridine"
+        ],
+        "normalization": {
+          "features": "none",
+          "target": "none"
+        },
+        "split_seed": 2026,
+        "training_seed": 2026,
+        "seed_pairing": "matched",
+        "run_mode": "paired_split_seed",
+        "budget": {
+          "batch_size": null,
+          "epochs": null,
+          "early_stopping_patience": null
+        },
+        "label_unit": "hartree",
+        "descriptor_calculation": "deferred until training"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "random_forest_rdkit29",
+      "seed": 2026,
+      "status": "pass",
+      "plan": {
+        "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/random_forest_rdkit29/seed2026",
+        "backend": "random_forest",
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "features": [
+          "SMR_VSA7",
+          "FractionCSP3",
+          "SMR_VSA10",
+          "BertzCT",
+          "SlogP_VSA6",
+          "BCUT2D_MRHI",
+          "HallKierAlpha",
+          "MolLogP",
+          "BCUT2D_MWHI",
+          "SMR_VSA5",
+          "BalabanJ",
+          "PEOE_VSA11",
+          "BCUT2D_CHGHI",
+          "SMR_VSA9",
+          "PEOE_VSA2",
+          "SlogP_VSA2",
+          "BCUT2D_LOGPLOW",
+          "VSA_EState2",
+          "BCUT2D_MWLOW",
+          "VSA_EState4",
+          "VSA_EState5",
+          "BCUT2D_MRLOW",
+          "Kappa3",
+          "fr_piperzine",
+          "fr_piperdine",
+          "fr_Ar_NH",
+          "fr_aniline",
+          "fr_imidazole",
+          "fr_pyridine"
+        ],
+        "normalization": {
+          "features": "none",
+          "target": "none"
+        },
+        "split_seed": 2026,
+        "training_seed": 2026,
+        "seed_pairing": "matched",
+        "run_mode": "paired_split_seed",
+        "budget": {
+          "batch_size": null,
+          "epochs": null,
+          "early_stopping_patience": null
+        },
+        "label_unit": "hartree",
+        "descriptor_calculation": "deferred until training"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    },
+    {
+      "model": "training_mean",
+      "seed": 2026,
+      "status": "pass",
+      "plan": {
+        "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/outputs/paired_gap_mae_v2/training_mean/seed2026",
+        "backend": "training_mean",
+        "split_rows": {
+          "train": 107038,
+          "val": 13380,
+          "test": 13380
+        },
+        "features": [],
+        "normalization": {
+          "features": "none",
+          "target": "none"
+        },
+        "split_seed": 2026,
+        "training_seed": 2026,
+        "seed_pairing": "matched",
+        "run_mode": "paired_split_seed",
+        "budget": {
+          "batch_size": null,
+          "epochs": null,
+          "early_stopping_patience": null
+        },
+        "label_unit": "hartree",
+        "descriptor_calculation": "not needed"
+      },
+      "data_scope": "full-data loader and runtime plan"
+    }
+  ],
+  "status": "pass"
+}

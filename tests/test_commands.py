@@ -11,8 +11,9 @@ def test_baseline_command_uses_explicit_split_and_training_seed_for_rngs() -> No
 
     command = build_train_command(config, root)
 
-    assert Path(command[0]).name == "chemprop"
-    assert command[1] == "train"
+    assert command[1:4] == ["-m", "molgap.training.chemprop_gap_cli", "train"]
+    assert command[command.index("--tracking-metric") + 1] == "gap_mae"
+    assert command[command.index("--min-delta") + 1] == "1e-05"
     assert "--target-columns" in command
     assert "delta_e" in command
     assert config["data"]["split"]["seed"] == 3407

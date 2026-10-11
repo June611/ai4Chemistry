@@ -1,0 +1,78 @@
+训练口径最终代码审查与服务器交接
+日期：2026-10-11
+协议：paired_split_gap_mae_v2
+范围：19个下游神经网络、1份Infomax预训练配置、3个传统基线。
+结论：本地配置与代码审查通过；GPU部署、batch256显存和正式实验待服务器验收。
+
+1. 已冻结规则
+配对(split_seed, training_seed)为(3407,3407)、(42,42)、(2026,2026)。
+下游神经网络固定单设备，全局batch256，最多100epochs，earlystop patience20。
+验证集delta_e MAE在逆变换后的原始Hartree计算；checkpoint保存严格最小值。
+earlystop仅当超过1e-5 Hartree改进才重置等待计数；mode=min。
+HOMO/LUMO辅助指标、总val_loss、物理一致性项不作为gap checkpoint替代指标。
+Infomax预训练使用对比验证loss，预算256/100/20；传统基线预算字段N/A。
+新输出根outputs/paired_gap_mae_v2；汇总拒绝混用不同协议。
+旧exp003/004、archive、egnn_test与spe_transformer_10epoch不纳入正式清单。
+
+2. 最小修改
+Chemprop采用项目内GapMAE与单位转换回调，通过薄CLI/API适配层接入。
+验证仅取最后delta_e目标，以有效gap样本数量聚合，忽略辅助任务与训练task权重。
+不修改site-packages；官方CLI的最终按列测试报告不混入validation-only gap指标。
+训练集gap标准差转换归一化验证误差，测试恢复原始Hartree；导出/重载/预测已短跑验证。
+Phase3归一化验证下的物理criterion诊断残差同样转换到Hartree，原训练损失与权重保持。
+Chemprop/序列保留MSE和train-only Z-score；QM9保留MAE和train-only mean/MAD。
+不同scaler/loss是固定方法配方，输入特征保留各模型机制；不强制所有特征做Z-score。
+
+3. 数据与预处理
+三组数据各133798样本：train107038、val13380、test13380。
+三组样本全集相同、组内样本身份互斥，划分不同；manifest和geometry哈希/顺序通过。
+沿用既有delta_e的200分位箱分层随机划分，不称为纯随机或scaffold划分。
+scaler/词表/SPE合并仅在训练集拟合；验证/测试复用，标签CSV保持Hartree。
+SMILES方法与3D方法、多任务额外标签与预训练预算必须分别披露。
+
+4. 超参数公平性
+107038样本且无drop_last时，每epoch419次更新，最后一个batch30。
+预训练最多50000个train样本，每epoch196次更新，最后一个batch80；额外预算单列。
+相同batch/epochs不等于相同FLOPs、耗时或显存；实际earlystop更新数须正式运行记录。
+Chemprop init/final4e-4、peak4e-3保持；四倍LR依据尚无本项目实验证明。
+其他模型保留各自LR/optimizer/warmup/weight_decay，不以LR数值相同定义公平。
+Infomax lr_patience25改10、threshold_mode=abs，使降LR可先于earlystop20发生。
+没有开展LR搜索；只能声称固定配方与统一评估比较，不能声称各模型最优调参。
+同encoder消融配方相同；如后续调参应统一候选数与验证预算，不使用测试集。
+
+5. 本地验收
+运行计划66/66 PASS：9次Chemprop命令/API计划，输入数据另经完整split审计；
+另外57次sequence/QM9/传统基线实际全数据加载与计划检查。
+三组Infomax预训练一epoch smoke通过，并用各自smoke权重验证下游路由。
+smoke权重仅供检查，不作为正式预训练/下游结果，也不上传或迁移作正式checkpoint。
+协议、split/geometry、loss/scaler配置清单通过；Ruff、四个shell语法、git diff检查通过。
+完整pytest：95 passed、31 warnings，运行约71秒（实际耗时以本地日志为准）。
+报告：reports/paired_seed_100epoch_protocol_audit.json、qm9_split_seed_audit.json、
+gap_mae_recipe_audit.json、gap_mae_runtime_audit.json、gap_mae_code_audit.json。
+
+6. 待服务器验收（PENDING）
+本机Torch/DGL GPU探测：CUDA不可用，不能宣称GPU环境通过。
+服务器执行bash scripts/qm9_server_preflight.sh；包含require-cuda及DGL图转GPU检查。
+基础设备探测后，仍需19模型及预训练各自batch256完整前向/反向和显存检查。
+确认服务器PyTorch/CUDA/DGL兼容；本地CPU通过不证明锁定DGL构建有GPU支持。
+逐模型按3407→42→2026正式训练；Infomax先为每组完成独立正式预训练。
+记录OOM/FAILED/PASS、实际更新、最佳checkpoint和完整原始单位预测；不能静默缩batch。
+复算逐样本test指标，报告三个配对split-seed的单组、均值与样本标准差；
+该标准差包含划分与初始化变化，不是固定划分上的纯初始化方差。
+服务器地址/GPU/显存应重新核验，历史连接文档不作为当前可用性证据。
+
+7. 大文件：仅三种方案，不实施上传
+源数据499.53MiB/86文件，本地归档162.13MiB：artifacts/qm9_data_20261011.tar.gz。
+归档SHA256：4e49cb416a4ab3bf3439bfdf603bb13b627a97a979309cb7fb98261384943061。
+归档与86源文件校验通过，清单docs/data/qm9_data_20261011.manifest.json。
+A推荐SCP/SFTP：本次单服务器迁移直接、无需另建账户；取决于上行与SSH连通。
+B已有网盘：适合作备份/分享；先确认Linux端下载、限速、有效期。
+C对象存储：适合多服务器反复使用；需账号与访问控制，有存储/请求/流量成本。
+代码经Git；数据/权重/上游checkout不入新提交，取消旧data跟踪但保留本地/.gitkeep。
+历史CSV仍存在旧commit，不重写历史或forcepush；新服务器可浅clone获取当前快照。
+
+8. 代码保存与交接
+最终TXT随代码提交；完整本地代码差异保存artifacts/changes_gap_mae_pre_commit_20261011.txt。
+按此前授权提交并push origin/main；成功后本地回执artifacts/gap_mae_commit_receipt_20261011.txt
+记录提交号与远端一致性。Git记录为最终提交事实，服务器正式实验未执行。
+TODO已区分本地代码完成和服务器/数据选择待办；无需靠聊天全文恢复任务。
