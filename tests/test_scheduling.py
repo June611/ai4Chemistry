@@ -57,6 +57,8 @@ def test_full_plan_is_63_paired_jobs_and_excludes_paused(policy):
             assert settings["seed"] == cfg["data"]["split"]["seed"] == job["seed"]
             if job["kind"] != "ml":
                 assert (settings["batch_size"], settings["epochs"]) == (256, 100)
+            else:
+                assert job["cpu_slots"] == settings["n_jobs"]
             if job["model"] == "3dinfomax":
                 assert job["depends_on"] == [f"3dinfomax_pretrain_seed{job['seed']}"]
             assert admission(job, [], hardware(), policy) is None

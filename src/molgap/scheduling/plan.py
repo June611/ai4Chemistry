@@ -141,7 +141,7 @@ def create_plan(root: Path, directory: Path, policy: dict, selected=None, seeds=
             exclusive = model in policy["exclusive_models"]
             gpu = gpu if exclusive else max(gpu * 1.2, gpu + 512) if gpu else 0
             cpu = (
-                int(cfg["model"].get("params", {}).get("n_jobs", 1))
+                int(settings.get("n_jobs", 1))
                 if kind == "ml"
                 else policy["workers_per_job"] + policy["threads_per_job"]
             )
