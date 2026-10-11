@@ -65,3 +65,12 @@ CPU测试无法暴露该问题。改用同版本1.18.0+cu12官方构建，不修
 其他非DGL/Warp包的锁定版本保持原样；两者只更换同版本CUDA构建。
 三组实际入口在服务器复核：63通过、0失败；3个Infomax下游入口因尚未正式预训练保留待验收。
 Infomax GPU通过项仅为随机初始化PNA诊断，不冒充预训练模型或正式实验结果。
+
+## 2026-10-12：部署验收收尾
+
+最终GPU锁文件已推送并同步服务器，两端SHA256均为
+10a6441a3622716c11a565516dda926dc38fe514d5f9abff341ccdcaa5d1f8aa。
+服务器uv sync --locked --extra qm9通过，重复offline dry-run无变更；
+普通uv run的Torch/DGL CUDA检查通过，uv pip check通过。
+环境激活文件及environment.json已保存，测试/数据/源码/GPU报告复制到本地artifacts以便回溯。
+部署完成；保持batch256显存、正式预训练和正式下游实验待验收。

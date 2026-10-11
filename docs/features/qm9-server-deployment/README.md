@@ -1,8 +1,9 @@
 # QM9 算力服务器部署
 
-日期：2026-10-11。状态：代码、数据、源码、基础CUDA和95项测试完成；统一GPU锁文件的服务器同步及TorchMD-Net复验进行中。
+开始日期：2026-10-11；验收日期：2026-10-12。状态：环境与数据部署完成，GPU锁文件、十模型小批量CUDA检查与95项测试已验收。
 服务器项目路径：`/root/autodl-tmp/evan/ai4Chemistry`；GPU为RTX3090/24GiB。
 最初部署提交：`dc2023bd797aeec633a9c9056b5d1c5e29363e8e`。
+GPU依赖与验证代码提交：`6d8ef62effaca6e2f9753c7765d7cd1cfaddd52f`。
 
 本功能只部署环境和数据、做必要sanity检查，不启动正式100-epoch训练。
 训练范围仅QM9，配对seed3407/42/2026；Infomax只用对应QM9训练集预训练，不用外部权重。
@@ -35,3 +36,7 @@ source artifacts/server_deployment/server-env.sh
 DGL、Warp GPU构建与CPU构建属于同一算法版本的环境兼容修复。
 batch256/100epochs/patience20、配对seed、loss/scaler、gap MAE选模均保持原协议。
 环境预检与小批量GPU sanity不能替代batch256显存或正式三组训练验收。
+
+已验证的66组入口中63组通过，3组Infomax下游等待各自QM9预训练checkpoint；没有正式实验结果。
+审查记录：[deployment-review.txt](deployment-review.txt)。服务器原始证据在
+`artifacts/server_deployment/`，本地副本在`artifacts/server_deployment_20261011/server-reports/`。

@@ -26,7 +26,12 @@ GPU：RTX3090/24GiB；驱动570.124.04。
 - 其他包锁定版本不变；模型、loss/scaler、学习率与训练口径不变。
 - 正常入口：uv sync --locked --extra qm9。无需手工反复替换、UV_NO_SYNC或另行uv add。
 
-收尾待核验：最终GPU锁文件同步到服务器、激活文件上传、服务器再次同步不回退构建。
+收尾通过：最终GPU锁文件同步到服务器、激活文件上传、服务器再次同步不回退构建。
+代码提交：6d8ef62effaca6e2f9753c7765d7cd1cfaddd52f；本地/服务器锁文件SHA256一致：
+10a6441a3622716c11a565516dda926dc38fe514d5f9abff341ccdcaa5d1f8aa。
+uv sync --locked --extra qm9通过；重复offline dry-run为Would make no changes。
+普通uv run --locked --offline入口的Torch/DGL CUDA检查通过，uv pip check通过。
+激活入口：source artifacts/server_deployment/server-env.sh。
 未验收：逐模型完整batch256显存、三组正式预训练/下游训练、最终checkpoint与测试集指标。
 下载此前受官方PyPI和世界网络速度影响；依赖和源码当前均已到达，无需用户手动下载。
 凭据不保存；原始机器日志与报告保存于项目artifacts/server_deployment。

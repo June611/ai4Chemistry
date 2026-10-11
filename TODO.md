@@ -3,10 +3,8 @@
 更新时间：2026-10-11。仅列跨功能的未完成工作；详细子任务及证据以对应功能 tasks.md 为准。
 这里不因代码可运行而标记正式实验完成；服务器状态未经本轮核验时，保留“待核验”。
 
-- [ ] 三组 paired split/training seed 的 256/100/20 配置、入口与自动口径审查已完成；本地66次运行计划和95项测试通过；待服务器
-  完成GPU依赖检查、batch256显存检查和正式产物验收。[统一协议 TODO](docs/features/paired-seed-100epoch-benchmark/tasks.md)
-- [ ] 完成算力服务器部署验收；QM9 数据已按用户选择通过 SCP 迁移并验证，Torch/DGL CUDA 基础检查通过，
-  待源码、数据与模型 sanity 验收。[服务器部署 TODO](docs/features/qm9-server-deployment/tasks.md)
+- [ ] 三组 paired split/training seed 的 256/100/20 配置与审查已完成；服务器GPU环境、QM9数据/源码、95项测试和十模型batch2检查通过。
+  待batch256显存、Infomax三组QM9预训练和正式产物验收。[统一协议 TODO](docs/features/paired-seed-100epoch-benchmark/tasks.md)
 - [ ] 冻结十模型的 controlled-adapted 超参数配置，在服务器逐模型完成三组配对训练；3D Infomax
   先按每个 split 分别运行 QM9 对比预训练。
   [十模型功能](docs/features/qm9-ten-models/tasks.md)
