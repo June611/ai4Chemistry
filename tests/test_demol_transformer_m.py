@@ -235,3 +235,40 @@ def test_dual_plan_seeds_budgets_and_formal_gate(tmp_path):
             assert cfg["training"]["batch_size"] == 256
     with pytest.raises(RuntimeError, match="smoke evidence"):
         module.validate_smoke(directory)
+    # Freeze full-epoch smoke evidence without running a GPU; verify admission
+    # and that scheduling balances independent jobs instead of pinning a model.
+    import pandas as pd
+
+    for gpu in module.MODELS:
+        run = directory / f"smoke_result_{gpu}"
+        run.mkdir()
+        (run / "model_summary.json").write_text(
+            json.dumps(
+                {
+                    "budget": {"batch_size": 256},
+                    "split_rows": {"train": 107038, "val": 13380, "test": 13380},
+                }
+            )
+        )
+        pd.DataFrame([dict(train_batches=419, epoch_seconds=100 if gpu == 0 else 10)]).to_csv(
+            run / "history.csv", index=False
+        )
+        runtime = directory / f"smoke_gpu{gpu}/runtime"
+        runtime.mkdir()
+        (runtime / "state.json").write_text(
+            json.dumps(
+                {
+                    "jobs": [{"status": "completed", "run_dir": str(run)}],
+                }
+            )
+        )
+    module.balance_formal(directory)
+    manifest = json.loads((directory / "manifest.json").read_text())
+    assert manifest["formal_balanced"] is True
+    assignments = manifest["assignment"]
+    assert len(assignments) == 6
+    assert len({a["job"] for a in assignments}) == 6
+    assert {a["gpu"] for a in assignments if a["job"].startswith("demol_")} == {0, 1}
+    before = (directory / "manifest.json").read_bytes()
+    module.balance_formal(directory)
+    assert (directory / "manifest.json").read_bytes() == before

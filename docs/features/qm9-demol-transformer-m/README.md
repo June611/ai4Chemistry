@@ -55,12 +55,12 @@ uv run --no-sync python scripts/run_qm9_dual_reproduction.py \
 uv run --no-sync python scripts/run_qm9_dual_reproduction.py \
   --directory artifacts/auto_training/qm9_demol_transformer_m_YYYYMMDD_HHMMSS --phase smoke
 
-# 只有两项烟测经工件校验通过才准入；每卡顺序训练三个seed。
+# 只有两项烟测经工件校验通过才准入；按实测epoch时间分配六个独立任务。
 uv run --no-sync python scripts/run_qm9_dual_reproduction.py \
   --directory artifacts/auto_training/qm9_demol_transformer_m_YYYYMMDD_HHMMSS --phase formal
 ```
 
-GPU0为DeMol，GPU1为Transformer-M；正式任务之间无依赖，某seed失败后继续下个seed；烟测失败则禁止启动对应未验收正式批次。通过既有持久队列记录每5秒资源、任务状态和独立日志，不依赖LLM轮询。当前首次采用每卡单任务以验证768维模型的显存余量，不预设可三seed同卡。
+烟测时GPU0为DeMol，GPU1为Transformer-M；正式启动前用实测完整epoch耗时按长任务优先分配六个独立任务到两卡，不将同一个模型固定在一张卡导致负载倾斜。实际归属和粗略ETA记录在manifest.json。正式任务之间无依赖，某seed失败后继续下个seed；烟测失败则禁止启动未验收正式批次。通过既有持久队列记录每5秒资源、任务状态和独立日志，不依赖LLM轮询。每卡最多一个任务，不预设可三seed同卡。
 
 查看`<directory>/formal_gpu0/runtime/state.json`与`formal_gpu1/runtime/state.json`、对应`runtime/*.log`。每个run的`history.csv`记录epoch、MAE、训练/epoch耗时、CUDA allocator峰值；队列资源采样记录进程显存、主机RSS/PSS和GPU状态，`training_timing.json`与`inference_timing.json`记录fit和测试吞吐。FLOPs未计数则留空，不用samples/s冒充FLOPs。
 

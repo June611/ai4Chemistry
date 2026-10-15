@@ -133,6 +133,61 @@ def validate_smoke(directory):
             raise RuntimeError("Smoke must cover the original full epoch at batch256")
 
 
+def balance_formal(directory):
+    """Assign independent seeds by measured epoch cost, longest tasks first."""
+    import pandas as pd
+
+    manifest = read_json(directory / "manifest.json")
+    if manifest.get("formal_balanced"):
+        return
+    validate_smoke(directory)
+    seconds = {}
+    for gpu, model in MODELS.items():
+        state = read_json(directory / f"smoke_gpu{gpu}/runtime/state.json")
+        run = Path(state["jobs"][0]["run_dir"])
+        seconds[model] = float(pd.read_csv(run / "history.csv").iloc[0]["epoch_seconds"])
+    plans, pending = {}, []
+    for gpu in MODELS:
+        lane = directory / f"formal_gpu{gpu}"
+        if (lane / "runtime").exists():
+            raise RuntimeError("Cannot rebalance a formal queue that has already started")
+        plan = read_json(lane / "plan.json")
+        plans[gpu] = plan
+        pending.extend(plan["jobs"])
+        plan["jobs"] = []
+    loads = {gpu: 0.0 for gpu in MODELS}
+    assignment = []
+    for index, job in enumerate(sorted(pending, key=lambda j: -seconds[j["model"]])):
+        gpu = min(loads, key=loads.get)
+        cost = seconds[job["model"]] * 100
+        loads[gpu] += cost
+        config = yaml.safe_load(Path(job["config"]).read_text())
+        lane = directory / f"formal_gpu{gpu}"
+        config["output"]["root"] = str(lane / "runs")
+        path = lane / "configs" / f"{job['id']}.yaml"
+        path.write_text(yaml.safe_dump(config, sort_keys=False))
+        job.update(
+            config=str(path),
+            config_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),
+            run_dir=str(run_directory(config, Path(plans[gpu]["root"]))),
+            commands=[[sys.executable, "-m", "molgap.qm9_models.train", "--config", str(path)]],
+            priority=cost - index * 1e-6,
+            estimated_fit_seconds=cost,
+        )
+        plans[gpu]["jobs"].append(job)
+        assignment.append(dict(job=job["id"], gpu=gpu, estimated_fit_seconds=cost))
+    for gpu, plan in plans.items():
+        write_json(directory / f"formal_gpu{gpu}/plan.json", plan)
+    manifest.update(
+        formal_balanced=True,
+        measured_epoch_seconds=seconds,
+        estimated_lane_seconds=loads,
+        assignment=assignment,
+        estimate_scope="one full smoke epoch x100; not a convergence guarantee",
+    )
+    write_json(directory / "manifest.json", manifest)
+
+
 def run_lane(directory, phase, gpu):
     from molgap.scheduling import queue
 
@@ -162,6 +217,8 @@ def main():
         prepare(root, directory)
     if args.phase == "formal":
         validate_smoke(directory)
+        if args.gpu is None:
+            balance_formal(directory)
     if args.phase and args.gpu is not None:
         raise SystemExit(run_lane(directory, args.phase, args.gpu))
     elif args.phase:

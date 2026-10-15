@@ -10,6 +10,7 @@
 - 单位：网络输出标准化gap；统一trainer逆变换到Hartree用于验证/测试。比较换算为meV，不改变训练真值单位。
 - 预算：固定256/100/20、配对三seed；新配置的loss/scaler复用现有3D基线MAD+MAE，与原论文MSE/standard区别明示。LR7e-5与clip5有来源，scheduler复用项目cosine。
 - 调度：复用既有持久队列与资源记录；每卡最多一个任务；三个正式seed无依赖边，某seed失败继续后续。正式入口检查两个batch256完整一轮烟测工件；一轮419批，不能默认降成batch8。
+- 正式任务用实测epoch耗时按长任务优先分配两卡；测试验证任务恰好六个、无重复、增强负载均衡、已启动的队列不重写，重复调用保留冻结分配。
 - 内存：activation checkpointing的输出与梯度对照通过；不预设GPU显存已通过。DeMol dense mask不声称实现论文的稀疏复杂度。
 - 版本与交付：仅本功能必要代码、配置、测试及文档进入提交；outputs/data/artifacts/.external权重与大文件被忽略。服务器独立目录保留旧工作区。
 

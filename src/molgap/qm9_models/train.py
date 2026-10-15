@@ -111,7 +111,7 @@ def run(
     if smoke:
         config["experiment"]["name"] += "_smoke"
         training["epochs"] = 1
-        training["num_workers"] = 0
+        training["num_workers"] = config.get("smoke", {}).get("num_workers", 0)
         training["batch_size"] = min(
             config.get("smoke", {}).get("batch_size", 8), training["batch_size"]
         )

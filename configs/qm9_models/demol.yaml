@@ -69,6 +69,7 @@ provenance:
   external_pretraining: false
   setting: QM9 scratch; fixed project protocol; not original paper data/step budget
 smoke:
+  num_workers: 2
   batch_size: 256
   train_rows: 107038
   eval_rows: 13380
