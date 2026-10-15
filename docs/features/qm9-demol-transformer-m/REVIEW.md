@@ -21,4 +21,6 @@
   tests/test_paused_qm9_models.py tests/test_scheduling.py
 ```
 
-结果：36 passed。新增及修改的非vendor源码ruff检查通过；git diff --check通过。GPU完整数据烟测和三组正式训练不能由这些CPU测试替代，仍需另验收。
+结果：37 passed。新增及修改的非vendor源码ruff检查通过；git diff --check通过。GPU完整数据烟测和三组正式训练不能由这些CPU测试替代，仍需另验收。
+
+边界回归：官方QM9 encoder用全零坐标作为缺失3D信号，会使位于原点的单重原子在独立/混合batch下产生不同输出。新增测试先复现失败，再去除该sentinel（本项目几何已验证始终存在），修复后37项通过。DeMol源码、训练入口、数据和配置均未随此修复改变；其已通过的GPU烟测可复用，Transformer-M必须重做GPU烟测。

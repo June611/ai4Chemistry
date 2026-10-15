@@ -151,6 +151,28 @@ def test_protocol_recipes_and_no_external_pretraining():
         assert cfg["smoke"]["train_rows"] == 107038
 
 
+def test_transformer_m_single_heavy_atom_at_origin_keeps_3d_channel():
+    from molgap.qm9_models.transformer_m import TransformerMAdapter
+
+    torch.set_num_threads(2)
+    torch.manual_seed(3)
+    m = deepcopy(molecules()[0])
+    m.atomic_numbers = m.atomic_numbers[:1]
+    m.positions = torch.zeros(1, 3)
+    m.node_features = m.node_features[:1]
+    m.bonds = torch.empty(0, 2).long()
+    m.bond_features = torch.empty(0, 3).long()
+    m.spatial = torch.zeros(1, 1).long()
+    other = deepcopy(m)
+    other.positions = torch.ones(1, 3)
+    model = TransformerMAdapter(parameters("transformer_m")).eval()
+    with torch.no_grad():
+        model.encoder.molecule_3d_bias.edge_proj.bias.copy_(torch.linspace(-10, 10, 32))
+        alone = model(collate_molecules([m]))
+        together = model(collate_molecules([m, other]))
+        torch.testing.assert_close(alone, together[:1], atol=1e-6, rtol=1e-6)
+
+
 def test_topology_cache_identity_mismatch_is_rejected(tmp_path):
     from molgap.qm9_models.topology import TopologyDataset
 
@@ -258,7 +280,14 @@ def test_dual_plan_seeds_budgets_and_formal_gate(tmp_path):
         (runtime / "state.json").write_text(
             json.dumps(
                 {
-                    "jobs": [{"status": "completed", "run_dir": str(run)}],
+                    "jobs": [
+                        {
+                            "status": "completed",
+                            "run_dir": str(run),
+                            "model": module.MODELS[gpu],
+                            "seed": 3407,
+                        }
+                    ],
                 }
             )
         )

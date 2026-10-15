@@ -112,12 +112,23 @@ def prepare(root, directory):
     )
 
 
+def smoke_lane(directory, gpu):
+    manifest = read_json(directory / "manifest.json")
+    overrides = manifest.get("validated_smoke_sources", {})
+    return Path(overrides.get(str(gpu), directory / f"smoke_gpu{gpu}"))
+
+
 def validate_smoke(directory):
     for gpu in MODELS:
-        lane = directory / f"smoke_gpu{gpu}"
+        lane = smoke_lane(directory, gpu)
         state = read_json(lane / "runtime/state.json")
         jobs = state.get("jobs", [])
-        if len(jobs) != 1 or jobs[0]["status"] != "completed":
+        if (
+            len(jobs) != 1
+            or jobs[0]["status"] != "completed"
+            or jobs[0]["model"] != MODELS[gpu]
+            or jobs[0]["seed"] != 3407
+        ):
             raise RuntimeError(f"GPU {gpu}: successful smoke evidence is required")
         run = Path(jobs[0]["run_dir"])
         plan = read_json(run / "model_summary.json")
@@ -143,7 +154,7 @@ def balance_formal(directory):
     validate_smoke(directory)
     seconds = {}
     for gpu, model in MODELS.items():
-        state = read_json(directory / f"smoke_gpu{gpu}/runtime/state.json")
+        state = read_json(smoke_lane(directory, gpu) / "runtime/state.json")
         run = Path(state["jobs"][0]["run_dir"])
         seconds[model] = float(pd.read_csv(run / "history.csv").iloc[0]["epoch_seconds"])
     plans, pending = {}, []

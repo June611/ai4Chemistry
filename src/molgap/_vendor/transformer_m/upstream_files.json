@@ -17,6 +17,6 @@
   },
   "transformer_m_encoder.py": {
     "upstream_sha256": "9f4aa385dd1066155025c209c9fe57406fab2f0c6caa757d311a840429f79608",
-    "adapted_sha256": "b6b1d80d2c19759e9b1616756716c1220c54403fef80fcb01ebc0a983119ad81"
+    "adapted_sha256": "a176cb97f87c6d580950d4a3e8b3126bf7cc4e472bb46f0b9510b2eab2d5c427"
   }
 }

@@ -2,6 +2,8 @@
 
 目标：把两个方法接入项目既有固定划分、单任务gap训练和资源记录流程；仅QM9，从零训练，不下载外部预训练权重。数据/输出/权重不进Git。
 
+服务器共享原环境时，先在新项目根目录执行 `export PYTHONPATH="$PWD/src"`，确保解释器加载本次代码。
+
 ## 来源与复现范围
 
 | 模型 | 代码/结构来源 | 本次范围 |
@@ -68,4 +70,4 @@ uv run --no-sync python scripts/run_qm9_dual_reproduction.py \
 
 ## 验收状态
 
-实现通过36项针对性集成/回归检查，包含两个模型反向传播、旋转/平移/原子置换、padding、单样本与batch独立性、checkpoint往返、activation checkpointing梯度、官方collator数值对照、三seed调度/烟测门禁及原QM9适配器/调度行为。lint通过；完整数据缓存、GPU烟测与正式训练状态见[TODO.md](TODO.md)。未完成训练不能在论文或正式比较表中填造成绩。
+实现通过37项针对性集成/回归检查，包含两个模型反向传播、旋转/平移/原子置换、padding、单样本与batch独立性、checkpoint往返、activation checkpointing梯度、官方collator数值对照、三seed调度/烟测门禁及原QM9适配器/调度行为。lint通过；完整数据缓存、GPU烟测与正式训练状态见[TODO.md](TODO.md)。未完成训练不能在论文或正式比较表中填造成绩。
