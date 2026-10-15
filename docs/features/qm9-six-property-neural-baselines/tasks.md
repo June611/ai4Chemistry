@@ -10,3 +10,7 @@
 
 功能提交 fb883517f2a30604d1e4e8d24449ec8bef0579d0 已推送至 GitHub origin/main，正常快进 5a3857d→fb88351。
 该快进也同步了当前 main 已存在的五条本地提交；未改写远端历史。15 份其他历史 tracked 修改及 README 既有内容已逐项确认保留。
+
+三组跨机扩展：独立 groups/*.yaml 和四个 Bash 入口已完成；真实展开 54/72/54 个下游任务，无重复。
+20 项新增测试及 32 项旧流程回归通过。结果可在来源机器 verify 后复制并合并至本地，合并后可填写原 LaTeX。
+执行及审查见 grouped_queues.md、group_queue_review.md；本次没有启动正式训练。

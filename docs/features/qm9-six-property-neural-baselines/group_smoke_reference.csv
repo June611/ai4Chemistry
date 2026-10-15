@@ -1,0 +1,11 @@
+group,model,smoke_fit_seconds,scope,reference_cost_seconds
+high,dimenet_pp,195.16,fit_seconds,19516
+high,3dinfomax,139.91,fit_seconds,13991
+high,torchmd_net,137.55,fit_seconds,13755
+medium,esa,100.57,fit_seconds,10057
+medium,painn,45.69,fit_seconds,4569
+medium,egnn,86.43,fit_seconds,8643
+medium,schnet,45.63,fit_seconds,4563
+low,chemprop_single_gap,41.6,fit_pipeline_seconds,4160
+low,smiles_transformer,20.58,fit_seconds,2058
+low,spe_transformer,24.19,fit_seconds,2419

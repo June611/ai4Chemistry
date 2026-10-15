@@ -1,0 +1,48 @@
+{
+  "groups": {
+    "high": {
+      "downstream_jobs": 54,
+      "pretraining_jobs": 0,
+      "gpus": [
+        0,
+        1
+      ],
+      "source_group_sha256": "04ac751b1ce5a46b20d5328ef42601b65756670168f9a948e8af6ae0ae5b5fc6",
+      "scheduling_weights_per_lane": [
+        428299,
+        422417
+      ],
+      "formal_training_started": false
+    },
+    "medium": {
+      "downstream_jobs": 72,
+      "pretraining_jobs": 0,
+      "gpus": [
+        0
+      ],
+      "source_group_sha256": "a5538b7b70491003a8efbdb29ae87c3f7d128313e2ee830621792132864dd9c6",
+      "scheduling_weights_per_lane": [
+        500976
+      ],
+      "formal_training_started": false
+    },
+    "low": {
+      "downstream_jobs": 54,
+      "pretraining_jobs": 0,
+      "gpus": [
+        0
+      ],
+      "source_group_sha256": "191bc152a1e7084902cd0c04064be42cf012452ad8b82f7fd6b80572024866ad",
+      "scheduling_weights_per_lane": [
+        155466
+      ],
+      "formal_training_started": false
+    }
+  },
+  "unique_downstream_jobs": 180,
+  "duplicates": 0,
+  "formal_training_started": false,
+  "protocol": "paired_split_qm9_neural_single_property_v1",
+  "checks": "All generated YAML hashes, target units, paired seeds, standard scaling, 256/100/20 and no run directories",
+  "all_180_patience_values_checked": 20
+}

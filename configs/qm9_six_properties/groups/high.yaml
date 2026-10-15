@@ -1,0 +1,67 @@
+# Editable group tasks; generate a fresh batch after editing.
+protocol_id: paired_split_qm9_neural_single_property_v1
+data_root: data/processed/qm9_single_properties_v1
+seeds:
+- 42
+- 2026
+- 3407
+targets:
+- homo
+- lumo
+- alpha
+- mu
+- r2
+- zpve
+defaults:
+  batch_size: 256
+  epochs: 100
+  patience: 20
+  min_delta: 0.0
+resources:
+  threads_per_job: 2
+  workers_per_job: 2
+  cpu_reserve: 3
+  ram_reserve_mib: 8192
+  disk_reserve_gib: 6
+  sample_seconds: 5
+models:
+  dimenet_pp:
+    config: configs/qm9_six_properties/models/dimenet_pp.yaml
+    inference_uses_3d: true
+    pretraining_uses_3d: false
+    estimated_seconds: 19516
+    gpu_mib: 23772
+    ram_mib: 8372
+    smoke_fit_seconds: 195.16
+    smoke_fit_scope: fit_seconds
+  3dinfomax:
+    config: configs/qm9_six_properties/models/3dinfomax.yaml
+    inference_uses_3d: false
+    pretraining_uses_3d: true
+    estimated_seconds: 13991
+    gpu_mib: 2554
+    ram_mib: 8273
+    smoke_fit_seconds: 139.91
+    smoke_fit_scope: fit_seconds
+  torchmd_net:
+    config: configs/qm9_six_properties/models/torchmd_net.yaml
+    inference_uses_3d: true
+    pretraining_uses_3d: false
+    estimated_seconds: 13755
+    gpu_mib: 20844
+    ram_mib: 8192
+    smoke_fit_seconds: 137.55
+    smoke_fit_scope: fit_seconds
+pretraining:
+  config: configs/qm9_models/3dinfomax_pretrain.yaml
+  checkpoints:
+    42: auto
+    2026: auto
+    3407: auto
+queue_group: high
+scheduling_reference:
+  source_csv: docs/features/qm9-one-epoch-smoke/verification/resources_complete.csv
+  sha256: e00348b482a8fe128e9d5dfe0d4b48651c3a4024d6f7500f9d64d690c6b603c4
+  gpu: RTX 3090
+  purpose: queue priority and lane balancing, not an ETA guarantee
+  cost_rule: ceil(smoke fit_seconds * 100); Chemprop includes CLI startup/featurization
