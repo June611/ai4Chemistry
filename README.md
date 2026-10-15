@@ -167,51 +167,172 @@ uv run python -c "import torch; print(torch.__version__, torch.version.cuda, tor
 uv sync --group analysis
 ```
 
-## 数据预处理
+## 数据准备与还原
 
-原始数据保持只读：
+以下命令均在仓库根目录执行，使用同一代码版本及锁定环境（`uv sync --locked`）。
+训练数据不随 Git 克隆；主 CSV 由项目提供者单独发送，三维结构从下述公开地址下载。
+已有准备好的数据时先校验再复用，避免覆盖正在使用的划分。
 
-- `data/raw/qm9_chn.csv`：完整数据集，配置为 `configs/data/qm9_full.yaml`
-- `data/raw/QM9_CN.csv`：完整数据集的 CN 子集，配置为 `configs/data/qm9_cn_subset.yaml`
+### 1. 接收原始 CSV
 
-两个数据源必须独立处理，不能拼接。生成完整数据集的确定性随机划分：
+向项目提供者获取 **`qm9_chn.csv` 完整文件**，保留文件内容和列名，放到
+`data/raw/qm9_chn.csv`。这里不使用其他来源的同名 CSV 替代。
 
 ```bash
-uv run molgap-prepare --config configs/data/qm9_full.yaml
+mkdir -p data/raw
+# 将 /path/to 替换为实际收到文件的目录
+cp /path/to/qm9_chn.csv data/raw/qm9_chn.csv
+
+sha256sum --check <<'EOF'
+00ebabed6fcb0008c81ba627c221c9bb7a713aae4c85201c5405fe2ef499e46b  data/raw/qm9_chn.csv
+EOF
 ```
 
-项目现有三个独立的数据划分 seed：`3407`、`42`、`2026`。后两套可用以下命令重建：
+应显示 `OK`。该文件含 133885 条原始记录；除 SMILES、`mol_id` 外，还包含
+`homo,lumo,delta_E,alpha,mu,r2,zpve` 等原始性质列。完整数据配置位于
+[`configs/data/qm9_full.yaml`](configs/data/qm9_full.yaml)。历史 CN 子集
+`data/raw/QM9_CN.csv` 使用独立配置 `configs/data/qm9_cn_subset.yaml`；当前完整 QM9
+实验不需要该子集，不能将两个 CSV 拼接。
+
+### 2. 预处理并生成三个固定划分
 
 ```bash
-uv run molgap-prepare --config configs/data/qm9_full_seed42.yaml
-uv run molgap-prepare --config configs/data/qm9_full_seed2026.yaml
+uv run --locked molgap-prepare --config configs/data/qm9_full.yaml
+uv run --locked molgap-prepare --config configs/data/qm9_full_seed42.yaml
+uv run --locked molgap-prepare --config configs/data/qm9_full_seed2026.yaml
 ```
 
-产物分别位于 `data/processed/qm9_full/random/seed<split_seed>/`。其中 `train.csv`、`val.csv`、
-`test.csv` 的列为 `sample_id,smiles,homo,lumo,delta_e`。Phase 1 通过
-`--target-columns delta_e` 只读取 gap；Phase 2/3 使用全部三个标签。目录同时保存重复记录、
-拒绝记录、逐字段变更、处理日志、目标统计、完整 lineage 和 SHA-256。
+入口为 [`src/molgap/data/preprocess.py`](src/molgap/data/preprocess.py)，SMILES 与重复记录
+处理见 [`dataset.py`](src/molgap/data/dataset.py)，划分实现见
+[`split.py`](src/molgap/data/split.py)。处理包括 SMILES 规范化并保留立体信息、标签合法性检查，
+以及同一规范 SMILES 的重复标签聚合：在 `1.1e-4` Hartree 容差内取均值，超出容差则停止并
+记录待确认项。当前完整数据从 133885 条记录聚合为 **133798 个唯一样本**，同一分子不会
+跨 train/val/test。
 
-默认 random 配置并非纯随机置乱：它先按 `delta_e` 建立 200 个分位数箱，再在箱内执行
-确定性分层抽样，从而保持 train/val/test 的标签分布近似一致。实际箱数及每行箱号记录在
-`split_manifest.csv`。需要 scaffold 划分时复制数据配置，设置
-`split.method: scaffold_balanced` 并删除 `split.stratify`；骨架隔离和标签分层不能同时严格保证。
+三个 split seed 为 **3407、42、2026**，比例均为 **80% / 10% / 10%**，对应
+**107038 / 13380 / 13380** 个样本。配置中的 `random` 实际先按 `delta_e` 建立
+200 个分位数箱，再在箱内进行确定性分层抽样；不是直接随机置乱。三组使用同一批分子，
+但集合归属不同；正式实验中模型初始化 seed 与 split seed 配对。
 
-重新检查任意处理目录的分布并生成三条同图 KDE 曲线：
+产物位于 `data/processed/qm9_full/random/seed<seed>/`：
+
+- `train.csv`、`val.csv`、`test.csv`：列为 `sample_id,smiles,homo,lumo,delta_e`。
+- `split_manifest.csv`：保存集合归属、行序、seed 和分层箱信息。
+- `dataset.csv` 及其他审计文件：保存原始分子 ID 对应关系、重复记录、处理日志与校验信息。
+
+用当前 WSL 的三个 manifest 校验是否还原了同一划分；任一项失败时先检查 CSV、代码版本和
+环境，不继续训练或重新选择 seed：
 
 ```bash
-uv run molgap-audit-splits \
+sha256sum --check <<'EOF'
+c23bfbb887e8fb7014353cea2154a623444defe3b356cee60350079b221ccd43  data/processed/qm9_full/random/seed3407/split_manifest.csv
+cd291da6fcde7055870b30aa31a30f281ec92792881b57ebbee83c92ffcaf6cf  data/processed/qm9_full/random/seed42/split_manifest.csv
+814583d9523c67427e3725cb7d991c8d47cd3a4f9280eaa39e7df1b598218c3c  data/processed/qm9_full/random/seed2026/split_manifest.csv
+EOF
+```
+
+### 3. 补齐六项单任务性质
+
+原 gap / 三任务训练直接使用上一步目录。训练新增的 HOMO、LUMO、极化率 alpha、偶极矩 mu、
+电子空间范围 r2、零点振动能 zpve 时，在三个原划分均准备完成后执行一次：
+
+```bash
+uv run --locked python scripts/run_qm9_properties.py data
+```
+
+该入口调用 [`src/molgap/data/qm9_properties.py`](src/molgap/data/qm9_properties.py)，
+按原始 ID 关联性质、复用已有重复样本分组的等权均值，保留三个划分的样本归属、行序及原能量标签。
+输出为 `data/processed/qm9_single_properties_v1/random/seed<seed>/{train,val,test}.csv`，
+根目录的 `data_identity.json` 记录来源、单位和文件哈希。已存在扩展目录时直接复用，生成命令
+会拒绝覆盖；不会为每个性质重新划分数据。
+
+磁盘 CSV 始终保存原物理量，**数据准备阶段不做标签 Z-score**。单位为：HOMO/LUMO/gap/ZPVE
+使用 Hartree，alpha 使用 bohr³，mu 使用 Debye，电子空间范围 r2 使用 bohr²。六性质神经网络
+在训练时仅用 train 拟合 Z-score，并逆变换后计算原单位误差；传统机器学习保留未缩放标签。
+输入编码及特征缩放遵循各模型配置，SMILES token、原子类别不做连续特征 Z-score。
+
+### 4. 下载并准备三维结构
+
+仅运行 Chemprop、SMILES Transformer、SPE Transformer 时可跳过本步。需要 geometry 的
+QM9 模型使用 **官方优化后的三维坐标**，不从 SMILES 随机生成构象。
+原始 extended-XYZ 下载地址为
+[QM9 `dsgdb9nsd.xyz.tar.bz2`](https://s3-eu-west-1.amazonaws.com/pstorage-npg-968563215/3195389/dsgdb9nsd.xyz.tar.bz2)，
+来源说明见 [QM9 原始论文](https://www.nature.com/articles/sdata201422)。
+
+```bash
+uv sync --locked --extra qm9
+uv run --locked python scripts/download_qm9_xyz.py --output-dir data/raw/qm9_xyz
+
+uv run --locked python -m molgap.qm9_models.prepare \
+  --config configs/qm9_models/egnn.yaml \
+  --xyz-dir data/raw/qm9_xyz \
+  --output data/geometry/qm9_full_seed3407.npz
+
+for split_seed in 42 2026; do
+  uv run --locked python scripts/reindex_qm9_geometry.py \
+    --source data/geometry/qm9_full_seed3407.npz \
+    --processed-dir "data/processed/qm9_full/random/seed${split_seed}" \
+    --output "data/geometry/qm9_full_seed${split_seed}.npz"
+done
+```
+
+[`download_qm9_xyz.py`](scripts/download_qm9_xyz.py) 自动下载压缩包到
+`data/raw/dsgdb9nsd.xyz.tar.bz2`，校验 SHA-256
+`3a63848ac80691bdb8d41834b575afad345b9300d7a2db0c38adb7f6eaa8360c`，并解压 133885 个
+XYZ 文件到 `data/raw/qm9_xyz/`。网络慢时可手动下载到同一压缩包路径，再执行该命令。
+
+[`prepare.py`](src/molgap/qm9_models/prepare.py) 通过原始分子 ID、原子组成与标签对应关系
+匹配保留样本，按 train → val → test 的行序生成 NPZ；
+[`reindex_qm9_geometry.py`](scripts/reindex_qm9_geometry.py) 对另外两套划分只重排同一份结构。
+最终每个 seed 对应 `data/geometry/qm9_full_seed<seed>.npz` 和同名 `.json`，坐标单位为 Å，
+包含样本 ID、原子序数、坐标与分子偏移量。六性质扩展继续复用这三份几何文件。
+生成脚本拒绝覆盖现有几何文件；如直接收到准备好的文件，NPZ 和配套 JSON 必须一起复制。
+
+DeMol / Transformer-M 还需要 `data/topology/qm9_full.npz` 和配套 JSON，以及生成它所用的
+SDF；其额外准备步骤见[两模型数据输入与缓存说明](docs/features/qm9-demol-transformer-m/README.md#数据输入与一次性缓存)。
+
+### 5. 还原后检查
+
+在三份几何均准备完成后执行，不会启动训练：
+
+```bash
+uv run --locked python scripts/audit_qm9_split_seeds.py \
+  --seeds 3407 42 2026 \
+  --output reports/qm9_split_seed_audit.json
+```
+
+应得到 `status: pass`。该检查核对三个划分的样本数、集合互斥、行序、有限标签、几何哈希及
+原子/坐标对应关系，并验证三套划分具有相同分子全集和相同三维结构。审计 JSON 中的时间戳和
+机器绝对路径可能不同，不应据此判断训练数据不同。
+
+如需绘制任一划分的分布图：
+
+```bash
+uv run --locked molgap-audit-splits \
   --processed-dir data/processed/qm9_full/random/seed3407 \
   --output-dir reports/split_distribution/qm9_full/manual_audit \
   --dataset-name qm9_full \
   --stage manual_audit
 ```
 
-完整集和 CN 子集的修改前后统计与图片位于 `reports/split_distribution/`。
+准备完成后的主要训练数据目录为：
+
+```text
+data/
+├── raw/qm9_chn.csv                              # 单独收到的原始表
+├── raw/dsgdb9nsd.xyz.tar.bz2                     # 下载的官方结构压缩包
+├── raw/qm9_xyz/                                 # 解压后的原始 XYZ
+├── processed/qm9_full/random/seed<seed>/         # 原 gap / 三任务数据与 manifest
+├── processed/qm9_single_properties_v1/          # 六性质数据及身份记录
+│   └── random/seed<seed>/
+└── geometry/qm9_full_seed<seed>.{npz,json}       # 与各划分行序对应的几何
+```
+
+其中 `<seed>` 分别为 3407、42、2026。后续训练直接读取这些文件；更换机器不重新抽取划分。
 
 ## 快速开始
 
-准备数据并检查三个阶段的训练计划：
+准备数据并检查三个阶段的训练计划（已完成上节数据准备时跳过第一条命令）：
 
 ```bash
 uv run molgap-prepare --config configs/data/qm9_full.yaml
