@@ -1,1 +1,1 @@
-/home/june/deepLear_zone/Chem_proj/chempro/outputs/summaries/qm9_demol_transformer_m_launch_20261015_165545_UTC8
+outputs/summaries/qm9_demol_transformer_m_launch_20261015_165545_UTC8
