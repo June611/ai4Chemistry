@@ -17,13 +17,19 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 from molgap.config import find_project_root, run_directory
+from molgap.data.neural_properties import (
+    is_property_run,
+    scaler_record,
+    validate_property_target,
+    write_scaler,
+)
 from molgap.metrics.regression import regression_metrics
 from molgap.qm9_models.batch import collate_molecules
 from molgap.qm9_models.data import load_data
 from molgap.qm9_models.factory import build_model
 from molgap.qm9_models.policy import require_enabled
 from molgap.tracking.inference import measure_prediction
-from molgap.utils.files import write_run_metadata
+from molgap.utils.files import sha256, write_run_metadata
 
 
 def move(batch, device):
@@ -41,6 +47,9 @@ def _validate_infomax_checkpoint(config: dict, root: Path, identity: dict, geome
         checkpoint_path = root / checkpoint_path
     if not checkpoint_path.is_file():
         raise FileNotFoundError(f"3D Infomax checkpoint does not exist: {checkpoint_path}")
+    expected_hash = config["model"]["params"].get("pretrain_checkpoint_sha256")
+    if expected_hash and sha256(checkpoint_path) != expected_hash:
+        raise ValueError("3D Infomax checkpoint content changed after task preparation")
     checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
     expected_manifest = identity["manifest"]["sha256"]
     if checkpoint.get("split_manifest_sha256") != expected_manifest:
@@ -69,11 +78,17 @@ def run(
     config = yaml.safe_load(config_path.read_text())
     config = copy.deepcopy(config)
     training = config["training"]
+    property_run = is_property_run(config)
+    target, unit = validate_property_target(config) if property_run else ("delta_e", "hartree")
+    if property_run and (training["target_scaling"] != "standard" or training["loss"] != "mse"):
+        raise ValueError("Neural property experiments require standard target scaling and MSE")
     if not dry_run:
         require_enabled(config["model"]["name"], root)
     if training["early_stopping"].get("monitor") != "val_mae":
         raise ValueError("QM9 downstream selection must monitor raw Hartree gap val_mae")
     if split_seed_override is not None:
+        if property_run:
+            raise ValueError("Use the frozen per-seed property config, not --split-seed")
         split_seed = int(split_seed_override)
         reference = (
             "configs/baseline.yaml"
@@ -99,7 +114,8 @@ def run(
             "The paired protocol requires training seed to equal split seed "
             f"(training={seed}, split={split_seed})."
         )
-    config["experiment"]["protocol_id"] = "paired_split_gap_mae_v2"
+    if not property_run:
+        config["experiment"]["protocol_id"] = "paired_split_gap_mae_v2"
     config["experiment"]["model_id"] = config["model"]["name"]
     training["run_mode"] = "paired_split_seed"
     training["split_seed"] = split_seed
@@ -143,9 +159,9 @@ def run(
         },
         "smoke": smoke,
         "selection": {
-            "target": "delta_e",
+            "target": target,
             "metric": "mae",
-            "unit": "hartree",
+            "unit": unit,
             "mode": "min",
             "monitor": "val_mae",
             "patience": training["early_stopping"]["patience"],
@@ -157,6 +173,11 @@ def run(
         "geometry_sha256": geometry["geometry_sha256"],
         "topology_sha256": geometry.get("topology_sha256"),
     }
+    if config["model"]["name"] == "3dinfomax":
+        pretrain_path = Path(config["model"]["params"]["pretrain_checkpoint"])
+        plan["pretrain_checkpoint_sha256"] = sha256(
+            pretrain_path if pretrain_path.is_absolute() else root / pretrain_path
+        )
     if dry_run:
         print(json.dumps(plan, indent=2))
         return plan
@@ -188,7 +209,7 @@ def run(
     target_scaling = training["target_scaling"]
     if target_scaling not in {"mad", "standard"}:
         raise ValueError("training.target_scaling must be 'mad' or 'standard'")
-    targets = frames["train"].delta_e.to_numpy()
+    targets = frames["train"][target].to_numpy()
     mean = float(targets.mean())
     scale = float(np.abs(targets - mean).mean() if target_scaling == "mad" else targets.std(ddof=0))
     if not np.isfinite(scale) or scale <= 0:
@@ -196,13 +217,17 @@ def run(
     target_scaler = {
         "method": target_scaling,
         "fit_split": "train",
-        "target": "delta_e",
-        "unit": "hartree",
+        "target": target,
+        "unit": unit,
         "mean_hartree": mean,
         "scale_hartree": scale,
         "train_rows": len(targets),
     }
-    (run_dir / "target_scaler.json").write_text(json.dumps(target_scaler, indent=2) + "\n")
+    if property_run:
+        target_scaler = scaler_record(targets, target, unit)
+        write_scaler(run_dir, target_scaler, "native_graph_encoding_and_geometry")
+    else:
+        (run_dir / "target_scaler.json").write_text(json.dumps(target_scaler, indent=2) + "\n")
     optimizer_class = {"adam": torch.optim.Adam, "adamw": torch.optim.AdamW}[training["optimizer"]]
     optimizer = optimizer_class(
         model.parameters(), lr=training["lr"], weight_decay=training["weight_decay"]
@@ -266,7 +291,7 @@ def run(
                 predictions.extend((model(move(raw, device)) * scale + mean).cpu().tolist())
         if len(predictions) != len(frames["val"]) or not np.isfinite(predictions).all():
             raise ValueError("Validation predictions are missing or nonfinite")
-        val_mae = regression_metrics(frames["val"].delta_e, predictions)["mae"]
+        val_mae = regression_metrics(frames["val"][target], predictions)["mae"]
         if val_mae < best:
             best = val_mae
             torch.save(
@@ -307,7 +332,8 @@ def run(
         )
         pd.DataFrame(history).to_csv(run_dir / "history.csv", index=False)
         print(
-            f"Epoch {epoch + 1}: val_gap_mae={val_mae:.8g} Hartree "
+            f"Epoch {epoch + 1}: val_{target if property_run else 'gap'}_mae={val_mae:.8g} "
+            f"{unit if property_run else 'Hartree'} "
             f"train_seconds={train_seconds:.1f}",
             flush=True,
         )
@@ -327,15 +353,15 @@ def run(
             predictions.extend((model(move(raw, device)) * scale + mean).cpu().tolist())
     if not np.isfinite(predictions).all():
         raise ValueError("Nonfinite test predictions")
-    result = frames["test"][["sample_id", "smiles", "delta_e"]].copy()
-    result["delta_e_pred"] = predictions
+    result = frames["test"][["sample_id", "smiles", target]].copy()
+    result[f"{target}_pred"] = predictions
     (run_dir / "predictions").mkdir()
     result.to_csv(run_dir / "predictions/test_predictions.csv", index=False)
     metrics = {
-        "target": "delta_e",
-        "unit": "hartree",
+        "target": target,
+        "unit": unit,
         "smoke": smoke,
-        **regression_metrics(result.delta_e, predictions),
+        **regression_metrics(result[target], predictions),
         "best_validation_mae": best,
     }
     (run_dir / "metrics.json").write_text(json.dumps(metrics, indent=2) + "\n")

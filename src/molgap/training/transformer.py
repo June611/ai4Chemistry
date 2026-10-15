@@ -21,6 +21,7 @@ from torch.utils.data import DataLoader
 from torchmetrics.regression import MeanAbsoluteError, R2Score
 
 from molgap.config import run_directory
+from molgap.data.neural_properties import is_property_run, write_scaler
 from molgap.metrics.regression import regression_metrics
 from molgap.tracking.inference import measure_prediction
 from molgap.transformer.config import load_transformer_config
@@ -34,7 +35,7 @@ from molgap.utils.files import write_run_metadata
 
 
 class TransformerLightningModule(pl.LightningModule):
-    """Optimize normalized MSE while logging MAE/R² in physical Hartree units."""
+    """Optimize normalized MSE while logging MAE/R² in physical target units."""
 
     def __init__(
         self,
@@ -55,7 +56,7 @@ class TransformerLightningModule(pl.LightningModule):
         self.test_r2 = R2Score()
 
     def forward(self, input_ids: torch.Tensor, attention_mask: torch.Tensor) -> torch.Tensor:
-        """Return predictions in Hartree."""
+        """Return predictions in the target's original physical unit."""
         normalized = self.model(input_ids, attention_mask)
         return normalized * self.target_scale + self.target_mean
 
@@ -160,9 +161,9 @@ def _plan(
     return {
         "experiment": config["experiment"]["name"],
         "selection": {
-            "target": "delta_e",
+            "target": config["data"]["target_column"],
             "metric": "mae",
-            "unit": "hartree",
+            "unit": config["data"]["label_unit"],
             "mode": "min",
             "monitor": "val_mae",
             "patience": config["training"]["early_stopping_patience"],
@@ -171,7 +172,7 @@ def _plan(
         "pipeline": (
             f"canonical SMILES -> {config['tokenizer'].get('type', 'regex')} tokenizer "
             "-> Transformer encoder "
-            "-> regression head -> delta_e"
+            f"-> regression head -> {config['data']['target_column']}"
         ),
         "verified_same_split_as_chemprop": prepared.split_identity[
             "verified_same_split_as_chemprop"
@@ -189,7 +190,7 @@ def _plan(
             for name, details in prepared.tokenizer_report["splits"].items()
         },
         "trainable_parameters": parameters,
-        "target": {"column": "delta_e", "unit": "hartree"},
+        "target": {"column": config["data"]["target_column"], "unit": config["data"]["label_unit"]},
         "metrics": config["evaluation"]["metrics"],
         "training": config["training"],
         "run_dir": str(run_directory(config, root)),
@@ -219,6 +220,8 @@ def train_transformer(
     run_dir.mkdir(parents=True)
     write_run_metadata(run_dir, config, config_path, root)
     write_data_artifacts(prepared, run_dir)
+    if is_property_run(config):
+        write_scaler(run_dir, prepared.tokenizer_report["target_scaler"], "token_ids_no_zscore")
     with (run_dir / "model_summary.json").open("w", encoding="utf-8") as handle:
         json.dump({**plan, "model": config["model"]}, handle, indent=2, ensure_ascii=False)
         handle.write("\n")
@@ -292,9 +295,11 @@ def train_transformer(
             "scale_hartree": prepared.target_scale,
         },
         "target_column": config["data"]["target_column"],
-        "label_unit": "hartree",
+        "label_unit": config["data"]["label_unit"],
         "split_manifest_sha256": prepared.split_identity["manifest"]["sha256"],
     }
+    if is_property_run(config):
+        portable["target_scaler"] = prepared.tokenizer_report["target_scaler"]
     torch.save(portable, run_dir / "model.pt")
 
     target = config["data"]["target_column"]
@@ -310,7 +315,7 @@ def train_transformer(
     computed = regression_metrics(prediction_frame[target], predictions)
     metrics = {
         "target": target,
-        "unit": "hartree",
+        "unit": config["data"]["label_unit"],
         "n": computed["n"],
         "mae": computed["mae"],
         "mse": computed["mse"],

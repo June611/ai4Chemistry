@@ -7,6 +7,8 @@ from typing import Any
 
 import yaml
 
+from molgap.data.neural_properties import is_property_run, validate_property_target
+
 
 class ConfigError(ValueError):
     """Raised when an experiment configuration is incomplete or inconsistent."""
@@ -69,9 +71,14 @@ def validate_config(config: dict[str, Any]) -> None:
         "data",
     )
     targets = data["targets"]
-    if targets != PHASE_TARGETS[phase]:
+    property_run = is_property_run(config)
+    if property_run:
+        if phase != 1:
+            raise ConfigError("The neural single-property protocol requires phase 1")
+        validate_property_target(config)
+    elif targets != PHASE_TARGETS[phase]:
         raise ConfigError(f"Phase {phase} requires data.targets: {PHASE_TARGETS[phase]}.")
-    if str(data["label_unit"]).lower() != "hartree":
+    if not property_run and str(data["label_unit"]).lower() != "hartree":
         raise ConfigError("data.label_unit must be hartree.")
     split = data["split"]
     if not isinstance(split, dict):
@@ -90,7 +97,7 @@ def validate_config(config: dict[str, Any]) -> None:
             raise ConfigError("data.split.stratify must be a mapping used with random splitting.")
         if stratify.get("strategy") != "quantile":
             raise ConfigError("data.split.stratify.strategy must be quantile.")
-        if stratify.get("column") not in targets:
+        if stratify.get("column") not in targets and not property_run:
             raise ConfigError("data.split.stratify.column must be one of data.targets.")
         if not isinstance(stratify.get("bins"), int) or stratify["bins"] < 2:
             raise ConfigError("data.split.stratify.bins must be an integer >= 2.")
@@ -138,7 +145,8 @@ def validate_config(config: dict[str, Any]) -> None:
     if int(training["epochs"]) <= 0 or int(training["batch_size"]) <= 0:
         raise ConfigError("training.epochs and training.batch_size must be positive.")
     if "selection_metric" in training:
-        if training["selection_metric"] != "gap_mae":
+        expected_metric = "property_mae" if property_run else "gap_mae"
+        if training["selection_metric"] != expected_metric:
             raise ConfigError("training.selection_metric must be gap_mae")
         if float(training.get("early_stopping_min_delta", -1)) < 0:
             raise ConfigError("Gap selection requires a non-negative early_stopping_min_delta")
@@ -148,7 +156,8 @@ def validate_config(config: dict[str, Any]) -> None:
     if loss["function"] != "mse":
         raise ConfigError("The initial three-phase study requires loss.function: mse.")
     weights = loss["weights"]
-    if not isinstance(weights, dict) or set(weights) != {"homo", "lumo", "gap", "consistency"}:
+    expected_weights = {targets[0]} if property_run else {"homo", "lumo", "gap", "consistency"}
+    if not isinstance(weights, dict) or set(weights) != expected_weights:
         raise ConfigError("loss.weights must define homo, lumo, gap, and consistency.")
     if any(not isinstance(value, (int, float)) or value < 0 for value in weights.values()):
         raise ConfigError("All loss weights must be non-negative numbers.")
@@ -156,7 +165,9 @@ def validate_config(config: dict[str, Any]) -> None:
         1: {"homo": 0.0, "lumo": 0.0, "gap": 1.0, "consistency": 0.0},
         2: {"homo": 1.0, "lumo": 1.0, "gap": 1.0, "consistency": 0.0},
     }
-    if phase in required_weights and weights != required_weights[phase]:
+    if property_run and weights != {targets[0]: 1.0}:
+        raise ConfigError("Single-property supervision requires target weight 1")
+    if not property_run and phase in required_weights and weights != required_weights[phase]:
         raise ConfigError(f"Phase {phase} requires loss.weights: {required_weights[phase]}.")
 
     metrics = config["evaluation"].get("metrics")
@@ -171,6 +182,8 @@ def validate_config(config: dict[str, Any]) -> None:
 def task_weights(config: dict[str, Any]) -> list[float]:
     """Return loss weights ordered exactly like data.targets."""
     weights = config["loss"]["weights"]
+    if is_property_run(config):
+        return [1.0]
     return [float(weights[TARGET_WEIGHT_KEYS[target]]) for target in config["data"]["targets"]]
 
 

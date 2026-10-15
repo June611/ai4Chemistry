@@ -34,9 +34,17 @@ def verify(job):
     reference = root / cfg["data"]["processed_dir"] / "test.csv"
     prediction = run / "predictions/test_predictions.csv"
     id_column = cfg["data"].get("id_column", "sample_id")
+    from molgap.data.neural_properties import is_property_run
+
+    property_run = is_property_run(cfg)
+    target = (
+        cfg["data"].get("targets", ["delta_e"])[0]
+        if (job["kind"] == "ml" or property_run)
+        else "delta_e"
+    )
     with reference.open() as stream:
         truth_rows = list(csv.DictReader(stream))
-    expected = {r[id_column]: float(r["delta_e"]) for r in truth_rows}
+    expected = {r[id_column]: float(r[target]) for r in truth_rows}
     if len(expected) != len(truth_rows):
         raise ValueError("Duplicate fixed test identities")
     keys = list(expected)
@@ -44,10 +52,11 @@ def verify(job):
     with prediction.open() as stream:
         reader = csv.DictReader(stream)
         prediction_column = next(
-            (c for c in ("delta_e_pred", "pred_delta_e", "delta_e") if c in reader.fieldnames), None
+            (c for c in (f"{target}_pred", f"pred_{target}", target) if c in reader.fieldnames),
+            None,
         )
         if prediction_column is None:
-            raise ValueError("Missing gap prediction column")
+            raise ValueError(f"Missing {target} prediction column")
         for index, row in enumerate(reader):
             if index >= len(keys):
                 raise ValueError("Too many test predictions")
@@ -64,10 +73,39 @@ def verify(job):
     if seen != set(expected):
         raise ValueError("Test predictions do not cover the fixed test split")
     payload = read_json(run / "metrics.json")
-    metrics = payload.get("targets", {}).get("delta_e", payload)
+    metrics = payload.get("targets", {}).get(target, payload)
     mae = sum(abs(e) for e in errors) / len(errors)
     if not math.isclose(mae, float(metrics["mae"]), rel_tol=1e-5, abs_tol=1e-8):
-        raise ValueError("Saved gap MAE does not match test predictions")
+        raise ValueError(f"Saved {target} MAE does not match test predictions")
+    if property_run:
+        from molgap.data.neural_properties import (
+            scaler_record,
+            validate_property_data,
+            validate_property_target,
+        )
+
+        _, unit = validate_property_target(cfg)
+        validate_property_data(cfg, root)
+        if payload.get("unit") != unit or payload.get("target") != target:
+            raise ValueError("Prediction metric target/unit does not match the frozen job")
+        mse = sum(e * e for e in errors) / len(errors)
+        if not math.isclose(math.sqrt(mse), float(metrics["rmse"]), rel_tol=1e-7, abs_tol=1e-10):
+            raise ValueError("Saved RMSE does not match original-unit predictions")
+        scaler = read_json(run / "target_scaler.json")
+        with (reference.parent / "train.csv").open() as stream:
+            expected_scaler = scaler_record(
+                [float(r[target]) for r in csv.DictReader(stream)],
+                target,
+                unit,
+            )
+        for key in ("method", "fit_split", "target", "unit", "ddof", "train_rows"):
+            if scaler.get(key) != expected_scaler[key]:
+                raise ValueError(f"Saved scaler metadata mismatch: {key}")
+        for key in ("mean", "scale"):
+            if not math.isclose(
+                float(scaler[key]), expected_scaler[key], rel_tol=1e-10, abs_tol=1e-12
+            ):
+                raise ValueError(f"Saved scaler is not fit on the current training data: {key}")
     suffixes = {".pt", ".ckpt", ".joblib", ".json"} if job["kind"] == "ml" else {".pt", ".ckpt"}
     if not any(
         p.is_file() and p.suffix in suffixes and (job["kind"] != "ml" or p.name.startswith("model"))
@@ -98,6 +136,10 @@ def publish_snapshot(runtime, directory, jobs, hw, queue_id, *, terminal=None, s
     records = []
     for job in jobs:
         if job["status"] == "pending":
+            continue
+        # This batch has property-specific units and its own generic local report.
+        # Never put alpha/mu/r2 in the legacy Feishu columns labelled Hartree.
+        if job.get("local_property_report"):
             continue
         try:
             record = build_record(

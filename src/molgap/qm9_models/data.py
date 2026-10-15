@@ -13,10 +13,11 @@ from molgap.utils.files import sha256
 
 
 class GeometryDataset(Dataset):
-    def __init__(self, frame, arrays: dict, index: dict[str, int]) -> None:
+    def __init__(self, frame, arrays: dict, index: dict[str, int], target="delta_e") -> None:
         self.frame = frame.reset_index(drop=True)
         self.arrays = arrays
         self.index = index
+        self.target = target
 
     def __len__(self):
         return len(self.frame)
@@ -30,7 +31,7 @@ class GeometryDataset(Dataset):
             row.smiles,
             torch.from_numpy(self.arrays["atomic_numbers"][start:end].copy()).long(),
             torch.from_numpy(self.arrays["positions"][start:end].copy()).float(),
-            float(row.delta_e),
+            float(row[self.target]),
         )
 
 
@@ -89,7 +90,8 @@ def load_data(config: dict, root: Path, smoke: bool = False):
             for key, frame in frames.items()
         }
 
-    datasets = {key: GeometryDataset(frame, arrays, index) for key, frame in frames.items()}
+    target = data_config.get("target_column", "delta_e")
+    datasets = {key: GeometryDataset(frame, arrays, index, target) for key, frame in frames.items()}
     if data_config.get("topology"):
         from molgap.qm9_models.topology import load_topology
 

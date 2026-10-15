@@ -103,6 +103,10 @@ def evaluate(
         config["data"]["smiles_column"],
         config["data"]["id_column"],
     )
+    from molgap.data.neural_properties import is_property_run
+
+    if is_property_run(config):
+        metrics.update(target=config["data"]["targets"][0], unit=config["data"]["label_unit"])
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with output_path.open("w", encoding="utf-8") as handle:
         json.dump(metrics, handle, indent=2, ensure_ascii=False)

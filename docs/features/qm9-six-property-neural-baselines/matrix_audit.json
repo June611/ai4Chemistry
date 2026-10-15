@@ -1,0 +1,50 @@
+{
+  "downstream_jobs": 180,
+  "pretraining_jobs": 0,
+  "gpus": [
+    0,
+    1
+  ],
+  "unique_run_directories": true,
+  "paired_seeds": [
+    42,
+    2026,
+    3407
+  ],
+  "batch_size": 256,
+  "epochs": 100,
+  "patience": 20,
+  "target_scaling": "standard",
+  "loss": "mse",
+  "min_delta": 0,
+  "all_config_hashes_match": true,
+  "formal_training_started": false,
+  "latex_original_sha256": "6a2a9f35b8b718f5b44369c7308e70e363a6e2ff12d77b18bdb2f015a1b55835",
+  "source_tasks_snapshot_sha256": "c5db9cbe8cc8251500bdf76c77594c339d0e17fe765063c7d754b3fab2c3be53",
+  "model_count": 10,
+  "units": {
+    "homo": "hartree",
+    "lumo": "hartree",
+    "delta_e": "hartree",
+    "alpha": "bohr^3",
+    "mu": "debye",
+    "r2": "bohr^2",
+    "zpve": "hartree"
+  },
+  "manifest": "configs/qm9_six_properties/tasks.yaml",
+  "reused_infomax_checkpoints": {
+    "42": {
+      "checkpoint": "outputs/paired_gap_mae_v2/3dinfomax_pretrain/splitseed42/seed42_smoke/best_checkpoint.pt",
+      "sha256": "d78522d55b62958f9dc7dbea92175ee2779e7280ca84dbf588871134288b4bac"
+    },
+    "3407": {
+      "checkpoint": "outputs/paired_gap_mae_v2/3dinfomax_pretrain/splitseed3407/seed3407_smoke/best_checkpoint.pt",
+      "sha256": "16c1f80b710e7f745ce85cc0692c85891b925bcff1ae1d63d4cd651c9491c171"
+    },
+    "2026": {
+      "checkpoint": "outputs/paired_gap_mae_v2/3dinfomax_pretrain/splitseed2026/seed2026_smoke/best_checkpoint.pt",
+      "sha256": "f535c85d50f13ef8f6ee91b43ab2f68083025748b9d43cc62070ec554393b7f7"
+    }
+  },
+  "cuda_batch256_validation": "pending on target server"
+}

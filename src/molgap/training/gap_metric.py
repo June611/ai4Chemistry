@@ -31,8 +31,13 @@ class GapMAE(MAE):
         )
 
 
+@MetricRegistry.register("property_mae")
+class PropertyMAE(GapMAE):
+    """Original-unit MAE for the opt-in single-property Chemprop protocol."""
+
+
 class GapMetricScale(Callback):
-    """Convert validation errors to Hartree; test targets already use Hartree."""
+    """Convert validation errors to original units; test targets are already unscaled."""
 
     def on_validation_epoch_start(self, trainer, pl_module):
         from molgap.models.losses import PhysicsConsistencyMSE

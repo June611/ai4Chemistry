@@ -8,6 +8,7 @@ from typing import Any
 import yaml
 
 from molgap.config import ConfigError, find_project_root
+from molgap.data.neural_properties import is_property_run, validate_property_target
 
 
 def _require(mapping: dict[str, Any], keys: tuple[str, ...], section: str) -> None:
@@ -42,7 +43,9 @@ def validate_transformer_config(config: dict[str, Any]) -> None:
         ),
         "data",
     )
-    if data["target_column"] != "delta_e" or str(data["label_unit"]).lower() != "hartree":
+    if is_property_run(config):
+        validate_property_target(config)
+    elif data["target_column"] != "delta_e" or str(data["label_unit"]).lower() != "hartree":
         raise ConfigError("The sequence baseline requires delta_e in Hartree.")
     split = data["split"]
     if not isinstance(split, dict):

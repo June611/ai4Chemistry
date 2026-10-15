@@ -1,0 +1,62 @@
+{
+  "dimenet_pp": {
+    "source_config": "outputs/summaries/qm9_results/models/dimenet_pp/seed3407/config.yaml",
+    "source_sha256": "c73a2c826906e03fe94ea72a0fe0cba0ca96cdf3f7fc75d858de0fa5c3a57397",
+    "frozen_template_sha256": "9211fc0c4f10a7bcc7f9546cdd5ac35523b3f5bc15f7160113fcd0116e3b9bd7",
+    "changes": "new protocol/target/unit, standard+MSE, min_delta=0; architecture and learning-rate policy retained"
+  },
+  "esa": {
+    "source_config": "outputs/summaries/qm9_results/models/esa/seed3407/config.yaml",
+    "source_sha256": "baff772b5557321f3ac6f8b08000f284acffad747ea73d790ba55907f5910820",
+    "frozen_template_sha256": "f5da01c8aa8425233340c77241a34c8501826e03fae85dbc10f77a18979a695b",
+    "changes": "new protocol/target/unit, standard+MSE, min_delta=0; architecture and learning-rate policy retained"
+  },
+  "chemprop_single_gap": {
+    "source_config": "outputs/summaries/qm9_results/models/chemprop_single_gap/seed3407/config.yaml",
+    "source_sha256": "4c9a7beeee0aa589b398bcf7e9cd9f410ebf4046892f4252fe057ad0bc24df94",
+    "frozen_template_sha256": "d4be06fbe2d3606c7cfa73ca3dd4f058e8bcd0d5167051d103ca68c6cbe74e21",
+    "changes": "new protocol/target/unit, standard+MSE, min_delta=0; architecture and learning-rate policy retained"
+  },
+  "painn": {
+    "source_config": "outputs/summaries/qm9_results/models/painn/seed3407/config.yaml",
+    "source_sha256": "de6e64e16ef1db8fe7158ffbd54550d80a7d86b0e94c3d787189844bcddddcbe",
+    "frozen_template_sha256": "d184704ce5342eef480d4e9c432b6096c570a28a3cef6d63bf7f8c0e190d4431",
+    "changes": "new protocol/target/unit, standard+MSE, min_delta=0; architecture and learning-rate policy retained"
+  },
+  "3dinfomax": {
+    "source_config": "outputs/summaries/qm9_results/models/3dinfomax/seed3407/config.yaml",
+    "source_sha256": "5ec93716b19e47fa7f9f58f26ffce014ee58f29babd15b2e73aed25d74607536",
+    "frozen_template_sha256": "72c5cebc3eda523252137bd1443bf7701ff60e702084432e406e2107fc59d8f3",
+    "changes": "new protocol/target/unit, standard+MSE, min_delta=0; architecture and learning-rate policy retained"
+  },
+  "spe_transformer": {
+    "source_config": "outputs/summaries/qm9_results/models/spe_transformer/seed3407/config.yaml",
+    "source_sha256": "bf0e4fb4c76cb6a67dfe0c1f18716a8d36f9c874bcb394f295d60d1c4742a1a9",
+    "frozen_template_sha256": "a26c46c9b2128f4bf2ef0c58756d2c9821d4c29a26fa8b1dfd6254e22433bd53",
+    "changes": "new protocol/target/unit, standard+MSE, min_delta=0; architecture and learning-rate policy retained"
+  },
+  "smiles_transformer": {
+    "source_config": "outputs/summaries/qm9_results/models/smiles_transformer/seed3407/config.yaml",
+    "source_sha256": "7fa15de3d24441f2d6cc401b6298e23f25072f2c42d94315c9176f83abbe3e7e",
+    "frozen_template_sha256": "9b1e157a1a5ba9befbce0cf4cc5250af14b1b86af79fe53f0eef4416c8875ebb",
+    "changes": "new protocol/target/unit, standard+MSE, min_delta=0; architecture and learning-rate policy retained"
+  },
+  "torchmd_net": {
+    "source_config": "outputs/summaries/qm9_results/models/torchmd_net/seed3407/config.yaml",
+    "source_sha256": "d46d102d5dba906f6d2605cb02d61c40424fdd17d2bffb63d52a63e477c61bac",
+    "frozen_template_sha256": "bf1c19a2996a443e0a5e42ed0c90860b54c4bb1b6d90b60826ea75c8cf7a2550",
+    "changes": "new protocol/target/unit, standard+MSE, min_delta=0; architecture and learning-rate policy retained"
+  },
+  "egnn": {
+    "source_config": "outputs/summaries/qm9_results/models/egnn/seed3407/config.yaml",
+    "source_sha256": "c5c5e2642e7754ba6995c6b28c3859baa56747628513fe4c736347180b4a97e8",
+    "frozen_template_sha256": "e1e29741ef26e0889d056bf85006bd222a753175067d020d8c13a1441f29790f",
+    "changes": "new protocol/target/unit, standard+MSE, min_delta=0; architecture and learning-rate policy retained"
+  },
+  "schnet": {
+    "source_config": "outputs/summaries/qm9_results/models/schnet/seed3407/config.yaml",
+    "source_sha256": "b9e06db2706243b7a0ebf4f991c780c3a7ecca8efd78592359e207b717a7d00b",
+    "frozen_template_sha256": "03835c71b7640da557fd8040534357a37e94bd9c8d48bb810508647ac9a596ff",
+    "changes": "new protocol/target/unit, standard+MSE, min_delta=0; architecture and learning-rate policy retained"
+  }
+}

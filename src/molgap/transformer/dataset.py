@@ -14,6 +14,7 @@ import yaml
 from torch.utils.data import Dataset
 
 from molgap.config import ConfigError, resolve_path
+from molgap.data.neural_properties import is_property_run, scaler_record, validate_property_data
 from molgap.transformer.tokenizer import SmilesTokenizer
 from molgap.utils.files import sha256
 
@@ -124,6 +125,8 @@ def _read_and_validate_splits(
     config: dict[str, Any], root: Path
 ) -> tuple[dict[str, pd.DataFrame], dict[str, Any]]:
     data = config["data"]
+    if is_property_run(config):
+        validate_property_data(config, root)
     processed_dir = resolve_path(root, data["processed_dir"])
     manifest_path = processed_dir / "split_manifest.csv"
     if not manifest_path.is_file():
@@ -271,7 +274,7 @@ def prepare_transformer_data(config: dict[str, Any], root: Path) -> PreparedTran
     target_mean = float(np.mean(train_targets))
     target_scale = float(np.std(train_targets, ddof=0))
     if not np.isfinite(target_scale) or target_scale <= 0:
-        raise ValueError("Training delta_e standard deviation must be finite and positive.")
+        raise ValueError("Training target standard deviation must be finite and positive.")
     report = {
         "tokenizer_type": tokenizer_config.get("type", "regex"),
         "vocabulary_source": "train",
@@ -290,6 +293,10 @@ def prepare_transformer_data(config: dict[str, Any], root: Path) -> PreparedTran
             "scale_hartree": target_scale,
         },
     }
+    if is_property_run(config):
+        report["target_scaler"] = scaler_record(
+            train_targets, data["target_column"], data["label_unit"]
+        )
     return PreparedTransformerData(
         frames=frames,
         datasets=datasets,

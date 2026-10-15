@@ -125,8 +125,10 @@ def prepare(sdf: Path, geometry: Path, output: Path, geometry_paths: list[Path])
 
 
 class TopologyDataset(GeometryDataset):
-    def __init__(self, frame, arrays, index, topology, topology_index, *, remove_hydrogens):
-        super().__init__(frame, arrays, index)
+    def __init__(
+        self, frame, arrays, index, topology, topology_index, *, remove_hydrogens, target="delta_e"
+    ):
+        super().__init__(frame, arrays, index, target)
         self.topology = topology
         self.topology_index = topology_index
         self.remove_hydrogens = remove_hydrogens
@@ -181,6 +183,7 @@ def load_topology(config, root, geometry, frames, arrays, index):
             topology,
             ti,
             remove_hydrogens=config["data"].get("remove_hydrogens", False),
+            target=config["data"].get("target_column", "delta_e"),
         )
         for k, v in frames.items()
     }

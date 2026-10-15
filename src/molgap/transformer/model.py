@@ -50,7 +50,7 @@ class SmilesTransformerRegressor(nn.Module):
             self.token_embedding.weight[0].zero_()
 
     def forward(self, input_ids: torch.Tensor, attention_mask: torch.Tensor) -> torch.Tensor:
-        """Predict one normalized delta_e value per sequence."""
+        """Predict one normalized property value per sequence."""
         positions = torch.arange(input_ids.shape[1], device=input_ids.device).unsqueeze(0)
         hidden = self.token_embedding(input_ids) + self.position_embedding(positions)
         hidden = self.embedding_dropout(hidden)

@@ -1,0 +1,103 @@
+# Editable source of truth; prepare freezes per-job YAML and plan.json.
+protocol_id: paired_split_qm9_neural_single_property_v1
+data_root: data/processed/qm9_single_properties_v1
+seeds:
+- 42
+- 2026
+- 3407
+targets:
+- homo
+- lumo
+- alpha
+- mu
+- r2
+- zpve
+defaults:
+  batch_size: 256
+  epochs: 100
+  patience: 20
+  min_delta: 0.0
+resources:
+  threads_per_job: 2
+  workers_per_job: 2
+  cpu_reserve: 3
+  ram_reserve_mib: 8192
+  disk_reserve_gib: 6
+  sample_seconds: 5
+models:
+  chemprop_single_gap:
+    config: configs/qm9_six_properties/models/chemprop_single_gap.yaml
+    inference_uses_3d: false
+    pretraining_uses_3d: false
+    estimated_seconds: 1204
+    gpu_mib: 1024
+    ram_mib: 33406
+  smiles_transformer:
+    config: configs/qm9_six_properties/models/smiles_transformer.yaml
+    inference_uses_3d: false
+    pretraining_uses_3d: false
+    estimated_seconds: 1907
+    gpu_mib: 1364
+    ram_mib: 8424
+  spe_transformer:
+    config: configs/qm9_six_properties/models/spe_transformer.yaml
+    inference_uses_3d: false
+    pretraining_uses_3d: false
+    estimated_seconds: 1940
+    gpu_mib: 1370
+    ram_mib: 10074
+  schnet:
+    config: configs/qm9_six_properties/models/schnet.yaml
+    inference_uses_3d: true
+    pretraining_uses_3d: false
+    estimated_seconds: 8213
+    gpu_mib: 5930
+    ram_mib: 8192
+  3dinfomax:
+    config: configs/qm9_six_properties/models/3dinfomax.yaml
+    inference_uses_3d: false
+    pretraining_uses_3d: true
+    estimated_seconds: 17344
+    gpu_mib: 2554
+    ram_mib: 8273
+  egnn:
+    config: configs/qm9_six_properties/models/egnn.yaml
+    inference_uses_3d: true
+    pretraining_uses_3d: false
+    estimated_seconds: 7601
+    gpu_mib: 9424
+    ram_mib: 8192
+  painn:
+    config: configs/qm9_six_properties/models/painn.yaml
+    inference_uses_3d: true
+    pretraining_uses_3d: false
+    estimated_seconds: 9041
+    gpu_mib: 8648
+    ram_mib: 8192
+  dimenet_pp:
+    config: configs/qm9_six_properties/models/dimenet_pp.yaml
+    inference_uses_3d: true
+    pretraining_uses_3d: false
+    estimated_seconds: 19401
+    gpu_mib: 23772
+    ram_mib: 8372
+  esa:
+    config: configs/qm9_six_properties/models/esa.yaml
+    inference_uses_3d: false
+    pretraining_uses_3d: false
+    estimated_seconds: 12392
+    gpu_mib: 3668
+    ram_mib: 8192
+  torchmd_net:
+    config: configs/qm9_six_properties/models/torchmd_net.yaml
+    inference_uses_3d: true
+    pretraining_uses_3d: false
+    estimated_seconds: 15397
+    gpu_mib: 20844
+    ram_mib: 8192
+pretraining:
+  config: configs/qm9_models/3dinfomax_pretrain.yaml
+  checkpoints:
+    42: auto
+    2026: auto
+    3407: auto

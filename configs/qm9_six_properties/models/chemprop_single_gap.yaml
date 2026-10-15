@@ -1,0 +1,65 @@
+experiment:
+  name: homo
+  phase: 1
+  protocol_id: paired_split_qm9_neural_single_property_v1
+  model_id: chemprop_single_gap
+data:
+  processed_dir: data/processed/qm9_single_properties_v1/random/seed3407
+  smiles_column: smiles
+  id_column: sample_id
+  targets:
+  - homo
+  label_unit: hartree
+  split:
+    method: random
+    sizes:
+    - 0.8
+    - 0.1
+    - 0.1
+    seed: 3407
+    stratify:
+      strategy: quantile
+      column: delta_e
+      bins: 200
+  property_data_root: data/processed/qm9_single_properties_v1
+  target_column: homo
+  chemprop_reference_config: GENERATED_BY_PREPARE
+model:
+  backend: chemprop_cli
+  message_hidden_dim: 300
+  depth: 3
+  dropout: 0.1
+  activation: relu
+  aggregation: mean
+  batch_norm: false
+  ffn_hidden_dim: 300
+  ffn_num_layers: 1
+training:
+  batch_size: 256
+  epochs: 100
+  warmup_epochs: 2
+  init_lr: 0.0004
+  max_lr: 0.004
+  final_lr: 0.0004
+  seed: 3407
+  num_workers: 4
+  accelerator: auto
+  devices: 1
+  patience: 20
+  selection_metric: property_mae
+  early_stopping_min_delta: 0.0
+  run_mode: paired_split_seed
+  split_seed: 3407
+  seed_pairing: matched
+  target_scaling: standard
+loss:
+  function: mse
+  weights:
+    homo: 1.0
+evaluation:
+  metrics:
+  - mae
+  - rmse
+  - r2
+output:
+  root: artifacts/qm9_six_properties/GENERATED_BY_PREPARE/runs/chemprop_single_gap

@@ -1,5 +1,13 @@
 # Molecular HOMO–LUMO Gap Prediction
 
+## QM9 六性质神经网络单任务扩展
+
+十模型 × 六性质 × 三个配对 seed，共 180 项下游任务。任务清单与超参保存在
+`configs/qm9_six_properties/tasks.yaml` 和 `models/`，训练集 Z-score、MSE、原单位 MAE 选模，
+保持 256/100/20。生成计划不启动训练；各卡独立执行，失败隔离，结果与队列状态落盘。
+安装、单模型/批量训练、恢复、Infomax 权重复用、汇总和 LaTeX 命令见
+[六性质神经网络操作说明](docs/features/qm9-six-property-neural-baselines/README.md)。
+
 现已提供 QM9 资源调度与飞书监测。在本地 WSL 项目目录运行下列命令，即可在既有服务器
 后台调度全部启用模型，并通过本地 Lark CLI 同步资源、进度、指标和预测 CSV 附件：
 
