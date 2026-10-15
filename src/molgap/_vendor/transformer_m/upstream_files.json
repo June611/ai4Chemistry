@@ -1,0 +1,22 @@
+{
+  "multihead_attention.py": {
+    "upstream_sha256": "24730bafa34ccd16b5357652e20581063ed9d2f9865f85fce23960ba9f46f81b",
+    "adapted_sha256": "a7e01172b4d9466c144561af1bbc56dcdc0bca2d4ade9c1a728aaa2233ea86dd"
+  },
+  "droppath.py": {
+    "upstream_sha256": "28dbdd61949394c5e6cfe398f51cb59ef3cc22273676c12af34e2ba47ff218c2",
+    "adapted_sha256": "34652de47eecf24f7c7c6a91ed35907ae499b12feea518672c2c899374747696"
+  },
+  "transformer_m_layers.py": {
+    "upstream_sha256": "4f439cc2eb41e8a6c118a763f1c2d7edb31995494d7968a21a1314a919ad1a84",
+    "adapted_sha256": "f27e5ad0a8c0139cb8e9826c1abc777a3b9952ecd45c7004a30ed76c8d87ad1b"
+  },
+  "transformer_m_encoder_layer.py": {
+    "upstream_sha256": "374b80fb49ce50581b0d91737d102588d5ce0f99c2ec389a65c458a99c69d04c",
+    "adapted_sha256": "c15f1fac9261b4d02b2420eacc4a703c14336026bc980bd5623f255069bc1e5c"
+  },
+  "transformer_m_encoder.py": {
+    "upstream_sha256": "9f4aa385dd1066155025c209c9fe57406fab2f0c6caa757d311a840429f79608",
+    "adapted_sha256": "b6b1d80d2c19759e9b1616756716c1220c54403fef80fcb01ebc0a983119ad81"
+  }
+}

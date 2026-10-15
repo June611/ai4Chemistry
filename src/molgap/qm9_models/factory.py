@@ -10,6 +10,14 @@ def build_model(name: str, config: dict, root: Path, device: torch.device):
         from molgap.qm9_models.egnn import EGNNAdapter
 
         model = EGNNAdapter(root, config, device)
+    elif name == "demol":
+        from molgap.qm9_models.demol import DeMolAdapter
+
+        model = DeMolAdapter(config)
+    elif name == "transformer_m":
+        from molgap.qm9_models.transformer_m import TransformerMAdapter
+
+        model = TransformerMAdapter(config)
     elif name in {"schnet", "painn"}:
         from molgap.qm9_models.schnetpack import SchNetPackAdapter
 

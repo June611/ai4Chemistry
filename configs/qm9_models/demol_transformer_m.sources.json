@@ -1,0 +1,42 @@
+{
+  "transformer_m": {
+    "url": "https://github.com/lsj2408/Transformer-M",
+    "commit": "45647e143a5282e0e97117969396446084bcf1ab",
+    "license": "MIT",
+    "implementation": "vendored official QM9 encoder; local Fairseq compatibility surface",
+    "configuration_source": "finetune_qm9.sh and transformer_m base_architecture",
+    "external_pretrained_weights": false
+  },
+  "demol": {
+    "paper_url": "https://arxiv.org/abs/2603.00568",
+    "paper_sha256": "3fc636a4c1c896919f095c0f030c0b5d1fab4c6bd960a1179fe7c71a19389054",
+    "implementation": "independent paper-based reimplementation; no author source URL found in inspected paper or proceedings",
+    "architecture_sources": [
+      "Section 3.2 equations 5-10",
+      "Appendix B Algorithm 1",
+      "Appendix D.1 and D.4",
+      "Appendix H no-pretraining comparison"
+    ],
+    "external_pretrained_weights": false,
+    "unpublished_choices_documented_in": "docs/features/qm9-demol-transformer-m/README.md"
+  },
+  "common_protocol": {
+    "data": "existing QM9 full fixed split artifacts",
+    "seeds": [
+      3407,
+      42,
+      2026
+    ],
+    "batch_size": 256,
+    "epochs": 100,
+    "patience": 20,
+    "scaling": "train-only MAD",
+    "loss": "MAE",
+    "selection": "raw Hartree validation gap MAE",
+    "reported_energy_units": [
+      "Hartree",
+      "meV"
+    ],
+    "Hartree_to_meV": 27211.386245981
+  }
+}

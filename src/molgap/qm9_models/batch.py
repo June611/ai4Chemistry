@@ -17,6 +17,10 @@ class Molecule:
     atomic_numbers: Tensor
     positions: Tensor
     target: float
+    node_features: Tensor | None = None
+    bonds: Tensor | None = None
+    bond_features: Tensor | None = None
+    spatial: Tensor | None = None
 
     def validate(self) -> None:
         n = self.atomic_numbers.numel()
@@ -47,7 +51,7 @@ def collate_molecules(molecules: list[Molecule]) -> dict:
     mask = charges != 0
     edge_mask = mask[:, :, None] & mask[:, None, :]
     edge_mask &= ~torch.eye(width, dtype=torch.bool)[None]
-    return {
+    result = {
         "sample_id": [m.sample_id for m in molecules],
         "smiles": [m.smiles for m in molecules],
         "target": torch.tensor([m.target for m in molecules], dtype=torch.float32),
@@ -57,6 +61,13 @@ def collate_molecules(molecules: list[Molecule]) -> dict:
         "edge_mask": edge_mask,
         "one_hot": charges[:, :, None].eq(torch.tensor(SPECIES)).float(),
     }
+    if any(m.node_features is not None for m in molecules):
+        from molgap.qm9_models.topology import collate_topology
+
+        if any(m.node_features is None for m in molecules):
+            raise ValueError("Mixed topology/non-topology molecular batch")
+        result.update(collate_topology(molecules))
+    return result
 
 
 def flat_atoms(batch: dict) -> tuple[Tensor, Tensor, Tensor]:

@@ -16,6 +16,7 @@ data/processed/*
 data/splits/*
 !data/splits/.gitkeep
 data/geometry/
+data/topology/
 artifacts/
 outputs/*
 !outputs/.gitkeep

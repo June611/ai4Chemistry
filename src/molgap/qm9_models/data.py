@@ -79,10 +79,20 @@ def load_data(config: dict, root: Path, smoke: bool = False):
     index = {sid: i for i, sid in enumerate(ids)}
 
     if smoke:
+        smoke_config = config.get("smoke", {})
         frames = {
-            key: frame.head(128 if key == "train" else 32).copy() for key, frame in frames.items()
+            key: frame.head(
+                smoke_config.get("train_rows", 128)
+                if key == "train"
+                else smoke_config.get("eval_rows", 32)
+            ).copy()
+            for key, frame in frames.items()
         }
 
     datasets = {key: GeometryDataset(frame, arrays, index) for key, frame in frames.items()}
+    if data_config.get("topology"):
+        from molgap.qm9_models.topology import load_topology
+
+        datasets = load_topology(config, root, metadata, frames, arrays, index)
 
     return frames, datasets, identity, metadata

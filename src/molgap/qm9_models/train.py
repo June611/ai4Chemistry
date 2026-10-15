@@ -112,7 +112,9 @@ def run(
         config["experiment"]["name"] += "_smoke"
         training["epochs"] = 1
         training["num_workers"] = 0
-        training["batch_size"] = min(8, training["batch_size"])
+        training["batch_size"] = min(
+            config.get("smoke", {}).get("batch_size", 8), training["batch_size"]
+        )
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
@@ -153,6 +155,7 @@ def run(
         "parameters": sum(p.numel() for p in model.parameters()),
         "split_identity": identity,
         "geometry_sha256": geometry["geometry_sha256"],
+        "topology_sha256": geometry.get("topology_sha256"),
     }
     if dry_run:
         print(json.dumps(plan, indent=2))
@@ -167,6 +170,10 @@ def run(
     (run_dir / "upstream_sources.json").write_text(
         (root / "configs/qm9_models/sources.lock.json").read_text()
     )
+    if config.get("provenance", {}).get("sources_file"):
+        (run_dir / "reproduction_sources.json").write_text(
+            (root / config["provenance"]["sources_file"]).read_text()
+        )
     loaders = {
         k: DataLoader(
             v,
@@ -206,6 +213,9 @@ def run(
     loss_fn = {"mae": torch.nn.functional.l1_loss, "mse": torch.nn.functional.mse_loss}[
         training["loss"]
     ]
+    auxiliary_weight = float(training.get("auxiliary_bond_weight", 0.0))
+    if auxiliary_weight < 0 or (auxiliary_weight and not hasattr(model, "auxiliary_loss")):
+        raise ValueError("Invalid auxiliary bond weight/model combination")
 
     # Get early stopping params with defaults
     early_stopping = training.get("early_stopping", {})
@@ -216,8 +226,14 @@ def run(
     selection_reference = float("inf")
     started = time.perf_counter()
     for epoch in range(training["epochs"]):
+        if device.type == "cuda":
+            torch.cuda.synchronize()
+            torch.cuda.reset_peak_memory_stats()
+        epoch_started = time.perf_counter()
         model.train()
         total = 0.0
+        supervised_total, auxiliary_total = 0.0, 0.0
+        batches = 0
         for raw in tqdm(loaders["train"], desc=f"Epoch {epoch + 1}", mininterval=2):
             batch = move(raw, device)
             optimizer.zero_grad()
@@ -228,12 +244,21 @@ def run(
                     f"Model returned {tuple(prediction.shape)} for target {tuple(expected.shape)}"
                 )
             loss = loss_fn(prediction, expected)
+            supervised_total += float(loss.detach()) * len(prediction)
+            if auxiliary_weight:
+                auxiliary = model.auxiliary_loss()
+                loss = loss + auxiliary_weight * auxiliary
+                auxiliary_total += float(auxiliary.detach()) * len(prediction)
             if not torch.isfinite(loss):
                 raise ValueError("Nonfinite training loss")
             loss.backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(), training["gradient_clip_val"])
             optimizer.step()
             total += float(loss.detach()) * len(prediction)
+            batches += 1
+        if device.type == "cuda":
+            torch.cuda.synchronize()
+        train_seconds = time.perf_counter() - epoch_started
         model.eval()
         predictions = []
         with torch.no_grad():
@@ -254,6 +279,7 @@ def run(
                     "best_validation_mae": best,
                     "split_manifest_sha256": identity["manifest"]["sha256"],
                     "geometry_sha256": geometry["geometry_sha256"],
+                    "topology_sha256": geometry.get("topology_sha256"),
                 },
                 run_dir / "model.pt",
             )
@@ -262,9 +288,29 @@ def run(
         else:
             stale += 1
         history.append(
-            {"epoch": epoch + 1, "train_loss": total / len(datasets["train"]), "val_mae": val_mae}
+            {
+                "epoch": epoch + 1,
+                "train_loss": total / len(datasets["train"]),
+                "supervised_loss": supervised_total / len(datasets["train"]),
+                "auxiliary_bond_loss": auxiliary_total / len(datasets["train"]),
+                "val_mae": val_mae,
+                "train_batches": batches,
+                "train_seconds": train_seconds,
+                "epoch_seconds": time.perf_counter() - epoch_started,
+                "cuda_peak_allocated_mib": torch.cuda.max_memory_allocated() / 2**20
+                if device.type == "cuda"
+                else None,
+                "cuda_peak_reserved_mib": torch.cuda.max_memory_reserved() / 2**20
+                if device.type == "cuda"
+                else None,
+            }
         )
         pd.DataFrame(history).to_csv(run_dir / "history.csv", index=False)
+        print(
+            f"Epoch {epoch + 1}: val_gap_mae={val_mae:.8g} Hartree "
+            f"train_seconds={train_seconds:.1f}",
+            flush=True,
+        )
         scheduler.step()
         if stale >= patience:
             break
