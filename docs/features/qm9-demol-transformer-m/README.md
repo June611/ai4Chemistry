@@ -71,3 +71,5 @@ uv run --no-sync python scripts/run_qm9_dual_reproduction.py \
 ## 验收状态
 
 实现通过37项针对性集成/回归检查，包含两个模型反向传播、旋转/平移/原子置换、padding、单样本与batch独立性、checkpoint往返、activation checkpointing梯度、官方collator数值对照、三seed调度/烟测门禁及原QM9适配器/调度行为。lint通过；完整数据缓存、GPU烟测与正式训练状态见[TODO.md](TODO.md)。未完成训练不能在论文或正式比较表中填造成绩。
+
+补充实验：[Transformer-M seed3407跨机器复现](cross_gpu_seed3407.md)。用户指定的额外服务器实际为RTX3090；只新增一个独立复现，不替换4090参考任务、不纳入正式三seed均值。

@@ -7,3 +7,5 @@
 服务器六项dry-run通过：两模型×三个split，参数量176825914/47797473；batch256、epochs100、patience20与原数据行数/hash一致。初次烟测已启动，Transformer-M先完成。补充发现并复现全零坐标sentinel导致单重原子batch依赖，修复后37项通过，将仅重做受影响的Transformer-M GPU烟测；DeMol实现不变。
 
 正式启动验收：两项完整batch256烟测通过；按314.32/43.98秒每epoch分配六组任务。GPU0先DeMol3407再2026；GPU1先DeMol42，再Transformer-M3407/42/2026。dispatcher259387，两卡各有running任务且已进入实际训练批次；粗估总墙钟17.5小时，正式训练尚未完成。烟测CSV、分配CSV和完整启动快照已保存WSL，不提交Git。
+
+新增单seed跨机器复现：用户确认nmb2:22233，实际RTX3090空闲；同版本代码独立部署，与4090在CPU初始化的全部模型张量hash相同，关键包/输入hash/精度标志及train-only mean/MAD一致。仅修改实验名、输出根与复现元数据。batch256探针通过，dispatcher574837、worker574842已启动，观察到完整epoch1并进入epoch2。原4090两项DeMol已各完成7轮，四项仍排队，无正式失败；保留Transformer-M3407参考。细节见cross_gpu_seed3407.md。

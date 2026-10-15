@@ -44,3 +44,5 @@ tail -f /root/autodl-tmp/evan/ai4Chemistry_demol_transformer_m_20261015/artifact
 WSL证据目录：`/home/june/deepLear_zone/Chem_proj/chempro/outputs/summaries/qm9_demol_transformer_m_launch_20261015_165545_UTC8`。smoke_resources.csv保存资源与烟测指标，formal_assignment.csv保存任务分配，launch_snapshot.json保存原始状态和来源，preflight.json保存六项身份/配置校验。
 
 尚未完成：六组正式训练、三seed均值/SD、最终多模型比较、正式训练全程峰值和实际总时间。完成后追加验收，不能用单epoch烟测指标对文献下结论。
+
+补充进度：最新检查原两卡DeMol3407/42各完成8轮，正式仍0/6完成，无失败。另在用户指定的nmb2服务器（实际RTX3090）启动Transformer-M3407跨机器复现，已完成5轮；独立角色与路径见[cross_gpu_seed3407.md](cross_gpu_seed3407.md)，原4090队列未改。
