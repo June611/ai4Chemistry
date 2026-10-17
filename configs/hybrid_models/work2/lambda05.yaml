@@ -1,0 +1,34 @@
+# Work 2: λ=0.5 (medium geometry injection)
+
+model_type: work2
+name: hybrid_3d_lambda05
+
+# MPNN parameters
+d_h: 300
+mpnn_depth: 3
+
+# Transformer parameters
+d_model: 256
+nhead: 8
+num_layers: 4
+dim_feedforward: 512
+dropout: 0.1
+
+# 3D geometry (medium strength)
+pe_type: mlp
+lambda_geometry: 0.5
+learnable_lambda: false
+
+# Multi-task
+n_tasks: 7
+use_uncertainty_weighting: true
+
+# Training
+lr: 0.001
+weight_decay: 0.0
+warmup_epochs: 2
+max_epochs: 100
+batch_size: 32
+
+# Seeds
+seeds: [42, 3407, 12345]

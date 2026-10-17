@@ -1,0 +1,30 @@
+# Work 1: MPNN + Transformer hybrid (2D only)
+# Main model for Work 1
+
+model_type: work1
+name: hybrid_2d
+
+# MPNN parameters
+d_h: 300
+mpnn_depth: 3
+
+# Transformer parameters
+d_model: 256
+nhead: 8
+num_layers: 4
+dim_feedforward: 512
+dropout: 0.1
+
+# Task
+n_tasks: 1  # Single task: gap
+use_uncertainty_weighting: false
+
+# Training
+lr: 0.001
+weight_decay: 0.0
+warmup_epochs: 2
+max_epochs: 100
+batch_size: 32
+
+# Seeds
+seeds: [42, 3407, 12345]
