@@ -1,0 +1,27 @@
+data:
+  processed_dir: data/processed/qm9_single_properties_v1/random/seed42
+  smiles_column: smiles
+  id_column: sample_id
+  targets:
+  - homo
+  - lumo
+  - delta_e
+  - alpha
+  - mu
+  - r2
+  - zpve
+  label_unit: hartree
+  split:
+    method: random
+    sizes:
+    - 0.8
+    - 0.1
+    - 0.1
+    seed: 42
+    stratify:
+      strategy: quantile
+      column: delta_e
+      bins: 200
+  property_data_root: data/processed/qm9_single_properties_v1
+  target_column: homo
+  chemprop_reference_config: GENERATED_BY_PREPARE

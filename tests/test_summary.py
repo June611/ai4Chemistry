@@ -191,3 +191,37 @@ def test_summary_rejects_mixing_old_and_gap_selection_protocols() -> None:
     ]
     with pytest.raises(ValueError, match="different experiment protocols"):
         validate_expected_seeds(records, None)
+
+
+def test_mse_is_aggregated_from_each_run_not_squared_mean_rmse(tmp_path: Path) -> None:
+    paths = []
+    for seed, mse in ((3407, 1.0), (42, 9.0), (2026, 25.0)):
+        run = _write_run(
+            tmp_path,
+            "model",
+            seed,
+            {
+                "targets": {
+                    "delta_e": {
+                        "mae": mse**0.5,
+                        "mse": mse,
+                        "rmse": mse**0.5,
+                        "mape": 2.0,
+                        "r2": 0.9,
+                    }
+                }
+            },
+        )
+        paths.append(run / "metrics.json")
+    metrics = ("mae", "mse", "rmse", "mape", "r2")
+    records = load_records(paths, metrics=metrics)
+    validate_expected_seeds(records, [3407, 42, 2026])
+    summaries = summarize_records(records, metrics=metrics)
+    assert summaries[0]["mse"]["mean"] == pytest.approx(35 / 3)
+    assert summaries[0]["rmse"]["mean"] ** 2 == pytest.approx(9)
+    outputs = write_summary(records, tmp_path / "summaries", metrics=metrics)
+    payload = json.loads(outputs["summary_json"].read_text())
+    assert payload["metrics"] == list(metrics)
+    assert payload["models"][0]["mse"]["count"] == 3
+    assert "MSE (Hartree²)" in outputs["summary_markdown"].read_text()
+    assert all(p.is_file() and p.stat().st_size for p in outputs.values())

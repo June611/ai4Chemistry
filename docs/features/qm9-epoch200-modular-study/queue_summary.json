@@ -1,0 +1,26 @@
+{
+  "total_planned_jobs": 114,
+  "stage1_jobs": 33,
+  "ready_configs": 114,
+  "stage2_jobs": 81,
+  "stage2_graph_gap_baselines": 15,
+  "stage2_plugin_jobs": 66,
+  "transformer_base_retraining_default": false,
+  "excluded_variants": [
+    "B",
+    "C",
+    "mtl7",
+    "physics_gap7",
+    "mtl10_control"
+  ],
+  "stage2_requires_review": true,
+  "all_epochs": 200,
+  "modules_implemented": true,
+  "gpu_training_verified": true,
+  "training_started": false,
+  "inputs_and_dependencies_require_preflight": true,
+  "gpu_training_verified_scope": "RTX3090 diagnostic only; 500 rows per split; 1 epoch; batch256",
+  "gpu_smoke_verified_jobs": 114,
+  "gpu_smoke_report": "verification/smoke114_nmb2_20261019.json",
+  "formal_training_verified": false
+}

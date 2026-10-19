@@ -104,7 +104,7 @@ class ESAAdapter(nn.Module):
     def forward(self, batch: dict) -> torch.Tensor:
         from torch_geometric.utils import to_dense_batch
 
-        device = self.readout.weight.device
+        device = next(self.parameters()).device
         nodes, edges, attributes, groups = [], [], [], []
         offset = 0
         for i, smiles in enumerate(batch["smiles"]):

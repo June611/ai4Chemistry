@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="15" time="81.686" timestamp="2026-10-19T07:06:58.329590+08:00" hostname="DESKTOP-3L2JSET"><testcase classname="tests.test_modular_qm9" name="test_attention_gate_identity_and_then_attention_gradients" time="4.223" /><testcase classname="tests.test_modular_qm9" name="test_physics_tolerance_direction_inverse_scaling_and_gradients" time="0.076" /><testcase classname="tests.test_modular_qm9" name="test_config_refuses_loss_selection_seed_or_unit_changes" time="0.018" /><testcase classname="tests.test_modular_qm9" name="test_feature_adapters_forward_backward_and_geometry_invariance[chemprop]" time="18.091" /><testcase classname="tests.test_modular_qm9" name="test_feature_adapters_forward_backward_and_geometry_invariance[schnet]" time="0.609" /><testcase classname="tests.test_modular_qm9" name="test_feature_adapters_forward_backward_and_geometry_invariance[painn]" time="0.042" /><testcase classname="tests.test_modular_qm9" name="test_feature_adapters_forward_backward_and_geometry_invariance[egnn]" time="0.189" /><testcase classname="tests.test_modular_qm9" name="test_feature_adapters_forward_backward_and_geometry_invariance[dimenet_pp]" time="13.562" /><testcase classname="tests.test_modular_qm9" name="test_feature_adapters_forward_backward_and_geometry_invariance[demol]" time="0.821" /><testcase classname="tests.test_modular_qm9" name="test_feature_adapters_forward_backward_and_geometry_invariance[transformer_m]" time="0.437" /><testcase classname="tests.test_modular_qm9" name="test_feature_adapters_forward_backward_and_geometry_invariance[esa]" time="0.970"><failure message="RuntimeError: shape '[2]' is invalid for input of size 32">tests/test_modular_qm9.py:98: in test_feature_adapters_forward_backward_and_geometry_invariance
+    h=encoder(inputs)
+      ^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/torch/nn/modules/module.py:1739: in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/torch/nn/modules/module.py:1750: in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/molgap/modular/backbones.py:105: in forward
+    value = self.core(inputs)
+            ^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/torch/nn/modules/module.py:1739: in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/torch/nn/modules/module.py:1750: in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/molgap/qm9_models/esa.py:125: in forward
+    h = self.network(h, edge, groups, num_max_items=self.max_edges)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/torch/nn/modules/module.py:1739: in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/torch/nn/modules/module.py:1750: in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/molgap/_vendor/esa/masked_layers.py:677: in forward
+    out, _, _, _, _ = self.decoder((enc, edge_index, batch_mapping, num_max_items, adj_mask))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/torch/nn/modules/module.py:1739: in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/torch/nn/modules/module.py:1750: in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/torch/nn/modules/container.py:250: in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/torch/nn/modules/module.py:1739: in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/torch/nn/modules/module.py:1750: in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/molgap/_vendor/esa/masked_layers.py:447: in forward
+    out = self.norm_mlp(out)
+          ^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/torch/nn/modules/module.py:1739: in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/torch/nn/modules/module.py:1750: in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/molgap/_vendor/esa/norm_layers.py:24: in forward
+    return self.bn(x)
+           ^^^^^^^^^^
+.venv/lib/python3.11/site-packages/torch/nn/modules/module.py:1739: in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/torch/nn/modules/module.py:1750: in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/molgap/_vendor/esa/batch_renorm.py:54: in forward
+    r = (batch_std.detach() / self.running_std.view_as(batch_std)).clamp_(1 / self.rmax, self.rmax)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   RuntimeError: shape '[2]' is invalid for input of size 32</failure></testcase><testcase classname="tests.test_modular_qm9" name="test_feature_adapters_forward_backward_and_geometry_invariance[torchmd_net]" time="30.776" /><testcase classname="tests.test_modular_qm9" name="test_feature_adapters_forward_backward_and_geometry_invariance[3dinfomax]" time="3.518" /><testcase classname="tests.test_modular_qm9" name="test_feature_adapters_forward_backward_and_geometry_invariance[smiles_transformer]" time="0.076" /><testcase classname="tests.test_modular_qm9" name="test_feature_adapters_forward_backward_and_geometry_invariance[spe_transformer]" time="0.050" /></testsuite></testsuites>

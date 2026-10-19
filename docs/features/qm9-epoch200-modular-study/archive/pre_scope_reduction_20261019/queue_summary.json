@@ -1,0 +1,9 @@
+{
+  "total_planned_jobs": 441,
+  "stage1_jobs": 45,
+  "ready_configs": 33,
+  "stage2_requires_review": true,
+  "all_epochs": 200,
+  "modules_implemented": false,
+  "training_started": false
+}

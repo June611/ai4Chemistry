@@ -1,0 +1,3858 @@
+{
+  "captured_at": "2026-10-18T17:28:36.637497+00:00",
+  "hostname": "autodl-container-9d8949b25a-0ad6f492",
+  "roots": [
+    "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs",
+    "/root/autodl-tmp/evan/ai4Chemistry/artifacts/auto_training",
+    "/root/autodl-tmp/evan/ai4Chemistry_transformer_m_cross_gpu_20261015/artifacts"
+  ],
+  "torch_version": "2.6.0+cu124",
+  "records": [
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/alpha/seed2026/chemprop/model_0/checkpoints/best-epoch=97-val_property_mae=0.45.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-16T00:10:03.731786+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 97,
+      "global_step": 41062,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        41062
+      ],
+      "optimizer_lrs": [
+        [
+          0.0004192452536617477
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 98
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/alpha/seed2026/chemprop/model_0/checkpoints/last.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-16T00:10:03.743781+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 97,
+      "global_step": 41062,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        41062
+      ],
+      "optimizer_lrs": [
+        [
+          0.0004192452536617477
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 98
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/alpha/seed3407/chemprop/model_0/checkpoints/best-epoch=93-val_property_mae=0.45.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-16T01:02:06.100380+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 93,
+      "global_step": 39386,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        39386
+      ],
+      "optimizer_lrs": [
+        [
+          0.00046055815973044574
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 94
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/alpha/seed3407/chemprop/model_0/checkpoints/last.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-16T01:02:06.112386+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 93,
+      "global_step": 39386,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        39386
+      ],
+      "optimizer_lrs": [
+        [
+          0.00046055815973044574
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 94
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/alpha/seed42/chemprop/model_0/checkpoints/best-epoch=94-val_property_mae=0.45.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-15T23:16:21.638354+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 94,
+      "global_step": 39805,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        39805
+      ],
+      "optimizer_lrs": [
+        [
+          0.0004498631288477964
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 95
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/alpha/seed42/chemprop/model_0/checkpoints/last.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-15T23:16:21.650355+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 94,
+      "global_step": 39805,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        39805
+      ],
+      "optimizer_lrs": [
+        [
+          0.0004498631288477964
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 95
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/homo/seed2026/chemprop/model_0/checkpoints/best-epoch=98-val_property_mae=0.00.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-16T00:10:00.700927+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 98,
+      "global_step": 41481,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        41481
+      ],
+      "optimizer_lrs": [
+        [
+          0.00040950958653570907
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 99
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/homo/seed2026/chemprop/model_0/checkpoints/last.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-16T00:10:00.712923+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 98,
+      "global_step": 41481,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        41481
+      ],
+      "optimizer_lrs": [
+        [
+          0.00040950958653570907
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 99
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/homo/seed3407/chemprop/model_0/checkpoints/best-epoch=97-val_property_mae=0.00.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-16T01:02:44.355134+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 97,
+      "global_step": 41062,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        41062
+      ],
+      "optimizer_lrs": [
+        [
+          0.0004192452536617477
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 98
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/homo/seed3407/chemprop/model_0/checkpoints/last.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-16T01:02:44.367138+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 97,
+      "global_step": 41062,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        41062
+      ],
+      "optimizer_lrs": [
+        [
+          0.0004192452536617477
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 98
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/homo/seed42/chemprop/model_0/checkpoints/best-epoch=99-val_property_mae=0.00.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-15T23:17:17.810308+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 99,
+      "global_step": 41900,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        41900
+      ],
+      "optimizer_lrs": [
+        [
+          0.0004
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 100
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/homo/seed42/chemprop/model_0/checkpoints/last.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-15T23:17:17.822309+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 99,
+      "global_step": 41900,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        41900
+      ],
+      "optimizer_lrs": [
+        [
+          0.0004
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 100
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/lumo/seed2026/chemprop/model_0/checkpoints/best-epoch=91-val_property_mae=0.00.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-16T00:08:22.798984+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 91,
+      "global_step": 38548,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        38548
+      ],
+      "optimizer_lrs": [
+        [
+          0.00048271705625559493
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 92
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/lumo/seed2026/chemprop/model_0/checkpoints/last.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-16T00:08:22.810986+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 91,
+      "global_step": 38548,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        38548
+      ],
+      "optimizer_lrs": [
+        [
+          0.00048271705625559493
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 92
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/lumo/seed3407/chemprop/model_0/checkpoints/best-epoch=97-val_property_mae=0.00.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-16T01:03:07.638615+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 97,
+      "global_step": 41062,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        41062
+      ],
+      "optimizer_lrs": [
+        [
+          0.0004192452536617477
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 98
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/lumo/seed3407/chemprop/model_0/checkpoints/last.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-16T01:03:07.650619+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 97,
+      "global_step": 41062,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        41062
+      ],
+      "optimizer_lrs": [
+        [
+          0.0004192452536617477
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 98
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/lumo/seed42/chemprop/model_0/checkpoints/best-epoch=88-val_property_mae=0.00.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-15T23:14:57.176408+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 88,
+      "global_step": 37291,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        37291
+      ],
+      "optimizer_lrs": [
+        [
+          0.0005179703368819633
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 89
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/lumo/seed42/chemprop/model_0/checkpoints/last.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-15T23:14:57.188409+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 88,
+      "global_step": 37291,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        37291
+      ],
+      "optimizer_lrs": [
+        [
+          0.0005179703368819633
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 89
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/mu/seed2026/chemprop/model_0/checkpoints/best-epoch=93-val_property_mae=0.39.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-16T00:35:10.721920+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 93,
+      "global_step": 39386,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        39386
+      ],
+      "optimizer_lrs": [
+        [
+          0.00046055815973044574
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 94
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/mu/seed2026/chemprop/model_0/checkpoints/last.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-16T00:35:10.733919+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 93,
+      "global_step": 39386,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        39386
+      ],
+      "optimizer_lrs": [
+        [
+          0.00046055815973044574
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 94
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/mu/seed3407/chemprop/model_0/checkpoints/best-epoch=98-val_property_mae=0.39.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-16T01:29:21.494100+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 98,
+      "global_step": 41481,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        41481
+      ],
+      "optimizer_lrs": [
+        [
+          0.00040950958653570907
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 99
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/mu/seed3407/chemprop/model_0/checkpoints/last.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-16T01:29:21.506103+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 98,
+      "global_step": 41481,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        41481
+      ],
+      "optimizer_lrs": [
+        [
+          0.00040950958653570907
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 99
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/mu/seed42/chemprop/model_0/checkpoints/best-epoch=93-val_property_mae=0.39.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-15T23:42:23.872936+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 93,
+      "global_step": 39386,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        39386
+      ],
+      "optimizer_lrs": [
+        [
+          0.00046055815973044574
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 94
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/mu/seed42/chemprop/model_0/checkpoints/last.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-15T23:42:23.884940+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 93,
+      "global_step": 39386,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        39386
+      ],
+      "optimizer_lrs": [
+        [
+          0.00046055815973044574
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 94
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/r2/seed2026/chemprop/model_0/checkpoints/best-epoch=98-val_property_mae=21.32.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-16T00:36:25.950782+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 98,
+      "global_step": 41481,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        41481
+      ],
+      "optimizer_lrs": [
+        [
+          0.00040950958653570907
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 99
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/r2/seed2026/chemprop/model_0/checkpoints/last.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-16T00:36:25.962781+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 98,
+      "global_step": 41481,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        41481
+      ],
+      "optimizer_lrs": [
+        [
+          0.00040950958653570907
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 99
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/r2/seed3407/chemprop/model_0/checkpoints/best-epoch=96-val_property_mae=21.27.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-16T01:29:12.212430+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 96,
+      "global_step": 40643,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        40643
+      ],
+      "optimizer_lrs": [
+        [
+          0.00042921237621033437
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 97
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/r2/seed3407/chemprop/model_0/checkpoints/last.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-16T01:29:12.224432+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 96,
+      "global_step": 40643,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        40643
+      ],
+      "optimizer_lrs": [
+        [
+          0.00042921237621033437
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 97
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/r2/seed42/chemprop/model_0/checkpoints/best-epoch=98-val_property_mae=21.17.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-15T23:43:41.731377+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 98,
+      "global_step": 41481,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        41481
+      ],
+      "optimizer_lrs": [
+        [
+          0.00040950958653570907
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 99
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/r2/seed42/chemprop/model_0/checkpoints/last.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-15T23:43:41.743402+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 98,
+      "global_step": 41481,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        41481
+      ],
+      "optimizer_lrs": [
+        [
+          0.00040950958653570907
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 99
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/zpve/seed2026/chemprop/model_0/checkpoints/best-epoch=97-val_property_mae=0.00.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-16T00:36:32.062213+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 97,
+      "global_step": 41062,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        41062
+      ],
+      "optimizer_lrs": [
+        [
+          0.0004192452536617477
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 98
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/zpve/seed2026/chemprop/model_0/checkpoints/last.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-16T00:36:32.074212+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 97,
+      "global_step": 41062,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        41062
+      ],
+      "optimizer_lrs": [
+        [
+          0.0004192452536617477
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 98
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/zpve/seed3407/chemprop/model_0/checkpoints/best-epoch=99-val_property_mae=0.00.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-16T01:30:05.897923+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 99,
+      "global_step": 41900,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        41900
+      ],
+      "optimizer_lrs": [
+        [
+          0.0004
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 100
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/zpve/seed3407/chemprop/model_0/checkpoints/last.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-16T01:30:05.905924+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 99,
+      "global_step": 41900,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        41900
+      ],
+      "optimizer_lrs": [
+        [
+          0.0004
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 100
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/zpve/seed42/chemprop/model_0/checkpoints/best-epoch=91-val_property_mae=0.00.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-15T23:42:01.093810+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 91,
+      "global_step": 38548,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        38548
+      ],
+      "optimizer_lrs": [
+        [
+          0.00048271705625559493
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 92
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/zpve/seed42/chemprop/model_0/checkpoints/last.ckpt",
+      "size_bytes": 3850823,
+      "mtime_utc": "2026-10-15T23:42:01.105813+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "hparams_name",
+        "hyper_parameters",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 91,
+      "global_step": 38548,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val/property_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val/property_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        38548
+      ],
+      "optimizer_lrs": [
+        [
+          0.00048271705625559493
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 92
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/alpha/seed2026/checkpoints/best-epoch=097-val_mae=0.539757.ckpt",
+      "size_bytes": 26000106,
+      "mtime_utc": "2026-10-16T09:14:36.068282+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 97,
+      "global_step": 41062,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        41062
+      ],
+      "optimizer_lrs": [
+        [
+          3.0328853214923733e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 98
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/alpha/seed2026/model.pt",
+      "size_bytes": 8660278,
+      "mtime_utc": "2026-10-16T09:15:38.519784+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/alpha/seed3407/checkpoints/best-epoch=074-val_mae=0.551614.ckpt",
+      "size_bytes": 26000106,
+      "mtime_utc": "2026-10-16T10:46:03.013414+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 74,
+      "global_step": 31425,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        31425
+      ],
+      "optimizer_lrs": [
+        [
+          7.822367269231717e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 75
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/alpha/seed3407/model.pt",
+      "size_bytes": 8660278,
+      "mtime_utc": "2026-10-16T10:56:19.445762+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/alpha/seed42/checkpoints/best-epoch=098-val_mae=0.552830.ckpt",
+      "size_bytes": 26000106,
+      "mtime_utc": "2026-10-16T07:31:48.638715+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 98,
+      "global_step": 41481,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        41481
+      ],
+      "optimizer_lrs": [
+        [
+          3.008223835242207e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 99
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/alpha/seed42/model.pt",
+      "size_bytes": 8660278,
+      "mtime_utc": "2026-10-16T07:32:20.526013+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/homo/seed2026/checkpoints/best-epoch=099-val_mae=0.004325.ckpt",
+      "size_bytes": 26000106,
+      "mtime_utc": "2026-10-16T09:03:24.974178+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 99,
+      "global_step": 41900,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        41900
+      ],
+      "optimizer_lrs": [
+        [
+          2.9999999999999997e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 100
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/homo/seed2026/model.pt",
+      "size_bytes": 8660342,
+      "mtime_utc": "2026-10-16T09:03:29.052350+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/homo/seed3407/checkpoints/best-epoch=093-val_mae=0.004384.ckpt",
+      "size_bytes": 26000106,
+      "mtime_utc": "2026-10-16T10:40:09.196167+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 93,
+      "global_step": 39386,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        39386
+      ],
+      "optimizer_lrs": [
+        [
+          3.2950073900936234e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 94
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/homo/seed3407/model.pt",
+      "size_bytes": 8660342,
+      "mtime_utc": "2026-10-16T10:43:18.823143+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/homo/seed42/checkpoints/best-epoch=096-val_mae=0.004202.ckpt",
+      "size_bytes": 26000106,
+      "mtime_utc": "2026-10-16T07:18:20.190942+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 96,
+      "global_step": 40643,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        40643
+      ],
+      "optimizer_lrs": [
+        [
+          3.0739544125283105e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 97
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/homo/seed42/model.pt",
+      "size_bytes": 8660342,
+      "mtime_utc": "2026-10-16T07:19:56.928276+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/lumo/seed2026/checkpoints/best-epoch=092-val_mae=0.004742.ckpt",
+      "size_bytes": 26000106,
+      "mtime_utc": "2026-10-16T09:11:55.478895+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 92,
+      "global_step": 38967,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        38967
+      ],
+      "optimizer_lrs": [
+        [
+          3.401007695274047e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 93
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/lumo/seed2026/model.pt",
+      "size_bytes": 8660342,
+      "mtime_utc": "2026-10-16T09:15:36.383287+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/lumo/seed3407/checkpoints/best-epoch=085-val_mae=0.004804.ckpt",
+      "size_bytes": 26000106,
+      "mtime_utc": "2026-10-16T10:39:45.483762+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 85,
+      "global_step": 36034,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        36034
+      ],
+      "optimizer_lrs": [
+        [
+          4.580207496404486e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 86
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/lumo/seed3407/model.pt",
+      "size_bytes": 8660342,
+      "mtime_utc": "2026-10-16T10:46:54.966088+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/lumo/seed42/checkpoints/best-epoch=091-val_mae=0.004673.ckpt",
+      "size_bytes": 26000106,
+      "mtime_utc": "2026-10-16T07:28:07.643467+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 91,
+      "global_step": 38548,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        38548
+      ],
+      "optimizer_lrs": [
+        [
+          3.522967104832694e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 92
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/lumo/seed42/model.pt",
+      "size_bytes": 8660342,
+      "mtime_utc": "2026-10-16T07:32:18.805137+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/mu/seed2026/checkpoints/best-epoch=093-val_mae=0.571413.ckpt",
+      "size_bytes": 26000106,
+      "mtime_utc": "2026-10-16T09:52:06.231419+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 93,
+      "global_step": 39386,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        39386
+      ],
+      "optimizer_lrs": [
+        [
+          3.2950073900936234e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 94
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/mu/seed2026/model.pt",
+      "size_bytes": 8660278,
+      "mtime_utc": "2026-10-16T09:55:16.202368+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/mu/seed3407/checkpoints/best-epoch=091-val_mae=0.581921.ckpt",
+      "size_bytes": 26000106,
+      "mtime_utc": "2026-10-16T11:30:55.362087+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 91,
+      "global_step": 38548,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        38548
+      ],
+      "optimizer_lrs": [
+        [
+          3.522967104832694e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 92
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/mu/seed3407/model.pt",
+      "size_bytes": 8660278,
+      "mtime_utc": "2026-10-16T11:34:52.501242+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/mu/seed42/checkpoints/best-epoch=084-val_mae=0.570684.ckpt",
+      "size_bytes": 26000106,
+      "mtime_utc": "2026-10-16T08:03:44.688734+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 84,
+      "global_step": 35615,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        35615
+      ],
+      "optimizer_lrs": [
+        [
+          4.808657048910077e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 85
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/mu/seed42/model.pt",
+      "size_bytes": 8660278,
+      "mtime_utc": "2026-10-16T08:11:31.215843+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/r2/seed2026/checkpoints/best-epoch=098-val_mae=26.880630.ckpt",
+      "size_bytes": 26000106,
+      "mtime_utc": "2026-10-16T10:06:40.993855+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 98,
+      "global_step": 41481,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        41481
+      ],
+      "optimizer_lrs": [
+        [
+          3.008223835242207e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 99
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/r2/seed2026/model.pt",
+      "size_bytes": 8660278,
+      "mtime_utc": "2026-10-16T10:07:16.048123+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/r2/seed3407/checkpoints/best-epoch=097-val_mae=26.716690.ckpt",
+      "size_bytes": 26000106,
+      "mtime_utc": "2026-10-16T11:36:48.676001+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 97,
+      "global_step": 41062,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        41062
+      ],
+      "optimizer_lrs": [
+        [
+          3.0328853214923733e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 98
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/r2/seed3407/model.pt",
+      "size_bytes": 8660278,
+      "mtime_utc": "2026-10-16T11:37:36.704078+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/r2/seed42/checkpoints/best-epoch=081-val_mae=27.562546.ckpt",
+      "size_bytes": 26000106,
+      "mtime_utc": "2026-10-16T08:14:32.975312+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 81,
+      "global_step": 34358,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        34358
+      ],
+      "optimizer_lrs": [
+        [
+          5.578270575938211e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 82
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/r2/seed42/model.pt",
+      "size_bytes": 8660278,
+      "mtime_utc": "2026-10-16T08:23:51.651257+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/zpve/seed2026/checkpoints/best-epoch=048-val_mae=0.000941.ckpt",
+      "size_bytes": 26000106,
+      "mtime_utc": "2026-10-16T09:41:08.387278+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 48,
+      "global_step": 20531,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        20531
+      ],
+      "optimizer_lrs": [
+        [
+          0.00019306807826039747
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 49
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/zpve/seed2026/model.pt",
+      "size_bytes": 8660342,
+      "mtime_utc": "2026-10-16T09:51:32.796612+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/zpve/seed3407/checkpoints/best-epoch=052-val_mae=0.000890.ckpt",
+      "size_bytes": 26000106,
+      "mtime_utc": "2026-10-16T11:23:54.331836+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 52,
+      "global_step": 22207,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        22207
+      ],
+      "optimizer_lrs": [
+        [
+          0.0001744171239554569
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 53
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/zpve/seed3407/model.pt",
+      "size_bytes": 8660342,
+      "mtime_utc": "2026-10-16T11:34:17.541237+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/zpve/seed42/checkpoints/best-epoch=088-val_mae=0.000781.ckpt",
+      "size_bytes": 26000106,
+      "mtime_utc": "2026-10-16T08:18:16.089705+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 88,
+      "global_step": 37291,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        37291
+      ],
+      "optimizer_lrs": [
+        [
+          3.983017963348371e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 89
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/smiles_transformer/zpve/seed42/model.pt",
+      "size_bytes": 8660342,
+      "mtime_utc": "2026-10-16T08:23:54.878804+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/alpha/seed2026/checkpoints/best-epoch=096-val_mae=0.497955.ckpt",
+      "size_bytes": 28377834,
+      "mtime_utc": "2026-10-16T04:04:18.478258+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 96,
+      "global_step": 40643,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        40643
+      ],
+      "optimizer_lrs": [
+        [
+          3.0739544125283105e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 97
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/alpha/seed2026/model.pt",
+      "size_bytes": 9472502,
+      "mtime_utc": "2026-10-16T04:05:46.273793+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/alpha/seed3407/checkpoints/best-epoch=097-val_mae=0.491863.ckpt",
+      "size_bytes": 28365546,
+      "mtime_utc": "2026-10-16T05:48:03.952330+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 97,
+      "global_step": 41062,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        41062
+      ],
+      "optimizer_lrs": [
+        [
+          3.0328853214923733e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 98
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/alpha/seed3407/model.pt",
+      "size_bytes": 9468342,
+      "mtime_utc": "2026-10-16T05:49:04.447376+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/alpha/seed42/checkpoints/best-epoch=092-val_mae=0.503077.ckpt",
+      "size_bytes": 28359402,
+      "mtime_utc": "2026-10-16T02:18:46.032305+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 92,
+      "global_step": 38967,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        38967
+      ],
+      "optimizer_lrs": [
+        [
+          3.401007695274047e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 93
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/alpha/seed42/model.pt",
+      "size_bytes": 9466230,
+      "mtime_utc": "2026-10-16T02:22:11.418773+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/homo/seed2026/checkpoints/best-epoch=081-val_mae=0.004333.ckpt",
+      "size_bytes": 28377834,
+      "mtime_utc": "2026-10-16T03:56:11.942358+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 81,
+      "global_step": 34358,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        34358
+      ],
+      "optimizer_lrs": [
+        [
+          5.578270575938211e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 82
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/homo/seed2026/model.pt",
+      "size_bytes": 9472566,
+      "mtime_utc": "2026-10-16T04:05:30.915721+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/homo/seed3407/checkpoints/best-epoch=079-val_mae=0.004384.ckpt",
+      "size_bytes": 28365546,
+      "mtime_utc": "2026-10-16T05:27:50.989771+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 79,
+      "global_step": 33520,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        33520
+      ],
+      "optimizer_lrs": [
+        [
+          6.158400017893799e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 80
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/homo/seed3407/model.pt",
+      "size_bytes": 9468406,
+      "mtime_utc": "2026-10-16T05:38:09.864217+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/homo/seed42/checkpoints/best-epoch=098-val_mae=0.004283.ckpt",
+      "size_bytes": 28359402,
+      "mtime_utc": "2026-10-16T02:21:13.070562+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 98,
+      "global_step": 41481,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        41481
+      ],
+      "optimizer_lrs": [
+        [
+          3.008223835242207e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 99
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/homo/seed42/model.pt",
+      "size_bytes": 9466294,
+      "mtime_utc": "2026-10-16T02:21:48.193088+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/lumo/seed2026/checkpoints/best-epoch=093-val_mae=0.004371.ckpt",
+      "size_bytes": 28377834,
+      "mtime_utc": "2026-10-16T04:02:31.080593+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 93,
+      "global_step": 39386,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        39386
+      ],
+      "optimizer_lrs": [
+        [
+          3.2950073900936234e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 94
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/lumo/seed2026/model.pt",
+      "size_bytes": 9472566,
+      "mtime_utc": "2026-10-16T04:05:35.579277+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/lumo/seed3407/checkpoints/best-epoch=096-val_mae=0.004473.ckpt",
+      "size_bytes": 28365546,
+      "mtime_utc": "2026-10-16T05:47:21.987900+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 96,
+      "global_step": 40643,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        40643
+      ],
+      "optimizer_lrs": [
+        [
+          3.0739544125283105e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 97
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/lumo/seed3407/model.pt",
+      "size_bytes": 9468406,
+      "mtime_utc": "2026-10-16T05:48:58.069157+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/lumo/seed42/checkpoints/best-epoch=093-val_mae=0.004392.ckpt",
+      "size_bytes": 28359402,
+      "mtime_utc": "2026-10-16T02:18:59.653231+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 93,
+      "global_step": 39386,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        39386
+      ],
+      "optimizer_lrs": [
+        [
+          3.2950073900936234e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 94
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/lumo/seed42/model.pt",
+      "size_bytes": 9466294,
+      "mtime_utc": "2026-10-16T02:22:01.770072+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/mu/seed2026/checkpoints/best-epoch=058-val_mae=0.531801.ckpt",
+      "size_bytes": 28377834,
+      "mtime_utc": "2026-10-16T04:36:17.414660+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 58,
+      "global_step": 24721,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        24721
+      ],
+      "optimizer_lrs": [
+        [
+          0.00014621163137039118
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 59
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/mu/seed2026/model.pt",
+      "size_bytes": 9472502,
+      "mtime_utc": "2026-10-16T04:46:37.227468+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/mu/seed3407/checkpoints/best-epoch=076-val_mae=0.535096.ckpt",
+      "size_bytes": 28365546,
+      "mtime_utc": "2026-10-16T06:17:59.133256+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 76,
+      "global_step": 32263,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        32263
+      ],
+      "optimizer_lrs": [
+        [
+          7.122111998803535e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 77
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/mu/seed3407/model.pt",
+      "size_bytes": 9468342,
+      "mtime_utc": "2026-10-16T06:28:18.482173+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/mu/seed42/checkpoints/best-epoch=086-val_mae=0.540086.ckpt",
+      "size_bytes": 28359402,
+      "mtime_utc": "2026-10-16T03:06:51.908320+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 86,
+      "global_step": 36453,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        36453
+      ],
+      "optimizer_lrs": [
+        [
+          4.366280374961248e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 87
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/mu/seed42/model.pt",
+      "size_bytes": 9466230,
+      "mtime_utc": "2026-10-16T03:13:36.306127+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/r2/seed2026/checkpoints/best-epoch=095-val_mae=28.137127.ckpt",
+      "size_bytes": 28377834,
+      "mtime_utc": "2026-10-16T04:55:12.830289+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 95,
+      "global_step": 40224,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        40224
+      ],
+      "optimizer_lrs": [
+        [
+          3.1313810719888e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 96
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/r2/seed2026/model.pt",
+      "size_bytes": 9472502,
+      "mtime_utc": "2026-10-16T04:57:19.985492+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/r2/seed3407/checkpoints/best-epoch=097-val_mae=27.137735.ckpt",
+      "size_bytes": 28365546,
+      "mtime_utc": "2026-10-16T06:39:34.957169+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 97,
+      "global_step": 41062,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        41062
+      ],
+      "optimizer_lrs": [
+        [
+          3.0328853214923733e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 98
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/r2/seed3407/model.pt",
+      "size_bytes": 9468342,
+      "mtime_utc": "2026-10-16T06:40:40.960488+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/r2/seed42/checkpoints/best-epoch=096-val_mae=27.603247.ckpt",
+      "size_bytes": 28359402,
+      "mtime_utc": "2026-10-16T03:12:15.806291+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 96,
+      "global_step": 40643,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        40643
+      ],
+      "optimizer_lrs": [
+        [
+          3.0739544125283105e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 97
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/r2/seed42/model.pt",
+      "size_bytes": 9466230,
+      "mtime_utc": "2026-10-16T03:13:46.111068+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/zpve/seed2026/checkpoints/best-epoch=094-val_mae=0.000625.ckpt",
+      "size_bytes": 28377834,
+      "mtime_utc": "2026-10-16T04:54:51.875445+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 94,
+      "global_step": 39805,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        39805
+      ],
+      "optimizer_lrs": [
+        [
+          3.205095334335192e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 95
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/zpve/seed2026/model.pt",
+      "size_bytes": 9472566,
+      "mtime_utc": "2026-10-16T04:57:25.435141+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/zpve/seed3407/checkpoints/best-epoch=099-val_mae=0.000619.ckpt",
+      "size_bytes": 28365546,
+      "mtime_utc": "2026-10-16T06:40:42.849679+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 99,
+      "global_step": 41900,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        41900
+      ],
+      "optimizer_lrs": [
+        [
+          2.9999999999999997e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 100
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/zpve/seed3407/model.pt",
+      "size_bytes": 9468406,
+      "mtime_utc": "2026-10-16T06:40:44.898956+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/zpve/seed42/checkpoints/best-epoch=088-val_mae=0.000645.ckpt",
+      "size_bytes": 28359402,
+      "mtime_utc": "2026-10-16T03:08:24.281700+00:00",
+      "keys": [
+        "callbacks",
+        "epoch",
+        "global_step",
+        "loops",
+        "lr_schedulers",
+        "optimizer_states",
+        "pytorch-lightning_version",
+        "state_dict"
+      ],
+      "epoch": 88,
+      "global_step": 37291,
+      "full_training_state": true,
+      "optimizer_count": 1,
+      "scheduler_count": 1,
+      "callbacks": [
+        "EarlyStopping{'monitor': 'val_mae', 'mode': 'min'}",
+        "ModelCheckpoint{'monitor': 'val_mae', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}"
+      ],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [
+        37291
+      ],
+      "optimizer_lrs": [
+        [
+          3.983017963348371e-05
+        ]
+      ],
+      "epochs_completed_from_checkpoint": 89
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/spe_transformer/zpve/seed42/model.pt",
+      "size_bytes": 9466294,
+      "mtime_utc": "2026-10-16T03:13:55.598288+00:00",
+      "keys": [
+        "format_version",
+        "label_unit",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_column",
+        "target_scaler",
+        "tokenizer"
+      ],
+      "epoch": null,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": []
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/auto_training/formal_20261012/runs/3dinfomax/seed2026/model.pt",
+      "size_bytes": 19984074,
+      "mtime_utc": "2026-10-14T10:40:37.399640+00:00",
+      "keys": [
+        "best_validation_mae",
+        "epoch",
+        "geometry_sha256",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_scaler"
+      ],
+      "epoch": 91,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": [],
+      "epochs_completed_from_checkpoint": 91
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/auto_training/formal_20261012/runs/3dinfomax/seed3407/model.pt",
+      "size_bytes": 19984074,
+      "mtime_utc": "2026-10-14T02:15:55.228707+00:00",
+      "keys": [
+        "best_validation_mae",
+        "epoch",
+        "geometry_sha256",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_scaler"
+      ],
+      "epoch": 93,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": [],
+      "epochs_completed_from_checkpoint": 93
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/auto_training/formal_20261012/runs/3dinfomax/seed42/model.pt",
+      "size_bytes": 19984074,
+      "mtime_utc": "2026-10-14T04:30:42.384167+00:00",
+      "keys": [
+        "best_validation_mae",
+        "epoch",
+        "geometry_sha256",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_scaler"
+      ],
+      "epoch": 100,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": [],
+      "epochs_completed_from_checkpoint": 100
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/auto_training/formal_20261012/runs/alignn/seed2026/model.pt",
+      "size_bytes": 4255818,
+      "mtime_utc": "2026-10-12T14:28:09.912295+00:00",
+      "keys": [
+        "best_validation_mae",
+        "epoch",
+        "geometry_sha256",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_scaler"
+      ],
+      "epoch": 97,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": [],
+      "epochs_completed_from_checkpoint": 97
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/auto_training/formal_20261012/runs/alignn/seed3407/model.pt",
+      "size_bytes": 4255818,
+      "mtime_utc": "2026-10-11T22:39:45.229754+00:00",
+      "keys": [
+        "best_validation_mae",
+        "epoch",
+        "geometry_sha256",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_scaler"
+      ],
+      "epoch": 25,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": [],
+      "epochs_completed_from_checkpoint": 25
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/auto_training/formal_20261012/runs/alignn/seed42/model.pt",
+      "size_bytes": 4255818,
+      "mtime_utc": "2026-10-12T06:34:23.243851+00:00",
+      "keys": [
+        "best_validation_mae",
+        "epoch",
+        "geometry_sha256",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_scaler"
+      ],
+      "epoch": 98,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": [],
+      "epochs_completed_from_checkpoint": 98
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/auto_training/formal_20261012/runs/dimenet_pp/seed2026/model.pt",
+      "size_bytes": 7592030,
+      "mtime_utc": "2026-10-13T06:51:20.141948+00:00",
+      "keys": [
+        "best_validation_mae",
+        "epoch",
+        "geometry_sha256",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_scaler"
+      ],
+      "epoch": 99,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": [],
+      "epochs_completed_from_checkpoint": 99
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/auto_training/formal_20261012/runs/dimenet_pp/seed3407/model.pt",
+      "size_bytes": 7592030,
+      "mtime_utc": "2026-10-12T20:02:48.617662+00:00",
+      "keys": [
+        "best_validation_mae",
+        "epoch",
+        "geometry_sha256",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_scaler"
+      ],
+      "epoch": 99,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": [],
+      "epochs_completed_from_checkpoint": 99
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/auto_training/formal_20261012/runs/dimenet_pp/seed42/model.pt",
+      "size_bytes": 7592030,
+      "mtime_utc": "2026-10-13T01:23:25.026479+00:00",
+      "keys": [
+        "best_validation_mae",
+        "epoch",
+        "geometry_sha256",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_scaler"
+      ],
+      "epoch": 98,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": [],
+      "epochs_completed_from_checkpoint": 98
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/auto_training/formal_20261012/runs/egnn/seed3407/model.pt",
+      "size_bytes": 3060990,
+      "mtime_utc": "2026-10-14T13:59:32.654262+00:00",
+      "keys": [
+        "best_validation_mae",
+        "epoch",
+        "geometry_sha256",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_scaler"
+      ],
+      "epoch": 100,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": [],
+      "epochs_completed_from_checkpoint": 100
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/auto_training/formal_20261012/runs/esa/seed2026/model.pt",
+      "size_bytes": 12026126,
+      "mtime_utc": "2026-10-14T14:18:40.701520+00:00",
+      "keys": [
+        "best_validation_mae",
+        "epoch",
+        "geometry_sha256",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_scaler"
+      ],
+      "epoch": 78,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": [],
+      "epochs_completed_from_checkpoint": 78
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/auto_training/formal_20261012/runs/esa/seed3407/model.pt",
+      "size_bytes": 12026126,
+      "mtime_utc": "2026-10-14T07:20:35.708232+00:00",
+      "keys": [
+        "best_validation_mae",
+        "epoch",
+        "geometry_sha256",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_scaler"
+      ],
+      "epoch": 92,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": [],
+      "epochs_completed_from_checkpoint": 92
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/auto_training/formal_20261012/runs/esa/seed42/model.pt",
+      "size_bytes": 12026126,
+      "mtime_utc": "2026-10-14T10:02:41.945693+00:00",
+      "keys": [
+        "best_validation_mae",
+        "epoch",
+        "geometry_sha256",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_scaler"
+      ],
+      "epoch": 89,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": [],
+      "epochs_completed_from_checkpoint": 89
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/auto_training/formal_20261012/runs/torchmd_net/seed2026/model.pt",
+      "size_bytes": 5421490,
+      "mtime_utc": "2026-10-13T19:40:31.761745+00:00",
+      "keys": [
+        "best_validation_mae",
+        "epoch",
+        "geometry_sha256",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_scaler"
+      ],
+      "epoch": 98,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": [],
+      "epochs_completed_from_checkpoint": 98
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/auto_training/formal_20261012/runs/torchmd_net/seed3407/model.pt",
+      "size_bytes": 5421490,
+      "mtime_utc": "2026-10-13T11:08:58.054748+00:00",
+      "keys": [
+        "best_validation_mae",
+        "epoch",
+        "geometry_sha256",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_scaler"
+      ],
+      "epoch": 100,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": [],
+      "epochs_completed_from_checkpoint": 100
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/auto_training/formal_20261012/runs/torchmd_net/seed42/model.pt",
+      "size_bytes": 5421490,
+      "mtime_utc": "2026-10-13T15:24:55.393797+00:00",
+      "keys": [
+        "best_validation_mae",
+        "epoch",
+        "geometry_sha256",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_scaler"
+      ],
+      "epoch": 99,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": [],
+      "epochs_completed_from_checkpoint": 99
+    },
+    {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_transformer_m_cross_gpu_20261015/artifacts/reproductions/transformer_m_cross_gpu_seed3407_20261015_173755/runs/transformer_m_qm9_scratch_cross_gpu_reproduction/seed3407/model.pt",
+      "size_bytes": 191257042,
+      "mtime_utc": "2026-10-15T10:57:36.266248+00:00",
+      "keys": [
+        "best_validation_mae",
+        "epoch",
+        "geometry_sha256",
+        "model_config",
+        "model_type",
+        "split_manifest_sha256",
+        "state_dict",
+        "target_scaler",
+        "topology_sha256"
+      ],
+      "epoch": 97,
+      "global_step": null,
+      "full_training_state": false,
+      "optimizer_count": 0,
+      "scheduler_count": 0,
+      "callbacks": [],
+      "saved_rng_keys": [],
+      "scheduler_last_epoch": [],
+      "optimizer_lrs": [],
+      "epochs_completed_from_checkpoint": 97
+    }
+  ]
+}

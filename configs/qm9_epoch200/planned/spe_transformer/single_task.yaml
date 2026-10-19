@@ -1,0 +1,25 @@
+status: planned_not_executable
+source_config: configs/spe_transformer.yaml
+model: spe_transformer
+training:
+  epochs: 200
+  batch_size: 256
+  patience: 20
+targets:
+- homo
+- lumo
+- delta_e
+- alpha
+- mu
+- r2
+- zpve
+seeds:
+- 42
+- 2026
+- 3407
+modification: original architecture; seven independent single-task runs; adapter/pretraining/data
+  preflight pending
+preprocessing:
+  target_scaling: train_only_zscore
+  loss: mse
+  note: Historical DeMol/Transformer-M MAD/MAE needs matched retraining

@@ -1,0 +1,828 @@
+{
+  "generated_utc": "2026-10-19T10:26:20.591437+00:00",
+  "server_id": "nmb2-22233-autodl-container-9d8949b25a-0ad6f492",
+  "gpu": "NVIDIA GeForce RTX 3090",
+  "torch_version": "2.6.0+cu124",
+  "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb",
+  "expected": 114,
+  "passed": 114,
+  "failed": 0,
+  "attempts": 114,
+  "stage1_passed": 33,
+  "stage2_passed": 81,
+  "rows_per_split": 500,
+  "epochs": 1,
+  "batch_size": 256,
+  "optimizer_steps_per_job": 2,
+  "first_run_created_utc": "2026-10-19T10:00:44.196949+00:00",
+  "last_run_created_utc": "2026-10-19T10:24:59.266553+00:00",
+  "total_job_wall_seconds": 1463.0083515271544,
+  "local_full_evidence": "artifacts/qm9_epoch200/smoke114_nmb2_20261019",
+  "formal_training_started": false,
+  "successful_checkpoint_policy": "audited/hash recorded then removed, user authorized, smoke only",
+  "clean_export_tests_passed": 73,
+  "models": {
+    "chemprop": {
+      "jobs": 33,
+      "passed": 33,
+      "max_train_peak_gpu_gib": 0.26383399963378906,
+      "max_sampled_tree_rss_gib": 3.8671302795410156,
+      "mean_smoke_epoch_seconds": 0.6401268241531921,
+      "total_wall_seconds": 268.20243245363235
+    },
+    "dimenet_pp": {
+      "jobs": 9,
+      "passed": 9,
+      "max_train_peak_gpu_gib": 11.696956634521484,
+      "max_sampled_tree_rss_gib": 4.270469665527344,
+      "mean_smoke_epoch_seconds": 2.2728974007897906,
+      "total_wall_seconds": 201.14088451862335
+    },
+    "demol": {
+      "jobs": 6,
+      "passed": 6,
+      "max_train_peak_gpu_gib": 8.906267166137695,
+      "max_sampled_tree_rss_gib": 10.087287902832031,
+      "mean_smoke_epoch_seconds": 4.733611186345418,
+      "total_wall_seconds": 202.1388716623187
+    },
+    "painn": {
+      "jobs": 9,
+      "passed": 9,
+      "max_train_peak_gpu_gib": 1.9601120948791504,
+      "max_sampled_tree_rss_gib": 4.2811279296875,
+      "mean_smoke_epoch_seconds": 1.1308487206697464,
+      "total_wall_seconds": 80.05809560418129
+    },
+    "egnn": {
+      "jobs": 9,
+      "passed": 9,
+      "max_train_peak_gpu_gib": 5.355845928192139,
+      "max_sampled_tree_rss_gib": 4.105976104736328,
+      "mean_smoke_epoch_seconds": 1.279040899541643,
+      "total_wall_seconds": 84.05362087488174
+    },
+    "torchmd_net": {
+      "jobs": 6,
+      "passed": 6,
+      "max_train_peak_gpu_gib": 8.094653129577637,
+      "max_sampled_tree_rss_gib": 4.366535186767578,
+      "mean_smoke_epoch_seconds": 1.7818995863199234,
+      "total_wall_seconds": 66.05110628902912
+    },
+    "transformer_m": {
+      "jobs": 6,
+      "passed": 6,
+      "max_train_peak_gpu_gib": 0.9663267135620117,
+      "max_sampled_tree_rss_gib": 6.0371856689453125,
+      "mean_smoke_epoch_seconds": 1.4917308737834294,
+      "total_wall_seconds": 93.05997288227081
+    },
+    "3dinfomax": {
+      "jobs": 9,
+      "passed": 9,
+      "max_train_peak_gpu_gib": 1.3197035789489746,
+      "max_sampled_tree_rss_gib": 4.552989959716797,
+      "mean_smoke_epoch_seconds": 2.0885722231533794,
+      "total_wall_seconds": 104.07989398390055
+    },
+    "schnet": {
+      "jobs": 9,
+      "passed": 9,
+      "max_train_peak_gpu_gib": 1.38238525390625,
+      "max_sampled_tree_rss_gib": 4.145595550537109,
+      "mean_smoke_epoch_seconds": 1.0863597691059113,
+      "total_wall_seconds": 80.05015270411968
+    },
+    "esa": {
+      "jobs": 6,
+      "passed": 6,
+      "max_train_peak_gpu_gib": 1.8179216384887695,
+      "max_sampled_tree_rss_gib": 4.098075866699219,
+      "mean_smoke_epoch_seconds": 1.4089305189748604,
+      "total_wall_seconds": 57.04048253595829
+    },
+    "spe_transformer": {
+      "jobs": 6,
+      "passed": 6,
+      "max_train_peak_gpu_gib": 0.6930913925170898,
+      "max_sampled_tree_rss_gib": 2.9954185485839844,
+      "mean_smoke_epoch_seconds": 0.6838276187578837,
+      "total_wall_seconds": 158.08914329111576
+    },
+    "smiles_transformer": {
+      "jobs": 6,
+      "passed": 6,
+      "max_train_peak_gpu_gib": 0.6908769607543945,
+      "max_sampled_tree_rss_gib": 2.5022850036621094,
+      "mean_smoke_epoch_seconds": 0.6401506202916304,
+      "total_wall_seconds": 69.04369472712278
+    }
+  },
+  "assets": {
+    "infomax_seed42": {
+      "checkpoint": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/auto_training/formal_20261012/runs/3dinfomax_pretrain/seed42/best_checkpoint.pt",
+      "sha256": "877907662ea93d28f2496bbc86356dd7cd1440724a7a9d07481c65c34e1c220d",
+      "geometry_sha256": "0f2d284e59242ae71493f15aea876c444a7e8b0baa607c8b2e9380caf0e6b210",
+      "manifest_sha256": "cd291da6fcde7055870b30aa31a30f281ec92792881b57ebbee83c92ffcaf6cf"
+    },
+    "infomax_seed2026": {
+      "checkpoint": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/auto_training/formal_20261012/runs/3dinfomax_pretrain/seed2026/best_checkpoint.pt",
+      "sha256": "6c9b0193eebd69f2dc160504e5bb3c4c3065bc9e413ca4aa66d7f7ae437f34df",
+      "geometry_sha256": "442448d38c3606cc0fe4d5f305679d738c97db4fd75fec18b5a527d0599bc076",
+      "manifest_sha256": "814583d9523c67427e3725cb7d991c8d47cd3a4f9280eaa39e7df1b598218c3c"
+    },
+    "infomax_seed3407": {
+      "checkpoint": "/root/autodl-tmp/evan/ai4Chemistry/artifacts/auto_training/formal_20261012/runs/3dinfomax_pretrain/seed3407/best_checkpoint.pt",
+      "sha256": "337ddc5771174e9139b9f3e5a11eca0a08bf3824f6085a43958e07aabe79bcf2",
+      "geometry_sha256": "b9ca7d881ec66a554fe747b376bf0229f2b34ba7d39f16bb2487fe266da29b19",
+      "manifest_sha256": "c23bfbb887e8fb7014353cea2154a623444defe3b356cee60350079b221ccd43"
+    }
+  },
+  "jobs": [
+    {
+      "id": "chemprop_single_task_homo_seed42",
+      "config": "configs/qm9_epoch200/fresh/chemprop/homo_seed42.yaml",
+      "config_sha256": "6e5662c5c545364f3feb414d45136975963a806b7db09b915da1168a9b883819",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_single_task_homo_seed2026",
+      "config": "configs/qm9_epoch200/fresh/chemprop/homo_seed2026.yaml",
+      "config_sha256": "aced4178d517c0f181814e4830b1950ebd852abe86084c16ccc666d659e44c4d",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_single_task_homo_seed3407",
+      "config": "configs/qm9_epoch200/fresh/chemprop/homo_seed3407.yaml",
+      "config_sha256": "29d2d01a708d6669a9f9a08dd03bfb56788ae6d9b08d91139fe81fd2f143a30e",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_single_task_lumo_seed42",
+      "config": "configs/qm9_epoch200/fresh/chemprop/lumo_seed42.yaml",
+      "config_sha256": "c1d2db57b34a9bd4a4800715f0ee0d500e9ff81d22017f83255300904ba44015",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_single_task_lumo_seed2026",
+      "config": "configs/qm9_epoch200/fresh/chemprop/lumo_seed2026.yaml",
+      "config_sha256": "5e2c9b2dae5ad8519b47e850c2c475170f6307f8539675afa24b9fa188e33093",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_single_task_lumo_seed3407",
+      "config": "configs/qm9_epoch200/fresh/chemprop/lumo_seed3407.yaml",
+      "config_sha256": "9a0b8fadbeafda3dc037cb4c9528ab9391285289398d66d7f69fcfb5134fad92",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_single_task_delta_e_seed42",
+      "config": "configs/qm9_epoch200/fresh/chemprop/delta_e_seed42.yaml",
+      "config_sha256": "3bba715c8b65a478b56d768a7417790a1d82a170b683c787b9b1f8687b3e4689",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_single_task_delta_e_seed2026",
+      "config": "configs/qm9_epoch200/fresh/chemprop/delta_e_seed2026.yaml",
+      "config_sha256": "3da3a2716b94cc520795a19903811dd50d29a103c8a726e55cd50eec2fb31b7e",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_single_task_delta_e_seed3407",
+      "config": "configs/qm9_epoch200/fresh/chemprop/delta_e_seed3407.yaml",
+      "config_sha256": "6a4fda124ff016f8a702b246652f62600acd23d3183b4e33e760bc1a65807404",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_single_task_alpha_seed42",
+      "config": "configs/qm9_epoch200/fresh/chemprop/alpha_seed42.yaml",
+      "config_sha256": "d10467476ce6d03e31a1c0ec74b9ea6664ef99fc662ad9c8b1c34802ad93017f",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_single_task_alpha_seed2026",
+      "config": "configs/qm9_epoch200/fresh/chemprop/alpha_seed2026.yaml",
+      "config_sha256": "7e355d46703f119b2fc4fb0e83b6527bc59045eda36189df3f07c7b001180b6e",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_single_task_alpha_seed3407",
+      "config": "configs/qm9_epoch200/fresh/chemprop/alpha_seed3407.yaml",
+      "config_sha256": "35dba56d7aaa1c32e7b1b7743d451490eb9f5edaa926d0b038380ab84c16fd78",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_single_task_mu_seed42",
+      "config": "configs/qm9_epoch200/fresh/chemprop/mu_seed42.yaml",
+      "config_sha256": "bffe59b9b15924ddb50d42fa6bd04c4ac9794a602f71beaf48f43501cb6cc2c0",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_single_task_mu_seed2026",
+      "config": "configs/qm9_epoch200/fresh/chemprop/mu_seed2026.yaml",
+      "config_sha256": "570b9f1c565273bb3b17dfe6a44d99bee14b94b4615f873a835b84510df30c2d",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_single_task_mu_seed3407",
+      "config": "configs/qm9_epoch200/fresh/chemprop/mu_seed3407.yaml",
+      "config_sha256": "d02c3b5813e5307df20a29e7e0d4a6abd586a67af6c4a5975466008490dfd846",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_single_task_r2_seed42",
+      "config": "configs/qm9_epoch200/fresh/chemprop/r2_seed42.yaml",
+      "config_sha256": "63ad020e61b6ec11c21e9541f99bdd8f6dc0fdb58c51ffce0da4b7acd534de38",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_single_task_r2_seed2026",
+      "config": "configs/qm9_epoch200/fresh/chemprop/r2_seed2026.yaml",
+      "config_sha256": "8863a016f7d0669234e865c703556267e0766694cd30257d41794ac6e549352b",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_single_task_r2_seed3407",
+      "config": "configs/qm9_epoch200/fresh/chemprop/r2_seed3407.yaml",
+      "config_sha256": "4dfbbe290a4423a441ad1bbea958adc177e120a63be2e16f849e98bd95d985b8",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_single_task_zpve_seed42",
+      "config": "configs/qm9_epoch200/fresh/chemprop/zpve_seed42.yaml",
+      "config_sha256": "905d4daee17dffbeb4a67a1ba5577ca4d0b90dcee3aafd8d7c9f396968497baa",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_single_task_zpve_seed2026",
+      "config": "configs/qm9_epoch200/fresh/chemprop/zpve_seed2026.yaml",
+      "config_sha256": "1fb3ed0987994d95cd7f3718287747a3a70790ffd5101e13061e1eb7a9e49f89",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_single_task_zpve_seed3407",
+      "config": "configs/qm9_epoch200/fresh/chemprop/zpve_seed3407.yaml",
+      "config_sha256": "2edc4d4c93b0dd20bd4df1f5aeb99cda8deabb59af4286230aba4fa77b2b0cdd",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_D1_seed42",
+      "config": "configs/qm9_epoch200/fresh/chemprop_variants/D1_seed42.yaml",
+      "config_sha256": "a3493fe5b56f3c99ca359ff27729d29fda170b723b4b089dd7099df2635186fa",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_D1_seed2026",
+      "config": "configs/qm9_epoch200/fresh/chemprop_variants/D1_seed2026.yaml",
+      "config_sha256": "4fc3d39ccacbe9edbc83e06b57484bb176315a352fa6b8d517e33af066932e59",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_D1_seed3407",
+      "config": "configs/qm9_epoch200/fresh/chemprop_variants/D1_seed3407.yaml",
+      "config_sha256": "aaf664631d44072fb261d6932916507ec3e67202cafefa7ab74b513bb1f0dce4",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_D2_seed42",
+      "config": "configs/qm9_epoch200/fresh/chemprop_variants/D2_seed42.yaml",
+      "config_sha256": "0be54cf13c7d2550db5a7deccdefcdd6417aa86e2d16c4b98bc54c6a8490b44b",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_D2_seed2026",
+      "config": "configs/qm9_epoch200/fresh/chemprop_variants/D2_seed2026.yaml",
+      "config_sha256": "7954d5162c8835669c068f96a600f884bfe28ed9fd54211385b938ad3a346d05",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_D2_seed3407",
+      "config": "configs/qm9_epoch200/fresh/chemprop_variants/D2_seed3407.yaml",
+      "config_sha256": "704d520d752e927c2316d3d27a8676a9ccff24f134f99241721ec48cff16549b",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_task_attention7_seed42",
+      "config": "configs/qm9_epoch200/fresh/chemprop/task_attention7_seed42.yaml",
+      "config_sha256": "a6905fb2f267f67d5708e3458ae7e4d5dd58b3977d9464d455edb4926f86d5bd",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_task_attention7_seed2026",
+      "config": "configs/qm9_epoch200/fresh/chemprop/task_attention7_seed2026.yaml",
+      "config_sha256": "0502d0e95a0ddb9efb13ed712d9f243aeec1f5fb4032c2a3bfa279157f909594",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_task_attention7_seed3407",
+      "config": "configs/qm9_epoch200/fresh/chemprop/task_attention7_seed3407.yaml",
+      "config_sha256": "6043761c75eaab65b166b1ed5d9f69ed39c93b9b51756e6a81b517a1dbca7d37",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_physics_thermo10_seed42",
+      "config": "configs/qm9_epoch200/fresh/chemprop/physics_thermo10_seed42.yaml",
+      "config_sha256": "23ca4b8b8d96b7b501feb77a79ff3ea43a8fd55b1afac39a1a4f14757f547e28",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_physics_thermo10_seed2026",
+      "config": "configs/qm9_epoch200/fresh/chemprop/physics_thermo10_seed2026.yaml",
+      "config_sha256": "e475a41693971f7b758e0aff9a2231f33c84b2b522b7300378254d5a8d447d53",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "chemprop_physics_thermo10_seed3407",
+      "config": "configs/qm9_epoch200/fresh/chemprop/physics_thermo10_seed3407.yaml",
+      "config_sha256": "356c22425f832ce25f1d3d9b55fa04b647c8de6cfe81aec35977f248877bbdcd",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "dimenet_pp_single_task_delta_e_seed42",
+      "config": "configs/qm9_epoch200/fresh/dimenet_pp/single_task_seed42.yaml",
+      "config_sha256": "1097e9574c316db3091905ce05a6d9438972c07bf37254e02e755659f4be8c05",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "dimenet_pp_single_task_delta_e_seed2026",
+      "config": "configs/qm9_epoch200/fresh/dimenet_pp/single_task_seed2026.yaml",
+      "config_sha256": "38ec25b5ae7f12a5926e5870cbc2d3183a4094d27395d2784d1ea6460ce345b6",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "dimenet_pp_single_task_delta_e_seed3407",
+      "config": "configs/qm9_epoch200/fresh/dimenet_pp/single_task_seed3407.yaml",
+      "config_sha256": "933d2a7a71a40559cb8d18133320231e9b6d44d18556113c4befee4158536996",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "dimenet_pp_task_attention7_seed42",
+      "config": "configs/qm9_epoch200/fresh/dimenet_pp/task_attention7_seed42.yaml",
+      "config_sha256": "1e9d5ed2e60fcaed9014841d092777d87d1002076179dcfee43523d79dda8aee",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "dimenet_pp_task_attention7_seed2026",
+      "config": "configs/qm9_epoch200/fresh/dimenet_pp/task_attention7_seed2026.yaml",
+      "config_sha256": "48d230bc6f357680347ccbb35da349c205ef1ed0dd5fbd4734fff367c4819e9c",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "dimenet_pp_task_attention7_seed3407",
+      "config": "configs/qm9_epoch200/fresh/dimenet_pp/task_attention7_seed3407.yaml",
+      "config_sha256": "c9821fd3fe27326662ec718baf291e2809686ce2cf43b596b2de54251c99031e",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "dimenet_pp_physics_thermo10_seed42",
+      "config": "configs/qm9_epoch200/fresh/dimenet_pp/physics_thermo10_seed42.yaml",
+      "config_sha256": "d8950b1c5ca84abf3289261d74c2a9556f630204be68b524dc274cc019290658",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "dimenet_pp_physics_thermo10_seed2026",
+      "config": "configs/qm9_epoch200/fresh/dimenet_pp/physics_thermo10_seed2026.yaml",
+      "config_sha256": "3ae8c699ee4a984f1618d97a08cf31891ac95eba4c28db1edc5a0c8e2ff501a0",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "dimenet_pp_physics_thermo10_seed3407",
+      "config": "configs/qm9_epoch200/fresh/dimenet_pp/physics_thermo10_seed3407.yaml",
+      "config_sha256": "a1d46d74c9a8684c148d1ff7626dfae1551a926dcd97efd45ce28502f59ab7ff",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "demol_task_attention7_seed42",
+      "config": "configs/qm9_epoch200/fresh/demol/task_attention7_seed42.yaml",
+      "config_sha256": "fb39a22ed7fba0342ff2c6b4e6502de0577cb5257d956f32ebeb0c89d13aec54",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "demol_task_attention7_seed2026",
+      "config": "configs/qm9_epoch200/fresh/demol/task_attention7_seed2026.yaml",
+      "config_sha256": "2b318d847675dc352af7a87d3e9147dbbdb2d85a8c9f8d7b657f2c45254c4254",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "demol_task_attention7_seed3407",
+      "config": "configs/qm9_epoch200/fresh/demol/task_attention7_seed3407.yaml",
+      "config_sha256": "6a06bd0bc2145e7feabd0cf627d1d44550ba814f8ea024a7d38ca72ac624ce9b",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "demol_physics_thermo10_seed42",
+      "config": "configs/qm9_epoch200/fresh/demol/physics_thermo10_seed42.yaml",
+      "config_sha256": "ff42769ad2e33646f547827a6173cdbdd9d1981eae97b45d304e6a0f0ed4d8f2",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "demol_physics_thermo10_seed2026",
+      "config": "configs/qm9_epoch200/fresh/demol/physics_thermo10_seed2026.yaml",
+      "config_sha256": "9f9f7cace5524a2d6b9b4d8a0177eb0c63a49ec78c0a4c4c9f85752e8e58cea6",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "demol_physics_thermo10_seed3407",
+      "config": "configs/qm9_epoch200/fresh/demol/physics_thermo10_seed3407.yaml",
+      "config_sha256": "dfc3db6d267b292e7fbdc88a2f03ba6228d69b4825a227d01c231f8ee35bae13",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "painn_single_task_delta_e_seed42",
+      "config": "configs/qm9_epoch200/fresh/painn/single_task_seed42.yaml",
+      "config_sha256": "fe32425044fbf60662dea2d94d64761adb6c5a293e6bae6d12414ca9347d17c9",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "painn_single_task_delta_e_seed2026",
+      "config": "configs/qm9_epoch200/fresh/painn/single_task_seed2026.yaml",
+      "config_sha256": "ccd13aa01802adf8a74115688e2d8bf126c19b7a8fec30637aeccc411dfb3fc1",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "painn_single_task_delta_e_seed3407",
+      "config": "configs/qm9_epoch200/fresh/painn/single_task_seed3407.yaml",
+      "config_sha256": "2d575d6b5f72a10ac6d4efc44d885462cffd0b7eb9da363dd93e4d2611dc69df",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "painn_task_attention7_seed42",
+      "config": "configs/qm9_epoch200/fresh/painn/task_attention7_seed42.yaml",
+      "config_sha256": "9cb776b472698571771df5cee30da369a3899e882499be7645e43ea3f27a0105",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "painn_task_attention7_seed2026",
+      "config": "configs/qm9_epoch200/fresh/painn/task_attention7_seed2026.yaml",
+      "config_sha256": "6af962a310db04d0c203dd12278cd55ebe6add4053351a67b1111415ef4a2a46",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "painn_task_attention7_seed3407",
+      "config": "configs/qm9_epoch200/fresh/painn/task_attention7_seed3407.yaml",
+      "config_sha256": "6059c6b27c8199316d032c7c8c1d54611d0d4fe52f1cbec53d577cc1516cf6f5",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "painn_physics_thermo10_seed42",
+      "config": "configs/qm9_epoch200/fresh/painn/physics_thermo10_seed42.yaml",
+      "config_sha256": "99649324f438d9a8488e898c84fee0b2106268e94175eddf6ed4e41eb18712d0",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "painn_physics_thermo10_seed2026",
+      "config": "configs/qm9_epoch200/fresh/painn/physics_thermo10_seed2026.yaml",
+      "config_sha256": "4a5eb428cb3ad801d36ee539759af4397d15fad4fb42802a64e0b630f433347d",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "painn_physics_thermo10_seed3407",
+      "config": "configs/qm9_epoch200/fresh/painn/physics_thermo10_seed3407.yaml",
+      "config_sha256": "50f0cae68e484295408cad72faf8dbb64065b8d9f27746d7ba06539d4e0823a6",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "egnn_single_task_delta_e_seed42",
+      "config": "configs/qm9_epoch200/fresh/egnn/single_task_seed42.yaml",
+      "config_sha256": "f13e3fae3f8488eaa0c347f58ff5c088123f19672f0c4b09f13f0687cb4fb267",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "egnn_single_task_delta_e_seed2026",
+      "config": "configs/qm9_epoch200/fresh/egnn/single_task_seed2026.yaml",
+      "config_sha256": "0ae2dbb5fddfd6c81b987ecab4d5de8beee0c43efeb9383eef902d5808c100f7",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "egnn_single_task_delta_e_seed3407",
+      "config": "configs/qm9_epoch200/fresh/egnn/single_task_seed3407.yaml",
+      "config_sha256": "ba3c31ec362ebc6bbab49f2138eb950d3385c280eb9c415960ba1f3ad080191d",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "egnn_task_attention7_seed42",
+      "config": "configs/qm9_epoch200/fresh/egnn/task_attention7_seed42.yaml",
+      "config_sha256": "be32bbb3658d20110485298ee82eaf70d586cd395fda8db327e2a8ead44526f7",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "egnn_task_attention7_seed2026",
+      "config": "configs/qm9_epoch200/fresh/egnn/task_attention7_seed2026.yaml",
+      "config_sha256": "57084479df20c76710bcf1f3cfb65bcd0d3c4616d1697de3ef7e983f09ee5385",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "egnn_task_attention7_seed3407",
+      "config": "configs/qm9_epoch200/fresh/egnn/task_attention7_seed3407.yaml",
+      "config_sha256": "bb66fc4b629f913c0730c15dad69e2d42514f4a0edc358b9c329a919a4191efa",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "egnn_physics_thermo10_seed42",
+      "config": "configs/qm9_epoch200/fresh/egnn/physics_thermo10_seed42.yaml",
+      "config_sha256": "8ca980b6be87adf6a9897eceb4abc2a944832cbab7e0cb20b3339483342ab9e6",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "egnn_physics_thermo10_seed2026",
+      "config": "configs/qm9_epoch200/fresh/egnn/physics_thermo10_seed2026.yaml",
+      "config_sha256": "bcc140957bd63fa7bef1fb28b83ff02388d3fc1f7d4fc3a06b1cd930916421fc",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "egnn_physics_thermo10_seed3407",
+      "config": "configs/qm9_epoch200/fresh/egnn/physics_thermo10_seed3407.yaml",
+      "config_sha256": "07fb71301c471363f2a6934839beade94ace26ac6ab8b5cabc67bcd3b13cef98",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "torchmd_net_task_attention7_seed42",
+      "config": "configs/qm9_epoch200/fresh/torchmd_net/task_attention7_seed42.yaml",
+      "config_sha256": "6911fa1677902952ef66a6b51b7110ef7a154bcfb2dad220ec2dd1db61c02714",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "torchmd_net_task_attention7_seed2026",
+      "config": "configs/qm9_epoch200/fresh/torchmd_net/task_attention7_seed2026.yaml",
+      "config_sha256": "ea696406bc0be828fa974067863bfa4d9c934241b569bbce252458d1946cc0a2",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "torchmd_net_task_attention7_seed3407",
+      "config": "configs/qm9_epoch200/fresh/torchmd_net/task_attention7_seed3407.yaml",
+      "config_sha256": "eddcfb22bda1e3490aaf4369ec857b09e78069c3579cd81ac9fd1c864ffda988",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "torchmd_net_physics_thermo10_seed42",
+      "config": "configs/qm9_epoch200/fresh/torchmd_net/physics_thermo10_seed42.yaml",
+      "config_sha256": "c527cc385e8d242515e7ee48d3a62a1685f4946d7084b480150d5d4a8e919a05",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "torchmd_net_physics_thermo10_seed2026",
+      "config": "configs/qm9_epoch200/fresh/torchmd_net/physics_thermo10_seed2026.yaml",
+      "config_sha256": "e7c22b91e4fe0c43ad99ccee27ba533547d26e39cebcc76b18e692185509e7f8",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "torchmd_net_physics_thermo10_seed3407",
+      "config": "configs/qm9_epoch200/fresh/torchmd_net/physics_thermo10_seed3407.yaml",
+      "config_sha256": "739e9d8e6355bc32c153613bd7ce9a153f997f9e7ae7c7cd000c6dfc463acc34",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "transformer_m_task_attention7_seed42",
+      "config": "configs/qm9_epoch200/fresh/transformer_m/task_attention7_seed42.yaml",
+      "config_sha256": "f2357e5d10b8b1c0cc98404f464ecda2b4149d5d7e3c7a064d8ca8e0d3c28c19",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "transformer_m_task_attention7_seed2026",
+      "config": "configs/qm9_epoch200/fresh/transformer_m/task_attention7_seed2026.yaml",
+      "config_sha256": "f9f68121fb5200ac31e68abb1e27e02cecdeebd7c41423fec7544aa672f2363e",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "transformer_m_task_attention7_seed3407",
+      "config": "configs/qm9_epoch200/fresh/transformer_m/task_attention7_seed3407.yaml",
+      "config_sha256": "18bc6905dd21988e1f79d4a1aaee816eef0d700ee72d09a99cbdd63bb51fa0f5",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "transformer_m_physics_thermo10_seed42",
+      "config": "configs/qm9_epoch200/fresh/transformer_m/physics_thermo10_seed42.yaml",
+      "config_sha256": "062e2a4c11e7bf293f3c48893a7616e5c40cc93ba4e85561494d25d2dba602cf",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "transformer_m_physics_thermo10_seed2026",
+      "config": "configs/qm9_epoch200/fresh/transformer_m/physics_thermo10_seed2026.yaml",
+      "config_sha256": "288b3266cbd9d3a7e4980da403ff6937ec50b9281222817d3cc287d925a1dfa2",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "transformer_m_physics_thermo10_seed3407",
+      "config": "configs/qm9_epoch200/fresh/transformer_m/physics_thermo10_seed3407.yaml",
+      "config_sha256": "6e53727269407a6e76124b79abb642819b6f9515a1d6ed5b89eb80150d32ae48",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "3dinfomax_single_task_delta_e_seed42",
+      "config": "configs/qm9_epoch200/fresh/3dinfomax/single_task_seed42.yaml",
+      "config_sha256": "55fa495af75c6e53ec89f68eefc42fb053d5c4c1fbaf15310e44b81db1283407",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "3dinfomax_single_task_delta_e_seed2026",
+      "config": "configs/qm9_epoch200/fresh/3dinfomax/single_task_seed2026.yaml",
+      "config_sha256": "6ea90ae745aec47bc61814d584838657098d76178425f5c1badcd8c10e6511c2",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "3dinfomax_single_task_delta_e_seed3407",
+      "config": "configs/qm9_epoch200/fresh/3dinfomax/single_task_seed3407.yaml",
+      "config_sha256": "f50d425b610f39b03a63b3ee41d84466a0e722f750aeb0f293d44ec06fe33378",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "3dinfomax_task_attention7_seed42",
+      "config": "configs/qm9_epoch200/fresh/3dinfomax/task_attention7_seed42.yaml",
+      "config_sha256": "71fa60996423ec3334c00e2af63c0a287365015ac12cab0bf8659496be33d5cc",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "3dinfomax_task_attention7_seed2026",
+      "config": "configs/qm9_epoch200/fresh/3dinfomax/task_attention7_seed2026.yaml",
+      "config_sha256": "20ab28eed32af6a145286129752183b91f87a2a2316f0445052a6dbefdaf1c60",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "3dinfomax_task_attention7_seed3407",
+      "config": "configs/qm9_epoch200/fresh/3dinfomax/task_attention7_seed3407.yaml",
+      "config_sha256": "44714269685d1543dc60cc0b53f8cd1c18f8e8860746572f440516607fdba65e",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "3dinfomax_physics_thermo10_seed42",
+      "config": "configs/qm9_epoch200/fresh/3dinfomax/physics_thermo10_seed42.yaml",
+      "config_sha256": "c2556a0f47697bf0273f373297de940cc70efe44b1f7283e75b17d7857a42348",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "3dinfomax_physics_thermo10_seed2026",
+      "config": "configs/qm9_epoch200/fresh/3dinfomax/physics_thermo10_seed2026.yaml",
+      "config_sha256": "fd9a919678516e88384dcae840b522257193f51f9ff7fcd78700a093766149c3",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "3dinfomax_physics_thermo10_seed3407",
+      "config": "configs/qm9_epoch200/fresh/3dinfomax/physics_thermo10_seed3407.yaml",
+      "config_sha256": "a5ce94b5cd7c8cebc6d34c83264472335a02d06c6a387f6438a481d9421785eb",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "schnet_single_task_delta_e_seed42",
+      "config": "configs/qm9_epoch200/fresh/schnet/single_task_seed42.yaml",
+      "config_sha256": "d260014c23298438478a1bd551a649ae02e24c1a911ef891683488ce52f527bb",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "schnet_single_task_delta_e_seed2026",
+      "config": "configs/qm9_epoch200/fresh/schnet/single_task_seed2026.yaml",
+      "config_sha256": "5944e2293d5aba148cfebd0c37ae325b66277930448bf8f01e6ddfb39d052143",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "schnet_single_task_delta_e_seed3407",
+      "config": "configs/qm9_epoch200/fresh/schnet/single_task_seed3407.yaml",
+      "config_sha256": "b07557c20a43f6c9ba1f37bf6d7f0c535a22129d67869168d5fbb5ead76f804b",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "schnet_task_attention7_seed42",
+      "config": "configs/qm9_epoch200/fresh/schnet/task_attention7_seed42.yaml",
+      "config_sha256": "8f7dd0626be4be54e7a4a3d053b352af6f5305ca389dee6c1cc33165c212cb77",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "schnet_task_attention7_seed2026",
+      "config": "configs/qm9_epoch200/fresh/schnet/task_attention7_seed2026.yaml",
+      "config_sha256": "8542fb8ce936381171f11c62c6b793ce4a39b8d12e326ce03ec81408437ec248",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "schnet_task_attention7_seed3407",
+      "config": "configs/qm9_epoch200/fresh/schnet/task_attention7_seed3407.yaml",
+      "config_sha256": "f5360f9bd882d50235ee3ec0794e60d0dc4960a307bac8307b4d033776db386a",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "schnet_physics_thermo10_seed42",
+      "config": "configs/qm9_epoch200/fresh/schnet/physics_thermo10_seed42.yaml",
+      "config_sha256": "2d06beb2f6b6e9d6a55108c7840fe7cdb1b758cb73ff56c37dcf949b693cccaa",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "schnet_physics_thermo10_seed2026",
+      "config": "configs/qm9_epoch200/fresh/schnet/physics_thermo10_seed2026.yaml",
+      "config_sha256": "72d0d903b0ba68c381388bda7fd92136a7581eada3af0556af3d1d4275272fb9",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "schnet_physics_thermo10_seed3407",
+      "config": "configs/qm9_epoch200/fresh/schnet/physics_thermo10_seed3407.yaml",
+      "config_sha256": "95c47d29da45fe922c1b160c8d56342cdd14c1ac22e71ed6dc128ffed27c7643",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "esa_task_attention7_seed42",
+      "config": "configs/qm9_epoch200/fresh/esa/task_attention7_seed42.yaml",
+      "config_sha256": "7d9b8cc4b2d7d474c6e94ec2232ae7f04ec5086a160b0058e046334f59ad27d0",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "esa_task_attention7_seed2026",
+      "config": "configs/qm9_epoch200/fresh/esa/task_attention7_seed2026.yaml",
+      "config_sha256": "a5a475075d84459d9829ccab1d5b408d07faa68b2e9ac9741d1dd5fbcb754285",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "esa_task_attention7_seed3407",
+      "config": "configs/qm9_epoch200/fresh/esa/task_attention7_seed3407.yaml",
+      "config_sha256": "3666c4fda5f6c1b427d523426e8f10651253a0d1dd963e199e0d48050571f560",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "esa_physics_thermo10_seed42",
+      "config": "configs/qm9_epoch200/fresh/esa/physics_thermo10_seed42.yaml",
+      "config_sha256": "505ef443ba4450d9dd88af19f7d1cd1caa87b24c25cbd7067885b804f1b99277",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "esa_physics_thermo10_seed2026",
+      "config": "configs/qm9_epoch200/fresh/esa/physics_thermo10_seed2026.yaml",
+      "config_sha256": "1282249a99ee030e305041a3b41220e11041da602d05117983c8b911afd2f5e2",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "esa_physics_thermo10_seed3407",
+      "config": "configs/qm9_epoch200/fresh/esa/physics_thermo10_seed3407.yaml",
+      "config_sha256": "962fa7d77d576f95d333e3ee4abfd895ff54d70b765d20f08e7589780c0d7c3d",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "spe_transformer_task_attention7_seed42",
+      "config": "configs/qm9_epoch200/fresh/spe_transformer/task_attention7_seed42.yaml",
+      "config_sha256": "ebfc0c0ee4db957d39700e3ef0d84e619ede5ed591647a3742abb5e0ba8becdc",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "spe_transformer_task_attention7_seed2026",
+      "config": "configs/qm9_epoch200/fresh/spe_transformer/task_attention7_seed2026.yaml",
+      "config_sha256": "3152e49a8f6993e86cb8a282ddec98c680a1e8ab7d2edc115e31410f7832d9ec",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "spe_transformer_task_attention7_seed3407",
+      "config": "configs/qm9_epoch200/fresh/spe_transformer/task_attention7_seed3407.yaml",
+      "config_sha256": "5729f59d856b536a57bc1a5c256536d94f3a1a40dbbf75446bb2d2b1d0a5f70b",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "spe_transformer_physics_thermo10_seed42",
+      "config": "configs/qm9_epoch200/fresh/spe_transformer/physics_thermo10_seed42.yaml",
+      "config_sha256": "7e8cd7c6e8512c93fc5acc5344b246ebdd054dac22299c4bf15447e5c3bd2d18",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "spe_transformer_physics_thermo10_seed2026",
+      "config": "configs/qm9_epoch200/fresh/spe_transformer/physics_thermo10_seed2026.yaml",
+      "config_sha256": "e961805f3865a3a2a44d7ede9e42563b3d385f4ffa9b565f4ab05ed3aa3ccb6d",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "spe_transformer_physics_thermo10_seed3407",
+      "config": "configs/qm9_epoch200/fresh/spe_transformer/physics_thermo10_seed3407.yaml",
+      "config_sha256": "36c220f04bf41a8331a624399dd850a8b9f66a5ef48e66eeae8a18981f1a9fad",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "smiles_transformer_task_attention7_seed42",
+      "config": "configs/qm9_epoch200/fresh/smiles_transformer/task_attention7_seed42.yaml",
+      "config_sha256": "5017c740bc50dddd44bd18298e0360d3d10cbe2daf7c34450d29a0c61d13615a",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "smiles_transformer_task_attention7_seed2026",
+      "config": "configs/qm9_epoch200/fresh/smiles_transformer/task_attention7_seed2026.yaml",
+      "config_sha256": "18acf538c28ffb56ba63f15cd3c174841600fbea80ce010f9bcdb33ed2e60558",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "smiles_transformer_task_attention7_seed3407",
+      "config": "configs/qm9_epoch200/fresh/smiles_transformer/task_attention7_seed3407.yaml",
+      "config_sha256": "b1be2b104cea83debb7222a882f953f390bf3f827dbcc496339f50e035746d83",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "smiles_transformer_physics_thermo10_seed42",
+      "config": "configs/qm9_epoch200/fresh/smiles_transformer/physics_thermo10_seed42.yaml",
+      "config_sha256": "edc5fcc2e9a3848abe28102c1fe49c8d2611cfa3a64e1a2804cfb60fe79aceac",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "smiles_transformer_physics_thermo10_seed2026",
+      "config": "configs/qm9_epoch200/fresh/smiles_transformer/physics_thermo10_seed2026.yaml",
+      "config_sha256": "0776e542d25a368466af051857bf188cfa2945ff1d8f6fe0526af8fa5b61e1b3",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    },
+    {
+      "id": "smiles_transformer_physics_thermo10_seed3407",
+      "config": "configs/qm9_epoch200/fresh/smiles_transformer/physics_thermo10_seed3407.yaml",
+      "config_sha256": "b8a47add22018a505f03acd88d61927f0abd7e8a43400ba0e3e7224e7aa1f227",
+      "source_sha256": "84df45b817ad01fffe6b3966d284ea7b94b6d198ebb7bfd9129197bdc819daeb"
+    }
+  ]
+}

@@ -49,8 +49,8 @@ class SmilesTransformerRegressor(nn.Module):
         with torch.no_grad():
             self.token_embedding.weight[0].zero_()
 
-    def forward(self, input_ids: torch.Tensor, attention_mask: torch.Tensor) -> torch.Tensor:
-        """Predict one normalized property value per sequence."""
+    def encode(self, input_ids: torch.Tensor, attention_mask: torch.Tensor) -> torch.Tensor:
+        """Expose the unchanged invariant sequence pooling for opt-in heads."""
         positions = torch.arange(input_ids.shape[1], device=input_ids.device).unsqueeze(0)
         hidden = self.token_embedding(input_ids) + self.position_embedding(positions)
         hidden = self.embedding_dropout(hidden)
@@ -60,7 +60,11 @@ class SmilesTransformerRegressor(nn.Module):
         else:
             mask = attention_mask.unsqueeze(-1).to(hidden.dtype)
             pooled = (hidden * mask).sum(dim=1) / mask.sum(dim=1).clamp_min(1.0)
-        return self.regression_head(pooled).squeeze(-1)
+        return pooled
+
+    def forward(self, input_ids: torch.Tensor, attention_mask: torch.Tensor) -> torch.Tensor:
+        """Predict one normalized property value per sequence."""
+        return self.regression_head(self.encode(input_ids, attention_mask)).squeeze(-1)
 
 
 def count_trainable_parameters(model: nn.Module) -> int:

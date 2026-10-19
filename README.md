@@ -1,5 +1,14 @@
 # Molecular HOMO–LUMO Gap Prediction
 
+## 新一轮200 epoch与可插拔模块审查
+
+新正式比较采用batch256、最多200轮、patience20和42/2026/3407配对seed；历史100轮结果保留。
+当前114项候选、第一阶段33项的代码和指令已接通，B/C与细分消融不重训，已有Transformer基础模型默认不重训。
+新增任务注意力七任务与物理约束十任务；逐标签训练集Z-score/MSE，联合任务按原单位Hartree验证gap MAE选模。
+统一入口支持每50轮完整快照、每轮last和完整epoch边界恢复，保存优化器/LR/早停/RNG/loader/scaler与数据身份。
+拟提交干净副本73项测试通过；3090上114/114项均以每分区500条、batch256、1轮实际CUDA烟测通过，含预测回算与状态审计。此前恢复及物理权重启用专项检查保留。**尚未启动正式训练，全量最坏输入及并发/容量仍需按正式机器校准**。见[114项烟测报告](docs/features/qm9-epoch200-modular-study/smoke114_report.md)。
+见[当前训练清单与交付](docs/features/qm9-epoch200-modular-study/README.md)与[运行/恢复指令](docs/features/qm9-epoch200-modular-study/operations.md)。
+
 ## QM9 六性质神经网络单任务扩展
 
 十模型 × 六性质 × 三个配对 seed，共 180 项下游任务。任务清单与超参保存在

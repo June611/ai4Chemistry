@@ -1,0 +1,23 @@
+status: planned_not_executable
+source_config: configs/qm9_models/painn.yaml
+model: painn
+training:
+  epochs: 200
+  batch_size: 256
+  patience: 20
+targets:
+- delta_e
+seeds:
+- 42
+- 2026
+- 3407
+modification: original architecture; gap-only fresh200 reference; adapter/pretraining/data
+  preflight pending
+preprocessing:
+  target_scaling: train_only_zscore
+  loss: mse
+  note: Historical results remain separate from this fresh200 protocol
+validation:
+  metric: val_delta_e_mae
+  unit: hartree
+  mode: min

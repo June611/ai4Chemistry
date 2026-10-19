@@ -1,0 +1,20 @@
+{
+  "total_planned_jobs": 114,
+  "stage1_jobs": 33,
+  "ready_configs": 27,
+  "stage2_jobs": 81,
+  "stage2_graph_gap_baselines": 15,
+  "stage2_plugin_jobs": 66,
+  "transformer_base_retraining_default": false,
+  "excluded_variants": [
+    "B",
+    "C",
+    "mtl7",
+    "physics_gap7",
+    "mtl10_control"
+  ],
+  "stage2_requires_review": true,
+  "all_epochs": 200,
+  "modules_implemented": false,
+  "training_started": false
+}

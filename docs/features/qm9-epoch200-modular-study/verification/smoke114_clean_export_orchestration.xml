@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="1" time="0.178" timestamp="2026-10-19T18:03:22.228019+08:00" hostname="DESKTOP-3L2JSET"><testcase classname="tests.test_epoch200_smoke" name="test_smoke_queue_continues_and_retests_source_changes" time="0.081" /></testsuite></testsuites>

@@ -1,0 +1,150 @@
+status: implemented_pending_gpu_smoke
+experiment:
+  name: 3dinfomax_single_task_delta_e
+  model_id: 3dinfomax_single_task
+  protocol_id: qm9_modular_fresh200_v1
+backbone:
+  model: 3dinfomax
+  family: graph
+  input: 3D pretrain / 2D inference
+source_config: configs/qm9_models/3dinfomax.yaml
+source:
+  experiment:
+    name: 3dinfomax_qm9
+    model_type: 3dinfomax
+  data:
+    processed_dir: data/processed/qm9_full/random/seed3407
+    geometry: data/geometry/qm9_full_seed3407.npz
+    smiles_column: smiles
+    id_column: sample_id
+    target_column: delta_e
+    targets:
+    - delta_e
+    label_unit: hartree
+    split:
+      method: random
+      sizes:
+      - 0.8
+      - 0.1
+      - 0.1
+      seed: 3407
+      stratify:
+        strategy: quantile
+        column: delta_e
+        bins: 200
+  model:
+    name: 3dinfomax
+    params:
+      hidden_dim: 200
+      propagation_depth: 7
+      aggregators:
+      - mean
+      - max
+      - min
+      - std
+      scalers:
+      - identity
+      - amplification
+      - attenuation
+      readout_aggregators:
+      - min
+      - max
+      - mean
+      - sum
+      mid_batch_norm: true
+      last_batch_norm: true
+      readout_batchnorm: true
+      batch_norm_momentum: 0.1
+      readout_hidden_dim: 200
+      readout_layers: 2
+      dropout: 0.0
+      pretrans_layers: 2
+      posttrans_layers: 1
+      residual: true
+      require_pretrained: true
+      pretrain_checkpoint: artifacts/qm9_epoch200/pretrained/3dinfomax_seed3407.pt
+  training:
+    seed: 3407
+    epochs: 100
+    batch_size: 256
+    optimizer: adam
+    lr: 0.0001
+    weight_decay: 0.0
+    gradient_clip_val: 1.0
+    target_scaling: mad
+    loss: mae
+    accelerator: auto
+    num_workers: 4
+    early_stopping:
+      monitor: val_mae
+      patience: 20
+      min_delta: 1.0e-05
+  evaluation:
+    metrics:
+    - mae
+    - rmse
+    - mape
+    - r2
+  output:
+    root: outputs/paired_gap_mae_v2
+    save_predictions: true
+    save_model: true
+data:
+  smiles_column: smiles
+  id_column: sample_id
+  processed_dir: data/processed/qm9_single_properties_v1/random/seed3407
+  split:
+    method: random
+    sizes:
+    - 0.8
+    - 0.1
+    - 0.1
+    seed: 3407
+    stratify:
+      strategy: quantile
+      column: delta_e
+      bins: 200
+  targets:
+  - delta_e
+  units:
+    delta_e: hartree
+  selection_target: delta_e
+training:
+  epochs: 200
+  batch_size: 256
+  patience: 20
+  min_delta: 0.0
+  checkpoint_every_n_epochs: 50
+  seed: 3407
+  split_seed: 3407
+  run_mode: paired_split_seed
+  seed_pairing: matched
+  num_workers: 2
+  pin_memory: true
+  target_scaling: train_only_per_target_zscore
+  supervised_loss: mse
+  selection_metric: val_delta_e_mae
+module:
+  variant: single_task
+  hidden_dim: 128
+  num_heads: 4
+  dropout: 0.1
+  physics:
+    kbt_hartree: 0.000944186
+    gap_tolerance_hartree: 0.0001
+    enthalpy_tolerance_hartree: 1.0e-06
+    scale_floor_hartree: 1.0e-08
+    warmup_epochs: 10
+    ramp_epochs: 10
+    weight: 0.1
+output:
+  root: artifacts/qm9_epoch200/fresh
+evaluation:
+  report_tasks:
+  - delta_e
+  metrics:
+  - mae
+  - mse
+  - rmse
+  - r2
+  original_units: true

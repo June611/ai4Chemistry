@@ -1,0 +1,164 @@
+status: implemented_pending_gpu_smoke
+experiment:
+  name: chemprop_D1
+  model_id: chemprop_D1
+  protocol_id: qm9_modular_fresh200_v1
+backbone:
+  model: chemprop
+  family: graph
+  input: 2D
+source_config: configs/qm9_multitask7/models/chemprop_mtl7_uncertainty.yaml
+source:
+  experiment:
+    name: chemprop_mtl7_uncertainty
+    protocol_id: paired_split_qm9_neural_multitask7_v1
+    model_id: chemprop_mtl7_uncertainty
+    variant: D1
+  data:
+    processed_dir: data/processed/qm9_single_properties_v1/random/seed42
+    property_data_root: data/processed/qm9_single_properties_v1
+    smiles_column: smiles
+    id_column: sample_id
+    targets:
+    - homo
+    - lumo
+    - delta_e
+    - alpha
+    - mu
+    - r2
+    - zpve
+    units:
+      homo: hartree
+      lumo: hartree
+      delta_e: hartree
+      alpha: bohr^3
+      mu: debye
+      r2: bohr^2
+      zpve: hartree
+    split:
+      method: random
+      sizes:
+      - 0.8
+      - 0.1
+      - 0.1
+      seed: 42
+      stratify:
+        strategy: quantile
+        column: delta_e
+        bins: 200
+  model:
+    backend: chemprop_python
+    message_hidden_dim: 300
+    depth: 3
+    dropout: 0.1
+    activation: relu
+    aggregation: mean
+    batch_norm: false
+    ffn_hidden_dim: 300
+    ffn_num_layers: 1
+    use_affinity: false
+    use_uncertainty: true
+    affinity_temperature: 1.0
+    affinity_identity_bias: 2.0
+    head_layout: extra_projection
+  training:
+    batch_size: 256
+    epochs: 100
+    patience: 20
+    min_delta: 0.0
+    warmup_epochs: 2
+    init_lr: 0.0004
+    max_lr: 0.004
+    final_lr: 0.0004
+    optimizer: adam
+    weight_decay: 0.0
+    grad_clip: null
+    target_scaling: standard
+    selection_metric: delta_e_mae
+    seed: 42
+    split_seed: 42
+    accelerator: gpu
+    devices: 1
+    precision: 32-true
+    num_workers: 4
+    pin_memory: true
+    deterministic: true
+  output:
+    root: artifacts/qm9_multitask7/standalone
+data:
+  smiles_column: smiles
+  id_column: sample_id
+  processed_dir: data/processed/qm9_single_properties_v1/random/seed2026
+  split:
+    method: random
+    sizes:
+    - 0.8
+    - 0.1
+    - 0.1
+    seed: 2026
+    stratify:
+      strategy: quantile
+      column: delta_e
+      bins: 200
+  targets:
+  - homo
+  - lumo
+  - delta_e
+  - alpha
+  - mu
+  - r2
+  - zpve
+  units:
+    homo: hartree
+    lumo: hartree
+    delta_e: hartree
+    alpha: bohr^3
+    mu: debye
+    r2: bohr^2
+    zpve: hartree
+  selection_target: delta_e
+training:
+  epochs: 200
+  batch_size: 256
+  patience: 20
+  min_delta: 0.0
+  checkpoint_every_n_epochs: 50
+  seed: 2026
+  split_seed: 2026
+  run_mode: paired_split_seed
+  seed_pairing: matched
+  num_workers: 2
+  pin_memory: true
+  target_scaling: train_only_per_target_zscore
+  supervised_loss: mse
+  selection_metric: val_delta_e_mae
+module:
+  variant: D1
+  hidden_dim: 128
+  num_heads: 4
+  dropout: 0.1
+  physics:
+    kbt_hartree: 0.000944186
+    gap_tolerance_hartree: 0.0001
+    enthalpy_tolerance_hartree: 1.0e-06
+    scale_floor_hartree: 1.0e-08
+    warmup_epochs: 10
+    ramp_epochs: 10
+    weight: 0.1
+output:
+  root: artifacts/qm9_epoch200/fresh
+evaluation:
+  report_tasks:
+  - homo
+  - lumo
+  - delta_e
+  - alpha
+  - mu
+  - r2
+  - zpve
+  metrics:
+  - mae
+  - mse
+  - rmse
+  - r2
+  original_units: true

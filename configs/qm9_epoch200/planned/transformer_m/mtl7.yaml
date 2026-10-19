@@ -1,0 +1,31 @@
+status: planned_not_executable
+protocol_id: qm9_epoch200_plugins_design_v1
+backbone:
+  model: transformer_m
+  family: transformer
+  source_config: configs/qm9_models/transformer_m.yaml
+  input: 3D
+training:
+  epochs: 200
+  batch_size: 256
+  patience: 20
+  seeds:
+  - 42
+  - 2026
+  - 3407
+  target_scaling: train_only_zscore
+  supervised_loss: mse
+  selection: original_unit_val_delta_e_mae
+tasks:
+- homo
+- lumo
+- delta_e
+- alpha
+- mu
+- r2
+- zpve
+module:
+  head: independent
+  physics_constraints: []
+implementation_note: matched shared-encoder seven-head control
+gate: Chemprop modules must be implemented, audited and validated before stage2 launch

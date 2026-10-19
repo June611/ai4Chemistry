@@ -1,0 +1,152 @@
+{
+  "queue_rows": 114,
+  "stage1_rows": 33,
+  "ready_command_count": 27,
+  "pending_without_commands": 87,
+  "new_module_classes_found": {},
+  "entrypoints": [
+    {
+      "id": "chemprop_st_homo_seed42",
+      "module": "molgap.training.train",
+      "config": "configs/qm9_epoch200/fresh/chemprop/homo_seed42.yaml"
+    },
+    {
+      "id": "chemprop_st_homo_seed2026",
+      "module": "molgap.training.train",
+      "config": "configs/qm9_epoch200/fresh/chemprop/homo_seed2026.yaml"
+    },
+    {
+      "id": "chemprop_st_homo_seed3407",
+      "module": "molgap.training.train",
+      "config": "configs/qm9_epoch200/fresh/chemprop/homo_seed3407.yaml"
+    },
+    {
+      "id": "chemprop_st_lumo_seed42",
+      "module": "molgap.training.train",
+      "config": "configs/qm9_epoch200/fresh/chemprop/lumo_seed42.yaml"
+    },
+    {
+      "id": "chemprop_st_lumo_seed2026",
+      "module": "molgap.training.train",
+      "config": "configs/qm9_epoch200/fresh/chemprop/lumo_seed2026.yaml"
+    },
+    {
+      "id": "chemprop_st_lumo_seed3407",
+      "module": "molgap.training.train",
+      "config": "configs/qm9_epoch200/fresh/chemprop/lumo_seed3407.yaml"
+    },
+    {
+      "id": "chemprop_st_delta_e_seed42",
+      "module": "molgap.training.train",
+      "config": "configs/qm9_epoch200/fresh/chemprop/delta_e_seed42.yaml"
+    },
+    {
+      "id": "chemprop_st_delta_e_seed2026",
+      "module": "molgap.training.train",
+      "config": "configs/qm9_epoch200/fresh/chemprop/delta_e_seed2026.yaml"
+    },
+    {
+      "id": "chemprop_st_delta_e_seed3407",
+      "module": "molgap.training.train",
+      "config": "configs/qm9_epoch200/fresh/chemprop/delta_e_seed3407.yaml"
+    },
+    {
+      "id": "chemprop_st_alpha_seed42",
+      "module": "molgap.training.train",
+      "config": "configs/qm9_epoch200/fresh/chemprop/alpha_seed42.yaml"
+    },
+    {
+      "id": "chemprop_st_alpha_seed2026",
+      "module": "molgap.training.train",
+      "config": "configs/qm9_epoch200/fresh/chemprop/alpha_seed2026.yaml"
+    },
+    {
+      "id": "chemprop_st_alpha_seed3407",
+      "module": "molgap.training.train",
+      "config": "configs/qm9_epoch200/fresh/chemprop/alpha_seed3407.yaml"
+    },
+    {
+      "id": "chemprop_st_mu_seed42",
+      "module": "molgap.training.train",
+      "config": "configs/qm9_epoch200/fresh/chemprop/mu_seed42.yaml"
+    },
+    {
+      "id": "chemprop_st_mu_seed2026",
+      "module": "molgap.training.train",
+      "config": "configs/qm9_epoch200/fresh/chemprop/mu_seed2026.yaml"
+    },
+    {
+      "id": "chemprop_st_mu_seed3407",
+      "module": "molgap.training.train",
+      "config": "configs/qm9_epoch200/fresh/chemprop/mu_seed3407.yaml"
+    },
+    {
+      "id": "chemprop_st_r2_seed42",
+      "module": "molgap.training.train",
+      "config": "configs/qm9_epoch200/fresh/chemprop/r2_seed42.yaml"
+    },
+    {
+      "id": "chemprop_st_r2_seed2026",
+      "module": "molgap.training.train",
+      "config": "configs/qm9_epoch200/fresh/chemprop/r2_seed2026.yaml"
+    },
+    {
+      "id": "chemprop_st_r2_seed3407",
+      "module": "molgap.training.train",
+      "config": "configs/qm9_epoch200/fresh/chemprop/r2_seed3407.yaml"
+    },
+    {
+      "id": "chemprop_st_zpve_seed42",
+      "module": "molgap.training.train",
+      "config": "configs/qm9_epoch200/fresh/chemprop/zpve_seed42.yaml"
+    },
+    {
+      "id": "chemprop_st_zpve_seed2026",
+      "module": "molgap.training.train",
+      "config": "configs/qm9_epoch200/fresh/chemprop/zpve_seed2026.yaml"
+    },
+    {
+      "id": "chemprop_st_zpve_seed3407",
+      "module": "molgap.training.train",
+      "config": "configs/qm9_epoch200/fresh/chemprop/zpve_seed3407.yaml"
+    },
+    {
+      "id": "chemprop_D1_seed42",
+      "module": "molgap.training.multitask7",
+      "config": "configs/qm9_epoch200/fresh/chemprop_variants/D1_seed42.yaml"
+    },
+    {
+      "id": "chemprop_D1_seed2026",
+      "module": "molgap.training.multitask7",
+      "config": "configs/qm9_epoch200/fresh/chemprop_variants/D1_seed2026.yaml"
+    },
+    {
+      "id": "chemprop_D1_seed3407",
+      "module": "molgap.training.multitask7",
+      "config": "configs/qm9_epoch200/fresh/chemprop_variants/D1_seed3407.yaml"
+    },
+    {
+      "id": "chemprop_D2_seed42",
+      "module": "molgap.training.multitask7",
+      "config": "configs/qm9_epoch200/fresh/chemprop_variants/D2_seed42.yaml"
+    },
+    {
+      "id": "chemprop_D2_seed2026",
+      "module": "molgap.training.multitask7",
+      "config": "configs/qm9_epoch200/fresh/chemprop_variants/D2_seed2026.yaml"
+    },
+    {
+      "id": "chemprop_D2_seed3407",
+      "module": "molgap.training.multitask7",
+      "config": "configs/qm9_epoch200/fresh/chemprop_variants/D2_seed3407.yaml"
+    }
+  ],
+  "test_results": {
+    "tests": 29,
+    "failures": 0,
+    "errors": 0
+  },
+  "periodic_50_epoch_checkpoint_implemented": false,
+  "generic_fresh200_resume_implemented": false,
+  "rng_snapshot_restore_implemented": false
+}

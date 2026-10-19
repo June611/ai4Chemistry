@@ -1,0 +1,286 @@
+{
+  "root": "/root/autodl-tmp/evan/ai4Chemistry_epoch200_smoke_20261019_02",
+  "server_id": "nmb2-22233-autodl-container-9d8949b25a-0ad6f492",
+  "torch_version": "2.6.0+cu124",
+  "numerical_policy": {
+    "cublas_workspace_config": ":4096:8",
+    "matmul_tf32": false
+  },
+  "code_sha256": {
+    "src/molgap/modular/heads.py": "b76989211a2b6e472716f8e2509e09425036b0bf40236d74d2623535264d21d4",
+    "src/molgap/modular/physics.py": "6aef74fcc3fb850c2d9d2fcf8aa71a7336a79014d3bbd644a26d0a030d9d6399",
+    "src/molgap/modular/inputs.py": "8b39b520ef6120308a85406bc2d0e146a5294ab1766c3778800d14d4146ac91f",
+    "src/molgap/modular/config.py": "45b1112f2a4a4091aac2eeb54512ac884839939d46b0fef6b03a4d332b9aee2d",
+    "src/molgap/modular/backbones.py": "0f3fff1e36fbed5977f9000f4c922877b0e87c80e02bfb3418c7b03a39fff183",
+    "src/molgap/modular/data.py": "dc68cd6e7ac493094d8a2c016607af26064ac0eb49a8c6cac86ad927e2b1b4aa",
+    "src/molgap/modular/__init__.py": "3db103cc9b9ad4663cc1b5b0a8c9cd993f4ca3218eea5a99be5d6092d0d9fcce",
+    "src/molgap/modular/train.py": "010fcfd6c59b68f23c1b330927c34968b115219d15789946a495c001eaad40f6"
+  },
+  "records": [
+    {
+      "variant": "task_attention7",
+      "device": "NVIDIA GeForce RTX 3090",
+      "seconds": 3.1822907626628876,
+      "run_dir": "/root/autodl-tmp/evan/ai4Chemistry_epoch200_smoke_20261019_02/artifacts/gpu_diagnostics/task_attention7_seed42",
+      "timing": {
+        "fit_seconds": 0.9039545431733131,
+        "epochs_completed": 2,
+        "best_epoch": 2,
+        "best_validation_mae": 0.039297095067603705,
+        "parameters": 564604,
+        "peak_gpu_allocated_bytes": 288196096,
+        "peak_gpu_reserved_bytes": 325058560,
+        "diagnostic": true
+      },
+      "result": {
+        "targets": {
+          "homo": {
+            "n": 256,
+            "mae": 0.015284720514071495,
+            "mse": 0.000519202447933415,
+            "rmse": 0.02278601430556505,
+            "mape": 6.312431859709703,
+            "mape_n": 256,
+            "mape_excluded_zero_targets": 0,
+            "r2": 0.004763776323626678,
+            "unit": "hartree"
+          },
+          "lumo": {
+            "n": 256,
+            "mae": 0.03802889917346252,
+            "mse": 0.0021059159586717035,
+            "rmse": 0.04589025995428336,
+            "mape": 123.97952425217262,
+            "mape_n": 256,
+            "mape_excluded_zero_targets": 0,
+            "r2": 0.07649063196336303,
+            "unit": "hartree"
+          },
+          "delta_e": {
+            "n": 256,
+            "mae": 0.036664459114068175,
+            "mse": 0.001990199970641242,
+            "rmse": 0.04461165734022041,
+            "mape": 15.59336116410443,
+            "mape_n": 256,
+            "mape_excluded_zero_targets": 0,
+            "r2": 0.1310071941283657,
+            "unit": "hartree"
+          },
+          "alpha": {
+            "n": 256,
+            "mae": 6.144516663514753,
+            "mse": 66.62363093780183,
+            "rmse": 8.162329994419599,
+            "mape": 8.843867090193124,
+            "mape_n": 256,
+            "mape_excluded_zero_targets": 0,
+            "r2": 0.05773493454908185,
+            "unit": "bohr^3"
+          },
+          "mu": {
+            "n": 256,
+            "mae": 1.1789572461719544,
+            "mse": 1.9883349774774268,
+            "rmse": 1.4100833228846539,
+            "mape": 102.57468316649958,
+            "mape_n": 256,
+            "mape_excluded_zero_targets": 0,
+            "r2": 0.03550080076199913,
+            "unit": "debye"
+          },
+          "r2": {
+            "n": 256,
+            "mae": 194.73320632710676,
+            "mse": 84278.96442496407,
+            "rmse": 290.30839537458104,
+            "mape": 15.84046247285597,
+            "mape_n": 256,
+            "mape_excluded_zero_targets": 0,
+            "r2": 0.003652376208147179,
+            "unit": "bohr^2"
+          },
+          "zpve": {
+            "n": 256,
+            "mae": 0.026129214313952986,
+            "mse": 0.0010727623527484885,
+            "rmse": 0.0327530510448796,
+            "mape": 21.15990556584032,
+            "mape_n": 256,
+            "mape_excluded_zero_targets": 0,
+            "r2": 0.113169794058258,
+            "unit": "hartree"
+          }
+        },
+        "auxiliary_targets": {},
+        "selection_target": "delta_e",
+        "best_validation_mae": 0.039297095067603705,
+        "protocol_id": "qm9_modular_fresh200_v1",
+        "diagnostic": true,
+        "units": {
+          "homo": "hartree",
+          "lumo": "hartree",
+          "delta_e": "hartree",
+          "alpha": "bohr^3",
+          "mu": "debye",
+          "r2": "bohr^2",
+          "zpve": "hartree"
+        },
+        "rows": 256,
+        "best_epoch": 2,
+        "delta_e_mae": 0.036664459114068175
+      }
+    },
+    {
+      "variant": "physics_thermo10",
+      "device": "NVIDIA GeForce RTX 3090",
+      "seconds": 7.450331158936024,
+      "run_dir": "/root/autodl-tmp/evan/ai4Chemistry_epoch200_smoke_20261019_02/artifacts/gpu_diagnostics/physics_thermo10_seed42",
+      "timing": {
+        "fit_seconds": 3.4965780675411224,
+        "epochs_completed": 12,
+        "best_epoch": 3,
+        "best_validation_mae": 0.03272010728095358,
+        "parameters": 614270,
+        "peak_gpu_allocated_bytes": 288600064,
+        "peak_gpu_reserved_bytes": 325058560,
+        "diagnostic": true
+      },
+      "result": {
+        "targets": {
+          "homo": {
+            "n": 256,
+            "mae": 0.015366232115350686,
+            "mse": 0.0004982780935402679,
+            "rmse": 0.022322143569564905,
+            "mape": 6.370292376960862,
+            "mape_n": 256,
+            "mape_excluded_zero_targets": 0,
+            "r2": 0.044872746402620955,
+            "unit": "hartree"
+          },
+          "lumo": {
+            "n": 256,
+            "mae": 0.03823057285686903,
+            "mse": 0.0019740125198608963,
+            "rmse": 0.04442986067793704,
+            "mape": 135.68800014765498,
+            "mape_n": 256,
+            "mape_excluded_zero_targets": 0,
+            "r2": 0.13433437492776001,
+            "unit": "hartree"
+          },
+          "delta_e": {
+            "n": 256,
+            "mae": 0.03324468450396701,
+            "mse": 0.0015897718639908461,
+            "rmse": 0.039871943318464505,
+            "mape": 13.087141605747165,
+            "mape_n": 256,
+            "mape_excluded_zero_targets": 0,
+            "r2": 0.30584849102371137,
+            "unit": "hartree"
+          },
+          "alpha": {
+            "n": 256,
+            "mae": 6.249889093121039,
+            "mse": 66.29919412866357,
+            "rmse": 8.142431708566155,
+            "mape": 8.683555045146472,
+            "mape_n": 256,
+            "mape_excluded_zero_targets": 0,
+            "r2": 0.06232347868716337,
+            "unit": "bohr^3"
+          },
+          "mu": {
+            "n": 256,
+            "mae": 1.1659915890012114,
+            "mse": 1.9694744157041153,
+            "rmse": 1.403379640619072,
+            "mape": 99.6429414256736,
+            "mape_n": 256,
+            "mape_excluded_zero_targets": 0,
+            "r2": 0.04464965995001002,
+            "unit": "debye"
+          },
+          "r2": {
+            "n": 256,
+            "mae": 204.68110962868587,
+            "mse": 81070.75847836563,
+            "rmse": 284.7292722541285,
+            "mape": 17.98292706348155,
+            "mape_n": 256,
+            "mape_excluded_zero_targets": 0,
+            "r2": 0.04157985186399915,
+            "unit": "bohr^2"
+          },
+          "zpve": {
+            "n": 256,
+            "mae": 0.023752995300148037,
+            "mse": 0.0009010042173981051,
+            "rmse": 0.03001673229047601,
+            "mape": 17.18611814953916,
+            "mape_n": 256,
+            "mape_excluded_zero_targets": 0,
+            "r2": 0.25515865315150943,
+            "unit": "hartree"
+          }
+        },
+        "auxiliary_targets": {
+          "u0": {
+            "n": 256,
+            "mae": 27.995687356919078,
+            "mse": 1402.1283003926785,
+            "rmse": 37.44500367729557,
+            "mape": 7.211351278238993,
+            "mape_n": 256,
+            "mape_excluded_zero_targets": 0,
+            "r2": 0.06681685325924602
+          },
+          "u298": {
+            "n": 256,
+            "mae": 27.45836032002162,
+            "mse": 1296.5441630961632,
+            "rmse": 36.00755702760412,
+            "mape": 6.947054626817639,
+            "mape_n": 256,
+            "mape_excluded_zero_targets": 0,
+            "r2": 0.1370829614491499
+          },
+          "h298": {
+            "n": 256,
+            "mae": 29.452073894533324,
+            "mse": 1500.0133968064033,
+            "rmse": 38.730006413714975,
+            "mape": 7.6488761221054595,
+            "mape_n": 256,
+            "mape_excluded_zero_targets": 0,
+            "r2": 0.001663688711688538
+          }
+        },
+        "selection_target": "delta_e",
+        "best_validation_mae": 0.03272010728095358,
+        "protocol_id": "qm9_modular_fresh200_v1",
+        "diagnostic": true,
+        "units": {
+          "homo": "hartree",
+          "lumo": "hartree",
+          "delta_e": "hartree",
+          "alpha": "bohr^3",
+          "mu": "debye",
+          "r2": "bohr^2",
+          "zpve": "hartree",
+          "u0": "hartree",
+          "u298": "hartree",
+          "h298": "hartree"
+        },
+        "rows": 256,
+        "best_epoch": 3,
+        "delta_e_mae": 0.03324468450396701,
+        "physical_weight_at_best": 0.0,
+        "physics_active_at_best": false
+      }
+    }
+  ],
+  "formal_training_started": false
+}

@@ -1,0 +1,43 @@
+{
+  "run_dir": "/home/june/deepLear_zone/Chem_proj/chempro/artifacts/qm9_epoch200/gpu_diagnostics/nmb2_20261019_02/task_attention7_seed42",
+  "variant": "task_attention7",
+  "targets": [
+    "homo",
+    "lumo",
+    "delta_e",
+    "alpha",
+    "mu",
+    "r2",
+    "zpve"
+  ],
+  "parameters": 564604,
+  "data_identity": {
+    "labels": {
+      "train": "1648503ad09e502f4bfc0b4b434ce34435a89b2ec1c8db4cfae35a2995babc6d",
+      "val": "120e730febac0e8ab32a3662307f29bf72e509a2ce177f1beceb4f11e623d0d9",
+      "test": "55fe7a455777c99c61f04a468047875d46a734f468ece5a28613b56ecc2febcd"
+    },
+    "manifest_sha256": "cd291da6fcde7055870b30aa31a30f281ec92792881b57ebbee83c92ffcaf6cf",
+    "identity_sha256": "d9b49f527399cbd3d0ddff67842c239fa69d0232a4bc570d8d2273748e9621ed"
+  },
+  "training": {
+    "epochs": 200,
+    "batch_size": 256,
+    "patience": 20,
+    "min_delta": 0.0,
+    "checkpoint_every_n_epochs": 50,
+    "seed": 42,
+    "split_seed": 42,
+    "run_mode": "paired_split_seed",
+    "seed_pairing": "matched",
+    "num_workers": 2,
+    "pin_memory": true,
+    "target_scaling": "train_only_per_target_zscore",
+    "supervised_loss": "mse",
+    "selection_metric": "val_delta_e_mae"
+  },
+  "executable": true,
+  "resume_from_epoch": 2,
+  "diagnostic_epoch_cap": 3,
+  "gpu_topology_verified": false
+}

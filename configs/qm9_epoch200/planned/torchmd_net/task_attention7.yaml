@@ -1,0 +1,71 @@
+status: planned_not_executable
+protocol_id: qm9_epoch200_plugins_design_v2
+backbone:
+  model: torchmd_net
+  family: transformer
+  source_config: configs/qm9_models/torchmd_net.yaml
+  input: 3D
+training:
+  epochs: 200
+  batch_size: 256
+  patience: 20
+  seeds:
+  - 42
+  - 2026
+  - 3407
+  target_scaling: train_only_zscore
+  supervised_loss: mse
+  selection: original_unit_val_delta_e_mae
+tasks:
+- homo
+- lumo
+- delta_e
+- alpha
+- mu
+- r2
+- zpve
+task_units:
+  homo: hartree
+  lumo: hartree
+  delta_e: hartree
+  alpha: bohr^3
+  mu: debye
+  r2: bohr^2
+  zpve: hartree
+preprocessing:
+  target_scaling: train_only_per_target_zscore
+  variance_ddof: 0
+  scaler_artifact: scalers.json
+  supervised_loss: mean_of_per_target_normalized_mse
+  uncertainty_on_normalized_mse_only: true
+  inverse_transform_before_metrics: true
+  selection_metric: val_delta_e_mae
+  selection_unit: hartree
+  selection_mode: min
+  early_stopping_metric: val_delta_e_mae
+  physics_space: inverse_transform_each_target_to_original_units_float64
+  physics_normalization: positive_train_only_or_prespecified_relation_scale
+  physics_raw_residual_std_division: false
+  validation_or_test_scaler_fit: false
+evaluation:
+  report_tasks:
+  - homo
+  - lumo
+  - delta_e
+  - alpha
+  - mu
+  - r2
+  - zpve
+  metrics:
+  - mae
+  - mse
+  - rmse
+  - r2
+  original_units: true
+  checkpoint: single_best_val_delta_e_mae
+module:
+  head: task_self_attention
+  physics_constraints: []
+implementation_note: B-style features + sample-conditioned task self-attention; replaces
+  affinity
+gate: Chemprop modules must be implemented, audited and validated before stage2 launch

@@ -1,0 +1,17 @@
+[
+  {
+    "config": "configs/qm9_epoch200/fresh/chemprop/physics_thermo10_seed3407.yaml",
+    "ok": true,
+    "result": {
+      "data_identity": {
+        "labels": {
+          "train": "3c29e1b046d78ce5ca5bb0fb1d9a1ad1793930f87f62f41ae70a6061bf82c36d",
+          "val": "196859bcd510baf969f9a01069d0090a3b677705f9d5632e73da521c220d7b5a",
+          "test": "005745e546b3085b28b8ea0d9d16d2e6eea86a31bbee434770f7399a5ddc5d84"
+        },
+        "manifest_sha256": "c23bfbb887e8fb7014353cea2154a623444defe3b356cee60350079b221ccd43",
+        "identity_sha256": "1c6632eb8fe1d0813270c667bae19c9cef743eeff994bc5155a55194e0a14ffe"
+      }
+    }
+  }
+]

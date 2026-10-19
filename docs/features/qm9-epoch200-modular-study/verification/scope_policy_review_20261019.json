@@ -1,0 +1,191 @@
+{
+  "total_jobs": 114,
+  "stage1_jobs": 33,
+  "stage2_jobs": 81,
+  "ready_configs": 27,
+  "variants": {
+    "single_task": 36,
+    "D1": 3,
+    "D2": 3,
+    "task_attention7": 36,
+    "physics_thermo10": 36
+  },
+  "ready_config_audit": [
+    {
+      "id": "chemprop_st_homo_seed42",
+      "config": "configs/qm9_epoch200/fresh/chemprop/homo_seed42.yaml",
+      "metric": "property_mae",
+      "config_sha256": "77cce2b40a7db0db91655ba7162d305011429bc3333b612c223bc18fbb728a7d"
+    },
+    {
+      "id": "chemprop_st_homo_seed2026",
+      "config": "configs/qm9_epoch200/fresh/chemprop/homo_seed2026.yaml",
+      "metric": "property_mae",
+      "config_sha256": "485891131acb75ed1e354836ac1b24f8e5cb30978026177de01f0ee69e22bc6e"
+    },
+    {
+      "id": "chemprop_st_homo_seed3407",
+      "config": "configs/qm9_epoch200/fresh/chemprop/homo_seed3407.yaml",
+      "metric": "property_mae",
+      "config_sha256": "c8ecd55f3d67b12b76b2e6ded6bea4078f2a93d32c7b7fe8cd42eb0f22b218d5"
+    },
+    {
+      "id": "chemprop_st_lumo_seed42",
+      "config": "configs/qm9_epoch200/fresh/chemprop/lumo_seed42.yaml",
+      "metric": "property_mae",
+      "config_sha256": "94509c9a6761745b239498126c0f74543beafe1f53b78fd8a96e89f64de20f51"
+    },
+    {
+      "id": "chemprop_st_lumo_seed2026",
+      "config": "configs/qm9_epoch200/fresh/chemprop/lumo_seed2026.yaml",
+      "metric": "property_mae",
+      "config_sha256": "7ee494280345d135d0197df7783df9253fc26c315de799ea572a840e759391fc"
+    },
+    {
+      "id": "chemprop_st_lumo_seed3407",
+      "config": "configs/qm9_epoch200/fresh/chemprop/lumo_seed3407.yaml",
+      "metric": "property_mae",
+      "config_sha256": "e4a9f439d6de363bd7b10d68b2680c48f4a680aac1e784b6b5f530dfb11a88b8"
+    },
+    {
+      "id": "chemprop_st_delta_e_seed42",
+      "config": "configs/qm9_epoch200/fresh/chemprop/delta_e_seed42.yaml",
+      "metric": "gap_mae",
+      "config_sha256": "a583492701d68551301bbe525cdedfe09fcd74a7b178d6dc480e53a149fd679d"
+    },
+    {
+      "id": "chemprop_st_delta_e_seed2026",
+      "config": "configs/qm9_epoch200/fresh/chemprop/delta_e_seed2026.yaml",
+      "metric": "gap_mae",
+      "config_sha256": "ff69ef9fae107b6a0656c4e824717333546255d31333397baca1c38455e254a6"
+    },
+    {
+      "id": "chemprop_st_delta_e_seed3407",
+      "config": "configs/qm9_epoch200/fresh/chemprop/delta_e_seed3407.yaml",
+      "metric": "gap_mae",
+      "config_sha256": "c6a143f8761e17d810821ee53d98d5721d894aeba8789ac9d06bc9e5e9483b8e"
+    },
+    {
+      "id": "chemprop_st_alpha_seed42",
+      "config": "configs/qm9_epoch200/fresh/chemprop/alpha_seed42.yaml",
+      "metric": "property_mae",
+      "config_sha256": "fc35b81d5ed4616555209d6130c969c2f1abe1de1e27718b0f18726e16bb0f39"
+    },
+    {
+      "id": "chemprop_st_alpha_seed2026",
+      "config": "configs/qm9_epoch200/fresh/chemprop/alpha_seed2026.yaml",
+      "metric": "property_mae",
+      "config_sha256": "b8c7e968a6d45e34d9b12cab507325d8b880d49392bbd37164d01d96ce6b5daa"
+    },
+    {
+      "id": "chemprop_st_alpha_seed3407",
+      "config": "configs/qm9_epoch200/fresh/chemprop/alpha_seed3407.yaml",
+      "metric": "property_mae",
+      "config_sha256": "a2ff50e98d4959fcbeb77336da2bf7b5977b559641fd0f3710021e98232497dd"
+    },
+    {
+      "id": "chemprop_st_mu_seed42",
+      "config": "configs/qm9_epoch200/fresh/chemprop/mu_seed42.yaml",
+      "metric": "property_mae",
+      "config_sha256": "ec34bbe734252f73fe5e2b7aa0580f316533676507515ce3246987ef9fbea118"
+    },
+    {
+      "id": "chemprop_st_mu_seed2026",
+      "config": "configs/qm9_epoch200/fresh/chemprop/mu_seed2026.yaml",
+      "metric": "property_mae",
+      "config_sha256": "6bb4edad0ec179a1cd12ea07eac1147dc1073498e6043a6ab45c88db9d666060"
+    },
+    {
+      "id": "chemprop_st_mu_seed3407",
+      "config": "configs/qm9_epoch200/fresh/chemprop/mu_seed3407.yaml",
+      "metric": "property_mae",
+      "config_sha256": "1ae061c0ad098db42cac0ff76de4f22859b58cdc029ca013afec14cc05efdd6e"
+    },
+    {
+      "id": "chemprop_st_r2_seed42",
+      "config": "configs/qm9_epoch200/fresh/chemprop/r2_seed42.yaml",
+      "metric": "property_mae",
+      "config_sha256": "fc649a8f6004333b897a0125c8c08d49c4e8f6802501c83f31c7e9de58cd61c6"
+    },
+    {
+      "id": "chemprop_st_r2_seed2026",
+      "config": "configs/qm9_epoch200/fresh/chemprop/r2_seed2026.yaml",
+      "metric": "property_mae",
+      "config_sha256": "51e65bb3ffb5509f2fa595d55af067ca6c005ba1d8535d711a24e7425c5df588"
+    },
+    {
+      "id": "chemprop_st_r2_seed3407",
+      "config": "configs/qm9_epoch200/fresh/chemprop/r2_seed3407.yaml",
+      "metric": "property_mae",
+      "config_sha256": "6fe60f449ebb80a5cdc79a3475449316961a479d541bb5757eaddec3e95ef06c"
+    },
+    {
+      "id": "chemprop_st_zpve_seed42",
+      "config": "configs/qm9_epoch200/fresh/chemprop/zpve_seed42.yaml",
+      "metric": "property_mae",
+      "config_sha256": "d15fca7724c5ab9b44b91ce9eb34fe0ba0d78ff052824578f8bbb91d0b42df41"
+    },
+    {
+      "id": "chemprop_st_zpve_seed2026",
+      "config": "configs/qm9_epoch200/fresh/chemprop/zpve_seed2026.yaml",
+      "metric": "property_mae",
+      "config_sha256": "3e07ba6e406460e9389e4430692bc9e1410b6424ae1e4f4a48b64266f1dfa4bd"
+    },
+    {
+      "id": "chemprop_st_zpve_seed3407",
+      "config": "configs/qm9_epoch200/fresh/chemprop/zpve_seed3407.yaml",
+      "metric": "property_mae",
+      "config_sha256": "8c0733467b3605aa627acdd8e5070150853aac696b1dfcba96c38902ebea7d34"
+    },
+    {
+      "id": "chemprop_D1_seed42",
+      "config": "configs/qm9_epoch200/fresh/chemprop_variants/D1_seed42.yaml",
+      "metric": "delta_e_mae",
+      "config_sha256": "515bd749698344bad111c05c3ea2b39a90ad88361148c41684f8fb6b112334e9"
+    },
+    {
+      "id": "chemprop_D1_seed2026",
+      "config": "configs/qm9_epoch200/fresh/chemprop_variants/D1_seed2026.yaml",
+      "metric": "delta_e_mae",
+      "config_sha256": "d7d8db747112711ceb15f5a8af432711d15f07da1411deff2b65c895c378f4e4"
+    },
+    {
+      "id": "chemprop_D1_seed3407",
+      "config": "configs/qm9_epoch200/fresh/chemprop_variants/D1_seed3407.yaml",
+      "metric": "delta_e_mae",
+      "config_sha256": "125dd299873e3011b6c6fd529d17ac06ec79d71e529bd2ba89b557d1e2d54521"
+    },
+    {
+      "id": "chemprop_D2_seed42",
+      "config": "configs/qm9_epoch200/fresh/chemprop_variants/D2_seed42.yaml",
+      "metric": "delta_e_mae",
+      "config_sha256": "381b0ec5dde19b8cc0cfb075746ce2dc8f5a6bfdba2e7746c6d18ce5ba41b58e"
+    },
+    {
+      "id": "chemprop_D2_seed2026",
+      "config": "configs/qm9_epoch200/fresh/chemprop_variants/D2_seed2026.yaml",
+      "metric": "delta_e_mae",
+      "config_sha256": "8692cc7283fe84ef850377986bfb492a0ba2e7f0059c20f921b9188d04bbf6f1"
+    },
+    {
+      "id": "chemprop_D2_seed3407",
+      "config": "configs/qm9_epoch200/fresh/chemprop_variants/D2_seed3407.yaml",
+      "metric": "delta_e_mae",
+      "config_sha256": "01c4869299ec048c4c7b37da1b2b40cc0ce145795572c249324d654735281c60"
+    }
+  ],
+  "modules_implemented": false,
+  "gpu_training_started": false,
+  "tests": {
+    "scope_and_label_policy_20261019.xml": {
+      "tests": 21,
+      "failures": 0,
+      "errors": 0
+    },
+    "mae_selection_20261019.xml": {
+      "tests": 8,
+      "failures": 0,
+      "errors": 0
+    }
+  }
+}

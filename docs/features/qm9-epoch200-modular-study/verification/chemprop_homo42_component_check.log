@@ -1,0 +1,36 @@
+{
+  "backend": "chemprop",
+  "source_run": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/homo/seed42",
+  "checkpoint": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/homo/seed42/chemprop/model_0/checkpoints/last.ckpt",
+  "checkpoint_sha256": "583b9618a1753198289078a62b434ec8ae6f99c704b90389ece9c24894dcd1d5",
+  "historical_best_checkpoint": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/artifacts/qm9_six_properties/low_formal01/runs/chemprop_single_gap/homo/seed42/chemprop/model_0/checkpoints/best-epoch=99-val_property_mae=0.00.ckpt",
+  "historical_best_sha256": "583b9618a1753198289078a62b434ec8ae6f99c704b90389ece9c24894dcd1d5",
+  "historical_best_score": 0.002803670009598136,
+  "output_dir": "/tmp/qm9_epoch200_not_started_cp_homo42",
+  "epochs": 200,
+  "parent_epochs": 100,
+  "batch_size": 256,
+  "lr_policy": "retain_100epoch_schedule_then_hold_final",
+  "evaluation": "original-unit validation MAE; gap MAE for seven-task",
+  "continuity": "optimizer/scheduler/loop resume; historical RNG/worker state incomplete",
+  "comparison_group": "continuation_100_plus_100_not_fresh200",
+  "inputs": {
+    "train.csv": {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/data/processed/qm9_single_properties_v1/random/seed42/train.csv",
+      "sha256": "1648503ad09e502f4bfc0b4b434ce34435a89b2ec1c8db4cfae35a2995babc6d"
+    },
+    "val.csv": {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/data/processed/qm9_single_properties_v1/random/seed42/val.csv",
+      "sha256": "120e730febac0e8ab32a3662307f29bf72e509a2ce177f1beceb4f11e623d0d9"
+    },
+    "test.csv": {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/data/processed/qm9_single_properties_v1/random/seed42/test.csv",
+      "sha256": "55fe7a455777c99c61f04a468047875d46a734f468ece5a28613b56ecc2febcd"
+    },
+    "split_manifest.csv": {
+      "path": "/root/autodl-tmp/evan/ai4Chemistry_qm9_low_20261016/data/processed/qm9_single_properties_v1/random/seed42/split_manifest.csv",
+      "sha256": "cd291da6fcde7055870b30aa31a30f281ec92792881b57ebbee83c92ffcaf6cf"
+    }
+  }
+}
+Model/data/scaler/tokenizer preflight passed; no fitting performed

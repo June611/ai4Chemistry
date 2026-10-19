@@ -1,0 +1,45 @@
+{
+  "raw": "data/raw/qm9_chn.csv",
+  "raw_sha256": "00ebabed6fcb0008c81ba627c221c9bb7a713aae4c85201c5405fe2ef499e46b",
+  "rows": 133885,
+  "temperature_K": 298.15,
+  "kBT_hartree": 0.0009441848676445277,
+  "gap_identity_absolute_residual": {
+    "count": 133885.0,
+    "mean": 2.520222579079759e-05,
+    "std": 4.3417559513943404e-05,
+    "min": 0.0,
+    "25%": 0.0,
+    "50%": 0.0,
+    "75%": 9.999999999993348e-05,
+    "max": 0.0001000000000000445
+  },
+  "enthalpy_identity_absolute_residual": {
+    "count": 133885.0,
+    "mean": 3.02301139512326e-07,
+    "std": 2.4540581060265803e-07,
+    "min": 1.848676404749526e-07,
+    "25%": 1.848676404749526e-07,
+    "50%": 1.848676404749526e-07,
+    "75%": 1.848676404749526e-07,
+    "max": 8.151323570002901e-07
+  },
+  "thermal_increment": {
+    "count": 133885.0,
+    "mean": 0.008471302535758183,
+    "std": 0.00129174503325438,
+    "min": 0.002518000000009124,
+    "25%": 0.007597000000032494,
+    "50%": 0.008422999999993408,
+    "75%": 0.009332000000028984,
+    "max": 0.014332000000024436
+  },
+  "thermal_inequality_violations": 0,
+  "policy": "Metadata/physical identity audit only; no model selection on test; constraint scales must fit train only",
+  "limitations": [
+    "Original printed orbital labels are rounded; do not overwrite labels with an exact subtraction",
+    "H-U relation uses total molecular Hartree energies, not atomization energies",
+    "Thermal positivity is an inequality, not a third independent equality",
+    "H=U+kBT does not itself directly connect thermal heads to orbital gap; benefit is unproven"
+  ]
+}

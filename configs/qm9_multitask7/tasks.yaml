@@ -1,0 +1,69 @@
+protocol_id: paired_split_qm9_neural_multitask7_v1
+phase: 1
+seeds:
+- 42
+- 2026
+- 3407
+targets:
+- homo
+- lumo
+- delta_e
+- alpha
+- mu
+- r2
+- zpve
+defaults:
+  batch_size: 256
+  epochs: 100
+  patience: 20
+  min_delta: 0.0
+models:
+  chemprop_mtl7:
+    config: configs/qm9_multitask7/models/chemprop_mtl7.yaml
+    variant: B
+  chemprop_mtl7_affinity:
+    config: configs/qm9_multitask7/models/chemprop_mtl7_affinity.yaml
+    variant: C
+  chemprop_mtl7_uncertainty:
+    config: configs/qm9_multitask7/models/chemprop_mtl7_uncertainty.yaml
+    variant: D1
+  chemprop_mtl7_affinity_uncertainty:
+    config: configs/qm9_multitask7/models/chemprop_mtl7_affinity_uncertainty.yaml
+    variant: D2
+tasks:
+- task_id: chemprop_mtl7_seed42
+  model_id: chemprop_mtl7
+  seed: 42
+- task_id: chemprop_mtl7_affinity_seed42
+  model_id: chemprop_mtl7_affinity
+  seed: 42
+- task_id: chemprop_mtl7_uncertainty_seed42
+  model_id: chemprop_mtl7_uncertainty
+  seed: 42
+- task_id: chemprop_mtl7_affinity_uncertainty_seed42
+  model_id: chemprop_mtl7_affinity_uncertainty
+  seed: 42
+- task_id: chemprop_mtl7_seed2026
+  model_id: chemprop_mtl7
+  seed: 2026
+- task_id: chemprop_mtl7_affinity_seed2026
+  model_id: chemprop_mtl7_affinity
+  seed: 2026
+- task_id: chemprop_mtl7_uncertainty_seed2026
+  model_id: chemprop_mtl7_uncertainty
+  seed: 2026
+- task_id: chemprop_mtl7_affinity_uncertainty_seed2026
+  model_id: chemprop_mtl7_affinity_uncertainty
+  seed: 2026
+- task_id: chemprop_mtl7_seed3407
+  model_id: chemprop_mtl7
+  seed: 3407
+- task_id: chemprop_mtl7_affinity_seed3407
+  model_id: chemprop_mtl7_affinity
+  seed: 3407
+- task_id: chemprop_mtl7_uncertainty_seed3407
+  model_id: chemprop_mtl7_uncertainty
+  seed: 3407
+- task_id: chemprop_mtl7_affinity_uncertainty_seed3407
+  model_id: chemprop_mtl7_affinity_uncertainty
+  seed: 3407
