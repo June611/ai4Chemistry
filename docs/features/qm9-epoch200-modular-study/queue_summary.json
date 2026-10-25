@@ -1,11 +1,43 @@
 {
-  "total_planned_jobs": 114,
-  "stage1_jobs": 33,
-  "ready_configs": 114,
-  "stage2_jobs": 81,
-  "stage2_graph_gap_baselines": 15,
-  "stage2_plugin_jobs": 66,
-  "transformer_base_retraining_default": false,
+  "total_planned_jobs": 42,
+  "stage1_jobs": 30,
+  "stage1_scope": "fresh-200 single-task gap baselines for all neural models in main.pdf",
+  "ready_configs": 42,
+  "stage2_jobs": 12,
+  "stage2_scope": "mlore7 and physics_thermo10 on the two SOTA paths",
+  "baseline_models": [
+    "chemprop",
+    "schnet",
+    "3dinfomax",
+    "egnn",
+    "painn",
+    "dimenet_pp",
+    "smiles_transformer",
+    "spe_transformer",
+    "esa",
+    "torchmd_net"
+  ],
+  "paper_chapters": {
+    "pinn": {
+      "graph_path": "dimenet_pp physics_thermo10",
+      "transformer_path": "torchmd_net physics_thermo10",
+      "baseline": "single_task gap, same 200-epoch budget"
+    },
+    "multi_task_learning": {
+      "graph_path": "dimenet_pp mlore7",
+      "transformer_path": "torchmd_net mlore7",
+      "baseline": "single_task gap, same 200-epoch budget"
+    }
+  },
+  "sota_choices": {
+    "graph": "dimenet_pp (gap RMSE 0.002731 Ha, family-best in 100-epoch campaign)",
+    "transformer": "torchmd_net (gap RMSE 0.004056 Ha, family-best in 100-epoch campaign)"
+  },
+  "excluded_models": [
+    "demol (SDF topology preprocessing, ~18 h per fresh200 job)"
+  ],
+  "traditional_ml": "main.pdf rows retained as historical results; no retraining",
+  "extended_pool": "transformer_m and demol remain outside the formal queue; other neural backbones are included as unified single-task baselines",
   "excluded_variants": [
     "B",
     "C",
@@ -13,14 +45,9 @@
     "physics_gap7",
     "mtl10_control"
   ],
-  "stage2_requires_review": true,
   "all_epochs": 200,
   "modules_implemented": true,
-  "gpu_training_verified": true,
+  "gpu_training_verified": false,
   "training_started": false,
-  "inputs_and_dependencies_require_preflight": true,
-  "gpu_training_verified_scope": "RTX3090 diagnostic only; 500 rows per split; 1 epoch; batch256",
-  "gpu_smoke_verified_jobs": 114,
-  "gpu_smoke_report": "verification/smoke114_nmb2_20261019.json",
-  "formal_training_verified": false
+  "inputs_and_dependencies_require_preflight": true
 }

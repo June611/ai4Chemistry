@@ -1,3 +1,9 @@
+> [!WARNING]
+> **历史协议（已废弃，2026-10-20 归档）**：本 feature 记录旧 100-epoch（main.pdf 时代）协议。
+> 神经基线已由 fresh-200 研究（200 epoch 上限）全部重训，见
+> `docs/features/qm9-epoch200-modular-study/`。两套结果口径不同，**严禁混入同一张表**。
+> 旧结果数据已移至 `outputs/summaries/archive_100epoch_qm9_results/`。
+
 # 三组配对 seed、100-epoch 协议 TODO
 
 更新时间：2026-10-11

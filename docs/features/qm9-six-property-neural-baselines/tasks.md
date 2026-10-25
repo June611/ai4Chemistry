@@ -17,3 +17,22 @@
 
 三组队列功能提交 82326c9 已成功推送，origin/main 正常快进 6e089cc→82326c9。
 原有模型代码和其他历史工作区改动未纳入此次提交；本地展开任务均为 pending。
+
+## 2026-10-16：A100 高组工程化与正式启动
+
+- 本机确认 4×NVIDIA A100-SXM4-40GB；高组定义保持 DimeNet++、3D Infomax、
+  TorchMD-Net，三组 matched seed、六性质，共54项下游，另有三项 split-specific
+  Infomax 预训练。
+- 从项目提供的原始 CSV 重新生成三套固定 split，三个 manifest SHA-256 与 README
+  基线完全一致；下载并校验133885个官方 XYZ，生成三份 geometry，split/geometry 审计通过。
+- 完成不改变模型数学和正式协议的低风险优化：共享 DataLoader runtime、CUDA pinned memory、
+  persistent workers、prefetch、non-blocking H2D；GeometryDataset 去除逐样本 pandas/NumPy copy；
+  epoch内 loss 设备侧累加；验证/测试批量汇总；DimeNet++/SchNet/PaiNN 半径图批量向量化；
+  model factory 改为 lazy registry；新增 formal protocol 执行边界校验。
+- DimeNet++ 和 TorchMD-Net 在 A100 上完成真实 CUDA smoke；TorchMD 首次 Warp JIT 约5.4秒，
+  之后复用缓存。DimeNet++ batch256 正式首轮观测约3.17 step/s、GPU利用率100%、约18GiB。
+  Infomax 预训练约2.5 step/s但 GPU利用率约8–27%，确认主要瓶颈仍是逐SMILES RDKit/DGL构图；
+  本轮未冒险改变官方图特征/边顺序，后续应以离线图缓存加精确等价门禁处理。
+- 正式冻结目录为 `artifacts/qm9_six_properties/high_formal_a100_v1`，4条GPU lane均已启动：
+  三张卡先运行 seed42/2026/3407 Infomax预训练，第四张卡运行 DimeNet++。OOM策略仍为失败，
+  不降低batch。状态、日志和5秒资源采样保存在各 lane 的 `runtime/`。

@@ -3,10 +3,10 @@
 ## 新一轮200 epoch与可插拔模块审查
 
 新正式比较采用batch256、最多200轮、patience20和42/2026/3407配对seed；历史100轮结果保留。
-当前114项候选、第一阶段33项的代码和指令已接通，B/C与细分消融不重训，已有Transformer基础模型默认不重训。
+当前正式比较为 42 项：main.pdf 中 10 个神经模型的统一 gap 基线 30 项，加 DimeNet++/TorchMD-Net 两条 SOTA 路径上的 PINN/多任务模块 12 项；DeMol 与 Transformer-M 不入正式队列，传统 ML 沿用历史结果。
 新增任务注意力七任务与物理约束十任务；逐标签训练集Z-score/MSE，联合任务按原单位Hartree验证gap MAE选模。
 统一入口支持每50轮完整快照、每轮last和完整epoch边界恢复，保存优化器/LR/早停/RNG/loader/scaler与数据身份。
-拟提交干净副本73项测试通过；3090上114/114项均以每分区500条、batch256、1轮实际CUDA烟测通过，含预测回算与状态审计。此前恢复及物理权重启用专项检查保留。**尚未启动正式训练，全量最坏输入及并发/容量仍需按正式机器校准**。见[114项烟测报告](docs/features/qm9-epoch200-modular-study/smoke114_report.md)。
+代码/协议测试与 ruff 已通过；历史 114 项烟测作为旧范围证据保留，当前 42 项统一队列尚待在 GPU0 完成 500 条/1 轮烟测。**尚未启动正式训练，全量最坏输入及并发/容量仍需按正式机器校准**。见[当前统一实验表](docs/features/qm9-epoch200-modular-study/queue_multitask_pinn.md)。
 见[当前训练清单与交付](docs/features/qm9-epoch200-modular-study/README.md)与[运行/恢复指令](docs/features/qm9-epoch200-modular-study/operations.md)。
 
 ## QM9 六性质神经网络单任务扩展

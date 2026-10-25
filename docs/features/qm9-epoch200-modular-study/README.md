@@ -1,38 +1,60 @@
-# QM9：200轮训练与可插拔模块
+# QM9：200轮统一神经基线与可插拔模块
 
-审查报告列出的功能已经编码并完成本地检查：任务注意力七任务、物理约束十任务、十标签数据扩展、统一训练入口、50轮完整快照与中断恢复、114项配置/指令。**3090上114/114项实际一轮GPU烟测通过（各分区500条、batch256），拟提交干净副本73项测试通过。未启动正式训练；全量最大输入batch和正式并发/容量仍待校准。**
+## 当前正式范围
 
-## 当前任务
+本轮统一整理为与 `main.pdf` 对齐的 **42 个评估任务**，DeMol 不运行，Transformer-M 不列入 main.pdf 神经基线表，传统机器学习结果沿用历史结果不重跑。
 
-| 阶段 | 内容 | 三seed作业数 | 实现状态 |
-|---|---|---:|---|
-| 1 | Chemprop七性质独立单任务 | 21 | 统一入口，保留原BondMPNN和原MLP |
-| 1 | Chemprop D1/D2 | 6 | 复用原七头/亲和力/UW结构及损失 |
-| 1 | TaskAttention7 / PhysicsThermo10 | 6 | 已实现，CPU恢复及3090真实数据前缀诊断通过 |
-| 2 | 其他11骨干的两个模块 | 66 | 3090上全部66项一轮GPU烟测通过；其他机器仍需环境/资产预检 |
-| 2 | 五个图骨干gap基础模型 | 15 | 复用原骨干预测结构，统一Z-score/MSE和200轮 |
-| 合计 | 全阶段候选 | 114 | 全部有配置与命令，114项一轮GPU烟测通过；正式训练未执行 |
+| 组成 | 数量 | 说明 |
+|---|---:|---|
+| main.pdf 神经单任务基线 | 30 | 10 个模型 × 3 个配对 seed，仅统一重跑 `delta_e`/gap |
+| PINN 模块 | 6 | DimeNet++、TorchMD-Net × `physics_thermo10` × 3 seed |
+| 多任务模块 | 6 | DimeNet++、TorchMD-Net × `task_attention7` × 3 seed |
+| **合计** | **42** | 10 个基线模型 + 2 条 SOTA 模块路径 |
 
-B/C、细分消融、已有Transformer基础重训仍不安排。3D Infomax复用对应seed的QM9训练分区预训练权重，不自动重做预训练。历史100轮入口和结果不改。
+main.pdf 的神经基线模型分组：
 
-## 阅读顺序
+- 图结构：Chemprop、SchNet、3D Infomax、EGNN、PaiNN、DimeNet++。
+- Transformer-based：SMILES Transformer、SPE Transformer、ESA、TorchMD-Net。
+- DeMol 不在 main.pdf 表中，且 SDF 拓扑预处理耗时高，明确排除。
+- 传统 ML（Ridge、Linear、HGB、LightGBM、XGBoost、Random Forest、Extra Trees）已有结果，不进入本轮 GPU 队列。
 
-- [114项GPU烟测报告及资源CSV](smoke114_report.md)
-- [本轮实现交付及验收表](implementation_delivery.md)
-- [模型、优先级及详细MTL/PINN方案](model_and_module_lists.md)
-- [运行与恢复指令](operations.md)
-- [逐项CSV](training_queue.csv) · [第一阶段33项指令](fresh_commands.sh) · [后续81项指令](stage2_commands.sh)
-- [TODO](TODO.md) · [任务](tasks.md) · [决策](decisions.md)
-- [实现前审查记录](implementation_double_check_20261019.md)
+## 两章模块结构
 
-刷新清单而不训练：`uv run python scripts/prepare_qm9_epoch200_review.py`。
+| 章节 | 图路径 | Transformer 路径 |
+|---|---|---|
+| PINN 物理约束 | DimeNet++ + `physics_thermo10` | TorchMD-Net + `physics_thermo10` |
+| 多任务学习 | DimeNet++ + `task_attention7` | TorchMD-Net + `task_attention7` |
 
-所有当前配置使用`molgap.modular.train`，不再把新模块交给旧七任务入口。顶层`training`控制200/256/20、MAE选模与标准化；`source`是原模型参考配置快照，其中历史100轮/MAD/MAE等字段用于追溯，训练器只从该段读取骨干、原优化器/LR、预热和梯度裁剪设置，不拿历史预算或loss执行新训练。
+DimeNet++ 与 TorchMD-Net 是沿用 main.pdf 100 轮结果选择的两类 SOTA 基础模型。模块任务额外预测七/十标签，且 PINN 有物理残差，因此模块结果不能直接伪装成单任务严格消融；所有比较必须明确记录监督标签和损失差异。
 
-## 统一协议
+## 统一训练协议
 
-七/十标签逐目标仅用完整训练集Z-score；训练为标准化MSE，D1/D2复用原UW；物理方案在逆变换后的预测值上用float64计算残差并归一化。联合模型按原单位Hartree验证gap MAE选唯一模型及早停，单任务按该性质原单位MAE。测试指标恢复原单位，不参与选模。
+- 配对 seed：`(42,42)`、`(2026,2026)`、`(3407,3407)`，split seed 与 training seed 一一对应。
+- 最多 200 epochs，batch 256，patience 20，train-only target scaling，标准化 MSE。
+- 单任务与联合任务均只用验证集选择 checkpoint；统一以原单位 Hartree `val_delta_e_mae` 作为 gap 选择标准。
+- 测试集只在最终 checkpoint 上评估，报告原单位 MAE/RMSE；main.pdf 的旧 100 epoch RMSE 仅作历史参照，不与 fresh-200 数值混表。
+- 每轮保存 last，每 50 轮保存完整快照，支持完整 epoch 边界恢复；TF32 关闭，CuBLAS workspace 固定。
+- 3D Infomax 的三个 split-bound 预训练 checkpoint 是额外的准备任务，不计入 42 个下游评估任务；不在本轮重复预训练。
 
-每轮更新完整last，每50轮另存完整快照，结束保存terminal。完整状态含模型、优化器、scheduler、早停进度、RNG、loader generator、配置/scaler/数据指纹及历史最佳权重。仅支持**完整epoch边界**恢复；进程在某轮中间中断时重做该未完成轮，不宣称从任意batch逐位恢复。当前确定性数据加载器的双worker恢复已在沙箱外本地验证；不涵盖未来新增的随机数据增强或不同GPU间逐位一致性。
+## 状态与验证
 
-历史100轮、不同loss/scaler的结果仍只能作为带协议标记的历史参照。新模块效果是否提升尚需正式训练证明。
+`training_queue.csv` 是正式执行唯一清单；不要递归运行 `configs/qm9_epoch200/fresh/` 下的全部 YAML，因为其中保留了扩展池、历史配置和非正式变体。正式训练前先执行配置/数据预检，再按 CSV 逐项运行。
+
+当前代码生成器已输出 42 项、阶段 1 为 30 个单任务基线、阶段 2 为 12 个模块任务。DeMol 与 Transformer-M 在正式 queue 外。测试与 ruff 已通过；GPU0 上 42/42 项 500 条/1 轮烟测通过，记录见 `a100_smoke_unified_gpu0/` 和本目录追加证据。正式训练尚未启动。
+
+## 文件入口
+
+- [统一42项实验表](queue_multitask_pinn.md)
+- [机器可读队列](../../../artifacts/qm9_epoch200/queue_multitask_pinn.csv)
+- [正式逐项队列](training_queue.csv)
+- [阶段1基线命令](fresh_commands.sh)
+- [阶段2模块命令](stage2_commands.sh)
+- [统一训练/恢复操作](operations.md)
+- [任务与决策](tasks.md) · [TODO](TODO.md) · [决策](decisions.md)
+- 历史 114 项烟测报告仍保留为历史证据，不代表当前正式队列范围。
+
+刷新清单而不训练：
+
+```bash
+uv run --no-sync python scripts/prepare_qm9_epoch200_review.py
+```
