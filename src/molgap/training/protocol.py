@@ -15,8 +15,7 @@ def _matched_seed(config: Mapping) -> int:
     training_seed = int(config["training"]["seed"])
     if split_seed != training_seed or split_seed not in PAIRED_SEEDS:
         raise ValueError(
-            "Formal paired protocols require one matched split/training seed from "
-            "{42, 2026, 3407}"
+            "Formal paired protocols require one matched split/training seed from {42, 2026, 3407}"
         )
     return split_seed
 

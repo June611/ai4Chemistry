@@ -98,7 +98,7 @@ def test_missing_data():
     print("✅ Missing data test passed!\n")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test_uncertainty_weighted_loss()
     test_multitask_head()
     test_missing_data()

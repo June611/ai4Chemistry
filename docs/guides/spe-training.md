@@ -59,17 +59,18 @@ import torch
 from molgap.transformer.model import SmilesTransformerRegressor
 from molgap.transformer.tokenizer import SmilesTokenizer
 
-payload = torch.load("outputs/spe_transformer/seed3407/model.pt", map_location="cpu",
-                     weights_only=False)
+payload = torch.load(
+    "outputs/spe_transformer/seed3407/model.pt", map_location="cpu", weights_only=False
+)
 tokenizer = SmilesTokenizer.from_dict(payload["tokenizer"])
-model = SmilesTransformerRegressor(len(tokenizer.vocabulary), tokenizer.max_length,
-                                   payload["model_config"])
+model = SmilesTransformerRegressor(
+    len(tokenizer.vocabulary), tokenizer.max_length, payload["model_config"]
+)
 model.load_state_dict(payload["state_dict"])
 model.eval()
 encoded = tokenizer.encode("CCO")
 with torch.inference_mode():
-    normalized = model(torch.tensor([encoded.input_ids]),
-                       torch.tensor([encoded.attention_mask]))
+    normalized = model(torch.tensor([encoded.input_ids]), torch.tensor([encoded.attention_mask]))
     scaler = payload["target_scaler"]
     delta_e = normalized * scaler["scale_hartree"] + scaler["mean_hartree"]
 print(delta_e.item())  # Hartree

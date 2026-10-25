@@ -59,9 +59,13 @@ class SpeSmilesTokenizer(SmilesTokenizer):
         # Upstream learner calls max() on an empty pair table for single-atom corpora.
         if any(len(value) > 1 for value in atoms):
             learn_SPE(
-                smiles, codes, num_symbols=self.num_merges,
-                min_frequency=self.min_frequency, augmentation=0,
-                verbose=False, total_symbols=False,
+                smiles,
+                codes,
+                num_symbols=self.num_merges,
+                min_frequency=self.min_frequency,
+                augmentation=0,
+                verbose=False,
+                total_symbols=False,
             )
         self.merge_codes = codes.getvalue()
         self._spe = SPE_Tokenizer(io.StringIO(self.merge_codes))
@@ -93,9 +97,11 @@ class SpeSmilesTokenizer(SmilesTokenizer):
     @classmethod
     def from_dict(cls, payload: dict[str, Any]) -> SpeSmilesTokenizer:
         return cls(
-            pattern=payload["pattern"], max_length=int(payload["max_length"]),
+            pattern=payload["pattern"],
+            max_length=int(payload["max_length"]),
             special_tokens=payload["special_tokens"],
             num_merges=int(payload["num_merges"]),
             min_frequency=int(payload["min_frequency"]),
-            vocabulary=payload["vocabulary"], merge_codes=payload["merge_codes"],
+            vocabulary=payload["vocabulary"],
+            merge_codes=payload["merge_codes"],
         )

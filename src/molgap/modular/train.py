@@ -48,11 +48,19 @@ def archive_outputs(run):
 
     run = Path(run).resolve()
     names = (
-        "COMPLETED.json", "training_timing.json", "inference_timing.json",
-        "test_predictions.csv", "test_metrics.json", "metrics.json",
-        "best_checkpoint.pt", "attention.json", "uncertainty_params.json",
-        "affinity_matrix.json", "predictions/test_predictions.csv",
-        "checkpoints/best.ckpt", "checkpoints/terminal_fit.ckpt",
+        "COMPLETED.json",
+        "training_timing.json",
+        "inference_timing.json",
+        "test_predictions.csv",
+        "test_metrics.json",
+        "metrics.json",
+        "best_checkpoint.pt",
+        "attention.json",
+        "uncertainty_params.json",
+        "affinity_matrix.json",
+        "predictions/test_predictions.csv",
+        "checkpoints/best.ckpt",
+        "checkpoints/terminal_fit.ckpt",
     )
     paths = [run / name for name in names]
     log = run / "training_log.csv"

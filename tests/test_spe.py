@@ -47,9 +47,14 @@ def test_spe_model_optimizer_and_portable_prediction_roundtrip(tmp_path: Path) -
     smiles = ["CCO", "CCN", "CCCC", "CCCO"]
     tokenizer.fit(smiles)
     model_config = {
-        "d_model": 16, "num_layers": 1, "num_heads": 4,
-        "dim_feedforward": 32, "dropout": 0.0, "activation": "gelu",
-        "pooling": "cls", "regression_hidden_dim": 8,
+        "d_model": 16,
+        "num_layers": 1,
+        "num_heads": 4,
+        "dim_feedforward": 32,
+        "dropout": 0.0,
+        "activation": "gelu",
+        "pooling": "cls",
+        "regression_hidden_dim": 8,
     }
     model = SmilesTransformerRegressor(len(tokenizer.vocabulary), 12, model_config)
     encoded = [tokenizer.encode(value) for value in smiles]

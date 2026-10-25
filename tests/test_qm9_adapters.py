@@ -108,22 +108,24 @@ def test_original_xyz_id_gap_and_geometry_contract():
         validate_identity(record, "gdb_3", "N", 0.4)
 
 
-@pytest.mark.parametrize('name', ['schnet', 'painn'])
+@pytest.mark.parametrize("name", ["schnet", "painn"])
 def test_schnetpack_invariance_gradient_and_batch_padding(name):
     from molgap.qm9_models.schnetpack import SchNetPackAdapter
 
     torch.manual_seed(3)
     torch.set_num_threads(2)
-    model = SchNetPackAdapter(name, {'cutoff':5., 'n_atom_basis':16,
-                                    'n_interactions':2,'n_rbf':10})
+    model = SchNetPackAdapter(
+        name, {"cutoff": 5.0, "n_atom_basis": 16, "n_interactions": 2, "n_rbf": 10}
+    )
     batch = collate_molecules(molecular_fixture())
     reference = model(batch)
     assert reference.shape == (2,) and torch.isfinite(reference).all()
     reference.sum().backward()
     assert any(p.grad is not None and p.grad.abs().sum() > 0 for p in model.parameters())
     with torch.no_grad():
-        rotation, _ = torch.linalg.qr(torch.randn(3,3))
-        rotated = dict(batch, positions=batch['positions'] @ rotation + 2)
-        torch.testing.assert_close(model(rotated),reference,atol=1e-5,rtol=1e-5)
-        torch.testing.assert_close(model(collate_molecules(molecular_fixture()[:1])),
-                                   reference[:1],atol=1e-5,rtol=1e-5)
+        rotation, _ = torch.linalg.qr(torch.randn(3, 3))
+        rotated = dict(batch, positions=batch["positions"] @ rotation + 2)
+        torch.testing.assert_close(model(rotated), reference, atol=1e-5, rtol=1e-5)
+        torch.testing.assert_close(
+            model(collate_molecules(molecular_fixture()[:1])), reference[:1], atol=1e-5, rtol=1e-5
+        )

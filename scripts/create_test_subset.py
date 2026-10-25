@@ -1,4 +1,5 @@
 """Prepare a small subset of QM9 data for EGNN validation (100 molecules)."""
+
 import shutil
 from pathlib import Path
 
@@ -67,6 +68,6 @@ for file in ["dataset.csv", "data_lineage.json", "target_statistics.json"]:
         print(f"✓ Copied {file}")
 
 print(f"\n✅ Test dataset created at {test_dir}")
-print(f"   Train positions: 0-{len(train_small)-1}")
-print(f"   Val positions: 0-{len(val_small)-1}")
-print(f"   Test positions: 0-{len(test_small)-1}")
+print(f"   Train positions: 0-{len(train_small) - 1}")
+print(f"   Val positions: 0-{len(val_small) - 1}")
+print(f"   Test positions: 0-{len(test_small) - 1}")

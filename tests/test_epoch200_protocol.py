@@ -118,8 +118,16 @@ def test_paper_scope_queue_configs_and_stage_scripts():
     assert len({r["id"] for r in rows}) == len(rows) == 42
     assert sum(r["stage"] == "1" for r in rows) == 30
     assert {r["model"] for r in rows} == {
-        "chemprop", "schnet", "3dinfomax", "egnn", "painn", "dimenet_pp",
-        "smiles_transformer", "spe_transformer", "esa", "torchmd_net",
+        "chemprop",
+        "schnet",
+        "3dinfomax",
+        "egnn",
+        "painn",
+        "dimenet_pp",
+        "smiles_transformer",
+        "spe_transformer",
+        "esa",
+        "torchmd_net",
     }
     assert "demol" not in {r["model"] for r in rows}
     assert "transformer_m" not in {r["model"] for r in rows}

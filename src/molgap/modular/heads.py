@@ -110,9 +110,7 @@ class MLoREHead(nn.Module):
         dims = [input_dim] + [hidden_dim] * (num_modules - 1)
         self.blocks = nn.ModuleList(
             [
-                _MLoREBlock(
-                    dims[i], hidden_dim, n_tasks, rank_list, spe_rank, topk, pre_softmax
-                )
+                _MLoREBlock(dims[i], hidden_dim, n_tasks, rank_list, spe_rank, topk, pre_softmax)
                 for i in range(num_modules)
             ]
         )

@@ -38,7 +38,7 @@ class MPNNTransformer3D(nn.Module):
         dim_feedforward: int = 512,
         dropout: float = 0.1,
         # 3D encoding
-        pe_type: str = 'mlp',  # 'mlp' or 'fourier'
+        pe_type: str = "mlp",  # 'mlp' or 'fourier'
         num_frequencies: int = 50,  # for Fourier PE
         lambda_geometry: float = 1.0,  # geometry injection strength
         learnable_lambda: bool = False,  # if True, λ is learnable
@@ -64,13 +64,11 @@ class MPNNTransformer3D(nn.Module):
             self.projection = nn.Identity()
 
         # 2. 3D Positional Encoding
-        if pe_type == 'mlp':
+        if pe_type == "mlp":
             self.pos_encoder = MLPPositionalEncoding(d_model=d_model)
-        elif pe_type == 'fourier':
+        elif pe_type == "fourier":
             self.pos_encoder = FourierPositionalEncoding(
-                d_model=d_model,
-                num_frequencies=num_frequencies,
-                learnable=False
+                d_model=d_model, num_frequencies=num_frequencies, learnable=False
             )
         else:
             raise ValueError(f"Unknown pe_type: {pe_type}")
@@ -79,7 +77,7 @@ class MPNNTransformer3D(nn.Module):
         if learnable_lambda:
             self.lambda_geometry = nn.Parameter(torch.tensor(lambda_geometry))
         else:
-            self.register_buffer('lambda_geometry', torch.tensor(lambda_geometry))
+            self.register_buffer("lambda_geometry", torch.tensor(lambda_geometry))
 
         # 3. Global encoding: Transformer
         encoder_layer = nn.TransformerEncoderLayer(
@@ -99,7 +97,7 @@ class MPNNTransformer3D(nn.Module):
             nn.Linear(d_model, d_model // 2),
             nn.ReLU(),
             nn.Dropout(dropout),
-            nn.Linear(d_model // 2, n_tasks)
+            nn.Linear(d_model // 2, n_tasks),
         )
 
     def forward(self, bmg: BatchMolGraph, coords=None, V_d=None):
@@ -125,10 +123,7 @@ class MPNNTransformer3D(nn.Module):
         h_batched, mask = batch_atoms(h_local, bmg.batch)  # [B, N_max, d_model]
 
         # Stage 4: Transformer
-        h_global = self.transformer(
-            src=h_batched,
-            src_key_padding_mask=mask
-        )  # [B, N_max, d_model]
+        h_global = self.transformer(src=h_batched, src_key_padding_mask=mask)  # [B, N_max, d_model]
 
         # Stage 5: Pooling
         z = self.pooling(h_global, mask)  # [B, d_model]

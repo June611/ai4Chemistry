@@ -42,26 +42,18 @@ def _egnn(_name, config, root, device):
 MODEL_REGISTRY = {
     "egnn": ModelRegistration("egnn", "EGNNAdapter", _egnn, True),
     "demol": ModelRegistration("demol", "DeMolAdapter", _config, True),
-    "transformer_m": ModelRegistration(
-        "transformer_m", "TransformerMAdapter", _config, True
-    ),
+    "transformer_m": ModelRegistration("transformer_m", "TransformerMAdapter", _config, True),
     "schnet": ModelRegistration("schnetpack", "SchNetPackAdapter", _name_config, True),
     "painn": ModelRegistration("schnetpack", "SchNetPackAdapter", _name_config, True),
-    "cormorant": ModelRegistration(
-        "cormorant", "CormorantAdapter", _root_config_device, True
-    ),
+    "cormorant": ModelRegistration("cormorant", "CormorantAdapter", _root_config_device, True),
     "dimenet_pp": ModelRegistration("dimenet", "DimeNetPPAdapter", _config, True),
     "lie_transformer": ModelRegistration(
         "lie_transformer", "LieTransformerAdapter", _root_config, True
     ),
     "esa": ModelRegistration("esa", "ESAAdapter", _config, False),
     "alignn": ModelRegistration("alignn", "ALIGNNAdapter", _root_config, True),
-    "torchmd_net": ModelRegistration(
-        "torchmd_net", "TorchMDNetAdapter", _root_config, True
-    ),
-    "3dinfomax": ModelRegistration(
-        "infomax", "ThreeDInfomaxAdapter", _root_config, False
-    ),
+    "torchmd_net": ModelRegistration("torchmd_net", "TorchMDNetAdapter", _root_config, True),
+    "3dinfomax": ModelRegistration("infomax", "ThreeDInfomaxAdapter", _root_config, False),
 }
 
 

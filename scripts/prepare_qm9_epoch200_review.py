@@ -251,7 +251,7 @@ def main():
         stage1_scope="fresh-200 single-task gap baselines for all neural models in main.pdf",
         ready_configs=len(rows),
         stage2_jobs=sum(r["stage"] == 2 for r in rows),
-        stage2_scope="mlore7 and physics_thermo10 on the two SOTA paths", 
+        stage2_scope="mlore7 and physics_thermo10 on the two SOTA paths",
         baseline_models=list(BASELINE_MODELS),
         paper_chapters={
             "pinn": {

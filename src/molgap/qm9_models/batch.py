@@ -107,7 +107,8 @@ def padded_radius_edges(batch: dict, cutoff: float) -> Tensor:
         _, positions, groups = flat_atoms(batch)
         return radius_edges(positions, groups, cutoff)
     distances = torch.cdist(
-        batch["positions"], batch["positions"],
+        batch["positions"],
+        batch["positions"],
         compute_mode="donot_use_mm_for_euclid_dist",
     )
     valid = mask[:, :, None] & mask[:, None, :] & (distances < cutoff)

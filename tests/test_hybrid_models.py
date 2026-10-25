@@ -42,7 +42,7 @@ def test_work1():
         d_model=256,  # Must be divisible by nhead
         nhead=8,
         num_layers=4,
-        n_tasks=1  # single task
+        n_tasks=1,  # single task
     )
 
     print(f"\nModel parameters: {sum(p.numel() for p in model.parameters()):,}")
@@ -77,9 +77,9 @@ def test_work2_2d():
         d_model=256,
         nhead=8,
         num_layers=4,
-        pe_type='mlp',
+        pe_type="mlp",
         lambda_geometry=0.0,  # Pure 2D
-        n_tasks=7  # multi-task
+        n_tasks=7,  # multi-task
     )
 
     print(f"Model parameters: {sum(p.numel() for p in model.parameters()):,}")
@@ -122,9 +122,9 @@ def test_work2_3d():
         d_model=256,
         nhead=8,
         num_layers=4,
-        pe_type='mlp',
+        pe_type="mlp",
         lambda_geometry=1.0,
-        n_tasks=7
+        n_tasks=7,
     )
 
     model_mlp.eval()
@@ -142,10 +142,10 @@ def test_work2_3d():
         d_model=256,
         nhead=8,
         num_layers=4,
-        pe_type='fourier',
+        pe_type="fourier",
         num_frequencies=50,
         lambda_geometry=1.0,
-        n_tasks=7
+        n_tasks=7,
     )
 
     model_fourier.eval()
@@ -173,11 +173,7 @@ def test_learnable_lambda():
 
     coords = torch.randn(len(bmg.batch), 3)
 
-    model = MPNNTransformer3D(
-        lambda_geometry=0.5,
-        learnable_lambda=True,
-        n_tasks=1
-    )
+    model = MPNNTransformer3D(lambda_geometry=0.5, learnable_lambda=True, n_tasks=1)
 
     print(f"Initial λ: {model.lambda_geometry.item():.4f}")
     print(f"λ requires_grad: {model.lambda_geometry.requires_grad}")
@@ -191,7 +187,7 @@ def test_learnable_lambda():
     print("✅ Learnable λ test passed!\n")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test_work1()
     test_work2_2d()
     test_work2_3d()

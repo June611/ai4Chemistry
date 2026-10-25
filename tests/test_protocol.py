@@ -8,9 +8,7 @@ from molgap.training.protocol import validate_qm9_protocol
 
 
 def property_config():
-    config = yaml.safe_load(
-        Path("configs/qm9_six_properties/models/dimenet_pp.yaml").read_text()
-    )
+    config = yaml.safe_load(Path("configs/qm9_six_properties/models/dimenet_pp.yaml").read_text())
     config["training"]["formal_protocol"] = True
     return config
 

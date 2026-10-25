@@ -6,11 +6,11 @@ from .pooling import AttentionPooling
 from .positional_encoding import FourierPositionalEncoding, MLPPositionalEncoding
 
 __all__ = [
-    'batch_atoms',
-    'unbatch_atoms',
-    'AttentionPooling',
-    'MLPPositionalEncoding',
-    'FourierPositionalEncoding',
-    'UncertaintyWeightedLoss',
-    'MultiTaskHead',
+    "batch_atoms",
+    "unbatch_atoms",
+    "AttentionPooling",
+    "MLPPositionalEncoding",
+    "FourierPositionalEncoding",
+    "UncertaintyWeightedLoss",
+    "MultiTaskHead",
 ]

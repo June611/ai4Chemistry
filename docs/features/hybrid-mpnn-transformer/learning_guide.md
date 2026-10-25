@@ -191,14 +191,14 @@ def create_padding_mask(batch_ids, max_atoms):
     """
     batch_ids: [0,0,0, 1,1,1,1,1,1, 2,2] (总共 11 个原子)
     max_atoms: 6 (最大分子有 6 个原子)
-    
+
     返回:
     mask[0] = [0, 0, 0, -inf, -inf, -inf]  (分子 0 有 3 个原子)
     mask[1] = [0, 0, 0, 0, 0, 0]           (分子 1 有 6 个原子)
     mask[2] = [0, 0, -inf, -inf, -inf, -inf]  (分子 2 有 2 个原子)
     """
     B = batch_ids.max() + 1
-    mask = torch.full((B, max_atoms), float('-inf'))
+    mask = torch.full((B, max_atoms), float("-inf"))
     for i in range(B):
         n_atoms = (batch_ids == i).sum()
         mask[i, :n_atoms] = 0
@@ -216,15 +216,15 @@ encoder_layer = nn.TransformerEncoderLayer(
     nhead=8,
     dim_feedforward=512,
     dropout=0.1,
-    batch_first=True  # ← 重要！让输入是 [B, N, d] 而非 [N, B, d]
+    batch_first=True,  # ← 重要！让输入是 [B, N, d] 而非 [N, B, d]
 )
 
 encoder = nn.TransformerEncoder(encoder_layer, num_layers=4)
 
 # 前向传播
 output = encoder(
-    src=H_batched,           # [B, N_max, d]
-    src_key_padding_mask=mask_1d  # [B, N_max]，True 表示 padding
+    src=H_batched,  # [B, N_max, d]
+    src_key_padding_mask=mask_1d,  # [B, N_max]，True 表示 padding
 )
 ```
 
@@ -239,7 +239,7 @@ output = encoder(
 Chemprop 的 `BondMessagePassing` 输出：
 ```python
 H_flat: [11, 300]  # 11 = 3+6+2（三个分子的原子总数）
-batch_ids: [0,0,0, 1,1,1,1,1,1, 2,2]
+batch_ids: [0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2]
 ```
 
 Transformer 需要：
@@ -285,31 +285,32 @@ def batch_atoms_loop(H_flat, batch_ids):
 ```python
 from torch_scatter import scatter
 
+
 def batch_atoms_scatter(H_flat, batch_ids, max_atoms):
     B = batch_ids.max().item() + 1
     d = H_flat.size(-1)
-    
+
     # 为每个原子分配在 batched 张量中的位置
     # 需要计算每个原子在其所属分子内的索引
     atom_idx_in_mol = torch.zeros_like(batch_ids)
     for i in range(B):
-        mask = (batch_ids == i)
+        mask = batch_ids == i
         atom_idx_in_mol[mask] = torch.arange(mask.sum())
-    
+
     # 计算 flat index
     flat_idx = batch_ids * max_atoms + atom_idx_in_mol
-    
+
     # Scatter
     H_batched_flat = torch.zeros(B * max_atoms, d, device=H_flat.device)
     H_batched_flat[flat_idx] = H_flat
     H_batched = H_batched_flat.reshape(B, max_atoms, d)
-    
+
     # Mask
     mask = torch.ones(B, max_atoms, dtype=torch.bool, device=H_flat.device)
     mask_flat = torch.zeros(B * max_atoms, dtype=torch.bool, device=H_flat.device)
     mask_flat[flat_idx] = False
     mask = mask_flat.reshape(B, max_atoms)
-    
+
     return H_batched, mask
 ```
 
@@ -343,12 +344,8 @@ $$
 class MLPPositionalEncoding(nn.Module):
     def __init__(self, d_model=300):
         super().__init__()
-        self.mlp = nn.Sequential(
-            nn.Linear(3, 128),
-            nn.ReLU(),
-            nn.Linear(128, d_model)
-        )
-    
+        self.mlp = nn.Sequential(nn.Linear(3, 128), nn.ReLU(), nn.Linear(128, d_model))
+
     def forward(self, coords):
         """
         coords: [N_total, 3]（flat 坐标）
@@ -388,17 +385,17 @@ class FourierPositionalEncoding(nn.Module):
     def __init__(self, num_frequencies=50, d_model=300, learnable=False):
         super().__init__()
         self.num_frequencies = num_frequencies
-        
+
         if learnable:
             self.B = nn.Parameter(torch.randn(num_frequencies, 3) * 0.1)
         else:
             freq = torch.exp(torch.linspace(0, np.log(10), num_frequencies))
             B = freq[:, None] * torch.randn(num_frequencies, 3)
-            self.register_buffer('B', B)
-        
+            self.register_buffer("B", B)
+
         # 输出维度 2*num_frequencies，投影到 d_model
         self.proj = nn.Linear(2 * num_frequencies, d_model)
-    
+
     def forward(self, coords):
         """
         coords: [N, 3]
@@ -530,43 +527,38 @@ tools = [
                 "type": "object",
                 "properties": {
                     "smiles": {"type": "string"},
-                    "use_3d": {"type": "boolean", "default": False}
+                    "use_3d": {"type": "boolean", "default": False},
                 },
-                "required": ["smiles"]
-            }
-        }
+                "required": ["smiles"],
+            },
+        },
     }
 ]
 
+
 def run_agent(user_message):
     messages = [{"role": "user", "content": user_message}]
-    
+
     while True:
-        response = openai.chat.completions.create(
-            model="gpt-4",
-            messages=messages,
-            tools=tools
-        )
-        
+        response = openai.chat.completions.create(model="gpt-4", messages=messages, tools=tools)
+
         message = response.choices[0].message
         messages.append(message)
-        
+
         # 如果 LLM 要调用工具
         if message.tool_calls:
             for tool_call in message.tool_calls:
                 func_name = tool_call.function.name
                 args = json.loads(tool_call.function.arguments)
-                
+
                 # 执行工具
                 if func_name == "predict_molecular_properties":
                     result = predict(args["smiles"], args.get("use_3d", False))
-                
+
                 # 返回结果给 LLM
-                messages.append({
-                    "role": "tool",
-                    "tool_call_id": tool_call.id,
-                    "content": json.dumps(result)
-                })
+                messages.append(
+                    {"role": "tool", "tool_call_id": tool_call.id, "content": json.dumps(result)}
+                )
         else:
             # LLM 不再调用工具，返回最终回复
             return message.content

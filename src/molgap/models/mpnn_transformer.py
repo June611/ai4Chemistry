@@ -24,8 +24,8 @@ class MPNNTransformerHybrid(nn.Module):
     def __init__(
         self,
         # MPNN parameters
-        d_v: int = 72,   # atom feature dim (SimpleMoleculeMolGraphFeaturizer default)
-        d_e: int = 14,   # bond feature dim (Chemprop default)
+        d_v: int = 72,  # atom feature dim (SimpleMoleculeMolGraphFeaturizer default)
+        d_e: int = 14,  # bond feature dim (Chemprop default)
         d_h: int = 300,  # MPNN hidden dim
         mpnn_depth: int = 3,
         # Transformer parameters
@@ -75,7 +75,7 @@ class MPNNTransformerHybrid(nn.Module):
             nn.Linear(d_model, d_model // 2),
             nn.ReLU(),
             nn.Dropout(dropout),
-            nn.Linear(d_model // 2, n_tasks)
+            nn.Linear(d_model // 2, n_tasks),
         )
 
     def forward(self, bmg: BatchMolGraph, V_d=None):
@@ -99,7 +99,7 @@ class MPNNTransformerHybrid(nn.Module):
         # Stage 3: Transformer encodes global interactions
         h_global = self.transformer(
             src=h_batched,
-            src_key_padding_mask=mask  # True = padding
+            src_key_padding_mask=mask,  # True = padding
         )  # [B, N_max, d_model]
 
         # Stage 4: Attention pooling

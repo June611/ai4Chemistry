@@ -26,8 +26,12 @@ def test_terminal_finalize_without_optimizer_step(tmp_path, monkeypatch):
 
     monkeypatch.setattr(torch.optim.Adam, "step", forbidden)
     actual = train(
-        path, resume=checkpoint, output_dir=run, diagnostic_epochs=1,
-        device_override="cpu", finalize_only=True,
+        path,
+        resume=checkpoint,
+        output_dir=run,
+        diagnostic_epochs=1,
+        device_override="cpu",
+        finalize_only=True,
     )
     assert actual == expected
     assert json.loads((run / "COMPLETED.json").read_text())["epochs_completed"] == 1

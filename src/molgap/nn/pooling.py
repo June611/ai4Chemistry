@@ -34,7 +34,7 @@ class AttentionPooling(nn.Module):
         scores = self.attention_weight(h)  # [B, N_max, 1]
 
         # Mask padding atoms
-        scores = scores.masked_fill(mask.unsqueeze(-1), float('-inf'))
+        scores = scores.masked_fill(mask.unsqueeze(-1), float("-inf"))
 
         # Softmax over atoms
         alpha = torch.softmax(scores, dim=1)  # [B, N_max, 1]

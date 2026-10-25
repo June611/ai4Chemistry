@@ -157,18 +157,18 @@
 def predict(smiles: str, coords: Optional[np.ndarray] = None) -> Dict[str, float]:
     """
     调用工作二的统一框架
-    
+
     Args:
         smiles: 规范 SMILES
         coords: 3D 坐标 (N, 3)，None 则自动 λ=0
-    
+
     Returns:
         {'homo': -6.2, 'lumo': -1.8, 'gap': 4.4, 'mu': 3.5, ...}
     """
     if coords is None:
-        model = load_model('work2_lambda0')  # 纯 2D
+        model = load_model("work2_lambda0")  # 纯 2D
     else:
-        model = load_model('work2_lambda1')  # 3D
+        model = load_model("work2_lambda1")  # 3D
     return model.predict(smiles, coords)
 ```
 

@@ -76,9 +76,7 @@ def project(root):
     return root
 
 
-@pytest.mark.parametrize(
-    "variant", ["single_task", "D1", "D2", "mlore7", "physics_thermo10"]
-)
+@pytest.mark.parametrize("variant", ["single_task", "D1", "D2", "mlore7", "physics_thermo10"])
 def test_continuous_vs_resume_full_state_and_saved_metrics(tmp_path, variant):
     root = project(tmp_path)
     cfg = make_executable_config(

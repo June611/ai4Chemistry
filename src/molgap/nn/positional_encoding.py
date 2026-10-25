@@ -25,9 +25,7 @@ class MLPPositionalEncoding(nn.Module):
         """
         super().__init__()
         self.mlp = nn.Sequential(
-            nn.Linear(3, hidden_dim),
-            nn.ReLU(),
-            nn.Linear(hidden_dim, d_model)
+            nn.Linear(3, hidden_dim), nn.ReLU(), nn.Linear(hidden_dim, d_model)
         )
 
     def forward(self, coords: Tensor) -> Tensor:
@@ -50,12 +48,7 @@ class FourierPositionalEncoding(nn.Module):
     Note: This does NOT guarantee rotation/translation invariance.
     """
 
-    def __init__(
-        self,
-        d_model: int = 300,
-        num_frequencies: int = 50,
-        learnable: bool = False
-    ):
+    def __init__(self, d_model: int = 300, num_frequencies: int = 50, learnable: bool = False):
         """
         Args:
             d_model: output dimension
@@ -72,7 +65,7 @@ class FourierPositionalEncoding(nn.Module):
             # Fixed frequency matrix (exponentially spaced)
             freq = torch.exp(torch.linspace(0, math.log(10), num_frequencies))
             B = freq[:, None] * torch.randn(num_frequencies, 3)
-            self.register_buffer('B', B)
+            self.register_buffer("B", B)
 
         # Project Fourier features to d_model
         self.proj = nn.Linear(2 * num_frequencies, d_model)

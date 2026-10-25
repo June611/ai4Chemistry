@@ -22,12 +22,21 @@ OUT = ROOT / "artifacts/qm9_epoch200/summary"
 
 TARGETS = ("homo", "lumo", "delta_e", "alpha", "mu", "r2", "zpve")
 UNITS = {
-    "homo": "hartree", "lumo": "hartree", "delta_e": "hartree",
-    "alpha": "bohr^3", "mu": "debye", "r2": "bohr^2", "zpve": "hartree",
+    "homo": "hartree",
+    "lumo": "hartree",
+    "delta_e": "hartree",
+    "alpha": "bohr^3",
+    "mu": "debye",
+    "r2": "bohr^2",
+    "zpve": "hartree",
 }
 TARGET_CN = {
-    "homo": "HOMO 能级", "lumo": "LUMO 能级", "delta_e": "gap（主指标）",
-    "alpha": "各向同性极化率", "mu": "偶极矩", "r2": "电子空间延展",
+    "homo": "HOMO 能级",
+    "lumo": "LUMO 能级",
+    "delta_e": "gap（主指标）",
+    "alpha": "各向同性极化率",
+    "mu": "偶极矩",
+    "r2": "电子空间延展",
     "zpve": "零点振动能",
 }
 VARIANTS = {
@@ -38,13 +47,31 @@ VARIANTS = {
 }
 VARIANT_ORDER = ("single_task_delta_e", "task_attention7", "mlore7", "physics_thermo10")
 MODEL_CN = {
-    "dimenet_pp": "DimeNet++", "torchmd_net": "TorchMD-Net", "painn": "PaiNN",
-    "egnn": "EGNN", "schnet": "SchNet", "3dinfomax": "3DInfomax",
-    "chemprop": "Chemprop", "esa": "ESA", "smiles_transformer": "SMILES Tr",
-    "spe_transformer": "SPE Tr", "demol": "DeMol",
+    "dimenet_pp": "DimeNet++",
+    "torchmd_net": "TorchMD-Net",
+    "painn": "PaiNN",
+    "egnn": "EGNN",
+    "schnet": "SchNet",
+    "3dinfomax": "3DInfomax",
+    "chemprop": "Chemprop",
+    "esa": "ESA",
+    "smiles_transformer": "SMILES Tr",
+    "spe_transformer": "SPE Tr",
+    "demol": "DeMol",
 }
-MODEL_ORDER = ("dimenet_pp", "torchmd_net", "painn", "egnn", "schnet", "3dinfomax",
-               "chemprop", "esa", "smiles_transformer", "spe_transformer", "demol")
+MODEL_ORDER = (
+    "dimenet_pp",
+    "torchmd_net",
+    "painn",
+    "egnn",
+    "schnet",
+    "3dinfomax",
+    "chemprop",
+    "esa",
+    "smiles_transformer",
+    "spe_transformer",
+    "demol",
+)
 SEEDS = ("42", "2026", "3407")
 ID_RE = re.compile(r"^(?P<model>.+)_(?P<variant>" + "|".join(VARIANTS) + r")_seed(?P<seed>\d+)$")
 
@@ -65,7 +92,8 @@ def collect_runs():
 def run_rows(runs):
     rows = []
     for (model, variant, seed), d in sorted(
-        runs.items(), key=lambda kv: (MODEL_ORDER.index(kv[0][0]), VARIANT_ORDER.index(kv[0][1]), int(kv[0][2]))
+        runs.items(),
+        key=lambda kv: (MODEL_ORDER.index(kv[0][0]), VARIANT_ORDER.index(kv[0][1]), int(kv[0][2])),
     ):
         metrics = json.loads((d / "test_metrics.json").read_text())
         done = json.loads((d / "COMPLETED.json").read_text())
@@ -73,23 +101,25 @@ def run_rows(runs):
             if t not in metrics["targets"]:
                 continue
             m = metrics["targets"][t]
-            rows.append({
-                "model": model,
-                "variant": variant,
-                "seed": int(seed),
-                "root": "formal" if d.parent == FORMAL else "extension",
-                "target": t,
-                "unit": UNITS[t],
-                "n": m["n"],
-                "mae": m["mae"],
-                "rmse": m["rmse"],
-                "mse": m["mse"],
-                "r2": m["r2"],
-                "mape": m.get("mape"),
-                "epochs": done["epochs_completed"],
-                "early_stopped": done["early_stopped"],
-                "best_epoch": done["best_epoch"],
-            })
+            rows.append(
+                {
+                    "model": model,
+                    "variant": variant,
+                    "seed": int(seed),
+                    "root": "formal" if d.parent == FORMAL else "extension",
+                    "target": t,
+                    "unit": UNITS[t],
+                    "n": m["n"],
+                    "mae": m["mae"],
+                    "rmse": m["rmse"],
+                    "mse": m["mse"],
+                    "r2": m["r2"],
+                    "mape": m.get("mape"),
+                    "epochs": done["epochs_completed"],
+                    "early_stopped": done["early_stopped"],
+                    "best_epoch": done["best_epoch"],
+                }
+            )
     return rows
 
 
@@ -115,7 +145,23 @@ def aggregate(rows):
 
 def write_long_csv(rows):
     path = OUT / "per_target_metrics.csv"
-    fields = ["model", "variant", "seed", "root", "target", "unit", "n", "mae", "rmse", "mse", "r2", "mape", "epochs", "early_stopped", "best_epoch"]
+    fields = [
+        "model",
+        "variant",
+        "seed",
+        "root",
+        "target",
+        "unit",
+        "n",
+        "mae",
+        "rmse",
+        "mse",
+        "r2",
+        "mape",
+        "epochs",
+        "early_stopped",
+        "best_epoch",
+    ]
     with path.open("w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=fields)
         w.writeheader()
@@ -126,14 +172,34 @@ def write_long_csv(rows):
 
 def write_agg_csv(agg):
     path = OUT / "per_target_aggregates.csv"
-    fields = ["model", "variant", "target", "unit", "n_seeds", "mae_mean", "mae_sd", "rmse_mean", "rmse_sd", "r2_mean", "epochs_mean", "any_early_stop"]
+    fields = [
+        "model",
+        "variant",
+        "target",
+        "unit",
+        "n_seeds",
+        "mae_mean",
+        "mae_sd",
+        "rmse_mean",
+        "rmse_sd",
+        "r2_mean",
+        "epochs_mean",
+        "any_early_stop",
+    ]
     with path.open("w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=fields)
         w.writeheader()
         for (model, variant, target), a in sorted(
-            agg.items(), key=lambda kv: (MODEL_ORDER.index(kv[0][0]), VARIANT_ORDER.index(kv[0][1]), TARGETS.index(kv[0][2]))
+            agg.items(),
+            key=lambda kv: (
+                MODEL_ORDER.index(kv[0][0]),
+                VARIANT_ORDER.index(kv[0][1]),
+                TARGETS.index(kv[0][2]),
+            ),
         ):
-            w.writerow({"model": model, "variant": variant, "target": target, "unit": UNITS[target], **a})
+            w.writerow(
+                {"model": model, "variant": variant, "target": target, "unit": UNITS[target], **a}
+            )
     return path
 
 
@@ -168,12 +234,21 @@ def write_xlsx(long_rows, agg):
         ("验证集 delta_e MAE 选型 / 仅测试集最终评估 / 配对种子 42,2026,3407 / 5 折 CV。", False),
         ("", False),
         ("工作表：", True),
-        ("  per_seed_long   — 每一行的粒度：run × target 的完整指标（含逐 seed、epoch、早停标记）", False),
+        (
+            "  per_seed_long   — 每一行的粒度：run × target 的完整指标（含逐 seed、epoch、早停标记）",
+            False,
+        ),
         ("  agg_per_target  — model × variant × target 的 3-seed 均值±SD", False),
-        ("  delta_e_groups  — 主指标 delta_e 的分组汇总（按 RMSE 升序，含 epoch 与早停信息）", False),
+        (
+            "  delta_e_groups  — 主指标 delta_e 的分组汇总（按 RMSE 升序，含 epoch 与早停信息）",
+            False,
+        ),
         ("  gains           — 模块增益（逐 target 配对差值百分比）", False),
         ("", False),
-        ("单位：homo/lumo/delta_e/zpve = hartree；alpha = bohr^3；mu = debye；r2 = bohr^2。", False),
+        (
+            "单位：homo/lumo/delta_e/zpve = hartree；alpha = bohr^3；mu = debye；r2 = bohr^2。",
+            False,
+        ),
         ("口径：mean±SD 对 3 个配对 seed；早停 run 的指标为其 best_epoch 处的测试值。", False),
     ]:
         readme.append([line[0]])
@@ -182,25 +257,120 @@ def write_xlsx(long_rows, agg):
 
     sheet(
         "per_seed_long",
-        ["model", "variant", "seed", "root", "target", "unit", "n", "mae", "rmse", "mse", "r2", "mape", "epochs", "early_stopped", "best_epoch"],
-        [[r["model"], r["variant"], r["seed"], r["root"], r["target"], r["unit"], r["n"],
-          r["mae"], r["rmse"], r["mse"], r["r2"], r["mape"], r["epochs"], r["early_stopped"], r["best_epoch"]] for r in long_rows],
+        [
+            "model",
+            "variant",
+            "seed",
+            "root",
+            "target",
+            "unit",
+            "n",
+            "mae",
+            "rmse",
+            "mse",
+            "r2",
+            "mape",
+            "epochs",
+            "early_stopped",
+            "best_epoch",
+        ],
+        [
+            [
+                r["model"],
+                r["variant"],
+                r["seed"],
+                r["root"],
+                r["target"],
+                r["unit"],
+                r["n"],
+                r["mae"],
+                r["rmse"],
+                r["mse"],
+                r["r2"],
+                r["mape"],
+                r["epochs"],
+                r["early_stopped"],
+                r["best_epoch"],
+            ]
+            for r in long_rows
+        ],
         [14, 22, 6, 10, 9, 9, 7, 12, 12, 12, 9, 9, 8, 13, 10],
     )
     sheet(
         "agg_per_target",
-        ["model", "variant", "target", "unit", "n_seeds", "mae_mean", "mae_sd", "rmse_mean", "rmse_sd", "r2_mean", "epochs_mean", "any_early_stop"],
-        [[m, v, t, UNITS[t], a["n_seeds"], a["mae_mean"], a["mae_sd"], a["rmse_mean"], a["rmse_sd"], a["r2_mean"], a["epochs_mean"], a["any_early_stop"]]
-         for (m, v, t), a in sorted(agg.items(), key=lambda kv: (MODEL_ORDER.index(kv[0][0]), VARIANT_ORDER.index(kv[0][1]), TARGETS.index(kv[0][2])))],
+        [
+            "model",
+            "variant",
+            "target",
+            "unit",
+            "n_seeds",
+            "mae_mean",
+            "mae_sd",
+            "rmse_mean",
+            "rmse_sd",
+            "r2_mean",
+            "epochs_mean",
+            "any_early_stop",
+        ],
+        [
+            [
+                m,
+                v,
+                t,
+                UNITS[t],
+                a["n_seeds"],
+                a["mae_mean"],
+                a["mae_sd"],
+                a["rmse_mean"],
+                a["rmse_sd"],
+                a["r2_mean"],
+                a["epochs_mean"],
+                a["any_early_stop"],
+            ]
+            for (m, v, t), a in sorted(
+                agg.items(),
+                key=lambda kv: (
+                    MODEL_ORDER.index(kv[0][0]),
+                    VARIANT_ORDER.index(kv[0][1]),
+                    TARGETS.index(kv[0][2]),
+                ),
+            )
+        ],
         [14, 22, 9, 9, 8, 12, 11, 12, 11, 9, 11, 14],
     )
     groups = [(k, a) for k, a in agg.items() if k[2] == "delta_e"]
     groups.sort(key=lambda kv: kv[1]["rmse_mean"])
     sheet(
         "delta_e_groups",
-        ["rank", "model", "variant", "n_seeds", "mae_mean", "mae_sd", "rmse_mean", "rmse_sd", "r2_mean", "epochs_mean", "any_early_stop"],
-        [[i + 1, m, v, a["n_seeds"], a["mae_mean"], a["mae_sd"], a["rmse_mean"], a["rmse_sd"], a["r2_mean"], a["epochs_mean"], a["any_early_stop"]]
-         for i, ((m, v, _), a) in enumerate(groups)],
+        [
+            "rank",
+            "model",
+            "variant",
+            "n_seeds",
+            "mae_mean",
+            "mae_sd",
+            "rmse_mean",
+            "rmse_sd",
+            "r2_mean",
+            "epochs_mean",
+            "any_early_stop",
+        ],
+        [
+            [
+                i + 1,
+                m,
+                v,
+                a["n_seeds"],
+                a["mae_mean"],
+                a["mae_sd"],
+                a["rmse_mean"],
+                a["rmse_sd"],
+                a["r2_mean"],
+                a["epochs_mean"],
+                a["any_early_stop"],
+            ]
+            for i, ((m, v, _), a) in enumerate(groups)
+        ],
         [6, 14, 22, 8, 12, 11, 12, 11, 9, 11, 14],
     )
     gains = gain_rows(agg)
@@ -217,12 +387,14 @@ def write_xlsx(long_rows, agg):
 
 def gain_rows(agg):
     rows = []
-    pairs = (("mlore7", "task_attention7", "MLoRE vs 旧 ta7"),
-             ("mlore7", "physics_thermo10", "MLoRE vs PINN"),
-             ("task_attention7", "physics_thermo10", "旧 ta7 vs PINN"),
-             ("physics_thermo10", "single_task_delta_e", "PINN vs 单任务"),
-             ("mlore7", "single_task_delta_e", "MLoRE vs 单任务"),
-             ("task_attention7", "single_task_delta_e", "旧 ta7 vs 单任务"))
+    pairs = (
+        ("mlore7", "task_attention7", "MLoRE vs 旧 ta7"),
+        ("mlore7", "physics_thermo10", "MLoRE vs PINN"),
+        ("task_attention7", "physics_thermo10", "旧 ta7 vs PINN"),
+        ("physics_thermo10", "single_task_delta_e", "PINN vs 单任务"),
+        ("mlore7", "single_task_delta_e", "MLoRE vs 单任务"),
+        ("task_attention7", "single_task_delta_e", "旧 ta7 vs 单任务"),
+    )
     for model in MODEL_ORDER:
         for target in TARGETS:
             for new, base, label in pairs:
@@ -230,11 +402,15 @@ def gain_rows(agg):
                 b = agg.get((model, base, target))
                 if not a or not b:
                     continue
-                rows.append({
-                    "model": model, "target": target, "comparison": label,
-                    "mae_pct": round((a["mae_mean"] / b["mae_mean"] - 1) * 100, 2),
-                    "rmse_pct": round((a["rmse_mean"] / b["rmse_mean"] - 1) * 100, 2),
-                })
+                rows.append(
+                    {
+                        "model": model,
+                        "target": target,
+                        "comparison": label,
+                        "mae_pct": round((a["mae_mean"] / b["mae_mean"] - 1) * 100, 2),
+                        "rmse_pct": round((a["rmse_mean"] / b["rmse_mean"] - 1) * 100, 2),
+                    }
+                )
     return rows
 
 
@@ -271,8 +447,10 @@ def md_target_table(agg, model, metric):
 def md_delta_e_ranking(agg):
     groups = [(k, a) for k, a in agg.items() if k[2] == "delta_e"]
     groups.sort(key=lambda kv: kv[1]["rmse_mean"])
-    lines = ["| # | 骨干 | 方法 | MAE（3-seed） | RMSE（3-seed） | R² | epochs（均值） | 早停 |",
-             "|---|---|---|---:|---:|---:|---:|---|"]
+    lines = [
+        "| # | 骨干 | 方法 | MAE（3-seed） | RMSE（3-seed） | R² | epochs（均值） | 早停 |",
+        "|---|---|---|---:|---:|---:|---:|---|",
+    ]
     for i, ((model, variant, _), a) in enumerate(groups, 1):
         es = "是" if a["any_early_stop"] else "否"
         lines.append(
@@ -309,12 +487,24 @@ def write_markdown(agg, rows):
         demol_mae=md_target_table(agg, "demol", "mae"),
         demol_rmse=md_target_table(agg, "demol", "rmse"),
         demol_r2=md_target_table(agg, "demol", "r2"),
-        dimenet_gain_mlore_ta7=md_gain_table(agg, "dimenet_pp", "mlore7", "task_attention7", "MLoRE vs 旧 ta7"),
-        dimenet_gain_mlore_pt10=md_gain_table(agg, "dimenet_pp", "mlore7", "physics_thermo10", "MLoRE vs PINN"),
-        torchmd_gain_mlore_ta7=md_gain_table(agg, "torchmd_net", "mlore7", "task_attention7", "MLoRE vs 旧 ta7"),
-        torchmd_gain_mlore_pt10=md_gain_table(agg, "torchmd_net", "mlore7", "physics_thermo10", "MLoRE vs PINN"),
-        torchmd_gain_pt10_st=md_gain_table(agg, "torchmd_net", "physics_thermo10", "single_task_delta_e", "PINN vs 单任务"),
-        dimenet_gain_pt10_st=md_gain_table(agg, "dimenet_pp", "physics_thermo10", "single_task_delta_e", "PINN vs 单任务"),
+        dimenet_gain_mlore_ta7=md_gain_table(
+            agg, "dimenet_pp", "mlore7", "task_attention7", "MLoRE vs 旧 ta7"
+        ),
+        dimenet_gain_mlore_pt10=md_gain_table(
+            agg, "dimenet_pp", "mlore7", "physics_thermo10", "MLoRE vs PINN"
+        ),
+        torchmd_gain_mlore_ta7=md_gain_table(
+            agg, "torchmd_net", "mlore7", "task_attention7", "MLoRE vs 旧 ta7"
+        ),
+        torchmd_gain_mlore_pt10=md_gain_table(
+            agg, "torchmd_net", "mlore7", "physics_thermo10", "MLoRE vs PINN"
+        ),
+        torchmd_gain_pt10_st=md_gain_table(
+            agg, "torchmd_net", "physics_thermo10", "single_task_delta_e", "PINN vs 单任务"
+        ),
+        dimenet_gain_pt10_st=md_gain_table(
+            agg, "dimenet_pp", "physics_thermo10", "single_task_delta_e", "PINN vs 单任务"
+        ),
     )
     path = ROOT / "docs/features/qm9-epoch200-modular-study/per-target-results.md"
     path.write_text(src)

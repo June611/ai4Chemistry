@@ -101,7 +101,7 @@ class MultiTaskHead(nn.Module):
             nn.Linear(d_model, hidden_dim),
             nn.ReLU(),
             nn.Dropout(dropout),
-            nn.Linear(hidden_dim, n_tasks)
+            nn.Linear(hidden_dim, n_tasks),
         )
 
         self.loss_fn = UncertaintyWeightedLoss(n_tasks)
