@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "molecular-gap-prediction"
 version = "0.1.0"
-description = "Reproducible Chemprop experiments for molecular HOMO-LUMO gap prediction"
+description = "Reproducible QM9 molecular property benchmarks: neural baselines, physics-constrained (PINN) and multi-task (MLoRE) modules"
 readme = "README.md"
 requires-python = ">=3.11,<3.15"
 dependencies = [
@@ -95,3 +95,18 @@ target-version = "py311"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+
+[tool.ruff.lint.isort]
+known-first-party = ["molgap"]
+
+[tool.coverage.run]
+source = ["src/molgap"]
+omit = ["src/molgap/_vendor/*"]
+
+[tool.coverage.report]
+exclude_lines = ["pragma: no cover", "if TYPE_CHECKING:", "raise NotImplementedError"]

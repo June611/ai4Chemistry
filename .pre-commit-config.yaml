@@ -1,0 +1,24 @@
+# 本地提交前钩子：pip install pre-commit && pre-commit install
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: '^(src/molgap/_vendor/|.*\.csv$)'
+      - id: end-of-file-fixer
+        exclude: '^src/molgap/_vendor/'
+      - id: check-yaml
+        args: [--allow-multiple-documents]
+        exclude: '^src/molgap/_vendor/'
+      - id: check-added-large-files
+        args: [--maxkb=2048]
+      - id: check-merge-conflict
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.11.13
+    hooks:
+      - id: ruff
+        args: [--fix]
+        exclude: '^src/molgap/_vendor/'
+      - id: ruff-format
+        exclude: '^src/molgap/_vendor/'

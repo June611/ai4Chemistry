@@ -1,6 +1,51 @@
 # Molecular HOMO–LUMO Gap Prediction
 
-## 新一轮200 epoch与可插拔模块审查
+QM9 gap（及其余六个性质）的可复现基准：神经骨干基线、物理约束模块（PINN）与多任务模块（MLoRE），
+统一在 fresh-200 协议下比较（200 epoch / batch 256 / patience 20 / 配对 seed 42·2026·3407 /
+train-only Z-score / test-only 终评）。
+
+## 当前状态（2026-10-26）
+
+| 内容 | 状态 |
+|---|---|
+| 正式 42 项矩阵（30 单任务基线 + 6 PINN + 6 多任务） | 已完成，3 seed 齐 |
+| 扩展 16 项（MLoRE ×6、DeMol ×6、SMILES/SPE + PINN ×4） | 已完成 |
+| 逐目标单任务基线 36 项（dimenet/torchmd × 6 目标 × 3 seed） | 运行中（共享 GPU 上按空闲插空跑） |
+| 结论 | PINN：4/5 骨干提点；MLoRE：transformer 打平、图骨干负迁移。详见 [extension_results.md](docs/features/qm9-epoch200-modular-study/extension_results.md) |
+
+## 快速开始
+
+```bash
+uv sync --locked --extra qm9        # 安装锁定依赖
+uv run --no-sync pytest -q          # 测试
+uv run --no-sync ruff check .       # 静态检查
+make help                           # 常用任务（lint / format / test / docs-check）
+
+# 单次训练（配置自包含，协议写在 YAML 内）
+uv run python -m molgap.modular.train --config configs/qm9_epoch200/fresh/dimenet_pp/single_task_seed42.yaml
+
+# 4 卡正式队列 / 扩展接力链（幂等，自动跳过已完成、自动续训）
+uv run python scripts/run_qm9_formal_4gpu.py --gpus 0,1,2,3
+uv run python scripts/run_extension_chain.py --gpu 0 --trigger <job_id> --output-root <dir> --jobs id=config,...
+```
+
+## 目录结构
+
+| 路径 | 内容 |
+|---|---|
+| `src/molgap/` | 库代码：`modular/`（fresh-200 训练与模块）、`qm9_models/`（模型与入口）、`training/`、`experiments/` |
+| `configs/` | 可执行配置，按模型分目录；旧路线归档见 [configs/README.md](configs/README.md) |
+| `scripts/` | 入口与编排脚本，索引见 [scripts/README.md](scripts/README.md) |
+| `tests/` | 单元与端到端测试（`uv run --no-sync pytest -q`） |
+| `docs/features/` | 按功能组织的需求/任务/决策文档，索引见 [docs/README.md](docs/README.md) |
+| `reports/` | 审计与结果表格（JSON/XLSX） |
+| `artifacts/`、`data/`、`outputs/` | 运行产物与数据（不入库） |
+
+工程规范与提交约定见 [CONTRIBUTING.md](CONTRIBUTING.md)，版本变更见 [CHANGELOG.md](CHANGELOG.md)。
+
+## 新一轮200 epoch与可插拔模块审查（历史过程记录）
+
+> 以下为该项工作的过程记录，其中"尚未启动正式训练"等表述已过时；当前状态见上表。
 
 新正式比较采用batch256、最多200轮、patience20和42/2026/3407配对seed；历史100轮结果保留。
 当前正式比较为 42 项：main.pdf 中 10 个神经模型的统一 gap 基线 30 项，加 DimeNet++/TorchMD-Net 两条 SOTA 路径上的 PINN/多任务模块 12 项；DeMol 与 Transformer-M 不入正式队列，传统 ML 沿用历史结果。

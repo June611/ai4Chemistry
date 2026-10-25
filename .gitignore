@@ -41,3 +41,10 @@ draft_*_folder/
 
 # Local reference papers (code provenance lives in docs and source locks)
 papers/
+
+# Local paper drafts and ad-hoc binaries (not part of the code deliverable)
+docs/papers/
+main.pdf
+*.orig
+*.rej
+slurm-*.out
