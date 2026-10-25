@@ -97,3 +97,13 @@
 - DeMol 风险注记：种子方差大（pt10 RMSE SD ±0.00048，dimenet ±0.00013 的 3.6 倍）；seed42 PINN 早停（ep71）为唯一败票。论文中 DeMol 结论应带方差披露。
 - 守护：10-22 18:56 起每小时健康检查 75 轮至全部收官，无第二次外部清扫；提醒已删除。GPU0/2 租户拖速（demol ~1000-1090 s/ep vs 净卡 ~540）仅影响工期不影响结果。
 - 未做/不做：不动 results.md 正式 42 项主表（扩展数据单独成文）；不 git 提交（未获授权）；旧 ta7 结果只作历史证据不混表。
+
+## 2026-10-26 01:56 逐目标单任务基线（ST）矩阵启动：dimenet_pp / torchmd_net × 6 目标 × 3 seed
+
+- 动因：MLoRE/PINN 是联合头，现有 fresh-200 单任务基线只覆盖 delta_e；要回答"每个学习目标上多任务/物理约束是否优于单任务"，需补 homo/lumo/alpha/mu/r2/zpve 的同口径 ST 基线。用户指定只补 dimenet_pp 与 torchmd_net 两个骨干（论文两章所用骨干）。
+- 规模：36 项 = 2 骨干 × 6 目标 × 3 paired seed；配置用 make_executable_config(model, single_task, seed, target) 生成，路径 configs/qm9_epoch200/fresh/{dimenet_pp,torchmd_net}/{target}_seed{seed}.yaml；协议与正式队列一致（200 ep、batch 256、patience 20、train-only Z-score、val_{target}_mae 选型、test-only 终评）。
+- 烟测：dimenet homo_seed42 与 torchmd zpve_seed42 各 1 ep/5120 行诊断通过（指标落在对应目标上，diagnostic COMPLETED）。
+- 调度：4 条 run_extension_chain.py 链（阈值 3000，触发用已完成的 demol_single_task_delta_e_seed2026），输出 artifacts/qm9_epoch200/st_targets_20261026/；每卡 9 项（GPU0/1: 5 dimenet+4 torchmd；GPU2/3: 4 dimenet+5 torchmd）。
+- 实测：重启后每卡出现约 1.6 GiB 外来租户（宿主 PID，/proc 不可见），dimenet 从 175 → 351-391 s/ep（约 2×）。用户决定：租户优先级更高，本矩阵按"插空"方式跑，不抢占、不调整协议；预计 36 项 6-8 天完成（随租户负载漂移）。
+- 守护：创建每小时健康检查提醒（schedule-dcc00e35），全部 36 项完成或用户叫停后删除。
+- 说明：GPU0 首个 job（dimenet homo_seed42）在重建链时其父链被误杀，trainer 以孤儿进程继续跑完（run_row 幂等，链会在其 COMPLETED 后自动跳过）。
