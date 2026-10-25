@@ -58,7 +58,7 @@ def validate(config):
         "single_task": tuple(data["targets"]),
         "D1": TASKS7,
         "D2": TASKS7,
-        "task_attention7": TASKS7,
+        "mlore7": TASKS7,
         "physics_thermo10": TASKS10,
     }[module["variant"]]
     if module["variant"] == "single_task" and (len(expected) != 1 or expected[0] not in TASKS7):
@@ -88,7 +88,21 @@ def validate(config):
         )
     if data["split"]["stratify"] != dict(strategy="quantile", column="delta_e", bins=200):
         raise ValueError("Frozen gap-stratified splits are required")
-    if module["hidden_dim"] % module["num_heads"] or not 0 <= module["dropout"] < 1:
+    if module["variant"] == "mlore7":
+        ranks = module["rank_list"]
+        if (
+            module["hidden_dim"] <= 0
+            or not ranks
+            or any(r <= 0 or 2 * r > module["hidden_dim"] for r in ranks)
+            or module["spe_rank"] <= 0
+            or 2 * module["spe_rank"] > module["hidden_dim"]
+            or not 1 <= module["topk"] <= len(ranks)
+            or module["balance_weight"] < 0
+            or module["num_modules"] < 1
+            or not isinstance(module["pre_softmax"], bool)
+        ):
+            raise ValueError("Invalid MLoRE low-rank-expert head settings")
+    elif module["hidden_dim"] % module["num_heads"] or not 0 <= module["dropout"] < 1:
         raise ValueError("Invalid task attention width/head count/dropout")
     if t["num_workers"] < 0 or t["min_delta"] != 0:
         raise ValueError("Use nonnegative workers and frozen min_delta=0")

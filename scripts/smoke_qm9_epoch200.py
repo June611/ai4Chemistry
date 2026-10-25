@@ -14,6 +14,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
+# Unified paper queue (2026-10-20): 10 neural baselines x 3 seeds plus
+# 2 SOTA paths x 2 modules x 3 matched seeds.
+EXPECTED_QUEUE_JOBS = 42
+
 
 def write_json(path, value):
     path = Path(path)
@@ -210,8 +214,10 @@ def campaign(args):
             (root / "docs/features/qm9-epoch200-modular-study/training_queue.csv").open()
         )
     )
-    if len(queue) != 114 or len({r["id"] for r in queue}) != 114:
-        raise ValueError("Expected the complete unique 114-job queue")
+    if len(queue) != EXPECTED_QUEUE_JOBS or len({r["id"] for r in queue}) != EXPECTED_QUEUE_JOBS:
+        raise ValueError(
+            f"Expected the complete unique {EXPECTED_QUEUE_JOBS}-job paper-scope queue"
+        )
     selected = [
         r
         for r in queue
@@ -330,7 +336,9 @@ def campaign(args):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output", type=Path, default=Path("artifacts/qm9_epoch200/smoke114"))
+    parser.add_argument(
+        "--output", type=Path, default=Path("artifacts/qm9_epoch200/smoke_paper_scope")
+    )
     parser.add_argument("--rows", type=int, default=500)
     parser.add_argument("--model", action="append")
     parser.add_argument("--job", action="append")

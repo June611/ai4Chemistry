@@ -3,7 +3,13 @@ from pathlib import Path
 import pytest
 import torch
 
-from molgap.qm9_models.batch import Molecule, collate_molecules, flat_atoms, radius_edges
+from molgap.qm9_models.batch import (
+    Molecule,
+    collate_molecules,
+    flat_atoms,
+    padded_radius_edges,
+    radius_edges,
+)
 
 
 def molecular_fixture():
@@ -40,6 +46,8 @@ def test_no_cross_molecule_or_padding_edges():
     z, pos, groups = flat_atoms(batch)
     assert len(z) == 8
     edges = radius_edges(pos, groups, 5.0)
+    vectorized = padded_radius_edges(batch, 5.0)
+    assert torch.equal(vectorized, edges)
     assert torch.equal(groups[edges[0]], groups[edges[1]])
     assert (edges[0] != edges[1]).all()
 

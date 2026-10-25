@@ -3,7 +3,8 @@ Test multi-task loss with uncertainty weighting.
 """
 
 import torch
-from molgap.nn.multitask_loss import UncertaintyWeightedLoss, MultiTaskHead
+
+from molgap.nn.multitask_loss import MultiTaskHead, UncertaintyWeightedLoss
 
 
 def test_uncertainty_weighted_loss():
@@ -86,7 +87,7 @@ def test_missing_data():
     mask[0, 2] = False  # molecule 0, task 2 missing
     mask[1, 5] = False  # molecule 1, task 5 missing
 
-    print(f"Mask (True=valid, False=missing):")
+    print("Mask (True=valid, False=missing):")
     print(mask)
 
     loss, task_losses, weights = loss_fn(preds, targets, mask=mask)

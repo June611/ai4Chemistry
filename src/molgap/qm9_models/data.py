@@ -13,25 +13,47 @@ from molgap.utils.files import sha256
 
 
 class GeometryDataset(Dataset):
+    """Immutable packed geometry with a zero-copy hot path for repeated epochs."""
+
     def __init__(self, frame, arrays: dict, index: dict[str, int], target="delta_e") -> None:
         self.frame = frame.reset_index(drop=True)
         self.arrays = arrays
         self.index = index
         self.target = target
+        self.sample_ids = self.frame["sample_id"].tolist()
+        self.smiles = self.frame["smiles"].tolist()
+        self.targets = self.frame[target].to_numpy(dtype=np.float64, copy=True)
+        self.geometry_indices = np.fromiter(
+            (index[sample_id] for sample_id in self.sample_ids),
+            dtype=np.int64,
+            count=len(self.sample_ids),
+        )
+        # np.load materializes writable ndarrays here. torch.from_numpy returns views;
+        # samples never mutate them, and DataLoader collation copies into batch storage.
+        self.atomic_numbers = torch.from_numpy(
+            np.ascontiguousarray(arrays["atomic_numbers"], dtype=np.int64)
+        )
+        self.positions = torch.from_numpy(
+            np.ascontiguousarray(arrays["positions"], dtype=np.float32)
+        )
+        if not torch.isfinite(self.positions).all():
+            raise ValueError("Geometry contains nonfinite float32 coordinates")
+        offsets = np.asarray(arrays["offsets"])
+        if not np.issubdtype(offsets.dtype, np.integer):
+            raise ValueError("Geometry offsets must be integers")
 
     def __len__(self):
-        return len(self.frame)
+        return len(self.sample_ids)
 
-    def __getitem__(self, index):
-        row = self.frame.iloc[index]
-        geo_index = self.index[row.sample_id]
+    def __getitem__(self, item):
+        geo_index = self.geometry_indices[item]
         start, end = self.arrays["offsets"][geo_index : geo_index + 2]
         return Molecule(
-            row.sample_id,
-            row.smiles,
-            torch.from_numpy(self.arrays["atomic_numbers"][start:end].copy()).long(),
-            torch.from_numpy(self.arrays["positions"][start:end].copy()).float(),
-            float(row[self.target]),
+            self.sample_ids[item],
+            self.smiles[item],
+            self.atomic_numbers[start:end],
+            self.positions[start:end],
+            float(self.targets[item]),
         )
 
 

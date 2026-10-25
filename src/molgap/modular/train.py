@@ -17,7 +17,7 @@ from molgap.config import run_directory
 from molgap.modular.backbones import MolecularEncoder, move_inputs
 from molgap.modular.config import load
 from molgap.modular.data import load_labels
-from molgap.modular.heads import IndependentTaskHead, TaskAttentionHead
+from molgap.modular.heads import IndependentTaskHead, MLoREHead
 from molgap.modular.inputs import make_inputs, make_loaders
 from molgap.modular.physics import TASKS7, QM9PhysicsLoss
 from molgap.training.terminal_checkpoint import loader_state, restore_loader, restore_rng, rng_state
@@ -36,7 +36,53 @@ def atomic_checkpoint(path, value):
 
 
 def write_json(path, value):
-    Path(path).write_text(json.dumps(value, indent=2, allow_nan=False) + "\n")
+    path = Path(path)
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    temporary.write_text(json.dumps(value, indent=2, allow_nan=False) + "\n")
+    os.replace(temporary, path)
+
+
+def archive_outputs(run):
+    """Invalidate completion before resuming; retain abandoned branch artifacts."""
+    import shutil
+
+    run = Path(run).resolve()
+    names = (
+        "COMPLETED.json", "training_timing.json", "inference_timing.json",
+        "test_predictions.csv", "test_metrics.json", "metrics.json",
+        "best_checkpoint.pt", "attention.json", "uncertainty_params.json",
+        "affinity_matrix.json", "predictions/test_predictions.csv",
+        "checkpoints/best.ckpt", "checkpoints/terminal_fit.ckpt",
+    )
+    paths = [run / name for name in names]
+    log = run / "training_log.csv"
+    backup_root = run / "resume_backups"
+    # Validate every source and destination before the first move. In particular,
+    # reject external symlink targets rather than altering another run's files.
+    for path in [*paths, log, backup_root]:
+        if not path.resolve().is_relative_to(run):
+            raise ValueError(f"Resume archive path escapes run directory: {path.name}")
+    backup = backup_root / str(time.time_ns())
+    backup.mkdir(parents=True, exist_ok=False)
+    for path in paths:
+        if path.exists() or path.is_symlink():
+            relative = path.name if path == run / "checkpoints/best.ckpt" else path.relative_to(run)
+            destination = backup / relative
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.move(str(path), str(destination))
+    if log.exists():
+        shutil.copy2(log, backup / log.name)
+    return backup
+
+
+def validate_resume_boundary(payload, limit, finalize_only):
+    terminal = payload.get("early_stopped", False) or payload["completed_epochs"] >= limit
+    if finalize_only and not terminal:
+        raise ValueError("Finalization requires a terminal training boundary")
+    if terminal and not finalize_only:
+        stopped = payload.get("early_stopped", False)
+        reason = "early-stopped" if stopped else "already reached epoch cap"
+        raise ValueError(f"Training {reason}; use --finalize-only to export results")
 
 
 class ModularNetwork(nn.Module):
@@ -63,6 +109,11 @@ class ModularNetwork(nn.Module):
                 old["dropout"],
                 old["activation"],
             )
+        elif self.variant == "single_task" and name in {"smiles_transformer", "spe_transformer"}:
+            # Sequence backbones expose their encoder through MolecularEncoder;
+            # their source model uses native fields rather than a params mapping.
+            self.encoder = MolecularEncoder(config, root, device, vocab_size)
+            self.head = nn.Linear(self.encoder.output_dim, 1)
         elif self.variant == "single_task":
             from molgap.qm9_models.factory import build_model
 
@@ -72,16 +123,25 @@ class ModularNetwork(nn.Module):
             self.head = None
         else:
             self.encoder = MolecularEncoder(config, root, device, vocab_size)
-            cls = TaskAttentionHead if self.variant == "task_attention7" else IndependentTaskHead
-            kwargs = dict(
-                input_dim=self.encoder.output_dim,
-                n_tasks=len(config["data"]["targets"]),
-                hidden_dim=m["hidden_dim"],
-                dropout=m["dropout"],
-            )
-            if self.variant == "task_attention7":
-                kwargs["num_heads"] = m["num_heads"]
-            self.head = cls(**kwargs)
+            if self.variant == "mlore7":
+                self.head = MLoREHead(
+                    input_dim=self.encoder.output_dim,
+                    n_tasks=len(config["data"]["targets"]),
+                    hidden_dim=m["hidden_dim"],
+                    rank_list=m["rank_list"],
+                    spe_rank=m["spe_rank"],
+                    topk=m["topk"],
+                    pre_softmax=m["pre_softmax"],
+                    num_modules=m["num_modules"],
+                    balance_weight=m["balance_weight"],
+                )
+            else:
+                self.head = IndependentTaskHead(
+                    input_dim=self.encoder.output_dim,
+                    n_tasks=len(config["data"]["targets"]),
+                    hidden_dim=m["hidden_dim"],
+                    dropout=m["dropout"],
+                )
 
     def forward(self, inputs):
         if self.variant in {"D1", "D2"}:
@@ -160,8 +220,12 @@ def evaluate(model, loader, frame, tasks, scalers, device):
         out = model(move_inputs(inputs, device))
         outputs.append(out.cpu().numpy())
         ids.extend(names)
-        if isinstance(model.head, TaskAttentionHead):
-            attention.append(model.head.last_attention.sum(0).cpu())
+        if isinstance(model.head, MLoREHead):
+            attention.append(
+                torch.stack(
+                    [torch.stack(routes).sum(1) for routes in model.head.last_route_probs]
+                ).cpu()
+            )
     if ids != frame.sample_id.astype(str).tolist():
         raise ValueError("Evaluation predictions lost row identity/order")
     pred = original_predictions(np.concatenate(outputs), scalers, tasks)
@@ -178,7 +242,10 @@ def train(
     limit_rows=None,
     device_override=None,
     dry_run=False,
+    finalize_only=False,
 ):
+    if finalize_only and not resume:
+        raise ValueError("Finalization requires a full terminal checkpoint")
     config, root = load(config_path)
     config = copy.deepcopy(config)
     diagnostic = diagnostic_epochs is not None or limit_rows is not None
@@ -279,10 +346,7 @@ def train(
                 raise ValueError(
                     "Checkpoint protocol/data/config/scalers/diagnostic context differs"
                 )
-            if saved["early_stopped"]:
-                raise ValueError("Run already early-stopped; do not reset its patience silently")
-            if saved["completed_epochs"] >= (diagnostic_epochs or t["epochs"]):
-                raise ValueError("Checkpoint already reached the requested epoch cap")
+            validate_resume_boundary(saved, diagnostic_epochs or t["epochs"], finalize_only)
             if not saved.get("optimizer_states") or not saved.get("lr_schedulers"):
                 raise ValueError("A full optimizer/scheduler checkpoint is required")
             model.load_state_dict(saved["state_dict"])
@@ -317,10 +381,7 @@ def train(
         payload = resume_payload
         if payload.get("format") != "molgap_modular_epoch_v1" or payload["run_context"] != context:
             raise ValueError("Checkpoint protocol/data/config/scalers/diagnostic context differs")
-        if payload["early_stopped"]:
-            raise ValueError("Run already early-stopped; do not reset its patience silently")
-        if payload["completed_epochs"] >= limit:
-            raise ValueError("Checkpoint already reached the requested epoch cap")
+        validate_resume_boundary(payload, limit, finalize_only)
         if "best_inference_state" not in payload:
             raise ValueError("Checkpoint lacks historical best weights")
         model.load_state_dict(payload["state_dict"])
@@ -340,22 +401,8 @@ def train(
         history = payload["history"]
         accumulated = payload["fit_seconds"]
         best_weights = payload["best_inference_state"]
-        # Preserve abandoned future history when rewinding to an older periodic checkpoint.
-        backup = run / "resume_backups" / str(time.time_ns())
-        backup.mkdir(parents=True)
-        for name in ("training_log.csv", "COMPLETED.json", "training_timing.json"):
-            if (run / name).exists():
-                import shutil
-
-                shutil.copy2(run / name, backup / name)
-        # A newer branch's best must never masquerade as the resumed branch's
-        # best. Historical best weights are embedded in every full checkpoint;
-        # the authoritative prediction export is best_checkpoint.pt.
-        if (checkpoints / "best.ckpt").exists():
-            import shutil
-
-            shutil.move(str(checkpoints / "best.ckpt"), str(backup / "best.ckpt"))
         restore_rng(payload["rng_snapshot"])
+        archive_outputs(run)
     else:
         run.mkdir(parents=True)
         write_run_metadata(run, config, Path(config_path), root)
@@ -364,12 +411,13 @@ def train(
         if tokenizer:
             write_json(run / "vocabulary.json", tokenizer.to_dict())
     checkpoints.mkdir(exist_ok=True)
-    if start >= limit:
+    if start >= limit and not finalize_only:
         raise ValueError("Checkpoint already reached the requested epoch cap")
     fit_started = time.perf_counter()
     if device.type == "cuda":
         torch.cuda.reset_peak_memory_stats(device)
-    early_stopped = False
+    early_stopped = bool(resume_payload.get("early_stopped", False)) if finalize_only else False
+    epoch = start
 
     def save(epoch, stopped=False):
         return dict(
@@ -393,7 +441,7 @@ def train(
             fit_seconds=accumulated + time.perf_counter() - fit_started,
         )
 
-    for epoch in range(start + 1, limit + 1):
+    for epoch in range(start + 1, (start if finalize_only else limit) + 1):
         began = time.perf_counter()
         model.train()
         total = 0.0
@@ -411,6 +459,12 @@ def train(
                 parts = dict(
                     supervised=(prediction - labels).square().mean(), weighted_objective=loss
                 )
+                diag = {}
+            elif config["module"]["variant"] == "mlore7":
+                supervised = (prediction - labels).square().mean()
+                balance = model.head.balance_loss()
+                loss = supervised + config["module"]["balance_weight"] * balance
+                parts = dict(supervised=supervised, load_balancing=balance)
                 diag = {}
             else:
                 loss = (prediction - labels).square().mean()
@@ -549,7 +603,11 @@ def train(
                 task_names=list(tasks),
                 matrix_per_head=attention.tolist(),
                 checkpoint="best_by_validation_gap_mae",
-                aggregation="sample_mean_on_test; heads_retained",
+                aggregation=(
+                    "sample_mean_on_test; dims module x task x expert route probability"
+                    if config["module"]["variant"] == "mlore7"
+                    else "sample_mean_on_test; heads_retained"
+                ),
             ),
         )
     if model.variant in {"D1", "D2"}:
@@ -582,6 +640,7 @@ def main():
     p.add_argument("--limit-rows", type=int)
     p.add_argument("--device", choices=["cpu", "cuda"])
     p.add_argument("--dry-run", action="store_true")
+    p.add_argument("--finalize-only", action="store_true")
     a = p.parse_args()
     print(
         json.dumps(
@@ -593,6 +652,7 @@ def main():
                 limit_rows=a.limit_rows,
                 device_override=a.device,
                 dry_run=a.dry_run,
+                finalize_only=a.finalize_only,
             ),
             indent=2,
         )

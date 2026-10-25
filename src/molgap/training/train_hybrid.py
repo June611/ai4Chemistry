@@ -8,18 +8,13 @@ Supports:
 
 import argparse
 import json
-import time
 from pathlib import Path
 
+import lightning as L
 import torch
 import torch.nn as nn
-from torch.utils.data import DataLoader
-import lightning as L
-from lightning.pytorch.callbacks import ModelCheckpoint, EarlyStopping
+from lightning.pytorch.callbacks import EarlyStopping, ModelCheckpoint
 from lightning.pytorch.loggers import TensorBoardLogger
-
-from chemprop.data import MoleculeDataset, build_dataloader
-from chemprop.featurizers import SimpleMoleculeMolGraphFeaturizer
 
 from molgap.models.mpnn_transformer import MPNNTransformerHybrid
 from molgap.models.mpnn_transformer_3d import MPNNTransformer3D
@@ -101,10 +96,15 @@ class HybridModelLightning(L.LightningModule):
         else:
             return self.model(bmg)
 
+    def _batch_coords(self, batch):
+        """Extract coordinates from either dict- or attribute-style batches."""
+        if isinstance(batch, dict):
+            return batch.get('coords', None)
+        return getattr(batch, 'coords', None)
+
     def training_step(self, batch, batch_idx):
         # Get predictions
-        coords = batch.get('coords', None) if isinstance(batch, dict) else getattr(batch, 'coords', None)
-        preds = self.forward(batch.bmg, coords=coords)
+        preds = self.forward(batch.bmg, coords=self._batch_coords(batch))
 
         # Compute loss
         targets = batch.y if hasattr(batch, 'y') else batch['y']
@@ -113,7 +113,7 @@ class HybridModelLightning(L.LightningModule):
             loss, task_losses, weights = self.criterion(preds, targets)
 
             # Log per-task losses and weights
-            for i, (tl, w) in enumerate(zip(task_losses, weights)):
+            for i, (tl, w) in enumerate(zip(task_losses, weights, strict=True)):
                 self.log(f'train/task_{i}_loss', tl, prog_bar=False)
                 self.log(f'train/task_{i}_weight', w, prog_bar=False)
 
@@ -133,8 +133,7 @@ class HybridModelLightning(L.LightningModule):
         return loss
 
     def validation_step(self, batch, batch_idx):
-        coords = batch.get('coords', None) if isinstance(batch, dict) else getattr(batch, 'coords', None)
-        preds = self.forward(batch.bmg, coords=coords)
+        preds = self.forward(batch.bmg, coords=self._batch_coords(batch))
         targets = batch.y if hasattr(batch, 'y') else batch['y']
 
         if self.use_uncertainty:
@@ -153,8 +152,7 @@ class HybridModelLightning(L.LightningModule):
         return loss
 
     def test_step(self, batch, batch_idx):
-        coords = batch.get('coords', None) if isinstance(batch, dict) else getattr(batch, 'coords', None)
-        preds = self.forward(batch.bmg, coords=coords)
+        preds = self.forward(batch.bmg, coords=self._batch_coords(batch))
         targets = batch.y if hasattr(batch, 'y') else batch['y']
 
         mae = torch.abs(preds - targets).mean()
@@ -262,8 +260,8 @@ def train_hybrid_model(
         version=f'seed{seed}'
     )
 
-    # Trainer
-    trainer = L.Trainer(
+    # Trainer (constructed but .fit/.test intentionally not run in this scaffold)
+    _trainer = L.Trainer(
         max_epochs=max_epochs,
         accelerator='gpu' if gpus > 0 else 'cpu',
         devices=gpus if gpus > 0 else 1,

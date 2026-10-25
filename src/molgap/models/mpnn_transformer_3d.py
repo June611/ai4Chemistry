@@ -9,12 +9,12 @@ Extends Work 1 with:
 
 import torch
 import torch.nn as nn
-from chemprop.nn import BondMessagePassing
 from chemprop.data import BatchMolGraph
+from chemprop.nn import BondMessagePassing
 
 from molgap.nn.batch_utils import batch_atoms
 from molgap.nn.pooling import AttentionPooling
-from molgap.nn.positional_encoding import MLPPositionalEncoding, FourierPositionalEncoding
+from molgap.nn.positional_encoding import FourierPositionalEncoding, MLPPositionalEncoding
 
 
 class MPNNTransformer3D(nn.Module):

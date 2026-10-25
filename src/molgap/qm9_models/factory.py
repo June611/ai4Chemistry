@@ -1,55 +1,76 @@
-"""Model selection without importing unused optional frameworks."""
+"""Lazy model registry without importing unused optional frameworks."""
 
+from __future__ import annotations
+
+from collections.abc import Callable
+from dataclasses import dataclass
+from importlib import import_module
 from pathlib import Path
 
 import torch
+from torch import nn
 
 
-def build_model(name: str, config: dict, root: Path, device: torch.device):
-    if name == "egnn":
-        from molgap.qm9_models.egnn import EGNNAdapter
+@dataclass(frozen=True)
+class ModelRegistration:
+    module: str
+    class_name: str
+    arguments: Callable[[str, dict, Path, torch.device], tuple]
+    uses_geometry: bool
 
-        model = EGNNAdapter(root, config, device)
-    elif name == "demol":
-        from molgap.qm9_models.demol import DeMolAdapter
 
-        model = DeMolAdapter(config)
-    elif name == "transformer_m":
-        from molgap.qm9_models.transformer_m import TransformerMAdapter
+def _config(_name, config, _root, _device):
+    return (config,)
 
-        model = TransformerMAdapter(config)
-    elif name in {"schnet", "painn"}:
-        from molgap.qm9_models.schnetpack import SchNetPackAdapter
 
-        model = SchNetPackAdapter(name, config)
-    elif name == "cormorant":
-        from molgap.qm9_models.cormorant import CormorantAdapter
+def _name_config(name, config, _root, _device):
+    return name, config
 
-        model = CormorantAdapter(root, config, device)
-    elif name == "dimenet_pp":
-        from molgap.qm9_models.dimenet import DimeNetPPAdapter
 
-        model = DimeNetPPAdapter(config)
-    elif name == "lie_transformer":
-        from molgap.qm9_models.lie_transformer import LieTransformerAdapter
+def _root_config(_name, config, root, _device):
+    return root, config
 
-        model = LieTransformerAdapter(root, config)
-    elif name == "esa":
-        from molgap.qm9_models.esa import ESAAdapter
 
-        model = ESAAdapter(config)
-    elif name == "alignn":
-        from molgap.qm9_models.alignn import ALIGNNAdapter
+def _root_config_device(_name, config, root, device):
+    return root, config, device
 
-        model = ALIGNNAdapter(root, config)
-    elif name == "torchmd_net":
-        from molgap.qm9_models.torchmd_net import TorchMDNetAdapter
 
-        model = TorchMDNetAdapter(root, config)
-    elif name == "3dinfomax":
-        from molgap.qm9_models.infomax import ThreeDInfomaxAdapter
+def _egnn(_name, config, root, device):
+    return root, config, device
 
-        model = ThreeDInfomaxAdapter(root, config)
-    else:
+
+MODEL_REGISTRY = {
+    "egnn": ModelRegistration("egnn", "EGNNAdapter", _egnn, True),
+    "demol": ModelRegistration("demol", "DeMolAdapter", _config, True),
+    "transformer_m": ModelRegistration(
+        "transformer_m", "TransformerMAdapter", _config, True
+    ),
+    "schnet": ModelRegistration("schnetpack", "SchNetPackAdapter", _name_config, True),
+    "painn": ModelRegistration("schnetpack", "SchNetPackAdapter", _name_config, True),
+    "cormorant": ModelRegistration(
+        "cormorant", "CormorantAdapter", _root_config_device, True
+    ),
+    "dimenet_pp": ModelRegistration("dimenet", "DimeNetPPAdapter", _config, True),
+    "lie_transformer": ModelRegistration(
+        "lie_transformer", "LieTransformerAdapter", _root_config, True
+    ),
+    "esa": ModelRegistration("esa", "ESAAdapter", _config, False),
+    "alignn": ModelRegistration("alignn", "ALIGNNAdapter", _root_config, True),
+    "torchmd_net": ModelRegistration(
+        "torchmd_net", "TorchMDNetAdapter", _root_config, True
+    ),
+    "3dinfomax": ModelRegistration(
+        "infomax", "ThreeDInfomaxAdapter", _root_config, False
+    ),
+}
+
+
+def build_model(name: str, config: dict, root: Path, device: torch.device) -> nn.Module:
+    """Build one registered adapter while preserving lazy optional imports."""
+    registration = MODEL_REGISTRY.get(name)
+    if registration is None:
         raise ValueError(f"Adapter is not implemented/registered: {name}")
+    module = import_module(f"molgap.qm9_models.{registration.module}")
+    adapter = getattr(module, registration.class_name)
+    model = adapter(*registration.arguments(name, config, root, device))
     return model.to(device)

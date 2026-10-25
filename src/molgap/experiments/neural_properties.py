@@ -204,6 +204,7 @@ def prepare(
                     epochs=tasks["defaults"]["epochs"],
                     target_scaling="standard",
                     num_workers=tasks["resources"]["workers_per_job"],
+                    formal_protocol=True,
                 )
                 t = current["training"]
                 if model == "chemprop_single_gap":

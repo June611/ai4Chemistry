@@ -5,6 +5,10 @@
     42,
     2026
   ],
+  "paused_models": {
+    "cormorant": "RTX3090 batch256 OOM; batch128/64 also OOM; batch32 interrupted before completing one epoch.",
+    "lie_transformer": "RTX3090 batch256 OOM; reduced-batch retry cancelled before starting."
+  },
   "budget": {
     "batch_size": 256,
     "epochs": 100,
@@ -28,100 +32,109 @@
     "baseline.yaml": {
       "status": "pass",
       "checks": {
-        "batch_size_256": true,
+        "approved_batch_size": true,
         "epochs_100": true,
         "patience_20": true,
         "gap_mae_selection": true,
         "min_delta_hartree": true,
         "single_device": true
-      }
+      },
+      "batch_size": 256
     },
     "multitask.yaml": {
       "status": "pass",
       "checks": {
-        "batch_size_256": true,
+        "approved_batch_size": true,
         "epochs_100": true,
         "patience_20": true,
         "gap_mae_selection": true,
         "min_delta_hartree": true,
         "single_device": true
-      }
+      },
+      "batch_size": 256
     },
     "consistency.yaml": {
       "status": "pass",
       "checks": {
-        "batch_size_256": true,
+        "approved_batch_size": true,
         "epochs_100": true,
         "patience_20": true,
         "gap_mae_selection": true,
         "min_delta_hartree": true,
         "single_device": true
-      }
+      },
+      "batch_size": 256
     },
     "transformer.yaml": {
       "status": "pass",
       "checks": {
-        "batch_size_256": true,
+        "approved_batch_size": true,
         "epochs_100": true,
         "patience_20": true,
         "min_delta_hartree": true,
         "single_device": true
-      }
+      },
+      "batch_size": 256
     },
     "spe_transformer.yaml": {
       "status": "pass",
       "checks": {
-        "batch_size_256": true,
+        "approved_batch_size": true,
         "epochs_100": true,
         "patience_20": true,
         "min_delta_hartree": true,
         "single_device": true
-      }
+      },
+      "batch_size": 256
     },
     "spe_multitask.yaml": {
       "status": "pass",
       "checks": {
-        "batch_size_256": true,
+        "approved_batch_size": true,
         "epochs_100": true,
         "patience_20": true,
         "min_delta_hartree": true,
         "single_device": true
-      }
+      },
+      "batch_size": 256
     },
     "spe_multitask_affinity.yaml": {
       "status": "pass",
       "checks": {
-        "batch_size_256": true,
+        "approved_batch_size": true,
         "epochs_100": true,
         "patience_20": true,
         "min_delta_hartree": true,
         "single_device": true
-      }
+      },
+      "batch_size": 256
     },
     "spe_multitask_consistency.yaml": {
       "status": "pass",
       "checks": {
-        "batch_size_256": true,
+        "approved_batch_size": true,
         "epochs_100": true,
         "patience_20": true,
         "min_delta_hartree": true,
         "single_device": true
-      }
+      },
+      "batch_size": 256
     },
     "spe_multitask_affinity_consistency.yaml": {
       "status": "pass",
       "checks": {
-        "batch_size_256": true,
+        "approved_batch_size": true,
         "epochs_100": true,
         "patience_20": true,
         "min_delta_hartree": true,
         "single_device": true
-      }
+      },
+      "batch_size": 256
     },
     "qm9_models/egnn.yaml": {
       "status": "pass",
       "checks": {
-        "batch_size_256": true,
+        "approved_batch_size": true,
         "epochs_100": true,
         "patience_20": true,
         "gap_mae_selection": true,
@@ -129,12 +142,13 @@
         "preserved_loss": true,
         "preserved_scaler": true,
         "isolated_output_root": true
-      }
+      },
+      "batch_size": 256
     },
     "qm9_models/schnet.yaml": {
       "status": "pass",
       "checks": {
-        "batch_size_256": true,
+        "approved_batch_size": true,
         "epochs_100": true,
         "patience_20": true,
         "gap_mae_selection": true,
@@ -142,12 +156,13 @@
         "preserved_loss": true,
         "preserved_scaler": true,
         "isolated_output_root": true
-      }
+      },
+      "batch_size": 256
     },
     "qm9_models/painn.yaml": {
       "status": "pass",
       "checks": {
-        "batch_size_256": true,
+        "approved_batch_size": true,
         "epochs_100": true,
         "patience_20": true,
         "gap_mae_selection": true,
@@ -155,12 +170,13 @@
         "preserved_loss": true,
         "preserved_scaler": true,
         "isolated_output_root": true
-      }
+      },
+      "batch_size": 256
     },
     "qm9_models/dimenet_pp.yaml": {
       "status": "pass",
       "checks": {
-        "batch_size_256": true,
+        "approved_batch_size": true,
         "epochs_100": true,
         "patience_20": true,
         "gap_mae_selection": true,
@@ -168,12 +184,13 @@
         "preserved_loss": true,
         "preserved_scaler": true,
         "isolated_output_root": true
-      }
+      },
+      "batch_size": 256
     },
     "qm9_models/esa.yaml": {
       "status": "pass",
       "checks": {
-        "batch_size_256": true,
+        "approved_batch_size": true,
         "epochs_100": true,
         "patience_20": true,
         "gap_mae_selection": true,
@@ -181,12 +198,13 @@
         "preserved_loss": true,
         "preserved_scaler": true,
         "isolated_output_root": true
-      }
+      },
+      "batch_size": 256
     },
     "qm9_models/torchmd_net.yaml": {
       "status": "pass",
       "checks": {
-        "batch_size_256": true,
+        "approved_batch_size": true,
         "epochs_100": true,
         "patience_20": true,
         "gap_mae_selection": true,
@@ -194,12 +212,13 @@
         "preserved_loss": true,
         "preserved_scaler": true,
         "isolated_output_root": true
-      }
+      },
+      "batch_size": 256
     },
     "qm9_models/cormorant.yaml": {
       "status": "pass",
       "checks": {
-        "batch_size_256": true,
+        "approved_batch_size": true,
         "epochs_100": true,
         "patience_20": true,
         "gap_mae_selection": true,
@@ -207,12 +226,13 @@
         "preserved_loss": true,
         "preserved_scaler": true,
         "isolated_output_root": true
-      }
+      },
+      "batch_size": 256
     },
     "qm9_models/lie_transformer.yaml": {
       "status": "pass",
       "checks": {
-        "batch_size_256": true,
+        "approved_batch_size": true,
         "epochs_100": true,
         "patience_20": true,
         "gap_mae_selection": true,
@@ -220,12 +240,13 @@
         "preserved_loss": true,
         "preserved_scaler": true,
         "isolated_output_root": true
-      }
+      },
+      "batch_size": 256
     },
     "qm9_models/alignn.yaml": {
       "status": "pass",
       "checks": {
-        "batch_size_256": true,
+        "approved_batch_size": true,
         "epochs_100": true,
         "patience_20": true,
         "gap_mae_selection": true,
@@ -233,12 +254,13 @@
         "preserved_loss": true,
         "preserved_scaler": true,
         "isolated_output_root": true
-      }
+      },
+      "batch_size": 256
     },
     "qm9_models/3dinfomax.yaml": {
       "status": "pass",
       "checks": {
-        "batch_size_256": true,
+        "approved_batch_size": true,
         "epochs_100": true,
         "patience_20": true,
         "gap_mae_selection": true,
@@ -246,18 +268,20 @@
         "preserved_loss": true,
         "preserved_scaler": true,
         "isolated_output_root": true
-      }
+      },
+      "batch_size": 256
     }
   },
   "3dinfomax_pretraining": {
     "status": "pass",
     "checks": {
-      "batch_size_256": true,
+      "approved_batch_size": true,
       "epochs_100": true,
       "patience_20": true,
       "lr_decay_before_early_stop": true,
       "isolated_output_root": true
-    }
+    },
+    "batch_size": 256
   },
   "matrices": {
     "configs/multiseed.yaml": {
@@ -493,6 +517,8 @@
     "qm9_downstream": 30,
     "traditional": 9,
     "evaluated_total": 66,
+    "paused_evaluated_runs": 6,
+    "runnable_evaluated_runs": 60,
     "3dinfomax_pretraining_auxiliary": 3
   },
   "status": "pass"

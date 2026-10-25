@@ -13,7 +13,6 @@ import numpy as np
 import pandas as pd
 import torch
 import yaml
-from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 from molgap.config import find_project_root, run_directory
@@ -28,12 +27,10 @@ from molgap.qm9_models.batch import collate_molecules
 from molgap.qm9_models.data import load_data
 from molgap.qm9_models.factory import build_model
 from molgap.qm9_models.policy import require_enabled
+from molgap.qm9_models.runtime import make_loader, move_batch
 from molgap.tracking.inference import measure_prediction
+from molgap.training.protocol import GAP_PROTOCOL, validate_qm9_protocol
 from molgap.utils.files import sha256, write_run_metadata
-
-
-def move(batch, device):
-    return {k: v.to(device) if isinstance(v, torch.Tensor) else v for k, v in batch.items()}
 
 
 def _validate_infomax_checkpoint(config: dict, root: Path, identity: dict, geometry: dict) -> None:
@@ -74,7 +71,11 @@ def run(
     split_seed_override: int | None = None,
     pretrain_checkpoint: Path | None = None,
 ) -> dict:
-    root = find_project_root(config_path)
+    try:
+        root = find_project_root(config_path)
+    except ValueError:
+        # Queue snapshots may deliberately live outside the repository.
+        root = find_project_root()
     config = yaml.safe_load(config_path.read_text())
     config = copy.deepcopy(config)
     training = config["training"]
@@ -82,6 +83,8 @@ def run(
     target, unit = validate_property_target(config) if property_run else ("delta_e", "hartree")
     if property_run and (training["target_scaling"] != "standard" or training["loss"] != "mse"):
         raise ValueError("Neural property experiments require standard target scaling and MSE")
+    if not property_run:
+        config["experiment"]["protocol_id"] = GAP_PROTOCOL
     if not dry_run:
         require_enabled(config["model"]["name"], root)
     if training["early_stopping"].get("monitor") != "val_mae":
@@ -114,12 +117,12 @@ def run(
             "The paired protocol requires training seed to equal split seed "
             f"(training={seed}, split={split_seed})."
         )
-    if not property_run:
-        config["experiment"]["protocol_id"] = "paired_split_gap_mae_v2"
     config["experiment"]["model_id"] = config["model"]["name"]
     training["run_mode"] = "paired_split_seed"
     training["split_seed"] = split_seed
     training["seed_pairing"] = "matched"
+    if not smoke and training.get("formal_protocol", False):
+        validate_qm9_protocol(config, property_run=property_run)
     if pretrain_checkpoint is not None:
         if config["model"]["name"] != "3dinfomax":
             raise ValueError("--pretrain-checkpoint is only valid for 3dinfomax")
@@ -196,15 +199,17 @@ def run(
             (root / config["provenance"]["sources_file"]).read_text()
         )
     loaders = {
-        k: DataLoader(
-            v,
+        name: make_loader(
+            dataset,
+            training=training,
+            device=device,
             batch_size=training["batch_size"],
-            shuffle=k == "train",
-            num_workers=training["num_workers"],
+            shuffle=name == "train",
             collate_fn=collate_molecules,
             generator=torch.Generator().manual_seed(seed),
+            smoke=smoke,
         )
-        for k, v in datasets.items()
+        for name, dataset in datasets.items()
     }
     target_scaling = training["target_scaling"]
     if target_scaling not in {"mad", "standard"}:
@@ -256,11 +261,12 @@ def run(
             torch.cuda.reset_peak_memory_stats()
         epoch_started = time.perf_counter()
         model.train()
-        total = 0.0
-        supervised_total, auxiliary_total = 0.0, 0.0
+        supervised_total = torch.zeros((), device=device)
+        auxiliary_total = torch.zeros((), device=device)
+        total = torch.zeros((), device=device)
         batches = 0
         for raw in tqdm(loaders["train"], desc=f"Epoch {epoch + 1}", mininterval=2):
-            batch = move(raw, device)
+            batch = move_batch(raw, device)
             optimizer.zero_grad()
             prediction = model(batch)
             expected = (batch["target"] - mean) / scale
@@ -269,26 +275,27 @@ def run(
                     f"Model returned {tuple(prediction.shape)} for target {tuple(expected.shape)}"
                 )
             loss = loss_fn(prediction, expected)
-            supervised_total += float(loss.detach()) * len(prediction)
+            supervised_total += loss.detach() * len(prediction)
             if auxiliary_weight:
                 auxiliary = model.auxiliary_loss()
                 loss = loss + auxiliary_weight * auxiliary
-                auxiliary_total += float(auxiliary.detach()) * len(prediction)
+                auxiliary_total += auxiliary.detach() * len(prediction)
             if not torch.isfinite(loss):
                 raise ValueError("Nonfinite training loss")
             loss.backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(), training["gradient_clip_val"])
             optimizer.step()
-            total += float(loss.detach()) * len(prediction)
+            total += loss.detach() * len(prediction)
             batches += 1
         if device.type == "cuda":
             torch.cuda.synchronize()
         train_seconds = time.perf_counter() - epoch_started
         model.eval()
-        predictions = []
+        prediction_batches = []
         with torch.no_grad():
             for raw in loaders["val"]:
-                predictions.extend((model(move(raw, device)) * scale + mean).cpu().tolist())
+                prediction_batches.append(model(move_batch(raw, device)) * scale + mean)
+        predictions = torch.cat(prediction_batches).cpu().numpy()
         if len(predictions) != len(frames["val"]) or not np.isfinite(predictions).all():
             raise ValueError("Validation predictions are missing or nonfinite")
         val_mae = regression_metrics(frames["val"][target], predictions)["mae"]
@@ -315,9 +322,9 @@ def run(
         history.append(
             {
                 "epoch": epoch + 1,
-                "train_loss": total / len(datasets["train"]),
-                "supervised_loss": supervised_total / len(datasets["train"]),
-                "auxiliary_bond_loss": auxiliary_total / len(datasets["train"]),
+                "train_loss": total.item() / len(datasets["train"]),
+                "supervised_loss": supervised_total.item() / len(datasets["train"]),
+                "auxiliary_bond_loss": auxiliary_total.item() / len(datasets["train"]),
                 "val_mae": val_mae,
                 "train_batches": batches,
                 "train_seconds": train_seconds,
@@ -344,13 +351,14 @@ def run(
     best_state = torch.load(run_dir / "model.pt", map_location=device, weights_only=False)
     model.load_state_dict(best_state["state_dict"])
     model.eval()
-    predictions = []
+    prediction_batches = []
     with (
         measure_prediction(run_dir, len(frames["test"]), "test_loader_and_forward", model=model),
         torch.no_grad(),
     ):
         for raw in loaders["test"]:
-            predictions.extend((model(move(raw, device)) * scale + mean).cpu().tolist())
+            prediction_batches.append(model(move_batch(raw, device)) * scale + mean)
+    predictions = torch.cat(prediction_batches).cpu().numpy()
     if not np.isfinite(predictions).all():
         raise ValueError("Nonfinite test predictions")
     result = frames["test"][["sample_id", "smiles", target]].copy()

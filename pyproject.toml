@@ -85,6 +85,8 @@ explicit = true
 [tool.pytest.ini_options]
 addopts = "-ra"
 testpaths = ["tests"]
+# Tests exercise repository CLI scripts as well as the installed src package.
+pythonpath = ["."]
 
 [tool.ruff]
 extend-exclude = ["src/molgap/_vendor"]

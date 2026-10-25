@@ -118,6 +118,11 @@ def make_inputs(config, root, frames, identity, run_dir=None, saved_tokenizer=No
             p = root / source["model"]["params"]["pretrain_checkpoint"]
             identity["pretrain_checkpoint_sha256"] = sha256(p)
         kind = "geometry"
+        if name == "3dinfomax":
+            # Identity/checkpoint validation above remains mandatory, but the
+            # downstream 2D encoder consumes only SMILES, not padded geometry.
+            input_sets = {split: f.smiles.astype(str).tolist() for split, f in frames.items()}
+            kind = "smiles"
     # Prefix slicing of the backbone inputs is handled by InputLabels length.
     return input_sets, kind, tokenizer
 

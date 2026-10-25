@@ -8,7 +8,7 @@ from molgap._vendor.schnetpack.atomistic.atomwise import Atomwise
 from molgap._vendor.schnetpack.nn import CosineCutoff, GaussianRBF
 from molgap._vendor.schnetpack.representation.painn import PaiNN
 from molgap._vendor.schnetpack.representation.schnet import SchNet
-from molgap.qm9_models.batch import flat_atoms, radius_edges
+from molgap.qm9_models.batch import flat_atoms, padded_radius_edges
 
 
 class SchNetPackAdapter(nn.Module):
@@ -27,7 +27,7 @@ class SchNetPackAdapter(nn.Module):
 
     def forward(self, batch: dict) -> torch.Tensor:
         z, pos, groups = flat_atoms(batch)
-        i, j = radius_edges(pos, groups, self.cutoff)
+        i, j = padded_radius_edges(batch, self.cutoff)
         inputs = {
             properties.Z: z,
             properties.R: pos,

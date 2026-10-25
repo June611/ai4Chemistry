@@ -1,3 +1,5 @@
+# [HISTORICAL 100-epoch protocol — superseded by configs/qm9_epoch200/fresh (fresh-200).]
+# Do NOT mix results from this matrix with the fresh-200 unified queue.
 experiment:
   name: training_mean
   protocol_id: paired_split_gap_mae_v2

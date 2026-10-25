@@ -13,13 +13,14 @@ from pathlib import Path
 import numpy as np
 import torch
 import yaml
-from torch.utils.data import DataLoader, Subset
+from torch.utils.data import Subset
 from tqdm import tqdm
 
 from molgap.config import find_project_root
 from molgap.qm9_models.batch import collate_molecules
 from molgap.qm9_models.data import load_data
 from molgap.qm9_models.infomax import _molecular_graph
+from molgap.qm9_models.runtime import make_loader
 from molgap.qm9_models.sources import activate_source
 
 
@@ -84,7 +85,11 @@ def run(
     split_seed_override: int | None = None,
     seed_override: int | None = None,
 ) -> Path:
-    root = find_project_root(config_path)
+    try:
+        root = find_project_root(config_path)
+    except ValueError:
+        # Queue snapshots may deliberately live outside the repository.
+        root = find_project_root()
     config = yaml.safe_load(config_path.read_text())
     config = copy.deepcopy(config)
     if split_seed_override is not None:
@@ -139,20 +144,24 @@ def run(
         train_data = Subset(train_data, range(min(32, len(train_data))))
         val_data = Subset(val_data, range(16))
     loaders = {
-        "train": DataLoader(
+        "train": make_loader(
             train_data,
+            training=settings,
+            device=device,
             batch_size=batch_size,
             shuffle=True,
             collate_fn=collate_molecules,
             generator=generator,
-            num_workers=0 if smoke else int(settings["num_workers"]),
+            smoke=smoke,
         ),
-        "val": DataLoader(
+        "val": make_loader(
             val_data,
+            training=settings,
+            device=device,
             batch_size=batch_size,
             shuffle=False,
             collate_fn=collate_molecules,
-            num_workers=0 if smoke else int(settings["num_workers"]),
+            smoke=smoke,
         ),
     }
     PNA, Net3D, NTXent = _activate(root)

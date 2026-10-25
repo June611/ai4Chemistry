@@ -1,4 +1,15 @@
-"""Generate the 114 executable fresh200 configs and explicit stage scripts; never train."""
+"""Generate the paper-scope fresh200 configs, queue and stage scripts; never train.
+
+2026-10-20 paper-scope change: the thesis runs two method chapters (PINN,
+multi-task learning), each with a graph path and a transformer path. The base
+model per path is the measured family SOTA on QM9 gap (DimeNet++ for graphs,
+TorchMD-Net for transformers). The formal queue contains the ten neural
+single-task gap baselines from main.pdf (30 jobs) plus the two SOTA paths with
+MLoRE7 and PhysicsThermo10 (12 module jobs), for 42 jobs total across
+three matched seeds. Traditional ML rows are historical and not retrained.
+DeMol is excluded from the formal queue (SDF topology preprocessing makes it
+~18 h per fresh200 job); its adapter remains testable outside the queue.
+"""
 
 import copy
 import csv
@@ -25,12 +36,13 @@ BACKBONES = {
     "esa": ("transformer", "configs/qm9_models/esa.yaml", "2D graph"),
     "transformer_m": ("transformer", "configs/qm9_models/transformer_m.yaml", "3D"),
     "torchmd_net": ("transformer", "configs/qm9_models/torchmd_net.yaml", "3D"),
+    # Registered adapter kept testable for the extended pool, but never
+    # enumerated into the formal queue (user decision 2026-10-20: too slow).
     "demol": ("transformer", "configs/qm9_models/demol.yaml", "3D"),
 }
 PRIORITY = (
     "chemprop",
     "dimenet_pp",
-    "demol",
     "painn",
     "egnn",
     "torchmd_net",
@@ -40,8 +52,31 @@ PRIORITY = (
     "esa",
     "spe_transformer",
     "smiles_transformer",
+    "demol",
 )
-MODULES = ("task_attention7", "physics_thermo10")
+MODULES = ("mlore7", "physics_thermo10")
+# Paper scope: one measured-SOTA base model per technical path, selected from
+# the 100-epoch paired-seed campaign (gap RMSE, family-best).
+CHAPTER_PATHS = {
+    "graph": "dimenet_pp",  # gap RMSE 0.002731 Ha, best of graph family
+    "transformer": "torchmd_net",  # gap RMSE 0.004056 Ha, best of transformer family
+}
+CHAPTER_MODELS = tuple(CHAPTER_PATHS.values())
+# Neural single-task gap baselines that appear in main.pdf. Traditional ML
+# rows are historical results and are intentionally not retrained here.
+BASELINE_MODELS = (
+    "chemprop",
+    "schnet",
+    "3dinfomax",
+    "egnn",
+    "painn",
+    "dimenet_pp",
+    "smiles_transformer",
+    "spe_transformer",
+    "esa",
+    "torchmd_net",
+)
+FORMAL_MODELS = BASELINE_MODELS
 
 
 def make_executable_config(model, variant, seed, target=None):
@@ -103,8 +138,22 @@ def make_executable_config(model, variant, seed, target=None):
             supervised_loss="mse",
             selection_metric=f"val_{selection}_mae",
         ),
-        module=dict(
-            variant=variant, hidden_dim=128, num_heads=4, dropout=0.1, physics=dict(PHYSICS)
+        module=(
+            dict(
+                variant=variant,
+                hidden_dim=128,
+                rank_list=list(range(4, 61, 4)),
+                spe_rank=4,
+                topk=9,
+                pre_softmax=True,
+                num_modules=2,
+                balance_weight=0.0005,
+                physics=dict(PHYSICS),
+            )
+            if variant == "mlore7"
+            else dict(
+                variant=variant, hidden_dim=128, num_heads=4, dropout=0.1, physics=dict(PHYSICS)
+            )
         ),
         output=dict(root="artifacts/qm9_epoch200/fresh"),
         evaluation=dict(
@@ -127,7 +176,7 @@ def main():
     rows = []
 
     def add(model, variant, seed, target=None):
-        stage = 1 if model == "chemprop" else 2
+        stage = 1 if variant == "single_task" else 2
         cfg = make_executable_config(model, variant, seed, target)
         if model == "chemprop" and variant == "single_task":
             path = DEST / "fresh/chemprop" / f"{target}_seed{seed}.yaml"
@@ -155,8 +204,8 @@ def main():
                     if variant == "single_task"
                     else "preserve historical head/UW"
                     if variant in {"D1", "D2"}
-                    else "task attention on seven task tokens"
-                    if variant == "task_attention7"
+                    else "MLoRE mixture of low-rank experts on seven joint tasks"
+                    if variant == "mlore7"
                     else "independent ten heads + original-unit physical residuals"
                 ),
                 command=command,
@@ -171,17 +220,10 @@ def main():
             )
         )
 
-    for model in PRIORITY:
-        if model == "chemprop":
-            for target in TARGETS:
-                for seed in SEEDS:
-                    add(model, "single_task", seed, target)
-            for variant in ("D1", "D2"):
-                for seed in SEEDS:
-                    add(model, variant, seed)
-        elif BACKBONES[model][0] == "graph":
-            for seed in SEEDS:
-                add(model, "single_task", seed, "delta_e")
+    for model in BASELINE_MODELS:
+        for seed in SEEDS:
+            add(model, "single_task", seed, "delta_e")
+    for model in CHAPTER_MODELS:
         for variant in MODULES:
             for seed in SEEDS:
                 add(model, variant, seed)
@@ -206,13 +248,34 @@ def main():
     summary = dict(
         total_planned_jobs=len(rows),
         stage1_jobs=sum(r["stage"] == 1 for r in rows),
+        stage1_scope="fresh-200 single-task gap baselines for all neural models in main.pdf",
         ready_configs=len(rows),
         stage2_jobs=sum(r["stage"] == 2 for r in rows),
-        stage2_graph_gap_baselines=15,
-        stage2_plugin_jobs=66,
-        transformer_base_retraining_default=False,
+        stage2_scope="mlore7 and physics_thermo10 on the two SOTA paths", 
+        baseline_models=list(BASELINE_MODELS),
+        paper_chapters={
+            "pinn": {
+                "graph_path": "dimenet_pp physics_thermo10",
+                "transformer_path": "torchmd_net physics_thermo10",
+                "baseline": "single_task gap, same 200-epoch budget",
+            },
+            "multi_task_learning": {
+                "graph_path": "dimenet_pp mlore7",
+                "transformer_path": "torchmd_net mlore7",
+                "baseline": "single_task gap, same 200-epoch budget",
+            },
+        },
+        sota_choices={
+            "graph": "dimenet_pp (gap RMSE 0.002731 Ha, family-best in 100-epoch campaign)",
+            "transformer": "torchmd_net (gap RMSE 0.004056 Ha, family-best in 100-epoch campaign)",
+        },
+        excluded_models=["demol (SDF topology preprocessing, ~18 h per fresh200 job)"],
+        traditional_ml="main.pdf rows retained as historical results; no retraining",
+        extended_pool=(
+            "transformer_m and demol remain outside the formal queue; other neural "
+            "backbones are included as unified single-task baselines"
+        ),
         excluded_variants=["B", "C", "mtl7", "physics_gap7", "mtl10_control"],
-        stage2_requires_review=True,
         all_epochs=200,
         modules_implemented=True,
         gpu_training_verified=False,

@@ -107,23 +107,33 @@ def test_optimizer_scheduler_resume_to_200_without_restarting_warmup(tmp_path):
     assert terminal["global_step"] == 200 and "rng_snapshot" in terminal
 
 
-def test_review_queue_and_configs_are_200_with_no_implicit_stage2_execution():
+def test_paper_scope_queue_configs_and_stage_scripts():
     import csv
 
     from molgap.modular.config import load
-    from scripts.prepare_qm9_epoch200_review import BACKBONES
+    from scripts.prepare_qm9_epoch200_review import BACKBONES, CHAPTER_PATHS
 
     folder = ROOT / "docs/features/qm9-epoch200-modular-study"
     rows = list(csv.DictReader((folder / "training_queue.csv").open()))
-    assert len({r["id"] for r in rows}) == len(rows) == 114
-    assert sum(r["stage"] == "1" for r in rows) == 33
+    assert len({r["id"] for r in rows}) == len(rows) == 42
+    assert sum(r["stage"] == "1" for r in rows) == 30
+    assert {r["model"] for r in rows} == {
+        "chemprop", "schnet", "3dinfomax", "egnn", "painn", "dimenet_pp",
+        "smiles_transformer", "spe_transformer", "esa", "torchmd_net",
+    }
+    assert "demol" not in {r["model"] for r in rows}
+    assert "transformer_m" not in {r["model"] for r in rows}
     assert all(r["epochs"] == "200" and r["command"] for r in rows)
-    assert not {"B", "C", "mtl7", "physics_gap7", "mtl10_control"} & {r["variant"] for r in rows}
-    assert not any(
-        BACKBONES[r["model"]][0] == "transformer" and r["variant"] == "single_task" for r in rows
-    )
-    plugin_rows = [r for r in rows if r["variant"] in {"task_attention7", "physics_thermo10"}]
-    assert len(plugin_rows) == 72 and len({r["model"] for r in plugin_rows}) == 12
+    assert not {"B", "C", "mtl7", "physics_gap7", "mtl10_control", "D1", "D2"} & {
+        r["variant"] for r in rows
+    }
+    baselines = [r for r in rows if r["variant"] == "single_task"]
+    assert len(baselines) == 30 and all(r["target"] == "delta_e" for r in baselines)
+    plugin_rows = [r for r in rows if r["variant"] in {"mlore7", "physics_thermo10"}]
+    assert len(plugin_rows) == 12 and len({r["model"] for r in plugin_rows}) == 2
+    assert {r["model"] for r in plugin_rows} == set(CHAPTER_PATHS.values())
+    assert BACKBONES["dimenet_pp"][0] == "graph"
+    assert BACKBONES["torchmd_net"][0] == "transformer"
     for row in rows:
         cfg, _ = load(ROOT / row["config"])
         assert cfg["training"]["seed"] == cfg["data"]["split"]["seed"] == int(row["seed"])

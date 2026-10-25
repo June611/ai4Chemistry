@@ -419,7 +419,13 @@ def test_qm9_generic_training_uses_nonenergy_target_end_to_end(property_fixture)
 
     root, tasks, frame = property_fixture
     cfg, job = _config(root, tasks, "schnet", "alpha")
-    cfg["training"].update(epochs=1, batch_size=4, num_workers=0, accelerator="cpu")
+    cfg["training"].update(
+        epochs=1,
+        batch_size=4,
+        num_workers=0,
+        accelerator="cpu",
+        formal_protocol=False,
+    )
     cfg["model"]["params"].update(n_atom_basis=16, n_interactions=1, n_rbf=8)
     geometry_path = root / cfg["data"]["geometry"]
     geometry_path.parent.mkdir(parents=True)

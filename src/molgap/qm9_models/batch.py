@@ -2,12 +2,14 @@
 
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
 
 import torch
 from torch import Tensor
 
 SPECIES = (1, 6, 7, 8, 9)
+_SPECIES_TENSOR = torch.tensor(SPECIES)
 
 
 @dataclass
@@ -28,9 +30,9 @@ class Molecule:
             raise ValueError(f"Invalid atom/coordinate shapes for {self.sample_id}")
         if not torch.isfinite(self.positions).all():
             raise ValueError(f"Nonfinite coordinates for {self.sample_id}")
-        if not torch.isin(self.atomic_numbers, torch.tensor(SPECIES)).all():
+        if not torch.isin(self.atomic_numbers, _SPECIES_TENSOR).all():
             raise ValueError(f"Non-QM9 element in {self.sample_id}")
-        if not torch.isfinite(torch.tensor(self.target)):
+        if not math.isfinite(self.target):
             raise ValueError(f"Nonfinite target for {self.sample_id}")
 
 
@@ -59,7 +61,7 @@ def collate_molecules(molecules: list[Molecule]) -> dict:
         "positions": positions,
         "atom_mask": mask,
         "edge_mask": edge_mask,
-        "one_hot": charges[:, :, None].eq(torch.tensor(SPECIES)).float(),
+        "one_hot": charges[:, :, None].eq(_SPECIES_TENSOR).float(),
     }
     if any(m.node_features is not None for m in molecules):
         from molgap.qm9_models.topology import collate_topology
@@ -87,3 +89,30 @@ def radius_edges(positions: Tensor, groups: Tensor, cutoff: float) -> Tensor:
         src, dst = torch.where(valid)
         edges.append(torch.stack((idx[src], idx[dst])))
     return torch.cat(edges, dim=1)
+
+
+def padded_radius_edges(batch: dict, cutoff: float) -> Tensor:
+    """Vectorized radius graph for a padded molecular batch.
+
+    Edge order matches :func:`radius_edges`: molecule, source atom, destination
+    atom. Avoiding one ``cdist`` and several launches per molecule is important
+    for large QM9 batches on accelerators.
+    """
+    mask = batch["atom_mask"]
+    width = mask.shape[1]
+    # Explicit direct distances avoid padding-dependent cdist's >25 atom MM
+    # switch. Preserve the legacy path for large molecules until its numerical
+    # boundary equivalence has been established on the target CUDA backend.
+    if width > 25:
+        _, positions, groups = flat_atoms(batch)
+        return radius_edges(positions, groups, cutoff)
+    distances = torch.cdist(
+        batch["positions"], batch["positions"],
+        compute_mode="donot_use_mm_for_euclid_dist",
+    )
+    valid = mask[:, :, None] & mask[:, None, :] & (distances < cutoff)
+    valid &= ~torch.eye(width, dtype=torch.bool, device=mask.device)[None]
+    molecule, source, destination = torch.where(valid)
+    # Map padded B x N atom coordinates to the packed ordering from flat_atoms.
+    packed = mask.reshape(-1).cumsum(0).reshape_as(mask) - 1
+    return torch.stack((packed[molecule, source], packed[molecule, destination]))

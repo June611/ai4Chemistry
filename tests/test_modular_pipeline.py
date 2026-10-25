@@ -77,7 +77,7 @@ def project(root):
 
 
 @pytest.mark.parametrize(
-    "variant", ["single_task", "D1", "D2", "task_attention7", "physics_thermo10"]
+    "variant", ["single_task", "D1", "D2", "mlore7", "physics_thermo10"]
 )
 def test_continuous_vs_resume_full_state_and_saved_metrics(tmp_path, variant):
     root = project(tmp_path)
@@ -85,7 +85,7 @@ def test_continuous_vs_resume_full_state_and_saved_metrics(tmp_path, variant):
         "chemprop", variant, 42, "delta_e" if variant == "single_task" else None
     )
     cfg["source"]["model"].update(message_hidden_dim=8, ffn_hidden_dim=8, depth=2)
-    cfg["module"].update(hidden_dim=8, num_heads=2, dropout=0.1)
+    tune_module(cfg, variant)
     cfg["module"]["physics"].update(warmup_epochs=0, ramp_epochs=1)
     cfg["training"].update(num_workers=0, pin_memory=False)
     path = root / "config.yaml"
@@ -164,12 +164,29 @@ def test_thermo_extension_keeps_duplicate_source_mean_and_original_splits(tmp_pa
         prepare_thermo_data(root, root / "data/processed/qm9_thermo10_v1", seeds=(42,))
 
 
+def tune_module(cfg, variant):
+    """Shrink the plug-in head for CPU tests; MLoRE needs low-rank ranks <= hidden_dim/2."""
+    if variant == "mlore7":
+        cfg["module"].update(
+            hidden_dim=8,
+            rank_list=[2, 4],
+            spe_rank=2,
+            topk=2,
+            num_modules=2,
+            pre_softmax=True,
+            balance_weight=0.0005,
+        )
+    else:
+        cfg["module"].update(hidden_dim=8, num_heads=2, dropout=0.1)
+    return cfg
+
+
 def small_config(root, variant="single_task", workers=0):
     cfg = make_executable_config(
         "chemprop", variant, 42, "delta_e" if variant == "single_task" else None
     )
     cfg["source"]["model"].update(message_hidden_dim=8, ffn_hidden_dim=8, depth=2)
-    cfg["module"].update(hidden_dim=8, num_heads=2, dropout=0.1)
+    tune_module(cfg, variant)
     cfg["training"].update(num_workers=workers, pin_memory=False)
     path = root / "config.yaml"
     path.write_text(yaml.safe_dump(cfg))
@@ -224,7 +241,7 @@ def test_epoch50_snapshot_recovers_optimizer_rng_and_historical_best(tmp_path, m
 
 def test_two_worker_sampler_state_survives_epoch_boundary_resume(tmp_path):
     root = project(tmp_path)
-    path = small_config(root, "task_attention7", workers=2)
+    path = small_config(root, "mlore7", workers=2)
     full = root / "full"
     partial = root / "partial"
     train(path, output_dir=full, diagnostic_epochs=2, device_override="cpu")
@@ -283,9 +300,9 @@ def test_sequence_prefix_training_and_resume_restore_saved_tokenizer(tmp_path, m
     from molgap.transformer.tokenizer import SmilesTokenizer
 
     root = project(tmp_path)
-    cfg = make_executable_config(name, "task_attention7", 42)
+    cfg = make_executable_config(name, "mlore7", 42)
     cfg["source"]["model"].update(d_model=16, num_layers=1, num_heads=4, dim_feedforward=32)
-    cfg["module"].update(hidden_dim=8, num_heads=2)
+    tune_module(cfg, "mlore7")
     cfg["training"].update(num_workers=0, pin_memory=False)
     frames = {
         s: pd.read_csv(root / f"data/processed/qm9_full/random/seed42/{s}.csv")

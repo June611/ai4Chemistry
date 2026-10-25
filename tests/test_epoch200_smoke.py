@@ -23,7 +23,7 @@ def test_smoke_queue_continues_and_retests_source_changes(tmp_path, monkeypatch)
     with queue.open("w") as stream:
         writer = csv.DictWriter(stream, fieldnames=["id", "model", "variant", "seed", "config"])
         writer.writeheader()
-        for i in range(114):
+        for i in range(smoke.EXPECTED_QUEUE_JOBS):
             (configs / f"{i}.yaml").write_text("fixture: true\n")
             writer.writerow(
                 dict(

@@ -9,7 +9,7 @@ import math
 import torch
 from torch import nn
 
-from molgap.qm9_models.batch import flat_atoms, radius_edges
+from molgap.qm9_models.batch import flat_atoms, padded_radius_edges
 
 
 def triplets(edge_index: torch.Tensor, num_nodes: int) -> tuple:
@@ -51,7 +51,7 @@ class DimeNetPPAdapter(nn.Module):
 
     def forward(self, batch: dict) -> torch.Tensor:
         z, pos, groups = flat_atoms(batch)
-        edges = radius_edges(pos, groups, self.cutoff)
+        edges = padded_radius_edges(batch, self.cutoff)
         i, j, idx_i, idx_j, idx_k, idx_kj, idx_ji = triplets(edges, len(z))
         dist = (pos[i] - pos[j]).square().sum(-1).sqrt()
         pos_jk, pos_ij = pos[idx_j] - pos[idx_k], pos[idx_i] - pos[idx_j]

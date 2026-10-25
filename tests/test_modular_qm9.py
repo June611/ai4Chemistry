@@ -8,29 +8,26 @@ import pytest
 import torch
 
 from molgap.modular.config import PHYSICS, validate
-from molgap.modular.heads import TaskAttentionHead
+from molgap.modular.heads import MLoREHead
 from molgap.modular.physics import TASKS10, QM9PhysicsLoss
 from scripts.prepare_qm9_epoch200_review import make_executable_config
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def test_attention_gate_identity_and_then_attention_gradients():
+def test_mlore_routing_balance_and_gradients():
     torch.manual_seed(17)
-    head = TaskAttentionHead(8, hidden_dim=16, num_heads=4, dropout=0)
+    head = MLoREHead(8, hidden_dim=16, rank_list=(2, 4), spe_rank=2, topk=2, num_modules=2)
     x = torch.randn(5, 8)
-    torch.testing.assert_close(head(x), head.predict(head.features(x)))
-    opt = torch.optim.Adam(head.parameters(), lr=0.01)
-    loss = (head(x) - torch.randn(5, 7)).square().mean()
-    loss.backward()
-    assert head.gate.grad.abs() > 0
-    assert head.attention.in_proj_weight.grad.abs().sum() == 0
-    opt.step()
-    opt.zero_grad()
-    head(x).square().mean().backward()
-    assert head.attention.in_proj_weight.grad.abs().sum() > 0
-    assert head.last_attention.shape == (5, 4, 7, 7)
-    torch.testing.assert_close(head.last_attention.sum(-1), torch.ones(5, 4, 7))
+    out = head(x)
+    assert out.shape == (5, 7)
+    routes = [torch.stack(module_routes) for module_routes in head.last_route_probs]
+    assert len(routes) == 2 and routes[0].shape == (7, 5, 2)
+    torch.testing.assert_close(routes[0].sum(-1), torch.ones(7, 5))
+    balance = head.balance_loss()
+    assert torch.isfinite(balance) and float(balance) >= 0
+    out.square().mean().add(balance).backward()
+    assert any(p.grad is not None and p.grad.abs().sum() > 0 for p in head.parameters())
 
 
 def physical_labels():
@@ -110,7 +107,7 @@ def test_feature_adapters_forward_backward_and_geometry_invariance(name):
     from molgap.modular.inputs import collate_inputs
     from molgap.qm9_models.batch import collate_molecules
 
-    cfg = make_executable_config(name, "task_attention7", 42)
+    cfg = make_executable_config(name, "mlore7", 42)
     p = cfg["source"]["model"].get("params", {})
     if name in {"schnet", "painn"}:
         p.update(n_atom_basis=16, n_interactions=2, n_rbf=8)
@@ -198,7 +195,7 @@ def test_new_variants_are_distinct_in_existing_summary_and_units_are_preserved(t
     for variant, target in [
         ("single_task", "delta_e"),
         ("single_task", "homo"),
-        ("task_attention7", None),
+        ("mlore7", None),
         ("physics_thermo10", None),
     ]:
         cfg = make_executable_config("chemprop", variant, 42, target)
